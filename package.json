@@ -5,11 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run deploy",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "deploy": "git checkout deploy && cp -r dist/* . && rm -rf dist && git add . && git commit -m 'Deploy build' && git push origin deploy && git checkout main"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
