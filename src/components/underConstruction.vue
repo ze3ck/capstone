@@ -36,10 +36,11 @@ export default {
     })
 
     gsap.to('#subtitle', {
-      duration: 2,
+      duration: 3,
       delay: 1,
       text: {
-        value: 'Under Construction :-)'
+        value:
+          '🚧 Under Construction... Volveremos Pronto! - <a style="color: white; !important!;" target="_blank" href="#">OptiFlow Team.</a>'
       },
       ease: 'power1.inOut'
     })
