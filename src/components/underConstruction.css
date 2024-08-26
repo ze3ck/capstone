@@ -1,34 +1,46 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background: linear-gradient(45deg, #1e3c72, #2a5298, #6db6f2);
+  color: white !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white !important;
   text-align: center;
-  overflow: hidden;
   position: relative;
 }
 
-.container {
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 0 15px;
-  margin: 0 auto;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.9;
 }
 
 .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
   z-index: 2;
-  text-align: center;
+  padding: 10px;
 }
 
 .main-content {
@@ -37,6 +49,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  width: 100%;
 }
 
 h1 {
@@ -49,7 +62,7 @@ h1 {
 }
 
 #title {
-  font-size: 3.3em;
+  font-size: 6vw;
   font-style: normal;
 }
 
@@ -57,12 +70,13 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 5em;
+  min-height: 10vh;
+  padding: 0 10px;
 }
 
 p {
   font-weight: 500;
-  font-size: 1.5em;
+  font-size: 2em;
   font-style: italic;
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -73,7 +87,7 @@ p {
 .cursor {
   font-size: 1.5em;
   font-style: italic;
-  color: white;
+  color: #00ff00;
   margin-left: 0.1em;
   vertical-align: bottom;
   z-index: 2;
@@ -88,26 +102,24 @@ footer {
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.486);
 }
 
 .uc-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30vw;
+  width: 50vw;
+  max-width: 300px;
   opacity: 0.2;
   z-index: 1;
 }
 
 .footer-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  padding: 0 50px;
-  gap: 20px;
+  padding: 0 20px;
+  gap: 10px;
 }
 
 .footer-column {
@@ -158,6 +170,54 @@ footer {
   background-color: #ff5733;
 }
 
-.footer-column .btn-floating:hover {
-  transform: scale(1.1);
+/* Responsividad */
+@media (max-width: 768px) {
+  #title {
+    font-size: 4em;
+  }
+
+  .text-container {
+    padding: 0 10px;
+  }
+
+  footer {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  #title {
+    font-size: 3em;
+  }
+
+  .text-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  footer {
+    font-size: 0.7em;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Estilo para los números binarios (0 y 1) */
+.binary {
+  color: #00ff00;
+  font-size: 2em;
+  font-family: 'Courier New', Courier, monospace;
+  pointer-events: none;
+}
+
+#plexus-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
