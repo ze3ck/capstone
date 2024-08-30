@@ -1,41 +1,17 @@
-<<<<<<< HEAD
 # Capstone
+
 Repositorio para el desarrollo del proyecto de titulo
 
-=======
-# optiflow
+## Índice
 
-This template should help get you started developing with Vue 3 in Vite.
+- [Evidencias](#evidencias)
 
-## Recommended IDE Setup
+## Instalación
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Instrucciones para instalar el proyecto:
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+git clone https://github.com/usuario/repositorio.git
+cd repositorio
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
->>>>>>> master
