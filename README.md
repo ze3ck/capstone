@@ -4,7 +4,7 @@ Repositorio para el desarrollo del proyecto de titulo: Optiflow
 
 ## Índice
 
-- [Evidencias]('https://github.com/ze3ck/capstone/tree/evidencias')
+- [Evidencias](https://github.com/ze3ck/capstone/tree/evidencias)
 
 ## Instalación
 
