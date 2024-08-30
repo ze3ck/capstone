@@ -1,10 +1,10 @@
 # Capstone
 
-Repositorio para el desarrollo del proyecto de titulo
+Repositorio para el desarrollo del proyecto de titulo: Optiflow
 
 ## Índice
 
-- [Evidencias](#evidencias)
+- [Evidencias]('https://github.com/ze3ck/capstone/tree/evidencias')
 
 ## Instalación
 
