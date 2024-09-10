@@ -1,4 +1,4 @@
-# Brach QA - Backend Development
+# Brach QA - RESTful API's - Backend Development
 
 - Branch dedicada para el desarrollo de las RESTful API y QA del backend del proyecto de titulo OptiFlow
 
