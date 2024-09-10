@@ -1,16 +1,28 @@
+# OptiFlow - Proyecto de Título
 
-## Frontend Development
+## Tabla de Contenido
+- [Frontend Development](#frontend-development)
+- [RESTful API's - Backend Development](#restful-apis-backend-development)
+- [Requisitos](#requisitos)
+- [Versiones de Dependencias](#versiones-de-dependencias)
+
 ---
 
-## RESTful API's - Backend Development
+## [Frontend Development](https://github.com/ze3ck/capstone/tree/frontend-qa)
 
-- Branch dedicada para el desarrollo de las RESTful API y QA del backend del proyecto de titulo OptiFlow
+Desarrollo dedicado al frontend del proyecto OptiFlow.
 
 ---
 
-## [Requisitos]
+## [RESTful API's - Backend Development](https://github.com/ze3ck/capstone/tree/backend-qa)
 
-Se usó bajo los siguientes requisitos:
+Branch dedicada para el desarrollo de las RESTful API y QA del backend del proyecto de título OptiFlow.
+
+---
+
+## [Requisitos](#requisitos)
+
+Este proyecto fue desarrollado bajo los siguientes requisitos:
 
 - **CodeIgniter4**
 - **PHP** 8.2.12
@@ -19,7 +31,9 @@ Se usó bajo los siguientes requisitos:
 
 ---
 
-## [Versiones de Dependencias]
+## [Versiones de Dependencias](#versiones-de-dependencias)
+
+## Backend - CodeIgniter 4
 
 ```json
 {
@@ -33,5 +47,3 @@ Se usó bajo los siguientes requisitos:
     "phpunit/phpunit": "^10.5.16"
   }
 }
-
-```
