@@ -29,4 +29,6 @@ $routes->group(
     // http://localhost:8080/api/usuarios/update/1
     $routes->put('usuarios/update/(:num)','Usuarios::update/$1');
   }
+
+  /**PRODUCTOS */
 );
