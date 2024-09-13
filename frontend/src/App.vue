@@ -1,13 +1,14 @@
 <template>
-  <LoginForm />
+  <div id="app">
+    <router-view></router-view>
+  </div>
+
 </template>
 
 <script>
-import LoginForm from './components/LoginForm.vue'; // Asegúrate de que el nombre coincida
 
 export default {
   name: 'App',
-  components: { LoginForm } // Usa el nombre correcto del componente
 }
 </script>
 
