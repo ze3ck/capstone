@@ -36,4 +36,8 @@ $routes->group(
 
   }
 
+<<<<<<< HEAD
+=======
+  /**PRODUCTOS */
+>>>>>>> e49cbbbadcbfcb96315ae617dff03246c24dc81a
 );
