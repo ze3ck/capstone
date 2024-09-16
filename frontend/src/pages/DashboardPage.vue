@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Dashboard</h1>
-    <p>Welcome to your Dashboard.</p>
+    <h1>¡Bienvenid@!</h1>
+    <h3>- OptiFlow Team</h3>
   </div>
 </template>
 
 <script>
 export default {
-  name: "DashboardPage"
-}
+  name: "DashboardPage",
+};
 </script>

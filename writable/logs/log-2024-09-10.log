@@ -1,0 +1,16 @@
+CRITICAL - 2024-09-10 04:10:54 --> ValueError: strpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack)
+[Method: POST, Route: api/usuarios/create]
+in SYSTEMPATH\Validation\Validation.php on line 974.
+ 1 SYSTEMPATH\Validation\Validation.php(974): strpos('required|alpha_space|min_length[3]|max_length50]', '|', 49)
+ 2 SYSTEMPATH\Validation\Validation.php(613): CodeIgniter\Validation\Validation->splitRules([...])
+ 3 SYSTEMPATH\BaseModel.php(1575): CodeIgniter\Validation\Validation->setRules([...], [])
+ 4 SYSTEMPATH\BaseModel.php(809): CodeIgniter\BaseModel->validate([...])
+ 5 SYSTEMPATH\Model.php(802): CodeIgniter\BaseModel->insert([...], true)
+ 6 APPPATH\Controllers\API\Usuarios.php(28): CodeIgniter\Model->insert(Object(stdClass))
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\API\Usuarios->create()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\API\Usuarios))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\basti\\OneDrive\\Documentos\\Duoc Uc\\Capstone\\optiflow\\public\\index.php')

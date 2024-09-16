@@ -3,6 +3,7 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+
 //SweetAlert para estilos de alertas
 
 import VueSweetalert2 from 'vue-sweetalert2';
