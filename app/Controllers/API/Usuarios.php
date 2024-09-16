@@ -13,14 +13,18 @@ class Usuarios extends ResourceController
     $this->model = $this->setModel(new UsuarioModel());
   }
 
-  // llamar toda la data
+  /**
+   * llamar toda la data
+   */
   public function index()
   {
     $usuarios = $this->model->findAll();
     return $this->respond($usuarios);
   }
 
-  // crear usuario *
+  /**
+   * crear usuario *
+   */
   public function create()
   {
     try {
@@ -37,7 +41,9 @@ class Usuarios extends ResourceController
     }
   }
 
-  // llamar data para edit
+  /**
+   * llamar data para edit
+   */
   public function edit($id = null)
   {
     try {
@@ -56,7 +62,9 @@ class Usuarios extends ResourceController
     }
   }
 
-  // update data - actualizar campos de un usuario
+  /**
+   * update data - actualizar campos de un usuario
+   */
   public function update($id = null)
   {
     try {
@@ -78,6 +86,62 @@ class Usuarios extends ResourceController
       endif;
     } catch (\Exception $e) {
       return $this->failServerError('🔴 Ha ocurrido un error en el servidor 🔴');
+    }
+  }
+
+  /**
+   * Autenticacion [LOGIN]
+   */
+  public function login()
+  {
+    try {
+      $input = $this->request->getJSON();
+
+      if (!isset($input->email) || !isset($input->contrasenia)) {
+        return $this->failValidationErrors('Correo o contraseña no proporcionados');
+      }
+
+      $usuario = $this->model->where('EMAIL', $input->email)->first();
+
+      if ($usuario === null) {
+        return $this->failNotFound('Usuario no encontrado con el correo proporcionado');
+      }
+
+      if ($input->contrasenia !== $usuario['CONTRASENIA']) {
+        return $this->failValidationErrors('Contraseña incorrecta');
+      }
+
+      // Login exitoso
+      return $this->respond([
+        'success' => true,
+        'message' => 'Login exitoso',
+        'user' => [
+          'ID_USUARIO' => $usuario['ID_USUARIO'],
+          'NOMBRE_USUARIO' => $usuario['NOMBRE_USUARIO'],
+          'ESTADO' => $usuario['ESTADO']
+        ]
+      ]);
+    } catch (\Exception $e) {
+      return $this->failServerError('Ocurrió un error en el servidor');
+    }
+  }
+
+
+  // Recuperacion de credenciales * PENDIENTE
+  public function enviarCorreo()
+  {
+    $email = \Config\Services::email();
+
+    $email->setTo('destinatario@example.com'); // Correo destinatario
+    $email->setFrom('contacto@optiflow.cl', 'Optiflow');
+    $email->setSubject('Asunto del Correo');
+    $email->setMessage('Este es el contenido del correo'); // Contenido del mensaje, HTML si se usa esa opción
+
+    if ($email->send()) {
+      return $this->respond(['message' => 'Correo enviado correctamente']);
+    } else {
+      $data = $email->printDebugger(['headers']);
+      return $this->failServerError($data); // Muestra el error en caso de fallar
     }
   }
 }
