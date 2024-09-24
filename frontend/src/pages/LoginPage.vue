@@ -2,12 +2,9 @@
   <div class="background">
     <div id="loginPage">
       <div class="glass-container" ref="loginForm">
-        <div
-          id="imageContainer"
-          style="text-align: center"
-          ref="imageContainer"
-        >
-          <img class="logo" src="../assets/optwbg.png" alt="Logo" />
+        <div id="imageContainer" style="text-align: center" ref="imageContainer">
+          <img class="logo" src="../assets/img/optwbg.png" alt="Logo" />
+          <h1>OptiFlow</h1>
         </div>
 
         <!-- Formulario de inicio de sesión -->
@@ -15,11 +12,7 @@
           <div class="form-group">
             <label>Email:</label>
             <div class="input-container">
-              <input
-                type="email"
-                v-model="email"
-                placeholder="email@example.com"
-              />
+              <input type="email" v-model="email" placeholder="email@example.com" />
               <span class="material-icons icon-email">email</span>
             </div>
             <p v-if="errorEmail" class="error-text">{{ errorEmail }}</p>
@@ -28,15 +21,8 @@
           <div class="form-group">
             <label>Contraseña:</label>
             <div class="input-container">
-              <input
-                :type="mostrarContrasena ? 'text' : 'password'"
-                v-model="contrasenia"
-                placeholder="*******"
-              />
-              <span
-                @click="toggleMostrarContrasena"
-                class="material-icons show-password"
-              >
+              <input :type="mostrarContrasena ? 'text' : 'password'" v-model="contrasenia" placeholder="*******" />
+              <span @click="toggleMostrarContrasena" class="material-icons show-password">
                 {{ mostrarContrasena ? "visibility" : "visibility_off" }}
               </span>
             </div>
@@ -46,9 +32,7 @@
           </div>
 
           <div class="forgot-password">
-            <a href="#" @click.prevent="abrirModalRecuperacion"
-              >¿Olvidaste tu contraseña?</a
-            >
+            <a href="#" @click.prevent="abrirModalRecuperacion">¿Olvidaste tu contraseña?</a>
           </div>
 
           <div>
@@ -71,30 +55,19 @@
       <div v-if="mostrarModalRecuperacion" class="modal-overlay">
         <div class="glass-container modal-container">
           <h2>Contactar con Soporte Técnico</h2>
-          <p>
-            Ingrese su correo electrónico y nombre de empresa para recuperar su
-            contraseña:
-          </p>
+          <p>Ingrese su correo electrónico y nombre de empresa para recuperar su contraseña:</p>
 
           <!-- Campo de Correo Electrónico -->
           <div class="form-group">
             <label for="emailRecuperar">Correo Electrónico:</label>
-            <input
-              type="email"
-              v-model="emailRecuperar"
-              placeholder="email@example.com"
-            />
+            <input type="email" v-model="emailRecuperar" placeholder="email@example.com" />
             <p v-if="errorRecuperar" class="error-text">{{ errorRecuperar }}</p>
           </div>
 
           <!-- Campo de Nombre de Empresa -->
           <div class="form-group">
             <label for="nombreEmpresa">Nombre de Empresa:</label>
-            <input
-              type="text"
-              v-model="nombreEmpresa"
-              placeholder="Nombre de la Empresa"
-            />
+            <input type="text" v-model="nombreEmpresa" placeholder="Nombre de la Empresa" />
             <p v-if="errorEmpresa" class="error-text">{{ errorEmpresa }}</p>
           </div>
 
@@ -104,9 +77,7 @@
             </button>
           </div>
 
-          <p v-if="mensajeRecuperacion" class="mensaje-recuperacion">
-            {{ mensajeRecuperacion }}
-          </p>
+          <p v-if="mensajeRecuperacion" class="mensaje-recuperacion">{{ mensajeRecuperacion }}</p>
 
           <!-- Botón para cerrar el modal con ícono de Material Icons -->
           <button class="close-modal" @click="cerrarModalRecuperacion">
@@ -119,8 +90,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import { gsap } from "gsap";
+// Importar las funciones del archivo LoginHost.js
+import LoginHost from "@/services/loginService.js";
 
 export default {
   data() {
@@ -141,152 +112,40 @@ export default {
       mensajeRecuperacion: "",
     };
   },
-  mounted() {
-    gsap.from(this.$refs.loginForm, {
-      duration: 1,
-      opacity: 0,
-      y: 50,
-      ease: "power2.out",
-    });
-
-    gsap.from(this.$refs.imageContainer, {
-      duration: 1,
-      opacity: 0,
-      scale: 0.5,
-      ease: "back.out(1.7)",
-      delay: 0.5,
-    });
-
-    gsap.from(this.$refs.form, {
-      duration: 1,
-      opacity: 0,
-      x: -50,
-      ease: "power2.out",
-      delay: 1,
-    });
-  },
   methods: {
+    // Usar las funciones importadas del archivo LoginHost.js
     validarEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(String(email).toLowerCase());
+      return LoginHost.methods.validarEmail(email);
     },
-
     validarContrasenia(contrasenia) {
-      const espaciosEnBlanco = /\s/;
-      const contraseniaValida = contrasenia.length >= 5;
-      !espaciosEnBlanco.test(contrasenia);
-      return contraseniaValida;
+      return LoginHost.methods.validarContrasenia(contrasenia);
     },
-
     toggleMostrarContrasena() {
-      this.mostrarContrasena = !this.mostrarContrasena;
+      LoginHost.methods.toggleMostrarContrasena.call(this);
     },
-
     async login() {
-      this.errorEmail = null;
-      this.errorContrasena = null;
-
-      if (!this.email || !this.contrasenia) {
-        this.mostrarAlerta("Debe ingresar un correo y una contraseña.");
-        return;
-      }
-
-      if (!this.validarEmail(this.email)) {
-        this.mostrarAlerta(
-          "Por favor ingrese un correo válido (ejemplo@dominio.com)."
-        );
-        return;
-      }
-
-      if (!this.validarContrasenia(this.contrasenia)) {
-        this.mostrarAlerta("La contraseña no cumple con los estándares.");
-        return;
-      }
-
-      try {
-        this.loading = true;
-
-        const response = await axios.post("/api/usuarios/login", {
-          email: this.email,
-          contrasenia: this.contrasenia,
-        });
-
-        if (response.status === 200 && response.data.success) {
-          this.$router.push("/dashboard");
-        } else {
-          this.mostrarAlerta("Credenciales incorrectas.");
-        }
-      } catch (error) {
-        this.mostrarAlerta(
-          error.response?.data?.message || "Credenciales Incorrectas"
-        );
-        console.error(error);
-      } finally {
-        this.loading = false;
-      }
+      await LoginHost.methods.login.call(this);
     },
-
     mostrarAlerta(mensaje) {
-      this.alertMessage = mensaje;
-      this.showAlert = true;
-
-      gsap.fromTo(
-        this.$refs.customAlert,
-        { y: -50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }
-      );
-
-      setTimeout(() => {
-        this.ocultarAlerta();
-      }, 3000);
+      LoginHost.methods.mostrarAlerta.call(this, mensaje);
     },
-
     ocultarAlerta() {
-      gsap.to(this.$refs.customAlert, {
-        y: -50,
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.in",
-        onComplete: () => {
-          this.showAlert = false;
-        },
-      });
+      LoginHost.methods.ocultarAlerta.call(this);
     },
-
-    // Funciones para el modal de recuperación de contraseña
     abrirModalRecuperacion() {
-      this.mostrarModalRecuperacion = true;
-      this.errorRecuperar = null;
-      this.mensajeRecuperacion = "";
-      this.emailRecuperar = "";
+      LoginHost.methods.abrirModalRecuperacion.call(this);
     },
-
     cerrarModalRecuperacion() {
-      this.mostrarModalRecuperacion = false;
+      LoginHost.methods.cerrarModalRecuperacion.call(this);
     },
-
     enviarRecuperacion() {
-      this.errorRecuperar = null;
-
-      if (!this.emailRecuperar) {
-        this.errorRecuperar = "Por favor, ingrese un correo electrónico.";
-        return;
-      }
-
-      if (!this.validarEmail(this.emailRecuperar)) {
-        this.errorRecuperar = "Por favor, ingrese un correo válido.";
-        return;
-      }
-
-      // Simulamos el envío de la solicitud
-      this.mensajeRecuperacion =
-        "Te contactaremos a la brevedad para que puedas recuperar tu contraseña.";
+      LoginHost.methods.enviarRecuperacion.call(this);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 /* Fondo con gradiente suave */
 .background {
   position: absolute;
@@ -509,6 +368,16 @@ input::placeholder {
 
 .form-group {
   margin-bottom: 20px; /* Aumenta el espacio entre los campos */
+}
+
+a:link, a:visited{
+  color: rgb(255, 255, 255);
+  text-decoration: none
+}
+
+a:hover{
+  color: rgb(0, 0, 0);
+  transition: black, 0.5s ease
 }
 
 </style>
