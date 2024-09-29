@@ -1,8 +1,14 @@
 /* Estilos globales */
-body, h1, h2, h3, p, a, div, span {
+body,
+h1,
+h2,
+h3,
+p,
+a,
+div,
+span {
   font-family: "Montserrat", sans-serif !important;
 }
-
 
 body {
   font-family: "Montserrat", system-ui !important;
@@ -48,7 +54,6 @@ footer {
 }
 
 .pusher {
-  
   overflow: hidden;
   position: relative;
 }
@@ -58,11 +63,11 @@ footer {
   align-items: center;
   font-weight: bold;
   white-space: nowrap;
-  margin-right: 20px; 
+  margin-right: 20px;
 }
 
 .cerrar-sesion i {
-  margin-right: 8px; 
+  margin-right: 8px;
   font-size: 1.2em;
   color: #ff4500;
 }
@@ -83,7 +88,7 @@ footer {
 
 .chart-container {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -105,8 +110,6 @@ footer {
   background-color: #1b1c1d;
 }
 
-
 .ui.stackable.menu .item {
   color: #fff;
 }
-
