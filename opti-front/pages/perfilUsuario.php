@@ -5,6 +5,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit();
 }
+
+$saludo = include __DIR__ . '/../includes/zona_horaria.php';
 ?>
 
 <!DOCTYPE html>
@@ -36,8 +38,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
             <!-- Mensaje de bienvenida -->
             <div class="item">
-                <p>Bienvenido, Jorge Rojas García</p>
-                <!-- <?php echo $_SESSION['email']; ?> -->
+                <p><?php echo $saludo . ', ' .  $_SESSION['nombre_usuario']; ?></p>
+
             </div>
             <!-- Cerrar sesión a la derecha -->
             <div class="right menu">
