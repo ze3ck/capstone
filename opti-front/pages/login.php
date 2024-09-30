@@ -1,28 +1,51 @@
 <?php
-// session_start();
 
-// // Suponiendo que has verificado el email y la contraseña:
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $email = $_POST['email'];
-//     $password = $_POST['password'];
+// Iniciar la sesión si no está ya iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-//     // Aquí iría la lógica para autenticar al usuario con la API de tu backend.
-//     // Supongamos que la autenticación fue exitosa y el usuario existe.
+include __DIR__ . '/../includes/db.php';
 
-//     // Si la autenticación es exitosa:
-//     if ($autenticacion_exitosa) {
-//         $_SESSION['loggedin'] = true;
-//         $_SESSION['user_id'] = $user_id;  // Almacena el ID del usuario u otra información
-//         $_SESSION['email'] = $email;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = strtolower($_POST['email']);
+    $password = $_POST['password'];
 
-//         // Redirige al dashboard
-//         header("Location: dashboard.php");
-//         exit();
-//     } else {
-//         echo "Usuario o contraseña incorrectos.";
-//     }
-// }
-// ?>
+    if (!empty($email) && !empty($password)) {
+        $query = "CALL PR_01_LOGIN(?, ?)";
+
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param('ss', $email, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows === 1) {
+                $user = $result->fetch_assoc();
+
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $user['ID_USUARIO'];
+                $_SESSION['email'] = $user['EMAIL'];
+                $_SESSION['nombre_usuario'] = $user['NOMBRE_USUARIO'];
+                $_SESSION['rol'] = $user['ROL']; 
+
+                
+                header("Location: dashboard.php");
+                exit();
+            } else {
+                // echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos.']);
+            }
+            $stmt->close();
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Por favor, complete todos los campos.']);
+    }
+}
+
+cerrarConexion($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -30,7 +53,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - OptiFlow</title>
-
+    <link rel="shortcut icon" href="/opti-front/assets/img/opti.ico" />
     <!-- Estilos de Fomantic UI -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
 
@@ -67,7 +90,7 @@
                     <h4 class="ui teal image header">
                         <div class="content-subtitle" style="font-size: 150%">Inicia Sesión con Tu Cuenta</div>
                     </h4>
-                    <form class="ui large form" id="loginForm" method="POST">
+                    <form class="ui large form" id="loginForm" method="POST" action="login.php">
                         <div class="ui stacked segment">
                             <div class="field" id="emailField" >
                                 <div class="ui left icon input" >
@@ -80,12 +103,8 @@
                                     <i class="fas fa-lock"></i>
                                     <input type="password" id="password" name="password" placeholder="Contraseña" required />
                                 </div>
-                                <i class="far fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
                             </div>
                             <button type="submit" class="ui fluid large teal submit button" id="loginButton">Ingresar</button>
-                        </div>
-                        <div class="ui error message" id="formError" style="display: none;">
-                            Por favor, corrige los errores antes de continuar.
                         </div>
                     </form>
 
@@ -134,10 +153,10 @@
 
         // Animación de subrayado de la palabra "OptiFlow"
         gsap.to(".highlight::after", {
-            width: "100%", // Hace que el subrayado crezca del 0% al 100%
-            duration: 1, // Duración de la animación
-            ease: "power2.out", // Efecto de la animación
-            delay: 3 // Comienza después de la animación principal
+            width: "100%", 
+            duration: 1, 
+            ease: "power2.out", 
+            delay: 3 
         });
     </script>
 
