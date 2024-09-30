@@ -106,7 +106,8 @@ header,
   align-items: center;
   justify-content: center;
   padding: 20px;
-  border-radius: 10%;
+  border-top-left-radius: 10%;
+  border-bottom-left-radius: 10%;
 }
 
 .hidden {
@@ -186,12 +187,14 @@ header,
 }
 
 /* Technical Support Link */
-.soporte-tec {
+.sop-tec {
   color: rgba(212, 211, 211, 0.747);
+  text-decoration: underline;
 }
 
-.soporte-tec:hover {
+.sop-tec:hover {
   color: #4ac6ff;
+  text-decoration: underline;
 }
 
 /* Media Queries for Small Screens */
@@ -494,4 +497,46 @@ header h2:nth-of-type(4) {
     box-shadow: 0 0 0 100px rgba(35, 131, 233, 0);
     opacity: 0;
   }
+}
+
+/* .sop-tec {
+  color: #fff;
+  font-style: italic;
+  text-decoration: underline;
+  
+}
+
+.sop-tec:hover {
+  color: #000;
+  text-decoration: underline;
+} */
+
+/* Modal Soporte tecnico */
+#enviarSoporte {
+  background-color: #f37281;;
+}
+
+#enviarSoporte:hover {
+  background-color: #f74a5e;;
+}
+
+#soporteModal .ui.form input[type="email"],
+#soporteModal .ui.form textarea {
+  color: black !important;  
+  background-color: white !important;
+}
+
+#soporteModal .ui.form input[type="email"]::placeholder,
+#soporteModal .ui.form textarea::placeholder {
+  color: #666 !important; 
+}
+
+.redirect-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff; /* Puedes cambiar el color o agregar un gradiente */
+  z-index: 1000;
 }

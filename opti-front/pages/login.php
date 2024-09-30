@@ -1,11 +1,10 @@
 <?php
-
 // Iniciar la sesión si no está ya iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include __DIR__ . '/../includes/db.php';
+include __DIR__ . '/../includes/db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = strtolower($_POST['email']);
@@ -22,24 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($result->num_rows === 1) {
                 $user = $result->fetch_assoc();
 
+                // Almacenar datos en la sesión
                 $_SESSION['loggedin'] = true;
                 $_SESSION['user_id'] = $user['ID_USUARIO'];
                 $_SESSION['email'] = $user['EMAIL'];
                 $_SESSION['nombre_usuario'] = $user['NOMBRE_USUARIO'];
-                $_SESSION['rol'] = $user['ROL']; 
+                $_SESSION['rol'] = $user['ROL']; // Almacenar el rol
 
-                
-                header("Location: dashboard.php");
+                // Enviar respuesta de éxito en JSON
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true]);
                 exit();
             } else {
-                // echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos.']);
+                // Enviar respuesta de error en JSON
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos.']);
+                exit();
             }
             $stmt->close();
         } else {
+            header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Error en la consulta a la base de datos.']);
+            exit();
         }
     } else {
+        header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => 'Por favor, complete todos los campos.']);
+        exit();
     }
 }
 
@@ -53,7 +61,7 @@ cerrarConexion($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - OptiFlow</title>
-    <link rel="shortcut icon" href="/opti-front/assets/img/opti.ico" />
+    <link rel="shortcut icon" href="/capstone/opti-front/assets/img/opti.ico" />
     <!-- Estilos de Fomantic UI -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
 
@@ -66,7 +74,7 @@ cerrarConexion($conn);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- Archivo CSS personalizado -->
-    <link rel="stylesheet" href="/opti-front/assets/css/login.css">
+    <link rel="stylesheet" href="/capstone/opti-front/assets/css/login.css">
 </head>
 
 <body>
@@ -92,8 +100,8 @@ cerrarConexion($conn);
                     </h4>
                     <form class="ui large form" id="loginForm" method="POST" action="login.php">
                         <div class="ui stacked segment">
-                            <div class="field" id="emailField" >
-                                <div class="ui left icon input" >
+                            <div class="field" id="emailField">
+                                <div class="ui left icon input">
                                     <i class="fas fa-envelope"></i>
                                     <input type="text" id="email" name="email" placeholder="E-mail" required />
                                 </div>
@@ -109,16 +117,47 @@ cerrarConexion($conn);
                     </form>
 
                     <div class="ui message">
-                        ¿Olvidaste tu Contraseña?
-                        <br>
-                        <a href="#">Soporte Técnico</a>
+                        ¿Problemas para Ingresar? <br><a class="sop-tec" href="#">Soporte Técnico</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal para Soporte Técnico -->
+    <div class="ui modal" id="soporteModal">
+        <i class="close icon"></i>
+        <div class="header">
+            Soporte Técnico
+        </div>
+        <div class="content">
+            <!-- Loader que aparece cuando se envía el formulario -->
+            <div id="loader" class="ui active inverted dimmer" style="display: none;">
+                <div class="ui text loader">Enviando...</div>
+            </div>
+            <!-- Formulario de soporte -->
+            <form class="ui form" id="soporteForm">
+                <div class="field">
+                    <label for="emailSoporte">Ingresa tu correo</label>
+                    <input type="email" id="emailSoporte" name="emailSoporte" placeholder="tucorreo@example.com">
+                </div>
+                <div class="field">
+                    <label for="motivoSoporte">Motivo de contacto</label>
+                    <textarea id="motivoSoporte" name="motivoSoporte" placeholder="Describe tu problema o pregunta" required></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui button" id="cancelarSoporte">Cancelar</div>
+            <div class="ui button teal" id="enviarSoporte">Enviar</div>
+        </div>
+    </div>
 
+    <div class="redirect-overlay" style="display: none;"></div>
+
+    <div class="ui active dimmer" id="loadingOverlay" style="display: none;">
+        <div class="ui text loader">Cargando Dashboard...</div>
+    </div>
     <!-- Scripts -->
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
@@ -134,8 +173,8 @@ cerrarConexion($conn);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/CSSRulePlugin.min.js"></script>
 
     <!-- Archivos JS personalizados -->
-    <script type="module" src="/opti-front/assets/js/login.js"></script>
-    <script type="module" src="/opti-front/assets/js/apiConfig.js"></script>
+    <script type="module" src="/capstone/opti-front/assets/js/login.js"></script>
+    <script type="module" src="/capstone/opti-front/assets/js/apiConfig.js"></script>
 
     <!-- Footer -->
     <?php include __DIR__ . '/../components/footer.php'; ?>
@@ -153,10 +192,10 @@ cerrarConexion($conn);
 
         // Animación de subrayado de la palabra "OptiFlow"
         gsap.to(".highlight::after", {
-            width: "100%", 
-            duration: 1, 
-            ease: "power2.out", 
-            delay: 3 
+            width: "100%",
+            duration: 1,
+            ease: "power2.out",
+            delay: 3
         });
     </script>
 

@@ -1,3 +1,4 @@
+
 <!-- Sidebar -->
 <div class="ui left inverted vertical sidebar menu">
   <div class="ui accordion">
@@ -36,11 +37,11 @@
         <div style="display: block;">
           <div class="header">
             <h3>
-              <a href="../pages/perfilUsuario.php">Elliot Fu</a>
+              <a href="../pages/perfilUsuario.php"><?php echo $_SESSION['nombre_usuario']; ?></a>
             </h3>
           </div>
           <div class="meta" style="margin-top: 10px;">
-            ID Usuario: 23748
+          ID Usuario: <?php echo $_SESSION['user_id']; ?>
           </div>
         </div>
       </div>

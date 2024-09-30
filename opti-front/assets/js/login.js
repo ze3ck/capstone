@@ -39,49 +39,52 @@ document.addEventListener("DOMContentLoaded", function () {
       ease: "power2.out",
     });
   }
+  // /**
+  //  * Mover formulario al centro y mostrar animación de carga
+  //  */
+  // function moverFormularioAlCentro() {
+  //   gsap.to(".text-container-frase", {
+  //     opacity: 0,
+  //     duration: 0.5,
+  //     ease: "power2.out",
+  //   });
 
-  // Mover formulario al centro y mostrar animación de carga
-  function moverFormularioAlCentro() {
-    gsap.to(".text-container-frase", {
-      opacity: 0,
-      duration: 0.5,
-      ease: "power2.out",
-    });
+  //   gsap.to(".form-side", {
+  //     x:
+  //       window.innerWidth / 2 -
+  //       document.querySelector(".form-side").offsetWidth / 2,
+  //     y:
+  //       window.innerHeight / 2 -
+  //       document.querySelector(".form-side").offsetHeight / 2,
+  //     duration: 1,
+  //     scale: 1.2,
+  //     ease: "power2.out",
+  //     onComplete: mostrarAnimacionDeCarga, // Iniciar la animación de carga
+  //   });
+  // }
 
-    gsap.to(".form-side", {
-      x:
-        window.innerWidth / 2 -
-        document.querySelector(".form-side").offsetWidth / 2,
-      y:
-        window.innerHeight / 2 -
-        document.querySelector(".form-side").offsetHeight / 2,
-      duration: 1,
-      scale: 1.2,
-      ease: "power2.out",
-      onComplete: mostrarAnimacionDeCarga,
-    });
-  }
+  // // Mostrar animación de carga en forma de onda y luego redirigir
+  // function mostrarAnimacionDeCarga() {
+  //   const loadingWave = document.createElement("div");
+  //   loadingWave.classList.add("loading-wave");
+  //   document.body.appendChild(loadingWave);
 
-  // Mostrar animación de carga en forma de onda
-  function mostrarAnimacionDeCarga() {
-    const loadingWave = document.createElement("div");
-    loadingWave.classList.add("loading-wave");
-    document.body.appendChild(loadingWave);
+  //   gsap.fromTo(
+  //     loadingWave,
+  //     { opacity: 0, scale: 0 },
+  //     {
+  //       opacity: 1,
+  //       scale: 1.5,
+  //       duration: 1,
+  //       onComplete: redirigirDashboard, // Redirigir después de la animación
+  //     }
+  //   );
+  // }
 
-    gsap.fromTo(
-      loadingWave,
-      { opacity: 0, scale: 0 },
-      { opacity: 1, scale: 1.5, duration: 1 }
-    );
-
-    // Redirigir después de 2 segundos
-    setTimeout(redirigirDashboard, 2000);
-  }
-
-  // Redirigir al dashboard
-  function redirigirDashboard() {
-    window.location.href = "/opti-front/pages/dashboard.php";
-  }
+  // // Redirigir al dashboard
+  // function redirigirDashboard() {
+  //   window.location.href = "/capstone/opti-front/pages/dashboard.php";
+  // }
 
   // Animaciones de pie de página y campos de formulario
   gsap.from(".footer-container", {
@@ -101,16 +104,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Mostrar/ocultar contraseña
-  const togglePassword = document.querySelector("#togglePassword");
-  const password = document.querySelector("#password");
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
 
-  togglePassword.addEventListener("click", function () {
+  togglePassword.addEventListener("click", function (event) {
+    // Evitar que el ícono cause problemas en el envío del formulario
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Alterna el tipo de input entre 'password' y 'text'
     const type =
-      password.getAttribute("type") === "password" ? "text" : "password";
-    password.setAttribute("type", type);
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
 
-    togglePassword.classList.toggle("fa-eye");
-    togglePassword.classList.toggle("fa-eye-slash");
+    // Alterna el ícono entre 'fa-eye-slash' y 'fa-eye'
+    this.classList.toggle("fa-eye");
+    this.classList.toggle("fa-eye-slash");
   });
 
   // Validación del formulario de login
@@ -150,45 +159,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const data = await response.json();
+        console.log(data); // Verificar la respuesta del servidor
 
-        if (data.status === "success") {
-          // Guardar la sesión en el servidor usando PHP
-          await guardarSesionEnPHP(emailValue);
+        // Cambiamos de 'data.status === "success"' a 'data.success === true'
+        if (data.success === true) {
+          // Limpiar cualquier error anterior
+          ocultarError();
+
+          // Mover el formulario y mostrar animación solo si la autenticación fue exitosa
+          moverFormularioAlCentro();
         } else {
           mostrarError(data.message || "Credenciales incorrectas.");
         }
       } catch (error) {
-        mostrarError("Ocurrió un error en la conexión con el servidor.");
+        // mostrarError("Credenciales incorrectas.");
+        window.location.reload();
       }
     }
   });
-
-  // Guardar los datos de la sesión en PHP
-  async function guardarSesionEnPHP(email) {
-    try {
-      const response = await fetch(`${API_BASE_URL}usuarios/guardar_sesion`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email }), // Envía los datos que quieres guardar en la sesión
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error al guardar la sesión: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      if (data.status === "success") {
-        // Redirige al dashboard una vez que la sesión está guardada
-        moverFormularioAlCentro();
-      } else {
-        mostrarError(data.message || "No se pudo guardar la sesión.");
-      }
-    } catch (error) {
-      mostrarError("Error al guardar la sesión en el servidor.");
-    }
-  }
 
   // Mostrar mensajes de error en el formulario
   function mostrarError(mensaje) {
@@ -196,4 +184,231 @@ document.addEventListener("DOMContentLoaded", function () {
     errorDiv.innerText = mensaje;
     errorDiv.style.display = "block";
   }
+
+  // Ocultar mensajes de error
+  function ocultarError() {
+    const errorDiv = document.getElementById("formError");
+    errorDiv.style.display = "none";
+  }
+});
+// Abrir el modal cuando se haga clic en el enlace de Soporte Técnico
+document.querySelector(".sop-tec").addEventListener("click", function (event) {
+  event.preventDefault();
+  $("#soporteModal").modal("show"); // Mostrar el modal usando Fomantic UI
+});
+
+// Cerrar el modal cuando se haga clic en "Cancelar"
+document
+  .getElementById("cancelarSoporte")
+  .addEventListener("click", function () {
+    $("#soporteModal").modal("hide"); // Cerrar el modal
+  });
+
+// Manejar el envío del formulario de Soporte Técnico
+document.getElementById("enviarSoporte").addEventListener("click", function () {
+  const email = document.getElementById("emailSoporte").value;
+  const motivo = document.getElementById("motivoSoporte").value;
+
+  if (email && motivo) {
+    // Mostrar el loader dentro del modal
+    $("#loader").css("display", "block");
+
+    // Enviar los datos por AJAX al backend PHP
+    fetch("/capstone/opti-front/includes/enviarSoporte.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        emailSoporte: email,
+        motivoSoporte: motivo,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Ocultar el loader
+        $("#loader").css("display", "none");
+
+        if (data.success) {
+          // Mostrar éxito con un toast
+          $("body").toast({
+            class: "success",
+            message:
+              "Correo enviado correctamente. Te responderemos a la brevedad.",
+            position: "top right",
+            showProgress: "bottom",
+            displayTime: 7000,
+          });
+          // Cerrar el modal
+          $("#soporteModal").modal("hide");
+        } else {
+          // Mostrar error con un toast
+          $("body").toast({
+            class: "error",
+            message: "Error: " + data.message,
+            position: "top right",
+            showProgress: "bottom",
+            displayTime: 7000,
+          });
+        }
+      })
+      .catch((error) => {
+        // Ocultar el loader
+        $("#loader").css("display", "none");
+
+        console.error("Error:", error);
+        // Mostrar error de red
+        $("body").toast({
+          class: "error",
+          message: "Ocurrió un error al intentar enviar el correo.",
+          position: "top right",
+          showProgress: "bottom",
+          displayTime: 7000,
+        });
+      });
+  } else {
+    $("body").toast({
+      class: "warning",
+      message: "Por favor, completa ambos campos.",
+      position: "top right",
+      showProgress: "bottom",
+      displayTime: 7000,
+    });
+  }
+});
+
+// Animacion redirecciona dashboard
+document.addEventListener("DOMContentLoaded", function () {
+  const loginForm = document.getElementById("loginForm");
+
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(loginForm);
+
+    fetch("login.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          const loader = document.getElementById("loadingOverlay");
+          loader.style.display = "block";
+
+          const formSide = document.querySelector(".login-container");
+          const overlay = document.querySelector(".redirect-overlay");
+          overlay.style.display = "block";
+
+          const timeline = gsap.timeline({
+            onComplete: function () {
+              window.location.href = "dashboard.php";
+            },
+          });
+
+          timeline.to(formSide, {
+            x: "-100%",
+            duration: 1,
+            ease: "power2.inOut",
+          });
+
+          timeline.fromTo(
+            overlay,
+            {
+              x: "100%",
+            },
+            {
+              x: "0%",
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            0
+          );
+
+          timeline.to(
+            loader,
+            {
+              opacity: 0,
+              duration: 0.5,
+              ease: "power2.out",
+              onComplete: function () {
+                loader.style.display = "none";
+              },
+            },
+            "-=0.5"
+          );
+        } else {
+          const errorDiv = document.createElement("div");
+          errorDiv.classList.add("ui", "negative", "message");
+          errorDiv.innerHTML = `<p>${data.message}</p>`;
+
+          const formContainer = document.querySelector(".column");
+          const existingMessage = formContainer.querySelector(
+            ".ui.negative.message"
+          );
+          if (existingMessage) {
+            existingMessage.remove();
+          }
+          formContainer.insertBefore(errorDiv, loginForm);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loginForm = document.getElementById("loginForm");
+
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+
+    // Enviar solicitud AJAX
+    fetch("login.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          const loader = document.getElementById("loadingOverlay");
+          loader.style.display = "block";
+
+          gsap.to(loader, {
+            opacity: 1,
+            duration: 0.5,
+            onComplete: function () {
+              setTimeout(() => {
+                gsap.to(loader, {
+                  opacity: 0,
+                  duration: 0.5,
+                  onComplete: function () {
+                    loader.style.display = "none";
+                    window.location.href = "dashboard.php";
+                  },
+                });
+              }, 3000);
+            },
+          });
+        } else {
+          const errorDiv = document.createElement("div");
+          errorDiv.classList.add("ui", "negative", "message");
+          errorDiv.innerHTML = `<p>${data.message}</p>`;
+
+          const formContainer = document.querySelector(".column");
+          const existingMessage = formContainer.querySelector(
+            ".ui.negative.message"
+          );
+          if (existingMessage) {
+            existingMessage.remove();
+          }
+          formContainer.insertBefore(errorDiv, loginForm);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
 });

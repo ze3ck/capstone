@@ -23,7 +23,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="/opti-front/assets/css/style.css">
+    <link rel="stylesheet" href="/capstone/opti-front/assets/css/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
     <style>
@@ -60,8 +60,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
             <!-- Mensaje de bienvenida -->
             <div class="item">
-                <p>Bienvenido, Jorge Rojas García</p>
-                <!-- <?php echo $_SESSION['email']; ?> -->
+                <p>Bienvenido, <?php echo $_SESSION['nombre_usuario']; ?></p>
             </div>
 
             <!-- Cerrar sesión a la derecha -->
@@ -160,8 +159,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-        <script src="/opti-front/assets/js/dashboard.js"></script>
-        <script src="/opti-front/assets/js/charts.js"></script>
+        <script src="/capstone/opti-front/assets/js/dashboard.js"></script>
+        <script src="/capstone/opti-front/assets/js/charts.js"></script>
 
         <!-- Scripts -->
 

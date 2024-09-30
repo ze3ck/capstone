@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +15,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodingDung | Profile Template</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
-    <link rel="stylesheet" href="/opti-front/assets/css/style.css">
+    <link rel="stylesheet" href="/capstone/opti-front/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
 </head>
 
 <body>
+    <!-- Loader -->
+
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <div class="pusher">
@@ -35,6 +47,10 @@
                 </div>
             </div>
         </div>
+        <div id="loader" class="ui active dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <p></p>
         <!-- Pusher -->
         <!-- sidebar.php -->
         <div class="ui container">
@@ -54,33 +70,33 @@
                         <form class="ui form">
                             <div class="field">
                                 <label>Nombre de Usuario</label>
-                                <input type="text" value="nmaxwell" />
+                                <input id="nombre_usuario" type="text" />
                             </div>
                             <div class="field">
                                 <label>E-mail</label>
-                                <input type="text" value="nmaxwell@mail.com" />
+                                <input id="email" type="text" />
                             </div>
                             <div class="field">
                                 <label>Nombre</label>
-                                <input type="text" value="Nelle" />
+                                <input id="nombre" type="text" />
                             </div>
                             <div class="field">
                                 <label>Apellido Paterno</label>
-                                <input type="text" value="Maxwell" />
+                                <input id="apaterno" type="text" />
                             </div>
                             <div class="field">
                                 <label>Apellido Materno</label>
-                                <input type="text" value="" />
+                                <input id="amaterno" type="text" />
                             </div>
                             <div class="field">
                                 <label>Teléfono</label>
-                                <input type="text" value="+0 (123) 456 7891" />
+                                <input id="telefono" type="text" />
                             </div>
                             <div class="field">
                                 <label>Estado</label>
-                                <div id="estado-label" class="ui label">
-                                    ACTIVO
-                                </div>
+                                <p id="estado-label" class="ui label">
+
+                                </p>
                             </div>
                         </form>
                     </div>
@@ -113,6 +129,14 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <span id="ID_USUARIO" style="display:none">
+                            <?php echo $_SESSION['user_id'] ?></span>
+                        <span id="EMAIL" style="display:none">
+                            <?php echo $_SESSION['email'] ?></span>
+                        <span id="NOMBRE_USUARIO" style="display:none">
+                            <?php echo $_SESSION['nombre_usuario'] ?></span>
+                        <span id="ROL" style="display:none">
+                            <?php echo $_SESSION['rol'] ?></span>
                     </div>
                     <!-- Fin de gestionar usuarios -->
                 </div>
@@ -120,13 +144,15 @@
             </div>
             <div class="ui right aligned grid">
                 <div class="column">
-                    <button class="ui primary button">Guardar cambios</button>
+                    <button onclick="guardarCambios()" id="guardarCambios" class="ui primary button">Guardar cambios</button>
                     <button class="ui button">Cancelar</button>
                 </div>
             </div>
         </div>
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
@@ -141,7 +167,8 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <script src="/opti-front/assets/js/dashboard.js"></script>
+    <script src="/capstone/opti-front/assets/js/dashboard.js"></script>
+    <script type="module" src="/capstone/opti-front/assets/js/perfilUsuario.js"></script>
 </body>
 
 </html>
