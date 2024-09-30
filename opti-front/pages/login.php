@@ -57,8 +57,6 @@
             <h1 id="my-text">ESTRATÉGICAS</h1>
             <h1 id="my-text"> > <span class="highlight">OPTIFLOW<span class="underline"></span></span></h1>
         </header>
-
-
         <!-- Formulario de Login -->
         <div class="form-side hidden">
             <div class="ui middle aligned center aligned grid" style="height: 100vh;">
@@ -66,14 +64,13 @@
                     <h2 class="ui teal image header">
                         <div class="content-title">Hola, bienvenido! :)</div>
                     </h2>
-
                     <h4 class="ui teal image header">
-                        <div class="content-subtitle">Inicia Sesión con Tu Cuenta</div>
+                        <div class="content-subtitle" style="font-size: 150%">Inicia Sesión con Tu Cuenta</div>
                     </h4>
                     <form class="ui large form" id="loginForm" method="POST">
                         <div class="ui stacked segment">
-                            <div class="field" id="emailField">
-                                <div class="ui left icon input">
+                            <div class="field" id="emailField" >
+                                <div class="ui left icon input" >
                                     <i class="fas fa-envelope"></i>
                                     <input type="text" id="email" name="email" placeholder="E-mail" required />
                                 </div>
@@ -93,7 +90,9 @@
                     </form>
 
                     <div class="ui message">
-                        ¿Olvidaste tu Contraseña? <a href="#">Soporte Técnico</a>
+                        ¿Olvidaste tu Contraseña?
+                        <br>
+                        <a href="#">Soporte Técnico</a>
                     </div>
                 </div>
             </div>

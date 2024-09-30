@@ -14,11 +14,19 @@
   padding: 0;
   box-sizing: border-box;
 }
-body, h1, h2, h3, p, a, div, span {
+body,
+h1,
+h2,
+h3,
+p,
+a,
+div,
+span {
   font-family: "Montserrat", sans-serif !important;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
   font-family: "Montserrat", sans-serif;
@@ -45,16 +53,16 @@ body, html {
 
 /* Login Container with Gradient Animation */
 .login-container {
-  position: relative; 
+  position: relative;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: space-between;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .login-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
@@ -79,7 +87,8 @@ body, html {
   }
 }
 
-header, .form-side {
+header,
+.form-side {
   position: relative;
   z-index: 1;
 }
@@ -88,7 +97,7 @@ header, .form-side {
 .form-side {
   width: 30%;
   height: 100vh;
-  /* background: rgba(50, 94, 127, 0.1); */
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
@@ -97,6 +106,7 @@ header, .form-side {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  border-radius: 10%;
 }
 
 .hidden {
@@ -115,6 +125,7 @@ header, .form-side {
 .ui.fluid.large.teal.submit.button {
   background-color: #f37281;
   transition: background-color 0.3s ease;
+  font-size: large;
 }
 
 .ui.fluid.large.teal.submit.button:hover {
@@ -135,9 +146,8 @@ header, .form-side {
 /* Estilos para el texto dentro de los campos input */
 .ui.input input,
 .ui.form input {
-    color: white !important;
+  color: white !important;
 }
-
 
 .ui.form .field .ui.input input {
   background-color: rgba(255, 255, 255, 0.4);
@@ -145,16 +155,21 @@ header, .form-side {
   border-radius: 16px;
   color: #000;
   padding-left: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .ui.form .field .ui.input input::placeholder {
   color: #666;
+  font-size: large;
 }
 
 .ui.teal.submit.button {
   background-color: rgba(0, 87, 128, 0.8);
   border-radius: 16px;
   color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 /* Message Box */
@@ -167,6 +182,7 @@ header, .form-side {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   z-index: 10;
   color: white;
+  font-size: large;
 }
 
 /* Technical Support Link */
@@ -188,7 +204,7 @@ header, .form-side {
     width: 80%;
     height: auto;
     padding: 20px;
-    opacity: 1; 
+    opacity: 1;
   }
 
   .ui.stacked.segment {
@@ -217,7 +233,7 @@ header, .form-side {
 @media (max-width: 480px) {
   .form-side {
     width: 95%;
-    opacity: 1; 
+    opacity: 1;
   }
 
   .ui.stacked.segment {
@@ -250,7 +266,7 @@ header, .form-side {
 .footer-container {
   width: 100%;
   z-index: 999;
-  position: relative; 
+  position: relative;
   bottom: 0;
   left: 0;
 }
@@ -296,15 +312,15 @@ header, .form-side {
 
 /* Left Icon Input */
 .ui.left.icon.input {
-  position: relative; 
+  position: relative;
 }
 
 .ui.left.icon.input i {
   position: absolute;
-  left: 10px; 
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #3975a3; 
+  color: #3975a3;
 }
 
 /* Show/Hide Password */
@@ -313,23 +329,24 @@ header, .form-side {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #3975a3; 
+  color: #3975a3;
 }
 
-input[type="text"], input[type="password"] {
-  padding-left: 30px; 
+input[type="text"],
+input[type="password"] {
+  padding-left: 30px;
 }
 
 .ui.left.icon.input input {
-  padding-right: 30px; 
+  padding-right: 30px;
 }
 
 /* Popup */
 .ui.popup {
   background-color: #3975a3 !important;
-  color: white !important;  
-  border-radius: 5px !important; 
-  padding: 10px !important;  
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
 }
 
 /* Main Login Container */
@@ -340,7 +357,7 @@ input[type="text"], input[type="password"] {
 }
 
 header {
-  width: 65%; 
+  width: 65%;
 }
 
 /* Text Styles */
@@ -351,10 +368,10 @@ header {
 
 /* Ajustar el tamaño y alineación de la imagen "O" */
 .last-o img {
-  width: 1em;          /* Ajustar el tamaño en proporción al texto */
-  height: 1em;         /* Mantener proporciones cuadradas */
+  width: 1em; /* Ajustar el tamaño en proporción al texto */
+  height: 1em; /* Mantener proporciones cuadradas */
   vertical-align: middle; /* Alinear verticalmente con el texto */
-  border-radius: 50%;  /* Hacer la imagen redonda */
+  border-radius: 50%; /* Hacer la imagen redonda */
 }
 
 #my-text {
@@ -364,15 +381,15 @@ header {
   font-style: oblique;
   font-family: "Montserrat", sans-serif;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-  line-height: 1.2; 
-  letter-spacing: 0px; 
-  margin: 0; 
-  text-align: left; 
+  line-height: 1.2;
+  letter-spacing: 0px;
+  margin: 0;
+  text-align: left;
 }
 
 @media (max-width: 768px) {
   .my-text {
-      font-size: 4rem;
+    font-size: 4rem;
   }
 }
 
@@ -384,7 +401,7 @@ header {
 }
 
 .highlight::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -405,7 +422,7 @@ header {
 
 .char {
   transform: translateY(115px);
-  transition: transform .5s;
+  transition: transform 0.5s;
 }
 
 /* Footer Adjustments */
@@ -419,11 +436,18 @@ footer {
 
 /* Fade-in Animation */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-header h1, header h2 {
+header h1,
+header h2 {
   opacity: 0;
   animation: fadeIn 1s ease forwards;
 }
@@ -457,17 +481,17 @@ header h2:nth-of-type(4) {
   margin: -50px 0 0 -50px;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 0 0 rgba(35, 131, 233, 0.6); 
+  box-shadow: 0 0 0 0 rgba(35, 131, 233, 0.6);
   animation: wave 2s infinite ease-out;
 }
 
 @keyframes wave {
   0% {
-      box-shadow: 0 0 0 0 rgba(35, 131, 233, 0.6); 
-      opacity: 1;
+    box-shadow: 0 0 0 0 rgba(35, 131, 233, 0.6);
+    opacity: 1;
   }
   100% {
-      box-shadow: 0 0 0 100px rgba(35, 131, 233, 0); 
-      opacity: 0;
+    box-shadow: 0 0 0 100px rgba(35, 131, 233, 0);
+    opacity: 0;
   }
 }
