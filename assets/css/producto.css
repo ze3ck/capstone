@@ -1,0 +1,63 @@
+body {
+    font-family: 'Arial', sans-serif; /* Fuente moderna */
+    background-color: #f4f4f4; /* Fondo gris claro */
+    margin: 0;
+    padding: 20px; /* Espaciado alrededor */
+}
+
+.main-container {
+    display: flex; /* Usar flexbox para alinear tabla y botones */
+    align-items: flex-start; /* Alinear al inicio del eje vertical */
+    gap: 20px; /* Espacio entre tabla y botones */
+}
+
+table {
+    width: 100%; /* Tabla ocupa todo el ancho del contenedor */
+    border-collapse: collapse; /* Quitar espacios entre celdas */
+}
+
+thead {
+    background-color: #007BFF; /* Color de fondo para el encabezado */
+    color: white; /* Color del texto */
+}
+
+th, td {
+    padding: 10px; /* Espacio interno en celdas */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color de fondo para filas pares */
+}
+
+
+.ui.button:hover {
+    background-color: #218838; /* Color más oscuro al pasar el ratón */
+}
+
+.ui.button:active {
+    background-color: #1e7e34; /* Color aún más oscuro al hacer clic */
+}
+.main-container, .ui.category.search, .button-container {
+    margin: 0 20rem;
+}
+
+.ui.category.search {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+#editIcon:hover, #deleteIcon:hover{
+    transform: scale(1.3);
+    transition: transform 0.2s;
+}
+
+#editIcon, #deleteIcon{
+    margin: 0 10px;
+}
+
