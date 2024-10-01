@@ -147,7 +147,7 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
             <div class="ui right aligned grid">
                 <div class="column">
                     <button onclick="guardarCambios()" id="guardarCambios" class="ui primary button">Guardar cambios</button>
-                    <button class="ui button">Cancelar</button>
+                    <button class="ui button"><a href="/capstone/opti-front/pages/dashboard.php">Cancelar</a></button>
                 </div>
             </div>
         </div>

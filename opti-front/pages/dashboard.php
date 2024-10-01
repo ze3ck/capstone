@@ -28,19 +28,13 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
     <link rel="stylesheet" href="/capstone/opti-front/assets/css/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
-    <style>
-        .chart-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
+    <!-- Apex Charts  -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        .chart {
-            width: 48%;
-            height: 500px;
-        }
-    </style>
 </head>
 
 <body>
@@ -81,11 +75,77 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
         </div>
         <div class="ui container">
             <!-- Contenedor de los gráficos -->
-            <div class="chart-container">
-                <!-- Gráfico AG Charts (Columnas) -->
-                <div id="myChart" class="chart"></div>
-                <!-- Gráfico AG Charts (Torta) -->
-                <div id="myPieChart" class="chart"></div>
+            <div id="wrapper">
+                <div class="content-area">
+                    <div class="container-fluid">
+                        <div class="main">
+                            <div id="box-boxes" class="row sparkboxes mt-4">
+                                <div class="col-md-3">
+                                    <div class="box box1">
+                                        <div class="details">
+                                            <h3>1213</h3>
+                                            <h4>CLICKS</h4>
+                                        </div>
+                                        <div id="spark1"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="box box2">
+                                        <div class="details">
+                                            <h3>422</h3>
+                                            <h4>VIEWS</h4>
+                                        </div>
+                                        <div id="spark2"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="box box3">
+                                        <div class="details">
+                                            <h3>311</h3>
+                                            <h4>LEADS</h4>
+                                        </div>
+                                        <div id="spark3"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="box box4">
+                                        <div class="details">
+                                            <h3>22</h3>
+                                            <h4>SALES</h4>
+                                        </div>
+                                        <div id="spark4"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-5">
+                                    <div class="box shadow mt-4">
+                                        <div id="radialBarBottom"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="box shadow mt-4">
+                                        <div id="line-adwords" class=""></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-5">
+                                    <div class="box shadow mt-4">
+                                        <div id="barchart"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="box shadow mt-4">
+                                        <div id="areachart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Aquí puedes agregar tu contenido principal -->
@@ -154,21 +214,23 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
             </table>
         </div>
         <!-- Main Content -->
-
+        <!-- Footer -->
+        <?php include __DIR__ . '/../components/footer.php'; ?>
+        <!-- Footer -->
         <!-- Scripts -->
         <script>
 
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="/capstone/opti-front/assets/js/dashboard.js"></script>
         <script src="/capstone/opti-front/assets/js/charts.js"></script>
 
         <!-- Scripts -->
 
-        <!-- Footer -->
-        <?php include __DIR__ . '/../components/footer.php'; ?>
-        <!-- Footer -->
+
     </div>
 </body>
 

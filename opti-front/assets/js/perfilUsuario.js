@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Asegúrate de que el botón exista en el DOM antes de agregar el evento
   if (guardarCambios) {
     botonGuardar.addEventListener("click", function () {
-      guardarDatos();
+      guardarCambios();
     });
   }
 
@@ -85,34 +85,50 @@ function ocultarLoader() {
   document.getElementById("loader").style.display = "none";
 }
 
+
 // guardarCambios
 async function guardarCambios() {
-  mostarLoader();
-  let nombre_usuario = document.getElementById("nombre_usuario").value;
-  let email = document.getElementById("email").value;
-  let nombre = document.getElementById("nombre").value;
-  let apaterno = document.getElementById("apaterno").value;
-  let amaterno = document.getElementById("amaterno").value;
-  let telefono = document.getElementById("telefono").value;
+  try {
+    mostarLoader();
+    let nombre_usuario = document.getElementById("nombre_usuario").value;
+    let email = document.getElementById("email").value;
+    let nombre = document.getElementById("nombre").value;
+    let apaterno = document.getElementById("apaterno").value;
+    let amaterno = document.getElementById("amaterno").value;
+    let telefono = document.getElementById("telefono").value;
+    let id_usuario = document.getElementById('ID_USUARIO').innerHTML.trim();
+    
+    const response = await fetch(`${API_BASE_URL}usuarios/actualizarPerfil`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        ID_USUARIO: id_usuario,
+        NOMBRE_USUARIO: nombre_usuario,
+        EMAIL: email,
+        NOMBRE: nombre,
+        APATERNO: apaterno,
+        AMATERNO: amaterno,
+        TELEFONO: telefono,
+      }),
+    });
+    const data = await response.json();
 
-  const response = await fetch(`${API_BASE_URL}usuarios/rellenarPerfil`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      NOMBRE_USUARIO: nombre_usuario,
-      EMAIL: email,
-      NOMBRE: nombre,
-      APATERNO: apaterno,
-      AMATERNO: amaterno,
-      TELEFONO: telefono,
-    }),
-  });
-  const data = await response.json();
+    console.log("Datos de la respuesta:", data);
 
-  console.log("Datos de la respuesta:", data);
+    // Verificar si la respuesta tiene éxito
+    if (data.success === true) {
+      console.log("Datos del perfil:", data.response);
+      mensaje('success', 2000, 'Datos Actualizados Exitosamente')
+    } else {
+      console.error("Mensaje de error del servidor:", data.message);
+    } 
+  } catch (error) {
+      console.error("Error:", error);
+    }
+    ocultarLoader();
 }
 
 // mensaje('error', 2000, 'Campos de busqueda vacios')
@@ -125,3 +141,5 @@ function mensaje(clase, tiempo, mensaje) {
     progressUp: true,
   });
 }
+
+

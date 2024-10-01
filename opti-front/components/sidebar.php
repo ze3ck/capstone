@@ -37,7 +37,7 @@
         <div style="display: block;">
           <div class="header">
             <h3>
-              <a href="../pages/perfilUsuario.php"><?php echo $_SESSION['nombre_usuario']; ?></a>
+              <a href="../pages/perfilUsuario.php" class="nomus-side"><?php echo $_SESSION['nombre_usuario']; ?></a>
             </h3>
           </div>
           <div class="meta" style="margin-top: 10px;">
@@ -54,7 +54,7 @@
   .profile-container {
     position: fixed;
     bottom: 0;
-    background-color: #3d3d3d;
+    background-color: #394264;
     width: 100%;
   }
 </style>
