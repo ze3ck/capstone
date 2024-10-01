@@ -210,3 +210,7 @@ table.ui.celled.table tfoot {
 .nomus-side {
   font-size: 15px;
 }
+
+.gestionador_body {
+  background-color: white !important;
+}

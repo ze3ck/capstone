@@ -15,7 +15,7 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CodingDung | Profile Template</title>
+    <title>Perfil - OptiFlow Template</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="/capstone/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -101,34 +101,26 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
                                 </p>
                             </div>
                         </form>
+                        <div class="ui right aligned grid">
+                            <div class="column">
+                                <button onclick="guardarCambios()" id="guardarCambios" class="ui primary button">Guardar cambios</button>
+                                <button class="ui button"><a href="/capstone/pages/dashboard.php">Cancelar</a></button>
+                            </div>
+                        </div>
                     </div>
                     <!-- Sección de gestionar usuarios -->
                     <div class="ui tab segment" data-tab="user-management">
-                        <table class="ui celled table stackable">
+                        <table id="t_gestion_usuarios" class="ui celled table stackable">
                             <thead>
                                 <tr>
                                     <th>ID Usuario</th>
                                     <th>Nombre Usuario</th>
                                     <th>Email</th>
-                                    <th>Teléfono</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!--Agregar logica php-->
-                                <tr>
-                                    <td>1</td>
-                                    <td>nmaxwell</td>
-                                    <td>nmaxwell@mail.com</td>
-                                    <td>+0 (123) 456 7891</td>
-                                    <td>
-                                        <select id="estado-dropdown" class="ui dropdown">
-                                            <option value="ACTIVO" selected>ACTIVO</option>
-                                            <option value="INACTIVO">INACTIVO</option>
-                                            <option value="BLOQUEADO">BLOQUEADO</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                            <tbody id="gestionador_body">
+
                             </tbody>
                         </table>
                         <span id="ID_USUARIO" style="display:none">
@@ -139,17 +131,20 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
                             <?php echo $_SESSION['nombre_usuario'] ?></span>
                         <span id="ROL" style="display:none">
                             <?php echo $_SESSION['rol'] ?></span>
+
+                        <!-- bOTONERA -->
+                        <div class="ui right aligned grid">
+                            <div class="column">
+                                <button id="guardarCambiosGestion" class="ui primary button">Guardar cambios</button>
+                                <button class="ui button"><a href="/capstone/pages/dashboard.php">Cancelar</a></button>
+                            </div>
+                        </div>
                     </div>
                     <!-- Fin de gestionar usuarios -->
                 </div>
                 <!-- Fin Perfil General-->
             </div>
-            <div class="ui right aligned grid">
-                <div class="column">
-                    <button onclick="guardarCambios()" id="guardarCambios" class="ui primary button">Guardar cambios</button>
-                    <button class="ui button"><a href="/capstone/opti-front/pages/dashboard.php">Cancelar</a></button>
-                </div>
-            </div>
+
         </div>
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
