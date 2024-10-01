@@ -61,7 +61,7 @@ cerrarConexion($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - OptiFlow</title>
-    <link rel="shortcut icon" href="/capstone/opti-front/assets/img/opti.ico" />
+    <link rel="shortcut icon" href="/capstone/assets/img/opti.ico" />
     <!-- Estilos de Fomantic UI -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
 
@@ -74,7 +74,7 @@ cerrarConexion($conn);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- Archivo CSS personalizado -->
-    <link rel="stylesheet" href="/capstone/opti-front/assets/css/login.css">
+    <link rel="stylesheet" href="/capstone/assets/css/login.css">
 </head>
 
 <body>
@@ -173,8 +173,8 @@ cerrarConexion($conn);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/CSSRulePlugin.min.js"></script>
 
     <!-- Archivos JS personalizados -->
-    <script type="module" src="/capstone/opti-front/assets/js/login.js"></script>
-    <script type="module" src="/capstone/opti-front/assets/js/apiConfig.js"></script>
+    <script type="module" src="/capstone/assets/js/login.js"></script>
+    <script type="module" src="/capstone/assets/js/apiConfig.js"></script>
 
     <!-- Footer -->
     <?php include __DIR__ . '/../components/footer.php'; ?>

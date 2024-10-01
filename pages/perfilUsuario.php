@@ -17,7 +17,7 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodingDung | Profile Template</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
-    <link rel="stylesheet" href="/capstone/opti-front/assets/css/style.css">
+    <link rel="stylesheet" href="/capstone/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 </head>
@@ -169,8 +169,8 @@ $saludo = include __DIR__ . '/../includes/zona_horaria.php';
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <script src="/capstone/opti-front/assets/js/dashboard.js"></script>
-    <script type="module" src="/capstone/opti-front/assets/js/perfilUsuario.js"></script>
+    <script src="/capstone/assets/js/dashboard.js"></script>
+    <script type="module" src="/capstone/assets/js/perfilUsuario.js"></script>
 </body>
 
 </html>
