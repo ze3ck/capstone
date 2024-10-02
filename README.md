@@ -8,7 +8,7 @@ El uso no autorizado de este software, así como su reproducción, adaptación, 
 
 Este software se proporciona "tal cual", sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, pero no limitándose, a garantías de comercialización o idoneidad para un fin particular.
 
-© 2024 OptiFlow Inc. Todos los derechos reservados.
+© 2024 OptiFlow. Todos los derechos reservados.
 ---
 ## Tabla de Contenido
 - [Frontend Development](#frontend-development)
