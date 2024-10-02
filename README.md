@@ -1,5 +1,15 @@
 # OptiFlow - Proyecto de Título
+---
+Aviso de Derechos de Autor
 
+Este software, incluidos todos sus componentes y módulos, es propiedad exclusiva de https://optiflow.cl. Todos los derechos están reservados. Queda estrictamente prohibida cualquier reproducción, distribución, comunicación pública, transformación o explotación total o parcial del presente software, en cualquier forma o por cualquier medio, sin la autorización previa, expresa y por escrito de https://optiflow.cl.
+
+El uso no autorizado de este software, así como su reproducción, adaptación, distribución, cesión o cualquier otro acto que infrinja los derechos de propiedad intelectual del titular, será considerado una violación de las leyes vigentes en materia de derechos de autor y dará lugar a las acciones legales pertinentes.
+
+Este software se proporciona "tal cual", sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo, pero no limitándose, a garantías de comercialización o idoneidad para un fin particular.
+
+© 2024 OptiFlow Inc. Todos los derechos reservados.
+---
 ## Tabla de Contenido
 - [Frontend Development](#frontend-development)
 - [RESTful API's - Backend Development](#restful-apis-backend-development)
