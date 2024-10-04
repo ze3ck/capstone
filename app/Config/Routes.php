@@ -32,6 +32,8 @@ $routes->get('inventario', 'Home::inventario');
 // enviarSoporte
 $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 
+
+
 /**
  * [RESTful API's]
  */

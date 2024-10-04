@@ -5,8 +5,8 @@ namespace App\Controllers\API;
 use App\Models\UsuarioModel;
 use CodeIgniter\RESTful\ResourceController;
 use Config\Database;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+// use Firebase\JWT\JWT;
+// use Firebase\JWT\Key;
 
 class Usuarios extends ResourceController
 {

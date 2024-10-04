@@ -13,7 +13,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>OptiFlow - Dashboard</title>
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
@@ -23,7 +23,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="/assets/css/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
     <!-- Apex Charts  -->
@@ -32,6 +31,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
 </head>
 
@@ -75,74 +75,74 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <!-- Contenedor de los gráficos -->
             <!-- <div id="wrapper"> -->
             <!-- <div class="content-area"> -->
-                <!-- <div class="container-fluid"> -->
-                <div class="main">
-                    <div id="box-boxes" class="row sparkboxes mt-4">
-                        <div class="col-md-3">
-                            <div class="box box1">
-                                <div class="details">
-                                    <h3>1213</h3>
-                                    <h4>CLICKS</h4>
-                                </div>
-                                <div id="spark1"></div>
+            <!-- <div class="container-fluid"> -->
+            <div class="main">
+                <div id="box-boxes" class="row sparkboxes mt-4">
+                    <div class="col-md-3">
+                        <div class="box box1">
+                            <div class="details">
+                                <h3>1213</h3>
+                                <h4>CLICKS</h4>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="box box2">
-                                <div class="details">
-                                    <h3>422</h3>
-                                    <h4>VIEWS</h4>
-                                </div>
-                                <div id="spark2"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="box box3">
-                                <div class="details">
-                                    <h3>311</h3>
-                                    <h4>LEADS</h4>
-                                </div>
-                                <div id="spark3"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="box box4">
-                                <div class="details">
-                                    <h3>22</h3>
-                                    <h4>SALES</h4>
-                                </div>
-                                <div id="spark4"></div>
-                            </div>
+                            <div id="spark1"></div>
                         </div>
                     </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-5">
-                            <div class="box shadow mt-4">
-                                <div id="radialBarBottom"></div>
+                    <div class="col-md-3">
+                        <div class="box box2">
+                            <div class="details">
+                                <h3>422</h3>
+                                <h4>VIEWS</h4>
                             </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="box shadow mt-4">
-                                <div id="line-adwords" class=""></div>
-                            </div>
+                            <div id="spark2"></div>
                         </div>
                     </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-5">
-                            <div class="box shadow mt-4">
-                                <div id="barchart"></div>
+                    <div class="col-md-3">
+                        <div class="box box3">
+                            <div class="details">
+                                <h3>311</h3>
+                                <h4>LEADS</h4>
                             </div>
+                            <div id="spark3"></div>
                         </div>
-                        <div class="col-md-7">
-                            <div class="box shadow mt-4">
-                                <div id="areachart"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="box box4">
+                            <div class="details">
+                                <h3>22</h3>
+                                <h4>SALES</h4>
                             </div>
+                            <div id="spark4"></div>
                         </div>
                     </div>
                 </div>
-                <!-- </div> -->
+
+                <div class="row mt-4">
+                    <div class="col-md-5">
+                        <div class="box shadow mt-4">
+                            <div id="radialBarBottom"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box shadow mt-4">
+                            <div id="line-adwords" class=""></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-5">
+                        <div class="box shadow mt-4">
+                            <div id="barchart"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="box shadow mt-4">
+                            <div id="areachart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
             <!-- </div> -->
             <!-- </div> -->
 
@@ -212,12 +212,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </table>
         </div>
         <!-- Main Content -->
-        <!-- Footer -->
-        <!-- Footer -->
         <!-- Scripts -->
-        <script>
 
-        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>

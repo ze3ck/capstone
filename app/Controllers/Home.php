@@ -35,7 +35,7 @@ class Home extends BaseController
     /**
      * inventario
      */
-    
+
     public function inventario()
     {
         return view('pages/inventario');

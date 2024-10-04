@@ -7,7 +7,7 @@
     <a class="item">
       Movimientos
     </a>
-    <a class="item">
+    <a class="item" href="<?= site_url('inventario') ?>">
       Inventario
     </a>
     <a class="item">
