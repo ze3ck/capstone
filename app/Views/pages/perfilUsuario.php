@@ -97,12 +97,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <label>ROL</label>
                                 <input id="ROL" type="text" />
                             </div>
-                            <!-- <div class="field">
-                                <label>Estado</label>
-                                <p id="estado-label" class="ui label">
-
-                                </p>
-                            </div> -->
                         </form>
                         <div class="ui right aligned grid">
                             <div class="column">
