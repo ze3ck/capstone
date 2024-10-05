@@ -61,8 +61,8 @@ async function cargarPerfil() {
     document.getElementById("apaterno").value = data.perfil.apaterno;
     document.getElementById("amaterno").value = data.perfil.amaterno;
     document.getElementById("telefono").value = data.perfil.telefono;
-    document.getElementById("estado-label").innerHTML =
-      data.perfil.descripcion_estado;
+    // document.getElementById("estado-label").innerHTML =
+    //   data.perfil.descripcion_estado;
 
     // console.log("LABEL", label)
 
@@ -105,37 +105,37 @@ async function guardarCambios() {
     }
 
     if (!email) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "email Usuario no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
 
     if (!nombre) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "Nombre no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
 
     if (!apaterno) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "Apellido Paterno no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
 
     if (!amaterno) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "Apellido materno no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
 
     if (!telefono) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "telefono no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
 
     if (!id_usuario) {
-      mensaje("error", 2000, "Nombre Usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "id_usuario no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
@@ -268,21 +268,23 @@ async function obtenerDatosTabla() {
     body: JSON.stringify(datos), // Convertir el array de datos a formato JSON
   });
 
-  const data = await response.json();
 
-  console.log("Datos de la respuesta:", data);
+  // console.log("Datos de la respuesta:", data);
 
   // Verificar si la respuesta tiene éxito
-  if (data.success === true) {
-    console.log("Datos del perfil:", data.response);
-    if (data.response.VALIDACION === 1) {
-      // Compara con 1 en lugar de "1"
-      console.log(data.response.VALIDACION);
-      mensaje("success", 2000, "Datos Actualizados Exitosamente");
-    }
-  } else {
-    console.error("Mensaje de error del servidor:", data.message);
-  }
+  const data = await response.json();
+console.log("Datos de la respuesta:", data);
+
+// Verificar si la respuesta tiene éxito
+if (data.success === true) {
+  data.response.forEach((usuario) => {
+    console.log(`Usuario ${usuario.id_usuario}: ${usuario.message}`);
+  });
+  mensaje("success", 2000, "Datos Actualizados Exitosamente");
+} else {
+  console.error("Mensaje de error del servidor:", data.message);
+}
+
 }
 
 // document.addEventListener("DOMContentLoaded", function () {

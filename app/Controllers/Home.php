@@ -48,4 +48,13 @@ class Home extends BaseController
     {
         return view('pages/logut');
     }
+
+      /**
+     * Movimientos
+     */
+
+     public function movimientos()
+     {
+         return view('pages/movimientos');
+     }
 }

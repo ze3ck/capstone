@@ -32,6 +32,12 @@ $routes->get('inventario', 'Home::inventario');
 // enviarSoporte
 $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 
+<<<<<<< Updated upstream
+=======
+//movimientos
+$routes->post('movimientos', 'Home::movimientos');
+$routes->get('movimientos', 'Home::movimientos');
+>>>>>>> Stashed changes
 
 
 /**
@@ -64,7 +70,7 @@ $routes->group(
     $routes->post('usuarios/login', 'Usuarios::login');
     $routes->post('usuarios/actualizarPerfil', 'Usuarios::actualizarPerfil');
     $routes->post('usuarios/rellenarPerfil', 'Usuarios::rellenarPerfil');
-    $routes->post('usuarios/gestionarUsuarios', 'Usuarios::gestionarUsuarios');
+    $routes->post('usuarios/gestionarUsuarios', 'Usuarios::gestionarUsuarios'); 
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
   }
