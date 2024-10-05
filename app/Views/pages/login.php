@@ -69,6 +69,7 @@
                                 <div class="ui left icon input">
                                     <i class="fas fa-lock"></i>
                                     <input type="password" id="password" name="password" placeholder="Contraseña" required />
+                                    <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; text-align: right;"></i>
                                 </div>
                             </div>
                             <button type="submit" class="ui fluid large teal submit button" id="loginButton">Ingresar</button>
