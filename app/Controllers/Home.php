@@ -40,6 +40,13 @@ class Home extends BaseController
     {
         return view('pages/inventario');
     }
+
+    /**
+     * reportes
+     */
+    public function reportes(){
+        return view('pages/reportes');
+    }
     /**
      * logut
      */

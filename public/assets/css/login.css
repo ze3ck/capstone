@@ -318,7 +318,8 @@ header,
   position: relative;
 }
 
-.ui.left.icon.input i {
+.ui.left.icon.input i.fas.fa-lock, 
+.ui.left.icon.input i.fas.fa-envelope {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -333,16 +334,21 @@ header,
   top: 50%;
   transform: translateY(-50%);
   color: #3975a3;
+  cursor: pointer;
+  z-index: 1;
 }
 
 input[type="text"],
 input[type="password"] {
-  padding-left: 30px;
+  padding-left: 35px; 
+  padding-right: 35px; 
 }
 
 .ui.left.icon.input input {
-  padding-right: 30px;
+  width: 100%; 
+  box-sizing: border-box; 
 }
+
 
 /* Popup */
 .ui.popup {

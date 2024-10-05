@@ -15,7 +15,7 @@
     </a>
     <!-- Primer grupo de items del accordion -->
     <!-- <div class="item"> -->
-    <a class="item" style="width:10">
+    <a class="item" style="width:10" href="<?= site_url('reportes') ?>">
       Reportes
     </a>
     <!-- <div class="content"> -->

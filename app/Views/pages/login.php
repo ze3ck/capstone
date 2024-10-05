@@ -69,7 +69,7 @@
                                 <div class="ui left icon input">
                                     <i class="fas fa-lock"></i>
                                     <input type="password" id="password" name="password" placeholder="Contraseña" required />
-                                    <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; text-align: right;"></i>
+                                    <i class="fas fa-eye-slash" id="togglePassword"></i>
                                 </div>
                             </div>
                             <button type="submit" class="ui fluid large teal submit button" id="loginButton">Ingresar</button>
@@ -116,10 +116,10 @@
     <div class="ui active dimmer" id="loadingOverlay" style="display: none;">
         <div class="ui text loader">Cargando Dashboard...</div>
     </div>
-    
+
     <!-- Footer -->
     <?php include __DIR__ . '/../components/footer.php'; ?>
-    
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

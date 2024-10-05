@@ -37,6 +37,9 @@ $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 $routes->post('movimientos', 'Home::movimientos');
 $routes->get('movimientos', 'Home::movimientos');
 
+// reportes
+$routes->post('reportes', 'Home::reportes');
+$routes->get('reportes', 'Home::reportes');
 
 /**
  * [RESTful API's]
