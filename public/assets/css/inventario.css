@@ -27,3 +27,21 @@
 #editIcon, #deleteIcon{
   margin: 0 10px;
 }
+
+/* SideBar  */
+.ui.stackable.menu {
+  background-color: #1b1c1d !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Asegura que la barra esté por encima del contenido */
+}
+
+.ui.stackable.menu {
+  background-color: #1b1c1d;
+}
+
+.ui.stackable.menu .item {
+  color: #fff;
+}

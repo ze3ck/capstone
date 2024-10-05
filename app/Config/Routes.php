@@ -67,7 +67,7 @@ $routes->group(
     $routes->post('usuarios/login', 'Usuarios::login');
     $routes->post('usuarios/actualizarPerfil', 'Usuarios::actualizarPerfil');
     $routes->post('usuarios/rellenarPerfil', 'Usuarios::rellenarPerfil');
-    $routes->post('usuarios/gestionarUsuarios', 'Usuarios::gestionarUsuarios'); 
+    $routes->post('usuarios/gestionarUsuarios', 'Usuarios::gestionarUsuarios');
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
   }
