@@ -100,7 +100,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                         <script>
                             var today = new Date();
-                            let set_date = new Date(2021, 12,1);
+                            let set_date = new Date(2021, 12, 1);
                             //console.log(set_date);
                             $('#fechaInicio')
                                 .calendar({
@@ -127,7 +127,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div class="column">producto</div>
                 <div class="equal width row">
                     <div class="column">
-                        <table class="ui celled table">
+                        <table class="ui celled table" id="tblMovimientos">
                             <thead>
                                 <tr>
                                     <th>ID Movimiento</th>
@@ -141,22 +141,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                     <th>Detalle</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td data-label="Name">James</td>
-                                    <td data-label="Age">24</td>
-                                    <td data-label="Job">Engineer</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Name">Jill</td>
-                                    <td data-label="Age">26</td>
-                                    <td data-label="Job">Engineer</td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Name">Elyse</td>
-                                    <td data-label="Age">24</td>
-                                    <td data-label="Job">VER DETALLE</td>
-                                </tr>
+                            <tbody id="tblMovimientos_body">
                             </tbody>
                         </table>
                         <button class="ui blue button">Generar Salida Producto</button>
@@ -165,6 +150,29 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </div>
 
+            <!-- MODAL DETALLE MOVIMIENTO -->
+            <div class="ui tiny modal" id="modalDetalleMovimientos">
+                <div class="content">
+                    <table class="ui celled table" id="tblDetalleMovimientos">
+                        <thead>
+                            <tr>
+                                <th>ID Movimiento</th>
+                                <th>Item</th>
+                                <th>Producto</th>
+                                <th>Lote</th>
+                                <th>CAntidad</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDetalleMovimientos_body">
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
         </div>
 
 
