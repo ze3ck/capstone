@@ -133,6 +133,102 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <!-- bOTONERA -->
                         <div class="ui right aligned grid">
                             <div class="column">
+                                <button id="crearUsuario" class="ui green button">Crear Usuario
+                                    <div id="modalUsuario" class="ui large modal">
+                                        <div class="header">
+                                            Crear Nuevo Usuario
+                                        </div>
+                                        <div class="ui two column grid" style="margin: 0 20px;">
+                                            <!-- Primera fila: Información de Conexión -->
+                                            <div class="row">
+                                                <div class="column">
+                                                    <h3>Información de Conexión</h3>
+                                                    <form class="ui form">
+                                                        <div class="field">
+                                                            <label>Usuario</label>
+                                                            <input type="text" name="username" placeholder="Usuario">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Contraseña</label>
+                                                            <input type="password" name="password" placeholder="Contraseña">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Email</label>
+                                                            <input type="email" name="email" placeholder="Email">
+                                                        </div>
+                                                        <div class="ui divider"></div>
+                                                    </form>
+                                                </div>
+                                                <div class="column">
+                                                    <h3>Información Laboral</h3>
+                                                    <form class="ui form">
+                                                        <div class="field">
+                                                            <label>Seleccionar Empresa</label>
+                                                            <div class="ui selection dropdown">
+                                                                <input type="hidden" name="empresa">
+                                                                <i class="dropdown icon"></i>
+                                                                <div class="default text">Empresa</div>
+                                                                <div class="menu">
+                                                                    <div class="item" data-value="0">Cualquier Empresa</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Seleccionar Rol</label>
+                                                            <div class="ui selection dropdown">
+                                                                <input type="hidden" name="rol">
+                                                                <i class="dropdown icon"></i>
+                                                                <div class="default text">Rol</div>
+                                                                <div class="menu">
+                                                                    <div class="item" data-value="0">Administrador</div>
+                                                                    <div class="item" data-value="1">Empleado</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Seleccionar Estado</label>
+                                                            <div class="ui selection dropdown">
+                                                                <input type="hidden" name="estado">
+                                                                <i class="dropdown icon"></i>
+                                                                <div class="default text">Estado</div>
+                                                                <div class="menu">
+                                                                    <div class="item" data-value="0">Cat</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ui divider"></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- Segunda fila: Información Personal -->
+                                            <div class="row">
+                                                <div class="column">
+                                                    <h3>Información Personal</h3>
+                                                    <form class="ui form">
+                                                        <div class="field">
+                                                            <label>Nombre</label>
+                                                            <input type="text" name="first-name" placeholder="Nombre">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Apellido Paterno</label>
+                                                            <input type="text" name="last-name" placeholder="Apellido Paterno">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Apellido Materno</label>
+                                                            <input type="text" name="middle-name" placeholder="Apellido Materno">
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Teléfono</label>
+                                                            <input type="text" name="phone" placeholder="Teléfono">
+                                                        </div>
+                                                        <div class="ui divider"></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
                                 <button id="guardarCambiosGestion" class="ui primary button">Guardar cambios</button>
                             </div>
                         </div>
@@ -142,12 +238,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <!-- Fin Perfil General-->
             </div>
         </div>
-
-
-
     </div>
-
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
@@ -158,6 +249,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         $('#estado-dropdown').on('change', function() {
             var nuevoEstado = $(this).val();
             $('#estado-label').text(nuevoEstado);
+        });
+        $('#crearUsuario').on('click', function() {
+            $('#modalUsuario').modal('show');
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
