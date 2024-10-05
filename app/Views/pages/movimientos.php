@@ -13,7 +13,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movimientos</title>
+    <title>OptiFlow - Movimientos</title>
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
@@ -184,7 +184,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- <script src="/assets/js/charts.js"></script> -->
 
         <!-- Scripts -->
-        <script>
+        <!-- <script>
             $(".menu .item").tab();
             $(".ui.dropdown").dropdown();
 
@@ -192,7 +192,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 var nuevoEstado = $(this).val();
                 $('#estado-label').text(nuevoEstado);
             });
-        </script>
+        </script> -->
 
     </div>
 </body>

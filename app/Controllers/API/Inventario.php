@@ -14,8 +14,6 @@ class Inventario extends ResourceController
    * llenadoMovimiento()
    * PR_10_LLENADO_MOVIMIENTOS
    */
-
-
   public function llenadoMovimiento()
   {
     // Permitir CORS
@@ -35,7 +33,7 @@ class Inventario extends ResourceController
 
       // Validar que el ID de usuario exista y sea numérico
       if (!isset($json->P_IDUSUARIO) || !is_numeric($json->P_IDUSUARIO)) {
-        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID del usuario o es inválido']);
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID del usuario o es inválido 🟡']);
       }
 
       $P_IDUSUARIO = $json->P_IDUSUARIO;
@@ -59,21 +57,21 @@ class Inventario extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "ID_MOVIMIENTO" => $row['ID_MOVIMIENTO'],
-            "DESCRIPCION_MOVIMIENTO" => $row['DESCRIPCION_MOVIMIENTO'],
-            "RESPONSABLE" => $row['RESPONSABLE'],
-            "FECHA_MOVIMIENTO" => $row['FECHA_MOVIMIENTO'],
-            "NOTA" => $row['NOTA'],
-            "TOTAL_MOVIMIENTO" => $row['TOTAL_MOVIMIENTO'],
-            "DESCRIPCION" => $row['DESCRIPCION'],
-            "DESCRIPCION_PAGO" => $row['DESCRIPCION_PAGO'],
+            "ID_MOVIMIENTO"           => $row['ID_MOVIMIENTO'],
+            "DESCRIPCION_MOVIMIENTO"  => $row['DESCRIPCION_MOVIMIENTO'],
+            "RESPONSABLE"             => $row['RESPONSABLE'],
+            "FECHA_MOVIMIENTO"        => $row['FECHA_MOVIMIENTO'],
+            "NOTA"                    => $row['NOTA'],
+            "TOTAL_MOVIMIENTO"        => $row['TOTAL_MOVIMIENTO'],
+            "DESCRIPCION"             => $row['DESCRIPCION'],
+            "DESCRIPCION_PAGO"        => $row['DESCRIPCION_PAGO'],
           ];
         }
 
         // Devolver los resultados procesados como JSON
         return $this->respond([
-          'success' => true,
-          'response' => $response
+          'success'   => true,
+          'response'  => $response
         ]);
       } catch (\Exception $e) {
         // Manejar excepciones
@@ -86,7 +84,7 @@ class Inventario extends ResourceController
   }
 
   /**
-   * 
+   * llenadoDetalleMovimiento()
    * PR_11_LLENADO_DETALLE_MOVIMIENTO
    */
   public function llenadoDetalleMovimiento()
@@ -138,20 +136,20 @@ class Inventario extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "ID_MOVIMIENTO" => $row['ID_MOVIMIENTO'],
-            "ITEM" => $row['ITEM'],
-            "ID_LOTE" => $row['ID_LOTE'],
-            "CANTIDAD" => $row['CANTIDAD'],
-            "PRECIO" => $row['PRECIO'],
-            "DESCRIPCION_PRODUCTO" => $row['DESCRIPCION_PRODUCTO'],
-            "TOTAL" => $row['TOTAL'],
+            "ID_MOVIMIENTO"         => $row['ID_MOVIMIENTO'],
+            "ITEM"                  => $row['ITEM'],
+            "ID_LOTE"               => $row['ID_LOTE'],
+            "CANTIDAD"              => $row['CANTIDAD'],
+            "PRECIO"                => $row['PRECIO'],
+            "DESCRIPCION_PRODUCTO"  => $row['DESCRIPCION_PRODUCTO'],
+            "TOTAL"                 => $row['TOTAL'],
           ];
         }
 
         // respuesta de $response
         return $this->respond([
-          'success' => true,
-          'response' => $response
+          'success'   => true,
+          'response'  => $response
         ]);
       } catch (\Exception $e) {
         // Manejar excepciones

@@ -3,7 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Models\UsuarioModel;
-use CodeIgniter\RESTful\ResourceController;  
+use CodeIgniter\RESTful\ResourceController;
 use Config\Database;
 // use Firebase\JWT\JWT;
 // use Firebase\JWT\Key;
@@ -199,59 +199,58 @@ class Usuarios extends ResourceController
    * PR_06_ACTUALIZAR_ESTADO_USUARIO
    */
   public function actualizarEstado()
-{
+  {
     $this->response->setHeader('Access-Control-Allow-Origin', 'https://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
 
     if ($this->request->getMethod() === 'options') {
-        return $this->response->setStatusCode(200);
+      return $this->response->setStatusCode(200);
     }
 
     try {
-        $input = $this->request->getJSON();
+      $input = $this->request->getJSON();
 
-        if (!is_array($input)) {
-            return $this->failValidationErrors('Se esperaba un arreglo de usuarios.');
+      if (!is_array($input)) {
+        return $this->failValidationErrors('Se esperaba un arreglo de usuarios. 🟡');
+      }
+
+      $db = \Config\Database::connect();
+      $results = [];
+
+      foreach ($input as $usuario) {
+        if (!isset($usuario->id_usuario) || !isset($usuario->ID_ESTADO)) {
+          return $this->failValidationErrors('ID_ESTADO y ID_USUARIO son requeridos para cada usuario. 🟡');
         }
 
-        $db = \Config\Database::connect();
-        $results = [];
+        // Ejecutamos el procedimiento almacenado para cada usuario
+        $query = $db->query("CALL PR_06_ACTUALIZAR_ESTADO_USUARIO(?, ?)", [$usuario->id_usuario, $usuario->ID_ESTADO]);
+        $result = $query->getRowArray();
 
-        foreach ($input as $usuario) {
-            if (!isset($usuario->id_usuario) || !isset($usuario->ID_ESTADO)) {
-                return $this->failValidationErrors('ID_ESTADO y ID_USUARIO son requeridos para cada usuario.');
-            }
-
-            // Ejecutamos el procedimiento almacenado para cada usuario
-            $query = $db->query("CALL PR_06_ACTUALIZAR_ESTADO_USUARIO(?, ?)", [$usuario->id_usuario, $usuario->ID_ESTADO]);
-            $result = $query->getRowArray();
-
-            if ($result && isset($result['VALIDACION'])) {
-                $results[] = [
-                    'id_usuario' => $usuario->id_usuario,
-                    'VALIDACION' => $result['VALIDACION'],
-                    'message' => $result['VALIDACION'] == 1 ? 'Actualización exitosa' : 'No se pudo actualizar'
-                ];
-            } else {
-                $results[] = [
-                    'id_usuario' => $usuario->id_usuario,
-                    'VALIDACION' => 0,
-                    'message' => 'Error al ejecutar el procedimiento o usuario no encontrado.'
-                ];
-            }
+        if ($result && isset($result['VALIDACION'])) {
+          $results[] = [
+            'id_usuario'  => $usuario->id_usuario,
+            'VALIDACION'  => $result['VALIDACION'],
+            'message'     => $result['VALIDACION'] == 1 ? 'Actualización exitosa' : 'No se pudo actualizar'
+          ];
+        } else {
+          $results[] = [
+            'id_usuario'  => $usuario->id_usuario,
+            'VALIDACION'  => 0,
+            'message'     => 'Error al ejecutar el procedimiento o usuario no encontrado.'
+          ];
         }
+      }
 
-        return $this->respond([
-            'success' => true,
-            'response' => $results,
-        ]);
-
+      return $this->respond([
+        'success'   => true,
+        'response'  => $results,
+      ]);
     } catch (\Exception $e) {
-        return $this->failServerError('Error al actualizar el perfil: ' . $e->getMessage());
+      return $this->failServerError('Error al actualizar el perfil: 🟡' . $e->getMessage());
     }
-}
+  }
 
 
 
@@ -278,12 +277,12 @@ class Usuarios extends ResourceController
     $results = $gestionQuery->getResultArray();
 
     if (empty($results)) {
-      return $this->failValidationErrors('No se encontraron estados');
+      return $this->failValidationErrors('No se encontraron estados 🟡');
     }
 
     return $this->respond([
       'success' => true,
-      'data' => $results
+      'data'    => $results
     ]);
   }
 
@@ -308,7 +307,7 @@ class Usuarios extends ResourceController
     $input = $this->request->getJSON();
 
     if (!isset($input->ID_USUARIO)) {
-      return $this->failValidationErrors('ID_USUARIO es requerido');
+      return $this->failValidationErrors('ID_USUARIO es requerido 🟡');
     }
 
     $db = \Config\Database::connect();
@@ -320,23 +319,23 @@ class Usuarios extends ResourceController
     $results = $gestionQuery->getResultArray();
 
     if (empty($results)) {
-      return $this->failValidationErrors('Datos no gestionados correctamente o no se encontraron usuarios');
+      return $this->failValidationErrors('Datos no gestionados correctamente o no se encontraron usuarios 🔴');
     }
 
     // Formatear la respuesta
     $usuarios = [];
     foreach ($results as $result) {
       $usuarios[] = [
-        "ID_USUARIO" => $result['ID_USUARIO'],
-        "NOMBRE_USUARIO" => $result['NOMBRE_USUARIO'],
-        "EMAIL" => $result['EMAIL'],
-        "ESTADO" => $result['ESTADO'],
+        "ID_USUARIO"      => $result['ID_USUARIO'],
+        "NOMBRE_USUARIO"  => $result['NOMBRE_USUARIO'],
+        "EMAIL"           => $result['EMAIL'],
+        "ESTADO"          => $result['ESTADO'],
       ];
     }
 
     return $this->respond([
-      'success' => true,
-      'response' => $usuarios
+      'success'   => true,
+      'response'  => $usuarios
     ]);
   }
 
@@ -381,8 +380,8 @@ class Usuarios extends ResourceController
       }
 
       return $this->respond([
-        'success' => true,
-        'response' => [
+        'success'   => true,
+        'response'  => [
           'VALIDACION' => $validationResult['VALIDACION'],
         ]
       ]);
@@ -455,12 +454,20 @@ class Usuarios extends ResourceController
 
       // Verificar si se trae la información del perfil
       if (!$result) {
-        return $this->failValidationErrors('Perfil/Datos no encontrados');
+        return $this->failValidationErrors('Perfil/Datos no encontrados 🔴');
       }
 
       // Devolver los datos del perfil
       return $this->respond([
         'success' => true,
+        'perfil'  => [
+          'nombre_usuario' => $result['NOMBRE_USUARIO'],
+          'email'          => $result['EMAIL'],
+          'nombre'         => $result['NOMBRE'],
+          'apaterno'       => $result['APATERNO'],
+          'amaterno'       => $result['AMATERNO'],
+          'telefono'       => $result['TELEFONO'],
+          // 'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
         'perfil' => [
           'nombre_usuario' =>     $result['NOMBRE_USUARIO'],
           'email' =>              $result['EMAIL'],
@@ -472,7 +479,7 @@ class Usuarios extends ResourceController
         ]
       ]);
     } catch (\Exception $e) {
-      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+      return $this->failServerError('Ocurrió un error en el servidor: 🔴' . $e->getMessage());
     }
   }
 
@@ -500,7 +507,7 @@ class Usuarios extends ResourceController
 
       // Validar que los campos de email y contraseña existan
       if (!isset($input->email) || !isset($input->contrasenia)) {
-        return $this->failValidationErrors('Correo o contraseña no proporcionados');
+        return $this->failValidationErrors('Correo o contraseña no proporcionados 🔴');
       }
 
       // Conectar a la base de datos
@@ -514,39 +521,39 @@ class Usuarios extends ResourceController
 
       // Verificar si se obtuvo el usuario con los datos solicitados
       if (!$result || !isset($result['ID_USUARIO']) || !isset($result['EMAIL']) || !isset($result['NOMBRE_USUARIO']) || !isset($result['ROL']) || !isset($result['NOMBRE']) || !isset($result['APATERNO'])) {
-        return $this->failValidationErrors('Email no encontrado o contraseña incorrecta');
+        return $this->failValidationErrors('Email no encontrado o contraseña incorrecta 🔴');
       }
 
       // Almacenar los datos del usuario en la sesión
       $session->set([
-        'loggedin' => true,
-        'user_id' => $result['ID_USUARIO'],
-        'email' => $result['EMAIL'],
-        'nombre_usuario' => $result['NOMBRE_USUARIO'],
-        'rol' => $result['ROL'],
-        'nombre' => $result['NOMBRE'],
-        'apaterno' => $result['APATERNO']
+        'loggedin'        => true,
+        'user_id'         => $result['ID_USUARIO'],
+        'email'           => $result['EMAIL'],
+        'nombre_usuario'  => $result['NOMBRE_USUARIO'],
+        'rol'             => $result['ROL'],
+        'nombre'          => $result['NOMBRE'],
+        'apaterno'        => $result['APATERNO']
       ]);
 
       // Responder con éxito, devolviendo los datos del usuario
       return $this->respond([
         'success' => true,
         'message' => 'Login exitoso',
-        'user' => [
-          'id_usuario' => $result['ID_USUARIO'],
-          'email' => $result['EMAIL'],
-          'nombre_usuario' => $result['NOMBRE_USUARIO'],
-          'rol' => $result['ROL'],
-          'nombre' => $result['NOMBRE'],
-          'apaterno' => $result['APATERNO']
+        'user'    => [
+          'id_usuario'      => $result['ID_USUARIO'],
+          'email'           => $result['EMAIL'],
+          'nombre_usuario'  => $result['NOMBRE_USUARIO'],
+          'rol'             => $result['ROL'],
+          'nombre'          => $result['NOMBRE'],
+          'apaterno'        => $result['APATERNO']
         ]
       ]);
     } catch (\Exception $e) {
       log_message('error', 'Login Error: ' . $e->getMessage());
-      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+      return $this->failServerError('Ocurrió un error en el servidor: 🔴' . $e->getMessage());
     }
   }
-  
+
 
 
 
@@ -565,8 +572,8 @@ class Usuarios extends ResourceController
     if (!empty($data->email)) {
       // Guardar los datos en la sesión
       $session->set([
-        'email' => $data->email,
-        'loggedin' => true,
+        'email'     => $data->email,
+        'loggedin'  => true,
       ]);
 
       return $this->response->setJSON(['status' => 'success']);
@@ -647,7 +654,7 @@ class Usuarios extends ResourceController
       return $this->respond(['message' => 'Correo enviado correctamente']);
     } else {
       $data = $email->printDebugger(['headers']);
-      return $this->failServerError($data); // Muestra el error en caso de fallar
+      return $this->failServerError($data);
     }
   }
 }
