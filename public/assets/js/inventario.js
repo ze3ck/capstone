@@ -3,7 +3,11 @@ $(document).ready(function () {
 
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
   $("#addProductButton").on("click", function () {
-    $("#productModal").modal("show");
+    $("#productModal")
+      .modal({
+        centered: true, // Esto asegura que el modal esté centrado
+      })
+      .modal("show");
   });
 
   // Acción para agregar un nuevo producto

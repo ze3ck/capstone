@@ -14,6 +14,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OptiFlow - Inventario</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="/assets/css/inventario.css" />
     <link rel="stylesheet" href="/assets/css/styles.css" />
     <script src="/assets/js/inventario.js"></script>
