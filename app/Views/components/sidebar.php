@@ -4,7 +4,7 @@
     <a class="item" href="<?= site_url('dashboard') ?>">
       Resumen
     </a>
-    <a class="item">
+    <a class="item" href="<?= site_url('movimientos') ?>">
       Movimientos
     </a>
     <a class="item" href="<?= site_url('inventario') ?>">

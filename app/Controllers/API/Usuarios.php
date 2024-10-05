@@ -3,7 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Models\UsuarioModel;
-use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\RESTful\ResourceController;  
 use Config\Database;
 // use Firebase\JWT\JWT;
 // use Firebase\JWT\Key;
@@ -199,48 +199,60 @@ class Usuarios extends ResourceController
    * PR_06_ACTUALIZAR_ESTADO_USUARIO
    */
   public function actualizarEstado()
-  {
+{
     $this->response->setHeader('Access-Control-Allow-Origin', 'https://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
 
     if ($this->request->getMethod() === 'options') {
-      return $this->response->setStatusCode(200);
+        return $this->response->setStatusCode(200);
     }
 
     try {
-      $input = $this->request->getJSON();
+        $input = $this->request->getJSON();
 
-      if (!isset($input->ID_USUARIO) || !isset($input->ID_ESTADO)) {
-        return $this->failValidationErrors('ID_ESTADO y ID_USUARIO son requeridos');
-      }
-
-      $db = \Config\Database::connect();
-
-      $query = $db->query("CALL PR_06_ACTUALIZAR_ESTADO_USUARIO(?, ?)", [$input->ID_USUARIO, $input->ID_ESTADO]);
-
-      $result = $query->getRowArray();
-
-      if ($result && isset($result['VALIDACION'])) {
-        if ($result['VALIDACION'] == 1) {
-          return $this->respond([
-            'success' => true,
-            'response' => [
-              'VALIDACION' => $result['VALIDACION'],
-              'message' => 'Estado del usuario actualizado correctamente.'
-            ]
-          ]);
-        } else {
-          return $this->failValidationErrors('No se pudo actualizar el estado del usuario.');
+        if (!is_array($input)) {
+            return $this->failValidationErrors('Se esperaba un arreglo de usuarios.');
         }
-      } else {
-        return $this->failValidationErrors('Error al ejecutar el procedimiento o usuario no encontrado.');
-      }
+
+        $db = \Config\Database::connect();
+        $results = [];
+
+        foreach ($input as $usuario) {
+            if (!isset($usuario->id_usuario) || !isset($usuario->ID_ESTADO)) {
+                return $this->failValidationErrors('ID_ESTADO y ID_USUARIO son requeridos para cada usuario.');
+            }
+
+            // Ejecutamos el procedimiento almacenado para cada usuario
+            $query = $db->query("CALL PR_06_ACTUALIZAR_ESTADO_USUARIO(?, ?)", [$usuario->id_usuario, $usuario->ID_ESTADO]);
+            $result = $query->getRowArray();
+
+            if ($result && isset($result['VALIDACION'])) {
+                $results[] = [
+                    'id_usuario' => $usuario->id_usuario,
+                    'VALIDACION' => $result['VALIDACION'],
+                    'message' => $result['VALIDACION'] == 1 ? 'Actualización exitosa' : 'No se pudo actualizar'
+                ];
+            } else {
+                $results[] = [
+                    'id_usuario' => $usuario->id_usuario,
+                    'VALIDACION' => 0,
+                    'message' => 'Error al ejecutar el procedimiento o usuario no encontrado.'
+                ];
+            }
+        }
+
+        return $this->respond([
+            'success' => true,
+            'response' => $results,
+        ]);
+
     } catch (\Exception $e) {
-      return $this->failServerError('Error al actualizar el perfil: ' . $e->getMessage());
+        return $this->failServerError('Error al actualizar el perfil: ' . $e->getMessage());
     }
-  }
+}
+
 
 
   /**
@@ -456,7 +468,7 @@ class Usuarios extends ResourceController
           'apaterno' =>           $result['APATERNO'],
           'amaterno' =>           $result['AMATERNO'],
           'telefono' =>           $result['TELEFONO'],
-          'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
+          // 'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
         ]
       ]);
     } catch (\Exception $e) {
@@ -534,6 +546,7 @@ class Usuarios extends ResourceController
       return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
     }
   }
+  
 
 
 

@@ -93,12 +93,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <label>Teléfono</label>
                                 <input id="telefono" type="text" />
                             </div>
-                            <div class="field">
+                            <!-- <div class="field">
                                 <label>Estado</label>
                                 <p id="estado-label" class="ui label">
 
                                 </p>
-                            </div>
+                            </div> -->
                         </form>
                         <div class="ui right aligned grid">
                             <div class="column">
@@ -111,7 +111,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <table id="t_gestion_usuarios" class="ui celled table stackable">
                             <thead>
                                 <tr>
-                                    <th>ID Usuario</th>
+                                    <th>ID Usuario</th> 
                                     <th>Nombre Usuario</th>
                                     <th>Email</th>
                                     <th>Estado</th>

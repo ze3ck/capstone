@@ -2,6 +2,7 @@
 
 use App\Controllers\API\Usuarios;
 use CodeIgniter\Router\RouteCollection;
+use APP\Controllers\API\Inventario;
 
 /**
  * @var RouteCollection $routes
@@ -32,6 +33,9 @@ $routes->get('inventario', 'Home::inventario');
 // enviarSoporte
 $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 
+//movimientos
+$routes->post('movimientos', 'Home::movimientos');
+$routes->get('movimientos', 'Home::movimientos');
 
 
 /**
@@ -42,13 +46,22 @@ $routes->group(
   ['namespace' => 'App\Controllers\API', 'filter' => 'cors'],
   function ($routes) {
 
-    // Rutas para manejar las peticiones preflight OPTIONS
+    // Rutas para manejar las peticiones preflight OPTIONS | Usuarios
     $routes->options('usuarios', function () {
       return response()->setStatusCode(204); // Responder con 204 No Content
     });
     $routes->options('usuarios/(:any)', function () {
       return response()->setStatusCode(204);
     });
+
+    // Rutas para manejar las peticiones preflight OPTIONS | Inventario
+    $routes->options('inventario', function () {
+      return response()->setStatusCode(204); // Responder con 204 No Content
+    });
+    $routes->options('inventario/(:any)', function () {
+      return response()->setStatusCode(204);
+    });
+
 
     /**
      * RESTful API's: others
@@ -67,5 +80,11 @@ $routes->group(
     $routes->post('usuarios/gestionarUsuarios', 'Usuarios::gestionarUsuarios');
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
+
+    /**
+     * RESTful API's: Controllers\API\Inventario
+     */
+    $routes->post('inventario/llenadoMovimiento', 'Inventario::llenadoMovimiento');
   }
+
 );
