@@ -173,6 +173,67 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
 
             </div>
+
+            <!-- Modal para Generar Salida de Producto -->
+            <div class="ui modal" id="modalGenerarSalida">
+                <div class="header">Nueva Salida de Producto</div>
+                <div class="content">
+                    <form class="ui form">
+                        <div class="field">
+                            <label>Producto</label>
+                            <select class="ui dropdown" name="producto" id="productoDropdown">
+                                <option value="">Seleccionar</option>
+                                <option value="1">ENTRADA DE LAPTOPS AL INVENTARIO</option>
+                                <option value="2">SALIDA DE ROUTERS PARA CLIENTE</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Disponibilidad en Inventario</label>
+                            <b >10</b>
+                        </div>
+                        <div class="field">
+                            <label>Tipo de Pago</label>
+                            <b>Efectivo</b>
+                        </div>
+                        <div class="field">
+                            <label>Cantidad</label>
+                            <input type="number" name="cantidad" placeholder="Cantidad">
+                        </div>
+                        <div class="field">
+                            <label>Precio ($)</label>
+                            <input type="number" name="precio" placeholder="1000" min="0" step="0.01">
+                        </div>
+                        <div class="field">
+                            <label>Descuento (%)</label>
+                            <input type="number" name="descuento" placeholder="0">
+                        </div>
+                        <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
+
+                        <table class="ui celled table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Unidad</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productList">
+                            </tbody>
+                        </table>
+
+                        <div class="ui grid">
+                            <div class="four wide column">TOTAL:</div>
+                            <div class="twelve wide column right aligned">
+                                <strong>$<span id="totalAmount">0</span></strong>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="actions">
+                    <button class="ui red button" id="cancelarSalidaBtn">Cancelar</button>
+                    <button class="ui green button" id="generarSalidaBtn">Generar Salida</button>
+                </div>
+            </div>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -115,16 +115,19 @@ async function llenarTblDetalleMovimiento(ID_MOVIMIENTO) {
   $("#tblDetalleMovimientos tbody tr").remove();
   // console.log(usuario)
 
-  const response = await fetch(`${API_BASE_URL}inventario/llenadoDetalleMovimiento`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      P_IDMOVIMIENTO: ID_MOVIMIENTO,
-    }),
-  });
+  const response = await fetch(
+    `${API_BASE_URL}inventario/llenadoDetalleMovimiento`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDMOVIMIENTO: ID_MOVIMIENTO,
+      }),
+    }
+  );
   const data = await response.json();
 
   console.log("Datos de la respuesta:", data);
@@ -186,3 +189,50 @@ function cargarFilasDetalleMovimientos(
   // Finalmente, agregar la fila a la tabla
   tablaVisor.appendChild(tr);
 }
+
+$(document).ready(function () {
+  // Mostrar el modal cuando se haga clic en el botón "Generar Salida Producto"
+  $(".ui.blue.button").on("click", function () {
+    $("#modalGenerarSalida").modal("show");
+  });
+
+  let total = 0;
+
+  // Función para agregar producto
+  $("#agregarProducto").on("click", function () {
+    const producto = $("#productoDropdown").dropdown("get value");
+    const cantidad = $('input[name="cantidad"]').val();
+    const precio = 1000; // Simulación del precio
+
+    if (producto && cantidad > 0) {
+      const subtotal = precio * cantidad;
+      total += subtotal;
+
+      // Añadir el producto a la tabla
+      $("#productList").append(`
+              <tr>
+                  <td>${producto}</td>
+                  <td>${cantidad}</td>
+                  <td>$${subtotal}</td>
+              </tr>
+          `);
+
+      // Actualizar el total
+      $("#totalAmount").text(total);
+    } else {
+      alert("Por favor seleccione un producto y una cantidad válida");
+    }
+  });
+
+  // Función para generar salida
+  $("#generarSalidaBtn").on("click", function () {
+    // Aquí puedes añadir la lógica para generar la salida y enviarla al backend.
+    alert("Salida generada con éxito");
+    $("#modalGenerarSalida").modal("hide");
+  });
+
+  // Función para cerrar el modal al hacer clic en el botón "Cancelar"
+  $("#cancelarSalidaBtn").on("click", function () {
+    $("#modalGenerarSalida").modal("hide");
+  });
+});
