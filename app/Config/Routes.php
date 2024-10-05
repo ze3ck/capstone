@@ -2,7 +2,7 @@
 
 use App\Controllers\API\Usuarios;
 use CodeIgniter\Router\RouteCollection;
-use APP\Controllers\API\Inventario;
+use App\Controllers\API\Inventario;
 
 /**
  * @var RouteCollection $routes
@@ -81,10 +81,11 @@ $routes->group(
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
 
+
     /**
      * RESTful API's: Controllers\API\Inventario
      */
     $routes->post('inventario/llenadoMovimiento', 'Inventario::llenadoMovimiento');
+    $routes->post('inventario/llenadoDetalleMovimiento', 'Inventario::llenadoDetalleMovimiento');
   }
-
 );
