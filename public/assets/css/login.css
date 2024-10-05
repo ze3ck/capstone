@@ -513,22 +513,22 @@ header h2:nth-of-type(4) {
 
 /* Modal Soporte tecnico */
 #enviarSoporte {
-  background-color: #f37281;;
+  background-color: #f37281;
 }
 
 #enviarSoporte:hover {
-  background-color: #f74a5e;;
+  background-color: #f74a5e;
 }
 
 #soporteModal .ui.form input[type="email"],
 #soporteModal .ui.form textarea {
-  color: black !important;  
+  color: black !important;
   background-color: white !important;
 }
 
 #soporteModal .ui.form input[type="email"]::placeholder,
 #soporteModal .ui.form textarea::placeholder {
-  color: #666 !important; 
+  color: #666 !important;
 }
 
 .redirect-overlay {
@@ -539,4 +539,8 @@ header h2:nth-of-type(4) {
   height: 100%;
   background-color: #ffffff; /* Puedes cambiar el color o agregar un gradiente */
   z-index: 1000;
+}
+
+.fas {
+  font-size: 22px;
 }
