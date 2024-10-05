@@ -460,14 +460,7 @@ class Usuarios extends ResourceController
       // Devolver los datos del perfil
       return $this->respond([
         'success' => true,
-        'perfil'  => [
-          'nombre_usuario' => $result['NOMBRE_USUARIO'],
-          'email'          => $result['EMAIL'],
-          'nombre'         => $result['NOMBRE'],
-          'apaterno'       => $result['APATERNO'],
-          'amaterno'       => $result['AMATERNO'],
-          'telefono'       => $result['TELEFONO'],
-          // 'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
+        // 'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
         'perfil' => [
           'nombre_usuario' =>     $result['NOMBRE_USUARIO'],
           'email' =>              $result['EMAIL'],
