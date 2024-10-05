@@ -3,15 +3,22 @@ import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const botonGuardar = document.getElementById("guardarCambios");
-
   // Asegúrate de que el botón exista en el DOM antes de agregar el evento
   if (guardarCambios) {
     botonGuardar.addEventListener("click", function () {
       guardarCambios();
     });
   }
-
   cargarPerfil();
+  // rol = document.getElementById('ROL').innerHTML.trim();
+  // if (rol == 1) {
+
+  //   var thirdTab = document.querySelector('[data-tab="user-management"]');
+  //   if (thirdTab) {
+  //     thirdTab.style.display = 'block'; // Asegurar que se muestre
+  //   }
+  // }
+
 });
 
 async function cargarPerfil() {
@@ -54,13 +61,22 @@ async function cargarPerfil() {
     // }
 
     // estado-label.inner
-    document.getElementById("nombre_usuario").value =
-      data.perfil.nombre_usuario;
+    document.getElementById("nombre_usuario").value = data.perfil.nombre_usuario;
     document.getElementById("email").value = data.perfil.email;
     document.getElementById("nombre").value = data.perfil.nombre;
     document.getElementById("apaterno").value = data.perfil.apaterno;
     document.getElementById("amaterno").value = data.perfil.amaterno;
     document.getElementById("telefono").value = data.perfil.telefono;
+    document.getElementById("ROL").value = data.perfil.rol;
+
+    var rol = document.getElementById('ROL').value.trim();
+    if (rol == 1) {
+
+      var thirdTab = document.querySelector('[data-tab="user-management"]');
+      if (thirdTab) {
+        thirdTab.style.display = 'block'; // Asegurar que se muestre
+      }
+    }
     // document.getElementById("estado-label").innerHTML =
     //   data.perfil.descripcion_estado;
 
@@ -273,17 +289,17 @@ async function obtenerDatosTabla() {
 
   // Verificar si la respuesta tiene éxito
   const data = await response.json();
-console.log("Datos de la respuesta:", data);
+  console.log("Datos de la respuesta:", data);
 
-// Verificar si la respuesta tiene éxito
-if (data.success === true) {
-  data.response.forEach((usuario) => {
-    console.log(`Usuario ${usuario.id_usuario}: ${usuario.message}`);
-  });
-  mensaje("success", 2000, "Datos Actualizados Exitosamente");
-} else {
-  console.error("Mensaje de error del servidor:", data.message);
-}
+  // Verificar si la respuesta tiene éxito
+  if (data.success === true) {
+    data.response.forEach((usuario) => {
+      console.log(`Usuario ${usuario.id_usuario}: ${usuario.message}`);
+    });
+    mensaje("success", 2000, "Datos Actualizados Exitosamente");
+  } else {
+    console.error("Mensaje de error del servidor:", data.message);
+  }
 
 }
 

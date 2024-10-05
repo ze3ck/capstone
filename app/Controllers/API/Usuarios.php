@@ -468,7 +468,7 @@ class Usuarios extends ResourceController
           'apaterno' =>           $result['APATERNO'],
           'amaterno' =>           $result['AMATERNO'],
           'telefono' =>           $result['TELEFONO'],
-          // 'descripcion_estado' => $result['DESCRIPCION_ESTADO'],
+          'rol' =>                $result['ROL'],
         ]
       ]);
     } catch (\Exception $e) {

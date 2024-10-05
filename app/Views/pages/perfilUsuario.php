@@ -61,7 +61,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <!--Menu lateral, si quieren lo eliminan o lo agregan al sidebar-->
                     <div class="ui vertical fluid tabular menu">
                         <a class="item active" data-tab="general">General</a>
-                        <a class="item" data-tab="user-management">Gestionar usuarios</a>
+                        <a class="item" data-tab="user-management" style="display: none;">Gestionar usuarios</a>
                     </div>
                     <!--Fin Menu -->
                 </div>
@@ -92,6 +92,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <div class="field">
                                 <label>Teléfono</label>
                                 <input id="telefono" type="text" />
+                            </div>
+                            <div class="field" style="display: none;">
+                                <label>ROL</label>
+                                <input id="ROL" type="text" />
                             </div>
                             <!-- <div class="field">
                                 <label>Estado</label>
