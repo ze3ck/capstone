@@ -32,12 +32,9 @@ $routes->get('inventario', 'Home::inventario');
 // enviarSoporte
 $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 
-<<<<<<< Updated upstream
-=======
 //movimientos
 $routes->post('movimientos', 'Home::movimientos');
 $routes->get('movimientos', 'Home::movimientos');
->>>>>>> Stashed changes
 
 
 /**

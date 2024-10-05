@@ -135,7 +135,7 @@ async function guardarCambios() {
     }
 
     if (!id_usuario) {
-      mensaje("error", 2000, "id_usuario no Puede Estár Vacío");
+      mensaje("error", 2000, "id_usuarioo no Puede Estár Vacío");
       ocultarLoader();
       return;
     }
