@@ -130,14 +130,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <input id="idlote" type="text" name="product-name" placeholder="Ej: Lote123" required />
                         </div>
                         <div class="field">
-                            <label>Categoría</label>
-                            <select id="categoria" name="category" class="ui dropdown" required>
-                                <option value="">Selecciona Categoría</option>
-                                <option value="fruits">Frutas y Verduras</option>
-                                <option value="dairy">Lácteos</option>
-                                <option value="bakery">Panadería</option>
-                                <option value="beverages">Bebidas</option>
-                            </select>
+                            
                         </div>
                     </div>
                     <div class="ui form">
@@ -166,10 +159,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <input type="number" name="unit-price" placeholder="Ej: 1000" step="0.01" required />
                         </div>
                     </div>
-                    <div class="field">
-                        <label>Proveedor</label>
-                        <input type="text" name="supplier" placeholder="Ej: Santiago Natural Food" required />
-                    </div>
+                    <label>Proveedor</label>
+                            <select id="dropdownProveedor" name="category" class="ui dropdown" required>
+                                <option value="">Selecciona Proveedor</option>
+                                <option value="fruits">Frutas y Verduras</option>
+                                <option value="dairy">Lácteos</option>
+                                <option value="bakery">Panadería</option>
+                                <option value="beverages">Bebidas</option>
+                            </select>
                     <div class="field">
                         <label>Fecha de Ingreso</label>
                         <input type="date" name="entry-date" required />
