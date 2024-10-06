@@ -221,7 +221,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Producto</th>
                         <th class="center aligned">Cantidad</th>
                         <th class="center aligned">Precio Unitario</th>
-                        <th class="center aligned">Categoría</th>
                         <th class="center aligned">Proveedor</th>
                         <th class="center aligned">Fecha de Ingreso</th>
                         <th colspan="2;" class="center aligned two wide">Acciones</th>
