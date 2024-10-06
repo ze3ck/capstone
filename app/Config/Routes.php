@@ -90,5 +90,6 @@ $routes->group(
      */
     $routes->post('inventario/llenadoMovimiento', 'Inventario::llenadoMovimiento');
     $routes->post('inventario/llenadoDetalleMovimiento', 'Inventario::llenadoDetalleMovimiento');
+    $routes->post('inventario/agregarProducto', 'Inventario::agregarProducto');
   }
 );

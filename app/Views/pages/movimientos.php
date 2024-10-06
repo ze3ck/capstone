@@ -28,7 +28,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    <script type="module" src="/assets/js/movimientos.js"></script>
 </head>
 
 <body>
@@ -189,7 +189,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                         <div class="field">
                             <label>Disponibilidad en Inventario</label>
-                            <b >10</b>
+                            <b>10</b>
                         </div>
                         <div class="field">
                             <label>Tipo de Pago</label>
@@ -241,7 +241,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-        <script type="module" src="/assets/js/movimientos.js"></script>
+
         <!-- <script src="/assets/js/charts.js"></script> -->
 
         <!-- Scripts -->

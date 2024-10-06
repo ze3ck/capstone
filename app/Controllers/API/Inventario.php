@@ -157,4 +157,21 @@ class Inventario extends ResourceController
       }
     }
   }
+
+  /**
+   * agregarProducto()
+   */
+  public function agregarProducto()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'https://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    // Responder a las solicitudes OPTIONS
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+    
+  }
 }
