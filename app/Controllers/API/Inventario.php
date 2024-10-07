@@ -176,4 +176,8 @@ class Inventario extends ResourceController
 
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
   }
+
+  /**
+   * 
+   */
 }
