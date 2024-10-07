@@ -84,12 +84,15 @@ $routes->group(
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
 
+    /**
+     * RESTful API's: Controllers\API\Movimientos
+     */
+    $routes->post('movimientos/llenadoMovimiento', 'Movimientos::llenadoMovimiento');
+    $routes->post('movimientos/llenadoDetalleMovimiento', 'Movimientos::llenadoDetalleMovimiento');
 
     /**
-     * RESTful API's: Controllers\API\Inventario
+     * RESTful API's: Controllers\API\Inventario-Productos
      */
-    $routes->post('inventario/llenadoMovimiento', 'Inventario::llenadoMovimiento');
-    $routes->post('inventario/llenadoDetalleMovimiento', 'Inventario::llenadoDetalleMovimiento');
     $routes->post('inventario/agregarProducto', 'Inventario::agregarProducto');
     $routes->post('inventario/llenarTablaProductos', 'Inventario::llenarTablaProductos');
     $routes->post('inventario/agregarNuevoProducto', 'Inventario::agregarNuevoProducto');
