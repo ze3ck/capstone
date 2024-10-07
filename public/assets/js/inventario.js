@@ -84,7 +84,7 @@ $(document).ready(function () {
     const filteredProducts = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm) ||
-        product.category.toLowerCase().includes(searchTerm) ||
+        // product.category.toLowerCase().includes(searchTerm) ||
         product.supplier.toLowerCase().includes(searchTerm)
     );
 

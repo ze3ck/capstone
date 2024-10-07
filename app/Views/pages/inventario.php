@@ -99,12 +99,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <label>Proveedor</label>
                         <input type="text" id="editSupplier" required />
                     </div>
-
                     <div class="field">
                         <label>Fecha de Ingreso</label>
                         <input type="date" id="editEntryDate" required />
                     </div>
-
                     <div class="actions">
                         <div id="saveEditProductModal" class="ui green approve button">
                             Guardar Cambios
@@ -130,7 +128,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <input id="idlote" type="text" name="product-name" placeholder="Ej: Lote123" required />
                         </div>
                         <div class="field">
-                            
+
                         </div>
                     </div>
                     <div class="ui form">
@@ -158,15 +156,19 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <label>Precio Unitario</label>
                             <input type="number" name="unit-price" placeholder="Ej: 1000" step="0.01" required />
                         </div>
+                        <div class="field">
+                            <label>Descripcion de Producto</label>
+                            <input type="text" name="desc-prod" placeholder="Descripcion" required />
+                        </div>
                     </div>
                     <label>Proveedor</label>
-                            <select id="dropdownProveedor" name="category" class="ui dropdown" required>
-                                <option value="">Selecciona Proveedor</option>
-                                <option value="fruits">Frutas y Verduras</option>
-                                <option value="dairy">Lácteos</option>
-                                <option value="bakery">Panadería</option>
-                                <option value="beverages">Bebidas</option>
-                            </select>
+                    <select id="dropdownProveedor" name="category" class="ui dropdown" required>
+                        <option value="">Selecciona Proveedor</option>
+                        <option value="fruits">Frutas y Verduras</option>
+                        <option value="dairy">Lácteos</option>
+                        <option value="bakery">Panadería</option>
+                        <option value="beverages">Bebidas</option>
+                    </select>
                     <div class="field">
                         <label>Fecha de Ingreso</label>
                         <input type="date" name="entry-date" required />
@@ -222,6 +224,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Cantidad</th>
                         <th class="center aligned">Precio Unitario</th>
                         <th class="center aligned">Proveedor</th>
+                        <th class="center aligned">Descripcion de Producto</th>
                         <th class="center aligned">Fecha de Ingreso</th>
                         <th colspan="2;" class="center aligned two wide">Acciones</th>
                     </tr>
