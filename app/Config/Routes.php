@@ -49,21 +49,26 @@ $routes->group(
   ['namespace' => 'App\Controllers\API', 'filter' => 'cors'],
   function ($routes) {
 
-    // Rutas para manejar las peticiones preflight OPTIONS | Usuarios
     $routes->options('usuarios', function () {
-      return response()->setStatusCode(204); // Responder con 204 No Content
+      return response()->setStatusCode(204);
     });
     $routes->options('usuarios/(:any)', function () {
       return response()->setStatusCode(204);
     });
 
-    // Rutas para manejar las peticiones preflight OPTIONS | Inventario
     $routes->options('inventario', function () {
-      return response()->setStatusCode(204); // Responder con 204 No Content
+      return response()->setStatusCode(204);
     });
     $routes->options('inventario/(:any)', function () {
       return response()->setStatusCode(204);
     });
+    $routes->options('movimientos', function () {
+      return response()->setStatusCode(204);
+    });
+    $routes->options('movimientos/(:any)', function () {
+      return response()->setStatusCode(204);
+    });
+
 
 
     /**
