@@ -12,7 +12,7 @@ async function llenarTablaMovimientos() {
   $("#tblMovimientos tbody tr").remove();
   console.log(id_usuario);
 
-  const response = await fetch(`${API_BASE_URL}inventario/llenadoMovimiento`, {
+  const response = await fetch(`${API_BASE_URL}movimientos/llenadoMovimiento`, {
     //             await fetch(`${API_BASE_URL}inventario/llenadoDetalleMovimiento`
     method: "POST",
     headers: {
@@ -116,7 +116,7 @@ async function llenarTblDetalleMovimiento(ID_MOVIMIENTO) {
   // console.log(usuario)
 
   const response = await fetch(
-    `${API_BASE_URL}inventario/llenadoDetalleMovimiento`,
+    `${API_BASE_URL}movimientos/llenadoDetalleMovimiento`,
     {
       method: "POST",
       headers: {

@@ -13,7 +13,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OptiFlow - Movimientos</title>
+    <title>OptiFlow | Movimientos</title>
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
@@ -26,7 +26,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    <script type="module" src="/assets/js/movimientos.js"></script>
 </head>
 
 <body>
@@ -188,6 +188,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <div class="field">
                             <label>Disponibilidad en Inventario</label>
                             <b>10</b>
+                            <b>10</b>
                         </div>
                         <div class="field">
                             <label>Tipo de Pago</label>
@@ -234,7 +235,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

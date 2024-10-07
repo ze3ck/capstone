@@ -48,22 +48,29 @@ $routes->group(
   'api',
   ['namespace' => 'App\Controllers\API', 'filter' => 'cors'],
   function ($routes) {
-
-    // Rutas para manejar las peticiones preflight OPTIONS | Usuarios
+    /**
+     * rutas preflight OPTIONS
+     */
     $routes->options('usuarios', function () {
-      return response()->setStatusCode(204); // Responder con 204 No Content
+      return response()->setStatusCode(204);
     });
     $routes->options('usuarios/(:any)', function () {
       return response()->setStatusCode(204);
     });
 
-    // Rutas para manejar las peticiones preflight OPTIONS | Inventario
     $routes->options('inventario', function () {
-      return response()->setStatusCode(204); // Responder con 204 No Content
+      return response()->setStatusCode(204);
     });
     $routes->options('inventario/(:any)', function () {
       return response()->setStatusCode(204);
     });
+    $routes->options('movimientos', function () {
+      return response()->setStatusCode(204);
+    });
+    $routes->options('movimientos/(:any)', function () {
+      return response()->setStatusCode(204);
+    });
+
 
 
     /**
@@ -84,11 +91,23 @@ $routes->group(
     $routes->get('usuarios/llenarEstadoUsuario', 'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado', 'Usuarios::actualizarEstado');
 
+    /**
+     * RESTful API's: Controllers\API\Movimientos
+     */
+    $routes->post('movimientos/llenadoMovimiento', 'Movimientos::llenadoMovimiento');
+    $routes->post('movimientos/llenadoDetalleMovimiento', 'Movimientos::llenadoDetalleMovimiento');
 
     /**
-     * RESTful API's: Controllers\API\Inventario
+     * RESTful API's: Controllers\API\Inventario-Productos
      */
-    $routes->post('inventario/llenadoMovimiento', 'Inventario::llenadoMovimiento');
-    $routes->post('inventario/llenadoDetalleMovimiento', 'Inventario::llenadoDetalleMovimiento');
+    $routes->post('inventario/agregarProducto', 'Inventario::agregarProducto');
+    $routes->post('inventario/llenarTablaProductos', 'Inventario::llenarTablaProductos');
+    $routes->post('inventario/agregarNuevoProducto', 'Inventario::agregarNuevoProducto');
+    $routes->post('inventario/selectProductos', 'Inventario::selectProductos');
+    $routes->get('inventario/selectUnidadMedida', 'Inventario::selectUnidadMedida');
+    $routes->post('inventario/selectProveedores', 'Inventario::selectProveedores');
+    $routes->post('inventario/nuevoLote', 'Inventario::nuevoLote');
   }
+
+
 );

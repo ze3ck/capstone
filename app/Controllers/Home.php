@@ -22,6 +22,12 @@ class Home extends BaseController
      */
     public function dashboard()
     {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+
         return view('pages/dashboard');
     }
 
@@ -30,6 +36,11 @@ class Home extends BaseController
      */
     public function perfilUsuario()
     {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
         return view('pages/perfilUsuario');
     }
     /**
@@ -38,15 +49,41 @@ class Home extends BaseController
 
     public function inventario()
     {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
         return view('pages/inventario');
     }
 
     /**
      * reportes
      */
-    public function reportes(){
+    public function reportes()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
         return view('pages/reportes');
     }
+
+    /**
+     * Movimientos
+     */
+
+    public function movimientos()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+        return view('pages/movimientos');
+    }
+
     /**
      * logut
      */
@@ -55,13 +92,4 @@ class Home extends BaseController
     {
         return view('pages/logut');
     }
-
-      /**
-     * Movimientos
-     */
-
-     public function movimientos()
-     {
-         return view('pages/movimientos');
-     }
 }

@@ -59,7 +59,6 @@ $(document).ready(function () {
                   <td data-label="producto">${product.name}</td>
                   <td data-label="cantidad">${product.quantity}</td>
                   <td data-label="precio_unitario">${product.unitPrice}</td>
-                  <td data-label="categoria">${product.category}</td>
                   <td data-label="proveedor">${product.supplier}</td>
                   <td data-label="fec_ing">${product.entryDate}</td>
                   <td data-label="edit" class="center aligned one wide">
@@ -85,7 +84,7 @@ $(document).ready(function () {
     const filteredProducts = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm) ||
-        product.category.toLowerCase().includes(searchTerm) ||
+        // product.category.toLowerCase().includes(searchTerm) ||
         product.supplier.toLowerCase().includes(searchTerm)
     );
 
