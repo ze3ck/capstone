@@ -368,6 +368,7 @@ class Inventario extends ResourceController
       if ($this->request->getMethod() === 'POST') {
         $db = \Config\Database::connect(); // Conexión a la base de datos
 
+        // Ejecutar el procedimiento almacenado
         $query = $db->query(
           "CALL PR_17_NUEVO_LOTE(?, ?, ?, ?, ?, ?, ?, ?)",
           [
@@ -382,8 +383,9 @@ class Inventario extends ResourceController
           ]
         );
 
-        $validationResult = $query->getRowArray();
+        $validationResult = $query->getRowArray();  // Obtener la primera fila de la respuesta
 
+        // Verificar si se recibió una respuesta válida con la clave 'VALIDACION'
         if (!$validationResult || !isset($validationResult['VALIDACION'])) {
           return $this->respond([
             'success' => false,
@@ -391,20 +393,22 @@ class Inventario extends ResourceController
           ]);
         }
 
+        // Manejar los posibles valores de VALIDACION
         switch ($validationResult['VALIDACION']) {
-          case 2:
+          case 2: // Inserción exitosa
             return $this->respond([
-              'success'           => true,
-              'message'           => 'Lote creado exitosamente.',
-              'validationResult'  => $validationResult
+              'success' => true,
+              'message' => 'Lote creado exitosamente.',
+              // 'validationResult'  => $validationResult  // Si necesitas ver el resultado completo
             ]);
 
-          case 1:
+          case 1: // El lote ya existe
             return $this->respond([
               'success' => false,
               'message' => 'El lote ya existe para este producto y empresa.'
             ]);
 
+          case 0: // Retorno por defecto o error inesperado
           default:
             return $this->respond([
               'success' => false,
