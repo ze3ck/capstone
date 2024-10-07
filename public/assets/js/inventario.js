@@ -180,13 +180,21 @@ $(document).ready(function () {
     },
   });
 
-  // Inicializar el toggle del sidebar
-  $("#menu-toggle").on("click", function () {
-    $(".ui.sidebar").sidebar("toggle");
+  // Controlar el evento de cambio del checkbox
+  $('#newProductCheckbox').on('change', function () {
+    if ($(this).find('input').is(':checked')) {
+      // Mostrar los datos de producto
+      $('#datosProducto').slideDown();  // Mostrar los datos del producto
+      $('#buscarProducto').hide();  // Ocultar el campo de búsqueda de producto
+      $("#datosLote input, #datosLote select").attr("disabled", true); // Desactivar campos
+    } else {
+      // Ocultar los datos de producto
+      $('#datosProducto').slideUp();  // Ocultar los datos del producto
+      $('#buscarProducto').show();  // Mostrar el campo de búsqueda de producto
+      $("#datosLote input, #datosLote select").attr("disabled", false); // Habilitar campos
+    }
   });
 
-  // Inicializar el acordeón dentro del sidebar
-  $(".ui.accordion").accordion({
-    exclusive: false,
-  });
+  // Inicializar el popup
+  $('#infoButton').popup();
 });
