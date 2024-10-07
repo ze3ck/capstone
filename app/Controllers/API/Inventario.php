@@ -267,7 +267,19 @@ class Inventario extends ResourceController
       }
 
       $db = \Config\Database::connect();
-
+      /**
+       * P_NOMBRE_PRODUCTO
+       * P_DESCRIPCION_PROD1
+       * P_UNIDAD_MEDIDA
+       * P_ID_PROVEEDOR
+       * P_ID_USUARIO
+       * P_ID_LOTE
+       * P_FECHA_VENCIMIENTO
+       * P_CANTIDAD
+       * P_PRECIO_COMPRA
+       * P_PRECIO_VENTA
+       * P_FECHA_COMPRA
+       */
       try {
         $P_NOMBRE_PRODUCTO    = $json->P_NOMBRE_PRODUCTO;
         $P_DESCRIPCION_PROD1  = $json->P_DESCRIPCION_PROD1;
