@@ -264,5 +264,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
+<script src="/assets/js/dashboard.js"></script>
 
 </html>
