@@ -181,8 +181,9 @@ class Inventario extends ResourceController
 
   /**
    * llenarTablaProductos()
+   * PR_12_LLENADO_PRODUCTOS
    */
-
+  // testear
   public function llenarTablaProductos()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
@@ -217,6 +218,7 @@ class Inventario extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
+            "ID_PRODUCTO"           => $row['ID_PRODUCTO'],
             "NOMBRE_PRODUCTO"       => $row['NOMBRE_PRODUCTO'],
             "DESCRIPCION_PRODUCTO"  => $row['DESCRIPCION_PRODUCTO'],
             "UNIDAD_MEDIDA"         => $row['UNIDAD_MEDIDA'],
@@ -239,6 +241,7 @@ class Inventario extends ResourceController
 
   /**
    * agregarNuevoProducto()
+   * PR_13_NUEVO_PRODUCTO
    */
   public function agregarNuevoProducto()
   {
@@ -263,20 +266,22 @@ class Inventario extends ResourceController
         return $this->response->setStatusCode(400)->setJSON(['error' => 'Faltan parámetros requeridos.']);
       }
 
-      try {
-        $P_NOMBRE_PRODUCTO = $json->P_NOMBRE_PRODUCTO;
-        $P_DESCRIPCION_PROD1 = $json->P_DESCRIPCION_PROD1;
-        $P_UNIDAD_MEDIDA = $json->P_UNIDAD_MEDIDA;
-        $P_ID_PROVEEDOR = $json->P_ID_PROVEEDOR;
-        $P_ID_USUARIO = $json->P_ID_USUARIO;
-        $P_ID_LOTE = $json->P_ID_LOTE;
-        $P_FECHA_VENCIMIENTO = $json->P_FECHA_VENCIMIENTO;
-        $P_CANTIDAD = $json->P_CANTIDAD;
-        $P_PRECIO_COMPRA = $json->P_PRECIO_COMPRA;
-        $P_PRECIO_VENTA = $json->P_PRECIO_VENTA;
-        $P_FECHA_COMPRA = $json->P_FECHA_COMPRA;
+      $db = \Config\Database::connect();
 
-        $db = \Config\Database::connect();
+      try {
+        $P_NOMBRE_PRODUCTO    = $json->P_NOMBRE_PRODUCTO;
+        $P_DESCRIPCION_PROD1  = $json->P_DESCRIPCION_PROD1;
+        $P_UNIDAD_MEDIDA      = $json->P_UNIDAD_MEDIDA;
+        $P_ID_PROVEEDOR       = $json->P_ID_PROVEEDOR;
+        $P_ID_USUARIO         = $json->P_ID_USUARIO;
+        $P_ID_LOTE            = $json->P_ID_LOTE;
+        $P_FECHA_VENCIMIENTO  = $json->P_FECHA_VENCIMIENTO;
+        $P_CANTIDAD           = $json->P_CANTIDAD;
+        $P_PRECIO_COMPRA      = $json->P_PRECIO_COMPRA;
+        $P_PRECIO_VENTA       = $json->P_PRECIO_VENTA;
+        $P_FECHA_COMPRA       = $json->P_FECHA_COMPRA;
+
+        $db->transBegin();
 
         $db->query("CALL PR_13_NUEVO_PRODUCTO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
           $P_NOMBRE_PRODUCTO,
@@ -292,11 +297,18 @@ class Inventario extends ResourceController
           $P_FECHA_COMPRA
         ]);
 
-        return $this->respond([
-          'success' => true,
-          'message' => 'Producto agregado correctamente.'
-        ]);
+        if ($db->transStatus() === FALSE) {
+          $db->transRollback();
+          return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al insertar el producto en la base de datos.']);
+        } else {
+          $db->transCommit();
+          return $this->respond([
+            'success' => true,
+            'message' => 'Producto agregado correctamente.'
+          ]);
+        }
       } catch (\Exception $e) {
+        $db->transRollback();
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
       }
     }
