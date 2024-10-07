@@ -48,7 +48,9 @@ $routes->group(
   'api',
   ['namespace' => 'App\Controllers\API', 'filter' => 'cors'],
   function ($routes) {
-
+    /**
+     * rutas preflight OPTIONS
+     */
     $routes->options('usuarios', function () {
       return response()->setStatusCode(204);
     });
