@@ -353,26 +353,21 @@ class Inventario extends ResourceController
    */
   public function nuevoLote()
   {
-    // Configuración de cabeceras CORS
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
 
-    // Manejo de preflight request (para solicitudes de opciones CORS)
     if ($this->request->getMethod() === 'options') {
       return $this->response->setStatusCode(200);
     }
 
     try {
-      // Obtener los datos de la petición en formato JSON
       $input = $this->request->getJSON();
 
-      // Verificar si la solicitud es POST
       if ($this->request->getMethod() === 'POST') {
         $db = \Config\Database::connect(); // Conexión a la base de datos
 
-        // Ejecutar el procedimiento almacenado
         $query = $db->query(
           "CALL PR_17_NUEVO_LOTE(?, ?, ?, ?, ?, ?, ?, ?)",
           [
@@ -387,10 +382,8 @@ class Inventario extends ResourceController
           ]
         );
 
-        // Obtener el resultado de la validación
         $validationResult = $query->getRowArray();
 
-        // Verificar si el campo VALIDACION está presente en el resultado
         if (!$validationResult || !isset($validationResult['VALIDACION'])) {
           return $this->respond([
             'success' => false,
@@ -398,38 +391,32 @@ class Inventario extends ResourceController
           ]);
         }
 
-        // Manejar los valores de la validación devueltos por el procedimiento almacenado
         switch ($validationResult['VALIDACION']) {
           case 2:
-            // Lote creado exitosamente
             return $this->respond([
               'success' => true,
               'message' => 'Lote creado exitosamente.'
             ]);
 
           case 1:
-            // El lote ya existe
             return $this->respond([
               'success' => false,
               'message' => 'El lote ya existe para este producto y empresa.'
             ]);
 
           default:
-            // Error inesperado en la validación
             return $this->respond([
               'success' => false,
               'message' => 'Ocurrió un error al validar la creación del lote.'
             ]);
         }
       } else {
-        // Si no es un POST, devolver un error 405 (Método no permitido)
         return $this->response->setStatusCode(405)->setJSON([
           'success' => false,
           'message' => 'Método no permitido'
         ]);
       }
     } catch (\Exception $e) {
-      // Manejo de errores del servidor
       return $this->failServerError('Ocurrió un error en el servidor: 🔴 ' . $e->getMessage());
     }
   }
