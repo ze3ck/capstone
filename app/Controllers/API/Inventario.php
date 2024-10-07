@@ -394,8 +394,9 @@ class Inventario extends ResourceController
         switch ($validationResult['VALIDACION']) {
           case 2:
             return $this->respond([
-              'success' => true,
-              'message' => 'Lote creado exitosamente.'
+              'success'           => true,
+              'message'           => 'Lote creado exitosamente.',
+              'validationResult'  => $validationResult
             ]);
 
           case 1:

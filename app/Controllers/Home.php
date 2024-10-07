@@ -43,10 +43,10 @@ class Home extends BaseController
         }
         return view('pages/perfilUsuario');
     }
+
     /**
      * inventario
      */
-
     public function inventario()
     {
         $session = session();
@@ -73,7 +73,6 @@ class Home extends BaseController
     /**
      * Movimientos
      */
-
     public function movimientos()
     {
         $session = session();
@@ -87,7 +86,6 @@ class Home extends BaseController
     /**
      * logut
      */
-
     public function logut()
     {
         return view('pages/logut');
