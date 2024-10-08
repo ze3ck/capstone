@@ -1,13 +1,13 @@
 $(document).ready(function () {
   let products = []; // Array de productos
 
-  $("#infoButton").popup({
-    title: "Información",
-    content:
-      "Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor",
-    position: "bottom center",
-    on: "hover", 
-  });
+  // $(".info-button").popup({
+  //   title: "Información",
+  //   content:
+  //     "Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor",
+  //   position: "bottom center",
+  //   on: "hover", // Muestra el popup al pasar el ratón
+  // });
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
   $("#addProductButton").on("click", function () {
     $("#productModal")

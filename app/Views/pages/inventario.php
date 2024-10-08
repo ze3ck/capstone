@@ -160,7 +160,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                         <option value="proveedor1">Proveedor 1</option>
                                         <option value="proveedor2">Proveedor 2</option>
                                     </select>
-                                    <div class="ui icon button" id="infoButton" style="margin-top: 5px; background-color: transparent;">
+                                    <div class="ui icon button info-button" style="margin-top: 5px; background-color: transparent;" title="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor">
                                         <i class="info circle big icon"></i>
                                     </div>
                                 </div>
@@ -264,6 +264,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <!-- scripts  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
