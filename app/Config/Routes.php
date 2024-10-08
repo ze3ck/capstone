@@ -41,6 +41,10 @@ $routes->get('movimientos',   'Home::movimientos');
 $routes->post('reportes', 'Home::reportes');
 $routes->get('reportes',  'Home::reportes');
 
+// session controller modal
+$routes->get('sessioncontroller/getSessionTime', 'SessionController::getSessionTime');
+$routes->get('sessioncontroller/updateLastActivity', 'SessionController::updateLastActivity');
+
 /**
  * [RESTful API's]
  */

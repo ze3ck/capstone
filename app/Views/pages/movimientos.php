@@ -31,7 +31,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
-
+    <!-- sessionControllerModal.php -->
+    <?= $this->include('components/sessionControllerModal') ?>
+    <!-- sessionControllerModal.php -->
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
@@ -236,7 +238,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
 
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

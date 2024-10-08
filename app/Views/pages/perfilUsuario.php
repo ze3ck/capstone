@@ -22,7 +22,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
-    <!-- Loader -->
+    <!-- sessionControllerModal.php -->
+    <?= $this->include('components/sessionControllerModal') ?>
+    <!-- sessionControllerModal.php -->
 
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
@@ -110,7 +112,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <table id="t_gestion_usuarios" class="ui celled table stackable">
                             <thead>
                                 <tr>
-                                    <th>ID Usuario</th> 
+                                    <th>ID Usuario</th>
                                     <th>Nombre Usuario</th>
                                     <th>Email</th>
                                     <th>Estado</th>
@@ -239,12 +241,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
-<<<<<<< Updated upstream
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-=======
 
 
->>>>>>> Stashed changes
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script>
         $(".menu .item").tab();

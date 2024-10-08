@@ -37,7 +37,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
-
+    <!-- sessionControllerModal.php -->
+    <?= $this->include('components/sessionControllerModal') ?>
+    <!-- sessionControllerModal.php -->
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
