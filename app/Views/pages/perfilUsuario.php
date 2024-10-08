@@ -14,6 +14,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OptiFlow | Perfil</title>
+    <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="/assets/css/style.css">
