@@ -1,6 +1,13 @@
 $(document).ready(function () {
   let products = []; // Array de productos
 
+  $("#infoButton").popup({
+    title: "Información",
+    content:
+      "Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor",
+    position: "bottom center",
+    on: "hover", 
+  });
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
   $("#addProductButton").on("click", function () {
     $("#productModal")
@@ -180,20 +187,17 @@ $(document).ready(function () {
   });
 
   // Controlar el evento de cambio del checkbox
-  $('#newProductCheckbox').on('change', function () {
-    if ($(this).find('input').is(':checked')) {
+  $("#newProductCheckbox").on("change", function () {
+    if ($(this).find("input").is(":checked")) {
       // Mostrar los datos de producto
-      $('#datosProducto').slideDown();  // Mostrar los datos del producto
-      $('#buscarProducto').hide();  // Ocultar el campo de búsqueda de producto
+      $("#datosProducto").slideDown(); // Mostrar los datos del producto
+      $("#buscarProducto").hide(); // Ocultar el campo de búsqueda de producto
       $("#datosLote input, #datosLote select").attr("disabled", true); // Desactivar campos
     } else {
       // Ocultar los datos de producto
-      $('#datosProducto').slideUp();  // Ocultar los datos del producto
-      $('#buscarProducto').show();  // Mostrar el campo de búsqueda de producto
+      $("#datosProducto").slideUp(); // Ocultar los datos del producto
+      $("#buscarProducto").show(); // Mostrar el campo de búsqueda de producto
       $("#datosLote input, #datosLote select").attr("disabled", false); // Habilitar campos
     }
   });
-
-  // Inicializar el popup
-  $('#infoButton').popup();
 });
