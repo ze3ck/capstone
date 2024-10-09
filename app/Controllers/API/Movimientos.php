@@ -153,4 +153,42 @@ class Movimientos extends ResourceController
       }
     }
   }
+
+  /**
+   * selectCatMovimiento()
+   * PR_19_SELECT_CATEGORIA_MOVIMIENTO
+   */
+  public function selectCatMovimiento()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'GET') {
+      $db = \Config\Database::connect();
+
+      try {
+        $query = $db->query('CALL PR_19_SELECT_CATEGORIA_MOVIMIENTO()');
+
+        $result = $query->getResult();
+
+        return $this->response->setJSON([
+          'status' => 'success',
+          'data'   => $result
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    } else {
+      return $this->response->setJSON([
+        'status'  => 'error',
+        'message' => 'Método HTTP no permitido'
+      ])->setStatusCode(405);
+    }
+  }
 }
