@@ -14,11 +14,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OptiFlow | Movimientos</title>
+    <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link
         rel="stylesheet"
@@ -27,11 +28,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script type="module" src="/assets/js/movimientos.js"></script>
-    <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
 
 <body>
-
+    <!-- sessionControllerModal.php -->
+    <?= $this->include('components/sessionControllerModal') ?>
+    <!-- sessionControllerModal.php -->
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
@@ -69,11 +71,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <div style="margin-left: 2%; margin-right: 2%;  ">
 
             <h2 class="ui center aligned icon header">
-                <i class="exchange alternate icon" style="visibility: visible;"></i>
+                <i class="dragon icon" style="visibility: visible;"></i>
                 Movimientos
             </h2>
-            <div class="ui equal width grid">
-                <div class="column">
+            <div class="ui grid">
+                <div class="two wide column">
                     <select value="" name="clinica" class="ui clearable fluid search dropdown"
                         id="dropDownTipomov">
                         <option value="">Tipo</option>
@@ -87,19 +89,118 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         });
                     </script>
                 </div>
-                <div class="column">
+                <div class="two wide column">
                     <div class="field">
-                        <div class="ui input" id="fechInicio">
-                            <input type="date" placeholder="Fecha desde...">
+                        <div class="ui calendar large" id="fechaInicio">
+                            <div class="ui input left icon tiny">
+                                <i class="calendar icon "></i>
+                                <input type="text" placeholder="Fecha Desde" id="fechaDesde">
+                            </div>
                         </div>
-
+                        <script>
+                            var today = new Date();
+                            let set_date = new Date(2021, 12, 1);
+                            //console.log(set_date);
+                            $('#fechaInicio')
+                                .calendar({
+                                    type: 'date',
+                                    minDate: set_date,
+                                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
+                                        .getDate() - 1),
+                                    text: {
+                                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+                                            'Junio', 'Julio', 'Agosto', 'Septiembre',
+                                            'Octubre', 'Noviembre', 'Diciembre'
+                                        ],
+                                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+                                        ],
+                                        today: 'Hoy'
+                                    }
+                                });
+                        </script>
                     </div>
                 </div>
 
-                <div class="column">producto</div>
+                <div class="two wide column">
+                    <div class="field">
+                        <div class="ui calendar large" id="fechaFin">
+                            <div class="ui input left icon tiny">
+                                <i class="calendar icon "></i>
+                                <input type="text" placeholder="Fecha Hasta" id="fechaHasta">
+                            </div>
+                        </div>
+                        <script>
+                            var today = new Date();
+                            let date_actual = new Date(2021, 12, 1);
+                            //console.log(set_date);
+                            $('#fechaFin')
+                                .calendar({
+                                    type: 'date',
+                                    minDate: date_actual,
+                                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
+                                        .getDate() - 1),
+                                    text: {
+                                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+                                            'Junio', 'Julio', 'Agosto', 'Septiembre',
+                                            'Octubre', 'Noviembre', 'Diciembre'
+                                        ],
+                                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+                                        ],
+                                        today: 'Hoy'
+                                    }
+                                });
+                        </script>
+                    </div>
+                </div>
+                <div class="three wide column">
+
+                    <select class="ui selection dropdown">
+                        <option value="">Categoria</option>
+                        <option value="">COMPRA</option>
+                        <option value="">REEMBOLSO</option>
+                        <option value="">VENTA</option>
+                        <option value="">GASTO OPERATIVO</option>
+                        <option value="">REEMBOLSO PROVEEDOR</option>
+                    </select>
+
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <select class="ui selection dropdown">
+                            <option value="">Responsable</option>
+                            <option value="">JUANITO</option>
+                            <option value="">ANA</option>
+                            <option value="">ANDREA</option>
+                            <option value="">BASTI PUTO</option>
+                            <option value="">ELMA SCAPITO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <select class="ui selection dropdown">
+                            <option value="">Metodo PagO</option>
+                            <option value="">EFECTIVO</option>
+                            <option value="">DEBITO</option>
+                            <option value="">CREDITO</option>
+                            <option value="">TRANSFERENCIA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <div class="ui input">
+                            <input type="text" placeholder="Producto">
+                        </div>
+                    </div>
+                </div>
                 <div class="equal width row">
                     <div class="column">
-                        <table class="ui celled table" id="tblMovimientos">
+                        <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
                             <thead>
                                 <tr>
                                     <th>ID Movimiento</th>
@@ -111,8 +212,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                     <th>Responsable</th>
                                     <th>Metodo de Pago</th>
                                     <th>Detalle</th>
-                                    <th>Estado</th>
-                                    <th>Editar</th>
                                 </tr>
                             </thead>
                             <tbody id="tblMovimientos_body">
@@ -121,23 +220,21 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <?php echo $_SESSION['user_id'] ?></span>
                         </table>
                         <button class="ui blue button">Generar Salida Producto</button>
-                        <button class="ui blue button">Generar Entrada Producto</button>
                     </div>
                 </div>
             </div>
 
             <!-- MODAL DETALLE MOVIMIENTO -->
-            <div class="ui large modal" id="modalDetalleMovimientos">
-                <div class="header">Detalles de Movimiento</div>
+            <div class="ui tiny modal" id="modalDetalleMovimientos">
                 <div class="content">
-                    <table class="ui celled table" id="tblDetalleMovimientos">
+                    <table class="ui unstackable celled very small scrolling table" id="tblDetalleMovimientos">
                         <thead>
                             <tr>
                                 <th>ID Movimiento</th>
                                 <th>Item</th>
                                 <th>Producto</th>
                                 <th>Lote</th>
-                                <th>Cantidad</th>
+                                <th>CAntidad</th>
                                 <th>Precio</th>
                                 <th>Total</th>
                             </tr>
@@ -145,13 +242,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <tbody id="tblDetalleMovimientos_body">
                         </tbody>
                     </table>
-                    <button class="ui primary button">
-                        Salir
-                    </button>
-                    <button class="ui button">
-                        Discard
-                    </button>
+
+
                 </div>
+
             </div>
 
             <!-- Modal para Generar Salida de Producto -->
@@ -189,7 +283,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <input type="number" name="descuento" placeholder="0">
                         </div>
                         <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
-                        <table class="ui celled table">
+
+                        <table class="ui unstackable celled very small scrolling table">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
@@ -208,7 +303,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </div>
                         </div>
                     </form>
-
                 </div>
                 <div class="actions">
                     <button class="ui red button" id="cancelarSalidaBtn">Cancelar</button>
@@ -224,6 +318,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
         <script type="module" src="/assets/js/movimientos.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
+        <script src="/assets/js/dashboard.js"></script>
         <!-- <script src="/assets/js/charts.js"></script> -->
 
         <!-- Scripts -->
@@ -236,29 +331,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 $('#estado-label').text(nuevoEstado);
             });
         </script> -->
-        <script>
-            var today = new Date();
-            let set_date = new Date(2021, 12, 1);
-            //console.log(set_date);
-            $('#fechaInicio')
-                .calendar({
-                    type: 'date',
-                    minDate: set_date,
-                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
-                        .getDate() - 1),
-                    text: {
-                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-                            'Junio', 'Julio', 'Agosto', 'Septiembre',
-                            'Octubre', 'Noviembre', 'Diciembre'
-                        ],
-                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
-                        ],
-                        today: 'Hoy'
-                    }
-                });
-        </script>
+
     </div>
 </body>
 
