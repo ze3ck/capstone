@@ -68,7 +68,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div> -->
         <!-- Contenido de la página -->
 
-        <div class="ui container" style="margin-top:4%">
+        <div style="margin-left: 2%; margin-right: 2%;  ">
 
             <h2 class="ui center aligned icon header">
                 <i class="dragon icon" style="visibility: visible;"></i>
@@ -156,8 +156,21 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </script>
                     </div>
                 </div>
-
-                <div class="column">producto</div>
+                <div class="column">
+                <select class="ui selection dropdown">
+                    <option value="">Todas</option>
+                    <option value="">COMPRA</option>
+                    <option value="">REEMBOLSO</option>
+                    <option value="">VENTA</option>
+                    <option value="">GASTO OPERATIVO</option>
+                    <option value="">REEMBOLSO PROVEEDOR</option>
+                </select>
+                </div>
+                <div class="column">
+                    <div class="ui input">
+                        <input type="text" placeholder="Producto">
+                    </div>
+                </div>
                 <div class="equal width row">
                     <div class="column">
                         <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
@@ -172,6 +185,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                     <th>Responsable</th>
                                     <th>Metodo de Pago</th>
                                     <th>Detalle</th>
+                                    <th>Estado</th>
+                                    <th>Editar</th>
                                 </tr>
                             </thead>
                             <tbody id="tblMovimientos_body">
