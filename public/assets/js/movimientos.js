@@ -236,3 +236,7 @@ $(document).ready(function () {
     $("#modalGenerarSalida").modal("hide");
   });
 });
+
+
+
+

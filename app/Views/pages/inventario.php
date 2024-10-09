@@ -13,10 +13,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OptiFlow | Inventario</title>
-    <link rel="shortcut icon" href="/assets/img/opti.ico" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link
         rel="stylesheet"
@@ -31,9 +27,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
-    <!-- sessionControllerModal.php -->
-    <?= $this->include('components/sessionControllerModal') ?>
-    <!-- sessionControllerModal.php -->
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
@@ -162,9 +155,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                         <option value="proveedor1">Proveedor 1</option>
                                         <option value="proveedor2">Proveedor 2</option>
                                     </select>
-                                    <div class="ui icon button info-button" style="margin-top: 5px; background-color: transparent;" title="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor">
+                                    <div class="ui icon button" id="infoButton"
+                                        data-title="Información"
+                                        data-content="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor"
+                                        data-position="bottom center"
+                                        style="margin-top: 5px; background-color: transparent;">
                                         <i class="info circle big icon"></i>
                                     </div>
+
                                 </div>
                             </div>
 
@@ -265,16 +263,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </table>
         </div>
     </div>
-    <!-- scripts  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
-    <script src="/assets/js/dashboard.js"></script>
 </body>
 
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
 
 </html>

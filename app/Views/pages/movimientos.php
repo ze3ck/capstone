@@ -68,14 +68,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div> -->
         <!-- Contenido de la página -->
 
-        <div class="ui container" style="margin-top:4%">
+        <div style="margin-left: 2%; margin-right: 2%;  ">
 
             <h2 class="ui center aligned icon header">
                 <i class="dragon icon" style="visibility: visible;"></i>
                 Movimientos
             </h2>
-            <div class="ui equal width grid">
-                <div class="column">
+            <div class="ui grid">
+                <div class="two wide column">
                     <select value="" name="clinica" class="ui clearable fluid search dropdown"
                         id="dropDownTipomov">
                         <option value="">Tipo</option>
@@ -89,7 +89,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         });
                     </script>
                 </div>
-                <div class="column">
+                <div class="two wide column">
                     <div class="field">
                         <div class="ui calendar large" id="fechaInicio">
                             <div class="ui input left icon tiny">
@@ -123,7 +123,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
 
-                <div class="column">
+                <div class="two wide column">
                     <div class="field">
                         <div class="ui calendar large" id="fechaFin">
                             <div class="ui input left icon tiny">
@@ -156,8 +156,48 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </script>
                     </div>
                 </div>
+                <div class="three wide column">
 
-                <div class="column">producto</div>
+                    <select class="ui selection dropdown">
+                        <option value="">Categoria</option>
+                        <option value="">COMPRA</option>
+                        <option value="">REEMBOLSO</option>
+                        <option value="">VENTA</option>
+                        <option value="">GASTO OPERATIVO</option>
+                        <option value="">REEMBOLSO PROVEEDOR</option>
+                    </select>
+
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <select class="ui selection dropdown">
+                            <option value="">Responsable</option>
+                            <option value="">JUANITO</option>
+                            <option value="">ANA</option>
+                            <option value="">ANDREA</option>
+                            <option value="">BASTI PUTO</option>
+                            <option value="">ELMA SCAPITO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <select class="ui selection dropdown">
+                            <option value="">Metodo PagO</option>
+                            <option value="">EFECTIVO</option>
+                            <option value="">DEBITO</option>
+                            <option value="">CREDITO</option>
+                            <option value="">TRANSFERENCIA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="field">
+                        <div class="ui input">
+                            <input type="text" placeholder="Producto">
+                        </div>
+                    </div>
+                </div>
                 <div class="equal width row">
                     <div class="column">
                         <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
@@ -180,7 +220,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <?php echo $_SESSION['user_id'] ?></span>
                         </table>
                         <button class="ui blue button">Generar Salida Producto</button>
-                        <button class="ui blue button">Generar Entrada Producto</button>
                     </div>
                 </div>
             </div>
