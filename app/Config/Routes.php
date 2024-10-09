@@ -100,6 +100,7 @@ $routes->group(
      */
     $routes->post('movimientos/llenadoMovimiento',        'Movimientos::llenadoMovimiento');
     $routes->post('movimientos/llenadoDetalleMovimiento', 'Movimientos::llenadoDetalleMovimiento');
+    $routes->get('movimientos/selectCatMovimiento', 'Movimientos::selectCatMovimiento');
 
     /**
      * RESTful API's: Controllers\API\Inventario-Productos
