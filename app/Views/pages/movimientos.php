@@ -134,7 +134,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div class="column">producto</div>
                 <div class="equal width row">
                     <div class="column">
-                        <table class="ui unstackable celled scrolling table" id="tblMovimientos">
+                        <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
                             <thead>
                                 <tr>
                                     <th>ID Movimiento</th>
@@ -162,7 +162,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <!-- MODAL DETALLE MOVIMIENTO -->
             <div class="ui tiny modal" id="modalDetalleMovimientos">
                 <div class="content">
-                    <table class="ui unstackable celled scrolling very small table" id="tblDetalleMovimientos">
+                    <table class="ui unstackable celled very small scrolling table" id="tblDetalleMovimientos">
                         <thead>
                             <tr>
                                 <th>ID Movimiento</th>
@@ -219,7 +219,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                         <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
 
-                        <table class="ui unstackable celled scrolling table">
+                        <table class="ui unstackable celled very small scrolling table">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
