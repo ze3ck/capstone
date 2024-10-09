@@ -15,21 +15,29 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OptiFlow | Movimientos</title>
     <link rel="shortcut icon" href="/assets/img/opti.ico" />
-    <link
+    <link<div class="ui modal">
+        <div class="header">Header</div>
+        <div class="content">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+        </div>
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <script type="module" src="/assets/js/movimientos.js"></script>
-    <script type="module" src="/assets/js/dashboard.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+        <link rel="stylesheet" href="/assets/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+        <script type="module" src="/assets/js/movimientos.js"></script>
+        <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
+
 <body>
     <!-- sessionControllerModal.php -->
     <?= $this->include('components/sessionControllerModal') ?>
@@ -126,7 +134,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div class="column">producto</div>
                 <div class="equal width row">
                     <div class="column">
-                        <table class="ui celled table" id="tblMovimientos">
+                        <table class="ui unstackable celled scrolling table" id="tblMovimientos">
                             <thead>
                                 <tr>
                                     <th>ID Movimiento</th>
@@ -154,7 +162,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <!-- MODAL DETALLE MOVIMIENTO -->
             <div class="ui tiny modal" id="modalDetalleMovimientos">
                 <div class="content">
-                    <table class="ui celled table" id="tblDetalleMovimientos">
+                    <table class="ui unstackable celled scrolling very small table" id="tblDetalleMovimientos">
                         <thead>
                             <tr>
                                 <th>ID Movimiento</th>
@@ -211,7 +219,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                         <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
 
-                        <table class="ui celled table">
+                        <table class="ui unstackable celled scrolling table">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
