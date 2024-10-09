@@ -14,6 +14,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OptiFlow | Inventario</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
@@ -239,10 +240,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
             <div class="results"></div>
         </div>
+        <!-- Tabla de productos -->
         <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
         <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
-
-        <!-- Tabla de productos -->
         <div class="main-container">
             <table class="ui celled long scrolling table">
                 <thead>
@@ -256,7 +256,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Nombre Proveedor</th>
                         <th class="center aligned">Fecha Compra</th>
                         <th class="center aligned">Estado</th>
-
                         <?php if (session('rol') == 1): ?>
                             <th class="center aligned one wide actions-column">Acciones</th>
                         <?php endif; ?>
