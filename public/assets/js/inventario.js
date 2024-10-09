@@ -212,7 +212,6 @@ $(document).ready(function () {
     }
   });
 
-
   // llenarTablaProductos()
   async function llenarTablaProductos() {
     console.log("entre a llenartabla");
@@ -245,37 +244,46 @@ $(document).ready(function () {
 
       const data = await response.json();
 
-      console.log("Datos de la respuesta:", data); 
+      console.log("Datos de la respuesta:", data);
 
       if (!data.success) {
         throw new Error("No se encontraron productos o ocurrió un error.");
       }
 
       const tbody = document.getElementById("productTableBody");
+      const userRol = document.getElementById("ROL").innerHTML.trim();
 
       tbody.innerHTML = "";
 
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
 
-        fila.innerHTML = `
-          <td class="center aligned">${producto.ID_PRODUCTO}</td>
-          <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
-          <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
-          <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
-          <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-          <td class="center aligned">${producto.PRECIO_VENTA}</td>
-          <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
-          <td class="center aligned">${producto.FECHA_COMPRA}</td>
-          <td class="center aligned">Disponible</td>
-          <td class="center aligned">
-              <div class="ui icon buttons">
-                  <button class="ui icon button" title="Editar">
-                      <i class="fas fa-edit" style="color: blue;"></i>
-                  </button>
-              </div>
-          </td>
-      `;
+        // Estructura básica de las celdas de la fila
+        let filaHTML = `
+              <td class="center aligned">${producto.ID_PRODUCTO}</td>
+              <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
+              <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
+              <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
+              <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
+              <td class="center aligned">${producto.PRECIO_VENTA}</td>
+              <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+              <td class="center aligned">${producto.FECHA_COMPRA}</td>
+              <td class="center aligned">Disponible</td>
+          `;
+
+        if (userRol === "1") {
+          filaHTML += `
+                <td class="center aligned actions-column">
+                    <div class="ui icon buttons">
+                        <button class="ui icon button" title="Editar">
+                            <i class="fas fa-edit" style="color: blue;"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+        }
+
+        fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
       });
     } catch (error) {
