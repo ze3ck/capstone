@@ -20,7 +20,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- <link rel="stylesheet" href="/assets/css/style.css"> -->
     <link rel="stylesheet" href='/assets/css/inventario.css' />
     <script type="module" src='/assets/js/inventario.js'></script>
     <script type="module" src="/assets/js/dashboard.js"></script>
@@ -256,7 +256,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Nombre Proveedor</th>
                         <th class="center aligned">Fecha Compra</th>
                         <th class="center aligned">Estado</th>
-                        <th class="center aligned trhee wide">Acciones</th>
+
+                        <?php if (session('rol') == 1): ?>
+                            <th class="center aligned one wide actions-column">Acciones</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody id="productTableBody"></tbody>
