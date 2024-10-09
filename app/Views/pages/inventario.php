@@ -23,8 +23,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <!-- <link rel="stylesheet" href="/assets/css/style.css"> -->
     <link rel="stylesheet" href='/assets/css/inventario.css' />
-    <script type="module" src='/assets/js/inventario.js'></script>
-    <script type="module" src="/assets/js/dashboard.js"></script>
+
 </head>
 
 <body>
@@ -270,5 +269,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
+<script type="module" src='/assets/js/inventario.js'></script>
+<script type="module" src="/assets/js/dashboard.js"></script>
 
 </html>
