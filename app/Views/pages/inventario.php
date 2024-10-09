@@ -24,9 +24,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href='/assets/css/inventario.css' />
-    <script src='/assets/js/inventario.js'></script>
+    <script type="module" src='/assets/js/inventario.js'></script>
     <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
 
@@ -37,7 +37,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
-
+    <div id="loader" class="ui active dimmer">
+        <div class="ui text loader">Loading</div>
+    </div>
     <div class="pusher">
         <div class="ui stackable menu">
             <!-- Botón para togglear el sidebar -->
@@ -61,8 +63,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </div>
         </div>
-        <h1 style="text-align: center; margin-top: 4%;">Gestión de Productos</h1>
-
+        <h1 class="titulo-gestion-prod" style="text-align: center; margin-top: 4%;">Gestión de Productos</h1>
         <!-- Formulario para generar productos -->
         <div id="modalContainer">
             <!-- Modal para editar producto -->
@@ -240,6 +241,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
             <div class="results"></div>
         </div>
+        <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
+        <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
 
         <!-- Tabla de productos -->
         <div class="main-container">
@@ -255,7 +258,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Nombre Proveedor</th>
                         <th class="center aligned">Fecha Compra</th>
                         <th class="center aligned">Estado</th>
-                        <th colspan="2;" class="center aligned two wide">Acciones</th>
+                        <th class="center aligned trhee wide">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="productTableBody"></tbody>

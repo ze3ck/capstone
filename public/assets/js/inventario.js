@@ -1,4 +1,7 @@
+import { API_BASE_URL } from "./apiConfig.js";
 $(document).ready(function () {
+  console.log("entre a inventario.js");
+  llenarTablaProductos();
   let products = []; // Array de productos
 
   // $(".info-button").popup({
@@ -9,6 +12,14 @@ $(document).ready(function () {
   //   on: "hover", // Muestra el popup al pasar el ratón
   // });
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
+
+  function mostarLoader() {
+    document.getElementById("loader").style.display = "block";
+  }
+  function ocultarLoader() {
+    document.getElementById("loader").style.display = "none";
+  }
+
   $("#addProductButton").on("click", function () {
     $("#productModal")
       .modal({
@@ -200,4 +211,82 @@ $(document).ready(function () {
       $("#datosLote input, #datosLote select").attr("disabled", false); // Habilitar campos
     }
   });
+
+
+  // llenarTablaProductos()
+  async function llenarTablaProductos() {
+    console.log("entre a llenartabla");
+    mostarLoader();
+
+    try {
+      let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+      console.log("ID del usuario:", id_usuario);
+
+      const response = await fetch(
+        `${API_BASE_URL}inventario/llenarTablaProductos`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            P_IDUSUARIO: id_usuario,
+          }),
+        }
+      );
+
+      console.log("Estado de la respuesta:", response.status);
+
+      if (!response.ok) {
+        throw new Error("Error al obtener los productos.");
+      }
+
+      const data = await response.json();
+
+      console.log("Datos de la respuesta:", data); 
+
+      if (!data.success) {
+        throw new Error("No se encontraron productos o ocurrió un error.");
+      }
+
+      const tbody = document.getElementById("productTableBody");
+
+      tbody.innerHTML = "";
+
+      data.response.forEach((producto) => {
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+          <td class="center aligned">${producto.ID_PRODUCTO}</td>
+          <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
+          <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
+          <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
+          <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
+          <td class="center aligned">${producto.PRECIO_VENTA}</td>
+          <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+          <td class="center aligned">${producto.FECHA_COMPRA}</td>
+          <td class="center aligned">Disponible</td>
+          <td class="center aligned">
+              <div class="ui icon buttons">
+                  <button class="ui icon button" title="Editar">
+                      <i class="fas fa-edit" style="color: blue;"></i>
+                  </button>
+              </div>
+          </td>
+      `;
+        tbody.appendChild(fila);
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    ocultarLoader();
+  }
+
+  // Llamada de la función al cargar el documento
+  // document.addEventListener("DOMContentLoaded", function () {
+  //    // Llamamos a la función para llenar la tabla al cargar la página
+  // });
 });

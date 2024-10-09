@@ -87,3 +87,10 @@
     margin-right: 10px;
   }
 }
+td.center.aligned {
+  vertical-align: middle;
+}
+
+.titulo-gestion-prod{
+  color: black !important;
+}
