@@ -122,7 +122,41 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </script>
                     </div>
                 </div>
-                <div class="column">Fecha Final</div>
+
+                <div class="column">
+                    <div class="field">
+                        <div class="ui calendar large" id="fechaFin">
+                            <div class="ui input left icon tiny">
+                                <i class="calendar icon "></i>
+                                <input type="text" placeholder="Fecha Hasta" id="fechaHasta">
+                            </div>
+                        </div>
+                        <script>
+                            var today = new Date();
+                            let date_actual = new Date(2021, 12, 1);
+                            //console.log(set_date);
+                            $('#fechaFin')
+                                .calendar({
+                                    type: 'date',
+                                    minDate: date_actual,
+                                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
+                                        .getDate() - 1),
+                                    text: {
+                                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+                                            'Junio', 'Julio', 'Agosto', 'Septiembre',
+                                            'Octubre', 'Noviembre', 'Diciembre'
+                                        ],
+                                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+                                        ],
+                                        today: 'Hoy'
+                                    }
+                                });
+                        </script>
+                    </div>
+                </div>
+
                 <div class="column">producto</div>
                 <div class="equal width row">
                     <div class="column">
