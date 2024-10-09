@@ -14,6 +14,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OptiFlow | Movimientos</title>
+    <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
@@ -30,7 +31,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
 <body>
-
+    <!-- sessionControllerModal.php -->
+    <?= $this->include('components/sessionControllerModal') ?>
+    <!-- sessionControllerModal.php -->
     <!-- sidebar.php -->
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <!-- sidebar.php -->
@@ -235,13 +238,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
 
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
         <script type="module" src="/assets/js/movimientos.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
+        <script src="/assets/js/dashboard.js"></script>
         <!-- <script src="/assets/js/charts.js"></script> -->
 
         <!-- Scripts -->

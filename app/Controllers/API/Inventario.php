@@ -349,7 +349,7 @@ class Inventario extends ResourceController
   /**
    * nuevoLote()
    * PR_17_NUEVO_LOTE
-   * ARREGLAR VALIDACIÓN DESDE EL PROCEDIMIENTO
+   * Manejo de la validación desde el procedimiento
    */
   public function nuevoLote()
   {
@@ -366,32 +366,32 @@ class Inventario extends ResourceController
       $input = $this->request->getJSON();
 
       if ($this->request->getMethod() === 'POST') {
-        $db = \Config\Database::connect(); // Conexión a la base de datos
+        $db = \Config\Database::connect();
 
         $query = $db->query(
           "CALL PR_17_NUEVO_LOTE(?, ?, ?, ?, ?, ?, ?, ?)",
           [
-            $input->P_NROLOTE,         // P_NROLOTE
-            $input->P_IDPRODUCTO,      // P_IDPRODUCTO
-            $input->P_FECHA_VENCIMIENTO, // P_FECHA_VENCIMIENTO
-            $input->P_CANTIDAD,         // P_CANTIDAD
-            $input->P_PRECIO_COMPRA,    // P_PRECIO_COMPRA
-            $input->P_PRECIO_VENTA,     // P_PRECIO_VENTA
-            $input->P_FECHA_COMPRA,     // P_FECHA_COMPRA
-            $input->P_IDEMPRESA         // P_IDEMPRESA
+            $input->P_NROLOTE,
+            $input->P_IDPRODUCTO,
+            $input->P_FECHA_VENCIMIENTO,
+            $input->P_CANTIDAD,
+            $input->P_PRECIO_COMPRA,
+            $input->P_PRECIO_VENTA,
+            $input->P_FECHA_COMPRA,
+            $input->P_IDEMPRESA
           ]
         );
 
-        $validationResult = $query->getRowArray();
+        $validationResult = $query->getResultArray();
 
-        if (!$validationResult || !isset($validationResult['VALIDACION'])) {
+        if (!$validationResult || !isset($validationResult[0]['VALIDACION'])) {
           return $this->respond([
             'success' => false,
             'message' => 'No se recibió una respuesta válida del procedimiento almacenado.'
           ]);
         }
 
-        switch ($validationResult['VALIDACION']) {
+        switch ($validationResult[0]['VALIDACION']) {
           case 2:
             return $this->respond([
               'success' => true,
@@ -417,7 +417,7 @@ class Inventario extends ResourceController
         ]);
       }
     } catch (\Exception $e) {
-      return $this->failServerError('Ocurrió un error en el servidor: 🔴 ' . $e->getMessage());
+      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
     }
   }
 }
