@@ -23,6 +23,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href='/assets/css/inventario.css' />
     <link rel="stylesheet" href="/assets/css/styles.css" />
     <script src='/assets/js/inventario.js'></script>
+    <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
 
 <body>

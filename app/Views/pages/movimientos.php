@@ -27,8 +27,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script type="module" src="/assets/js/movimientos.js"></script>
+    <script type="module" src="/assets/js/dashboard.js"></script>
 </head>
-
 <body>
 
     <!-- sidebar.php -->
