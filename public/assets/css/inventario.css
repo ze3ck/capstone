@@ -105,3 +105,15 @@ table.ui.celled.table td.center.aligned {
 th.actions-column, td.actions-column {
     width: 100px; /* Puedes ajustar este valor */
 }
+
+/* .toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  max-width: 300px;
+} */

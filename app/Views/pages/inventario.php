@@ -242,7 +242,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- Tabla de productos -->
         <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
         <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
-        <div class="main-container">
+        <div style="margin-top: 3%; margin-right: 2%; margin-left: 3%;">
             <table class="ui celled long scrolling table">
                 <thead>
                     <tr>
@@ -256,7 +256,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Fecha Compra</th>
                         <th class="center aligned">Estado</th>
                         <?php if (session('rol') == 1): ?>
-                            <th class="center aligned one wide actions-column">Acciones</th>
+                            <th class="center aligned wide actions-column">Acciones</th>
                         <?php endif; ?>
                     </tr>
                 </thead>

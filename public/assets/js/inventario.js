@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "./apiConfig.js";
 $(document).ready(function () {
   console.log("entre a inventario.js");
+
   llenarTablaProductos();
   let products = []; // Array de productos
 
@@ -197,22 +198,18 @@ $(document).ready(function () {
     },
   });
 
-  // Controlar el evento de cambio del checkbox
   $("#newProductCheckbox").on("change", function () {
     if ($(this).find("input").is(":checked")) {
-      // Mostrar los datos de producto
-      $("#datosProducto").slideDown(); // Mostrar los datos del producto
-      $("#buscarProducto").hide(); // Ocultar el campo de búsqueda de producto
-      $("#datosLote input, #datosLote select").attr("disabled", true); // Desactivar campos
+      $("#datosProducto").slideDown();
+      $("#buscarProducto").hide();
+      $("#datosLote input, #datosLote select").attr("disabled", true);
     } else {
-      // Ocultar los datos de producto
-      $("#datosProducto").slideUp(); // Ocultar los datos del producto
-      $("#buscarProducto").show(); // Mostrar el campo de búsqueda de producto
-      $("#datosLote input, #datosLote select").attr("disabled", false); // Habilitar campos
+      $("#datosProducto").slideUp();
+      $("#buscarProducto").show();
+      $("#datosLote input, #datosLote select").attr("disabled", false);
     }
   });
 
-  // llenarTablaProductos()
   async function llenarTablaProductos() {
     console.log("Entré a llenartabla");
     mostarLoader();
@@ -228,7 +225,7 @@ $(document).ready(function () {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Para incluir cookies en la solicitud, si es necesario
+          credentials: "include",
           body: JSON.stringify({
             P_IDUSUARIO: id_usuario,
           }),
@@ -251,14 +248,11 @@ $(document).ready(function () {
       const tbody = document.getElementById("productTableBody");
       const userRol = document.getElementById("ROL").innerHTML.trim();
 
-      tbody.innerHTML = ""; // Limpiar el contenido del tbody
+      tbody.innerHTML = "";
 
-      // Generación de la tabla
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
 
-        // Generación del HTML para cada fila
-        // Generación del HTML para cada fila
         let filaHTML = `
                 <td class="center aligned">${producto.ID_PRODUCTO}</td>
                 <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
@@ -282,7 +276,6 @@ $(document).ready(function () {
                 </td>
             `;
 
-        // Agregar acciones si el usuario tiene el rol adecuado
         if (userRol === "1") {
           filaHTML += `
                   <td class="center aligned actions-column">
@@ -295,12 +288,10 @@ $(document).ready(function () {
               `;
         }
 
-        // Asignar el HTML generado a la fila y añadirlo al tbody
         fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
       });
 
-      // Añadir evento onchange a cada dropdown después de inicializar Fomantic UI
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", () =>
           cambiarEstadoProducto(dropdown)
@@ -313,23 +304,28 @@ $(document).ready(function () {
     ocultarLoader(); // Ocultar el loader cuando se termine de cargar la tabla
   }
 
-  // Escuchar cambios en el dropdown de estado
+  function cambiarEstadoProducto(dropdown) {
+    const idProducto = dropdown.getAttribute("data-producto-id");
+    const nuevoEstado = dropdown.value;
+
+    console.log("ID del producto:", idProducto);
+    console.log("Nuevo estado:", nuevoEstado);
+
+    actualizarEstadoProducto(idProducto, nuevoEstado);
+  }
   document
     .getElementById("productTableBody")
     .addEventListener("change", async function (event) {
       if (event.target && event.target.classList.contains("estado-dropdown")) {
-        // Capturar el ID del producto desde el atributo data-producto-id
         const idProducto = event.target.getAttribute("data-producto-id");
         const nuevoEstado = event.target.value; // Obtener el nuevo estado seleccionado
 
-        // Debugging para ver si los valores se obtienen correctamente
         console.log(
           "ID del producto capturado desde data-producto-id:",
           idProducto
         );
         console.log("Nuevo estado seleccionado:", nuevoEstado);
 
-        // Verificar que los valores no sean undefined o vacíos
         if (!idProducto || !nuevoEstado) {
           console.error("ID del producto o estado no definidos:", {
             idProducto,
@@ -338,19 +334,16 @@ $(document).ready(function () {
           return; // Si alguno de los valores es inválido, detener la ejecución
         }
 
-        // Obtener el ID del usuario desde el HTML
         const idUsuario = document
           .getElementById("ID_USUARIO")
           .innerHTML.trim();
 
-        // Verificar si los valores son correctos antes de enviar al backend
         console.log("Datos enviados al backend:", {
           P_IDUSUARIO: idUsuario,
           P_IDPRODUCTO: idProducto,
           P_IDESTADO: nuevoEstado,
         });
 
-        // Realizar la llamada al backend para actualizar el estado del producto
         try {
           const response = await fetch(
             `${API_BASE_URL}inventario/actualizaEstadoProducto`,
@@ -370,14 +363,28 @@ $(document).ready(function () {
           const data = await response.json();
 
           if (data.success) {
-            alert("El estado del producto ha sido actualizado correctamente.");
+            mostrarToast(
+              "El estado del producto ha sido actualizado correctamente.",
+              "success"
+            );
           } else {
-            alert("Error al actualizar el estado del producto.");
+            mostrarToast(
+              "Error al actualizar el estado del producto.",
+              "error"
+            );
           }
         } catch (error) {
           console.error("Error al actualizar el estado del producto:", error);
-          alert("Hubo un problema al actualizar el estado.");
+          mostrarToast("Hubo un problema al actualizar el estado.", "error");
         }
+      }
+      function mostrarToast(mensaje, tipo) {
+        $("body").toast({
+          class: tipo === "success" ? "success" : "error",
+          message: mensaje,
+          showProgress: "bottom",
+          displayTime: 3000,
+        });
       }
     });
 });
