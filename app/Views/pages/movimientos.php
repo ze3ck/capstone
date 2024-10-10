@@ -75,12 +75,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 Movimientos
             </h2>
             <div class="ui grid">
+                <!-- Tipo -->
                 <div class="two wide column">
-                    <select value="" name="clinica" class="ui clearable fluid search dropdown"
-                        id="dropDownTipomov">
-                        <option value="">Tipo</option>
+                    <select name="clinica" class="ui clearable fluid search dropdown" id="dropDownTipomov">
+                        <!-- <option value="">Tipo</option> -->
                         <option value="1">ENTRADA</option>
-                        <option value="1">SALIDA</option>
+                        <option value="2">SALIDA</option>
                     </select>
                     <script>
                         $('#dropDownTipomov').dropdown({
@@ -89,239 +89,230 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         });
                     </script>
                 </div>
-                <div class="two wide column">
+
+                <!-- Fecha Desde -->
+                <div class="three wide column">
                     <div class="field">
                         <div class="ui calendar large" id="fechaInicio">
                             <div class="ui input left icon tiny">
-                                <i class="calendar icon "></i>
+                                <i class="calendar icon"></i>
                                 <input type="text" placeholder="Fecha Desde" id="fechaDesde">
                             </div>
                         </div>
                         <script>
                             var today = new Date();
                             let set_date = new Date(2021, 12, 1);
-                            //console.log(set_date);
-                            $('#fechaInicio')
-                                .calendar({
-                                    type: 'date',
-                                    minDate: set_date,
-                                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
-                                        .getDate() - 1),
-                                    text: {
-                                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-                                            'Junio', 'Julio', 'Agosto', 'Septiembre',
-                                            'Octubre', 'Noviembre', 'Diciembre'
-                                        ],
-                                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
-                                        ],
-                                        today: 'Hoy'
-                                    }
-                                });
+                            $('#fechaInicio').calendar({
+                                type: 'date',
+                                minDate: set_date,
+                                maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1),
+                                text: {
+                                    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                    monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                    today: 'Hoy'
+                                }
+                            });
                         </script>
                     </div>
                 </div>
 
-                <div class="two wide column">
+                <!-- Fecha Hasta -->
+                <div class="three wide column">
                     <div class="field">
                         <div class="ui calendar large" id="fechaFin">
                             <div class="ui input left icon tiny">
-                                <i class="calendar icon "></i>
+                                <i class="calendar icon"></i>
                                 <input type="text" placeholder="Fecha Hasta" id="fechaHasta">
                             </div>
                         </div>
                         <script>
                             var today = new Date();
                             let date_actual = new Date(2021, 12, 1);
-                            //console.log(set_date);
-                            $('#fechaFin')
-                                .calendar({
-                                    type: 'date',
-                                    minDate: date_actual,
-                                    maxDate: new Date(today.getFullYear(), today.getMonth(), today
-                                        .getDate() - 1),
-                                    text: {
-                                        days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-                                            'Junio', 'Julio', 'Agosto', 'Septiembre',
-                                            'Octubre', 'Noviembre', 'Diciembre'
-                                        ],
-                                        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
-                                        ],
-                                        today: 'Hoy'
-                                    }
-                                });
+                            $('#fechaFin').calendar({
+                                type: 'date',
+                                minDate: date_actual,
+                                maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1),
+                                text: {
+                                    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                    monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                    today: 'Hoy'
+                                }
+                            });
                         </script>
                     </div>
                 </div>
+
+                <!-- Categoria -->
                 <div class="three wide column">
-
-                    <select class="ui selection dropdown">
-                        <option value="">Categoria</option>
-                        <option value="">COMPRA</option>
-                        <option value="">REEMBOLSO</option>
-                        <option value="">VENTA</option>
-                        <option value="">GASTO OPERATIVO</option>
-                        <option value="">REEMBOLSO PROVEEDOR</option>
+                    <select class="ui selection dropdown" id="selectCategoria">
+                        <!-- <option value="">Categoria</option> -->
+                        <option value="COMPRA">COMPRA</option>
+                        <option value="REEMBOLSO">REEMBOLSO</option>
+                        <option value="VENTA">VENTA</option>
+                        <option value="GASTO OPERATIVO">GASTO OPERATIVO</option>
+                        <option value="REEMBOLSO PROVEEDOR">REEMBOLSO PROVEEDOR</option>
                     </select>
-
                 </div>
-                <div class="two wide column">
+
+                <!-- Responsable -->
+                <div class="three wide column">
                     <div class="field">
-                        <select class="ui selection dropdown">
-                            <option value="">Responsable</option>
-                            <option value="">JUANITO</option>
-                            <option value="">ANA</option>
-                            <option value="">ANDREA</option>
-                            <option value="">BASTI PUTO</option>
-                            <option value="">ELMA SCAPITO</option>
+                        <select class="ui selection dropdown" id="selectResponsable" placeholder="Responsable">
+                            <!-- <option value="">Responsable</option> -->
+                            <option value="JUANITO">JUANITO</option>
+                            <option value="ANA">ANA</option>
+                            <option value="ANDREA">ANDREA</option>
+                            <option value="BASTI PUTO">BASTI PUTO</option>
+                            <option value="ELMA SCAPITO">ELMA SCAPITO</option>
                         </select>
                     </div>
                 </div>
-                <div class="two wide column">
+
+                <!-- Metodo Pago -->
+                <div class="three wide column">
                     <div class="field">
-                        <select class="ui selection dropdown">
-                            <option value="">Metodo Pago</option>
-                            <option value="">EFECTIVO</option>
-                            <option value="">DEBITO</option>
-                            <option value="">CREDITO</option>
-                            <option value="">TRANSFERENCIA</option>
+                        <select class="ui selection dropdown" id="selectMetodoPago">
+                            <option value="EFECTIVO">EFECTIVO</option>
+                            <option value="DEBITO">DEBITO</option>
+                            <option value="CREDITO">CREDITO</option>
+                            <option value="TRANSFERENCIA">TRANSFERENCIA</option>
                         </select>
                     </div>
                 </div>
+
+                <!-- Boton limpiar filtro -->
                 <div class="two wide column">
                     <div class="field">
-                        <div class="ui input">
-                            <input type="text" placeholder="Producto">
-                        </div>
-                    </div>
-                </div>
-                <div class="equal width row">
-                    <div class="column">
-                        <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
-                            <thead>
-                                <tr>
-                                    <th>ID Movimiento</th>
-                                    <th>Tipo</th>
-                                    <th>Fecha</th>
-                                    <th>Total</th>
-                                    <th>Descripción</th>
-                                    <th>Categoría</th>
-                                    <th>Responsable</th>
-                                    <th>Metodo de Pago</th>
-                                    <th>Detalle</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tblMovimientos_body">
-                            </tbody>
-                            <span id="ID_USUARIO" style="display:none">
-                                <?php echo $_SESSION['user_id'] ?></span>
-                        </table>
-                        <button class="ui blue button">Generar Salida Producto</button>
+                        <button class="ui green button" id="btnLimpiarFiltros">Limpiar Filtros</button>
                     </div>
                 </div>
             </div>
 
-            <!-- MODAL DETALLE MOVIMIENTO -->
-            <div class="ui large modal" id="modalDetalleMovimientos">
-                <div class="header">Detalle de Movimiento</div>
-                <div class="content">
-                    <table class="ui unstackable celled very small scrolling table" id="tblDetalleMovimientos">
-                        <thead>
-                            <tr>
-                                <th>ID Movimiento</th>
-                                <th>Item</th>
-                                <th>Producto</th>
-                                <th>Lote</th>
-                                <th>CAntidad</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblDetalleMovimientos_body">
-                        </tbody>
-                    </table>
-                    <button class="negative ui button">Cerrar</button>
-                </div>
-            </div>
 
-            <!-- Modal para Generar Salida de Producto -->
-            <div class="ui modal" id="modalGenerarSalida">
-                <div class="header">Nueva Salida de Producto</div>
-                <div class="content">
-                    <form class="ui form">
-                        <div class="field">
-                            <label>Producto</label>
-                            <select class="ui dropdown" name="producto" id="productoDropdown">
-                                <option value="">Seleccionar</option>
-                                <option value="1">ENTRADA DE LAPTOPS AL INVENTARIO</option>
-                                <option value="2">SALIDA DE ROUTERS PARA CLIENTE</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Disponibilidad en Inventario</label>
-                            <b>10</b>
-                            <b>10</b>
-                        </div>
-                        <div class="field">
-                            <label>Tipo de Pago</label>
-                            <b>Efectivo</b>
-                        </div>
-                        <div class="field">
-                            <label>Cantidad</label>
-                            <input type="number" name="cantidad" placeholder="Cantidad">
-                        </div>
-                        <div class="field">
-                            <label>Precio ($)</label>
-                            <input type="number" name="precio" placeholder="1000" min="0" step="0.01">
-                        </div>
-                        <div class="field">
-                            <label>Descuento (%)</label>
-                            <input type="number" name="descuento" placeholder="0">
-                        </div>
-                        <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
+            <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
+                <thead>
+                    <tr>
+                        <th>ID Movimiento</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Responsable</th>
+                        <th>Metodo de Pago</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody id="tblMovimientos_body">
+                </tbody>
+                <span id="ID_USUARIO" style="display:none">
+                    <?php echo $_SESSION['user_id'] ?></span>
+            </table>
+            <button class="ui blue button">Generar Salida Producto</button>
 
-                        <table class="ui unstackable celled very small scrolling table">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Unidad</th>
-                                    <th>Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody id="productList">
-                            </tbody>
-                        </table>
-
-                        <div class="ui grid">
-                            <div class="four wide column">TOTAL:</div>
-                            <div class="twelve wide column right aligned">
-                                <strong>$<span id="totalAmount">0</span></strong>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="actions">
-                    <button class="ui red button" id="cancelarSalidaBtn">Cancelar</button>
-                    <button class="ui green button" id="generarSalidaBtn">Generar Salida</button>
-                </div>
-            </div>
         </div>
+    </div>
+
+    <!-- MODAL DETALLE MOVIMIENTO -->
+    <div class="ui large modal" id="modalDetalleMovimientos">
+        <div class="header">Detalle de Movimiento</div>
+        <div class="content">
+            <table class="ui unstackable celled very small scrolling table" id="tblDetalleMovimientos">
+                <thead>
+                    <tr>
+                        <th>ID Movimiento</th>
+                        <th>Item</th>
+                        <th>Producto</th>
+                        <th>Lote</th>
+                        <th>CAntidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tblDetalleMovimientos_body">
+                </tbody>
+            </table>
+            <button class="negative ui button">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal para Generar Salida de Producto -->
+    <div class="ui modal" id="modalGenerarSalida">
+        <div class="header">Nueva Salida de Producto</div>
+        <div class="content">
+            <form class="ui form">
+                <div class="field">
+                    <label>Producto</label>
+                    <select class="ui dropdown" name="producto" id="productoDropdown">
+                        <option value="">Seleccionar</option>
+                        <option value="1">ENTRADA DE LAPTOPS AL INVENTARIO</option>
+                        <option value="2">SALIDA DE ROUTERS PARA CLIENTE</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Disponibilidad en Inventario</label>
+                    <b>10</b>
+                    <b>10</b>
+                </div>
+                <div class="field">
+                    <label>Tipo de Pago</label>
+                    <b>Efectivo</b>
+                </div>
+                <div class="field">
+                    <label>Cantidad</label>
+                    <input type="number" name="cantidad" placeholder="Cantidad">
+                </div>
+                <div class="field">
+                    <label>Precio ($)</label>
+                    <input type="number" name="precio" placeholder="1000" min="0" step="0.01">
+                </div>
+                <div class="field">
+                    <label>Descuento (%)</label>
+                    <input type="number" name="descuento" placeholder="0">
+                </div>
+                <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
+
+                <table class="ui unstackable celled very small scrolling table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Unidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productList">
+                    </tbody>
+                </table>
+
+                <div class="ui grid">
+                    <div class="four wide column">TOTAL:</div>
+                    <div class="twelve wide column right aligned">
+                        <strong>$<span id="totalAmount">0</span></strong>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <button class="ui red button" id="cancelarSalidaBtn">Cancelar</button>
+            <button class="ui green button" id="generarSalidaBtn">Generar Salida</button>
+        </div>
+    </div>
+    </div>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-        <script type="module" src="/assets/js/movimientos.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
-        <script src="/assets/js/dashboard.js"></script>
-        <!-- <script src="/assets/js/charts.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+    <script type="module" src="/assets/js/movimientos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- <script src="/assets/js/charts.js"></script> -->
 
-        <!-- Scripts -->
-        <!-- <script>
+    <!-- Scripts -->
+    <!-- <script>
             $(".menu .item").tab();
             $(".ui.dropdown").dropdown();
 
