@@ -268,7 +268,7 @@ $(document).ready(function () {
               <td class="center aligned">${producto.PRECIO_VENTA}</td>
               <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
               <td class="center aligned">${producto.FECHA_COMPRA}</td>
-              <td class="center aligned">DISPONIBLE</td>
+              <td class="center aligned">${producto.ID_ESTADO}</td>
           `;
 
         if (userRol === "1") {

@@ -74,7 +74,8 @@ class Inventario extends ResourceController
             "PRECIO_VENTA"          => $row['PRECIO_VENTA'],
             "NOMBRE_PROVEEDOR"      => $row['NOMBRE_PROVEEDOR'],
             "TOTAL_CANTIDAD"        => $row['TOTAL_CANTIDAD'],
-            "FECHA_COMPRA"          => $row['FECHA_COMPRA']
+            "FECHA_COMPRA"          => $row['FECHA_COMPRA'],
+            "ID_ESTADO"             => $row['ID_ESTADO']
           ];
         }
 
@@ -440,6 +441,12 @@ class Inventario extends ResourceController
 
       if ($this->request->getMethod() === 'POST') {
         $db = \Config\Database::connect();
+
+        /**
+         * P_IDUSUARIO,
+         * P_IDPRODUCTO,
+         * P_IDESTADO
+         */
 
         $query = $db->query(
           "CALL PR_18_ACTUALIZA_ESTADO_PRODUCTO(?, ?, ?)",
