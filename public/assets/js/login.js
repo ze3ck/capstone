@@ -149,7 +149,6 @@ document.getElementById("enviarSoporte").addEventListener("click", function () {
     if (email && motivo) {
         // Mostrar el loader cuando se comienza a enviar el correo
         mostrarLoader();
-
         fetch("/enviarSoporte", {
             method: "POST",
             headers: {
@@ -162,7 +161,6 @@ document.getElementById("enviarSoporte").addEventListener("click", function () {
         })
             .then((response) => response.json())
             .then((data) => {
-                // Ocultar el loader una vez que el correo haya sido enviado exitosamente
                 ocultarLoader();
 
                 if (data.success) {
