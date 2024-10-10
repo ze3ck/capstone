@@ -181,7 +181,6 @@ class Inventario extends ResourceController
    * selectProductos()
    * PR_14_SELECT_PRODUCTOS
    */
-
   public function selectProductos()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
