@@ -246,7 +246,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <table class="ui celled long scrolling table">
                 <thead>
                     <tr>
-                        <th class="center aligned">ID Producto</th>
+                        <th id="id-producto" class="center aligned">ID Producto</th>
                         <th class="center aligned">Nombre Producto</th>
                         <th class="center aligned">Descripción Producto</th>
                         <th class="center aligned">Unidad de Medida</th>
@@ -263,7 +263,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <tbody id="productTableBody"></tbody>
             </table>
         </div>
-    </div>
 </body>
 
 <link rel="stylesheet" type="text/css"

@@ -214,12 +214,11 @@ $(document).ready(function () {
 
   // llenarTablaProductos()
   async function llenarTablaProductos() {
-    console.log("entre a llenartabla");
+    console.log("Entré a llenartabla");
     mostarLoader();
 
     try {
-      let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-
+      const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
       console.log("ID del usuario:", id_usuario);
 
       const response = await fetch(
@@ -229,7 +228,7 @@ $(document).ready(function () {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+          credentials: "include", // Para incluir cookies en la solicitud, si es necesario
           body: JSON.stringify({
             P_IDUSUARIO: id_usuario,
           }),
@@ -243,7 +242,6 @@ $(document).ready(function () {
       }
 
       const data = await response.json();
-
       console.log("Datos de la respuesta:", data);
 
       if (!data.success) {
@@ -253,48 +251,133 @@ $(document).ready(function () {
       const tbody = document.getElementById("productTableBody");
       const userRol = document.getElementById("ROL").innerHTML.trim();
 
-      tbody.innerHTML = "";
+      tbody.innerHTML = ""; // Limpiar el contenido del tbody
 
+      // Generación de la tabla
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
 
-        // Estructura básica de las celdas de la fila
+        // Generación del HTML para cada fila
+        // Generación del HTML para cada fila
         let filaHTML = `
-              <td class="center aligned">${producto.ID_PRODUCTO}</td>
-              <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
-              <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
-              <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
-              <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-              <td class="center aligned">${producto.PRECIO_VENTA}</td>
-              <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
-              <td class="center aligned">${producto.FECHA_COMPRA}</td>
-              <td class="center aligned">${producto.ID_ESTADO}</td>
-          `;
-
-        if (userRol === "1") {
-          filaHTML += `
-                <td class="center aligned actions-column">
-                    <div class="ui icon buttons">
-                        <button class="ui icon button" title="Editar">
-                            <i class="fas fa-edit" style="color: blue;"></i>
-                        </button>
-                    </div>
+                <td class="center aligned">${producto.ID_PRODUCTO}</td>
+                <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
+                <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
+                <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
+                <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
+                <td class="center aligned">${producto.PRECIO_VENTA}</td>
+                <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+                <td class="center aligned">${producto.FECHA_COMPRA}</td>
+                <td class="center aligned">
+                    <select class="ui dropdown estado-dropdown" data-producto-id="${
+                      producto.ID_PRODUCTO
+                    }">
+                        <option value="1" ${
+                          producto.ID_ESTADO == 1 ? "selected" : ""
+                        }>Activo</option>
+                        <option value="2" ${
+                          producto.ID_ESTADO == 2 ? "selected" : ""
+                        }>Inactivo</option>
+                    </select>
                 </td>
             `;
+
+        // Agregar acciones si el usuario tiene el rol adecuado
+        if (userRol === "1") {
+          filaHTML += `
+                  <td class="center aligned actions-column">
+                      <div class="ui icon buttons">
+                          <button class="ui icon button" title="Editar">
+                              <i class="fas fa-edit" style="color: blue;"></i>
+                          </button>
+                      </div>
+                  </td>
+              `;
         }
 
+        // Asignar el HTML generado a la fila y añadirlo al tbody
         fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
+      });
+
+      // Añadir evento onchange a cada dropdown después de inicializar Fomantic UI
+      document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
+        dropdown.addEventListener("change", () =>
+          cambiarEstadoProducto(dropdown)
+        );
       });
     } catch (error) {
       console.error("Error:", error);
     }
 
-    ocultarLoader();
+    ocultarLoader(); // Ocultar el loader cuando se termine de cargar la tabla
   }
 
-  // Llamada de la función al cargar el documento
-  // document.addEventListener("DOMContentLoaded", function () {
-  //    // Llamamos a la función para llenar la tabla al cargar la página
-  // });
+  // Escuchar cambios en el dropdown de estado
+  document
+    .getElementById("productTableBody")
+    .addEventListener("change", async function (event) {
+      if (event.target && event.target.classList.contains("estado-dropdown")) {
+        // Capturar el ID del producto desde el atributo data-producto-id
+        const idProducto = event.target.getAttribute("data-producto-id");
+        const nuevoEstado = event.target.value; // Obtener el nuevo estado seleccionado
+
+        // Debugging para ver si los valores se obtienen correctamente
+        console.log(
+          "ID del producto capturado desde data-producto-id:",
+          idProducto
+        );
+        console.log("Nuevo estado seleccionado:", nuevoEstado);
+
+        // Verificar que los valores no sean undefined o vacíos
+        if (!idProducto || !nuevoEstado) {
+          console.error("ID del producto o estado no definidos:", {
+            idProducto,
+            nuevoEstado,
+          });
+          return; // Si alguno de los valores es inválido, detener la ejecución
+        }
+
+        // Obtener el ID del usuario desde el HTML
+        const idUsuario = document
+          .getElementById("ID_USUARIO")
+          .innerHTML.trim();
+
+        // Verificar si los valores son correctos antes de enviar al backend
+        console.log("Datos enviados al backend:", {
+          P_IDUSUARIO: idUsuario,
+          P_IDPRODUCTO: idProducto,
+          P_IDESTADO: nuevoEstado,
+        });
+
+        // Realizar la llamada al backend para actualizar el estado del producto
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}inventario/actualizaEstadoProducto`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                P_IDUSUARIO: idUsuario,
+                P_IDPRODUCTO: idProducto,
+                P_IDESTADO: nuevoEstado,
+              }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.success) {
+            alert("El estado del producto ha sido actualizado correctamente.");
+          } else {
+            alert("Error al actualizar el estado del producto.");
+          }
+        } catch (error) {
+          console.error("Error al actualizar el estado del producto:", error);
+          alert("Hubo un problema al actualizar el estado.");
+        }
+      }
+    });
 });
