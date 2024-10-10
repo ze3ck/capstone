@@ -58,7 +58,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
         <h1 class="titulo-gestion-prod" style="text-align: center; margin-top: 4%;">Gestión de Productos</h1>
         <!-- Formulario para generar productos -->
-        <div id="modalContainer">
+        <!-- <div id="modalContainer"> -->
             <!-- Modal para editar producto -->
             <div class="ui modal" id="editProductModal">
                 <div class="header">Editar Producto</div>
@@ -206,7 +206,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <button class="ui button">Cancelar</button>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
 
         <!-- Botón para abrir el modal de generar producto -->
         <div class="button-container">
@@ -242,7 +242,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- Tabla de productos -->
         <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
         <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
-        <div class="main-container">
+        <!-- <div class="main-container"> -->
             <table class="ui celled long scrolling table">
                 <thead>
                     <tr>
@@ -262,7 +262,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </thead>
                 <tbody id="productTableBody"></tbody>
             </table>
-        </div>
+        <!-- </div> -->
     </div>
 </body>
 

@@ -192,8 +192,12 @@ function cargarFilasDetalleMovimientos(
 
 $(document).ready(function () {
   // Mostrar el modal cuando se haga clic en el botón "Generar Salida Producto"
-  $(".ui.blue.button").on("click", function () {
+  $("#btnNuevoMovimiento").on("click", function () {
     $("#modalGenerarSalida").modal("show");
+  });
+
+  $("#btnNuevoGastoOperativo").on("click", function () {
+    $("#modalNuevoGastoOperativo").modal("show");
   });
 
   let total = 0;

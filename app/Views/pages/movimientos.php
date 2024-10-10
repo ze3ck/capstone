@@ -210,7 +210,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <span id="ID_USUARIO" style="display:none">
                     <?php echo $_SESSION['user_id'] ?></span>
             </table>
-            <button class="ui blue button">Generar Salida Producto</button>
+            <button id="btnNuevoMovimiento" class="ui blue button">Nueva Salida Producto</button>
+            <button id="btnNuevoGastoOperativo"  class="ui blue button">Nuevo Gasto Operativo</button>
 
         </div>
     </div>
@@ -237,6 +238,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <button class="negative ui button">Cerrar</button>
         </div>
     </div>
+
+
 
     <!-- Modal para Generar Salida de Producto -->
     <div class="ui modal" id="modalGenerarSalida">
@@ -299,6 +302,34 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <button class="ui green button" id="generarSalidaBtn">Generar Salida</button>
         </div>
     </div>
+    
+    <!-- Modal para Generar Gasto Operativo -->
+    <div class="ui large modal" id="modalNuevoGastoOperativo">
+        <div class="header">Nuevo Gasto Operativo</div>
+        <div class="content">
+            <form class="ui form">
+                <div class="field">
+                    <label>Descripción</label>
+                    <input type="text" name="descripcion" placeholder="Descripción">
+                </div>
+                <div class="field">
+                    <label>Monto</label>
+                    <input type="number" name="monto" placeholder="Monto" min="0"">
+                </div>
+                <div class="field">
+                    <label>Categoría</label>
+                    <select id="selectCategoria">
+                        <option value="">LLenar dinamico</option>
+                        <option value="">Recreacion</option>
+                        <option value="">Servicion</option>
+                    </select>
+
+                </div>
+        </div>
+        <div class="actions">
+            <button class="ui positive button">Guardar</button>
+            <button class="ui negative button">Cancelar</button>
+        </div>
     </div>
 
 

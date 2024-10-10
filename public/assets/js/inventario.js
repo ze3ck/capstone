@@ -12,9 +12,12 @@ $(document).ready(function () {
   //   on: "hover", // Muestra el popup al pasar el ratón
   // });
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
-
+  function editarProducto(param){
+    console.log('cristian wekito ', param)
+  }
   function mostarLoader() {
     document.getElementById("loader").style.display = "block";
+    
   }
   function ocultarLoader() {
     document.getElementById("loader").style.display = "none";
@@ -275,7 +278,7 @@ $(document).ready(function () {
           filaHTML += `
                 <td class="center aligned actions-column">
                     <div class="ui icon buttons">
-                        <button class="ui icon button" title="Editar">
+                        <button class="ui icon button" title="Editar" onclick="editarProducto(${producto.ID_PRODUCTO})">
                             <i class="fas fa-edit" style="color: blue;"></i>
                         </button>
                     </div>
@@ -297,4 +300,7 @@ $(document).ready(function () {
   // document.addEventListener("DOMContentLoaded", function () {
   //    // Llamamos a la función para llenar la tabla al cargar la página
   // });
+
 });
+
+
