@@ -164,7 +164,7 @@ class Inventario extends ResourceController
           return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al insertar el producto en la base de datos.']);
         } else {
           $db->transCommit();
-          return $this->respond([
+          return $this->response->setStatusCode(200)->setJSON([
             'success' => true,
             'message' => 'Producto agregado correctamente.'
           ]);
@@ -442,12 +442,6 @@ class Inventario extends ResourceController
       if ($this->request->getMethod() === 'POST') {
         $db = \Config\Database::connect();
 
-        /**
-         * P_IDUSUARIO,
-         * P_IDPRODUCTO,
-         * P_IDESTADO
-         */
-
         $query = $db->query(
           "CALL PR_18_ACTUALIZA_ESTADO_PRODUCTO(?, ?, ?)",
           [
@@ -457,16 +451,18 @@ class Inventario extends ResourceController
           ]
         );
 
+        // Verificar si se afectó alguna fila
         if ($db->affectedRows() > 0) {
           return $this->respond([
             'success' => true,
             'message' => 'Estado del producto actualizado correctamente.',
           ], 200);
         } else {
+          // No se realizaron cambios
           return $this->respond([
             'success' => false,
-            'message' => 'No se encontró el producto o no se realizaron cambios en el estado.'
-          ], 400);
+            'message' => 'No se realizaron cambios en el estado del producto.',
+          ], 200); 
         }
       }
     } catch (\Exception $e) {

@@ -1,23 +1,37 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-  $('#saveProductButton').click(agregarNuevoProducto)
+  $("#saveProductButton").click(agregarNuevoProducto);
   selectProveedores();
   selectUnidadMedida();
+});
 
-})
-function agregarNuevoProducto() {
-  const nombreField = document.getElementById("nombreField")
-  const descripcionField = document.getElementById("descripcionField")
-  const unidadField = document.getElementById("unidadField")
-  const proveedorField = document.getElementById("proveedorField")
-  const idNuevoLote = document.getElementById("idNuevoLote")
-  const fechaVencField = document.getElementById("nuevaFechaVenc")
-  const fechaCompField = document.getElementById("nuevaFechaComp")
-  const cantidadField = document.getElementById("nuevaCantidad")
-  const precioCompField = document.getElementById("nuevoPrecioComp")
-  const precioVentaField = document.getElementById("nuevoPrecioVenta")
-  const idUsuario = document.getElementById("ID_USUARIO")
+// Limpieza del modal
+document
+  .querySelector(".ui.red.cancel.button")
+  .addEventListener("click", function () {
+    limpiarFormularioProducto();
+  });
+$("#productModal").on("hidden.bs.modal", function () {
+  limpiarFormularioProducto();
+});
+
+$("#productModal").on("show.bs.modal", function () {
+  limpiarFormularioProducto();
+});
+
+async function agregarNuevoProducto() {
+  const nombreField = document.getElementById("nombreField");
+  const descripcionField = document.getElementById("descripcionField");
+  const unidadField = document.getElementById("unidadField");
+  const proveedorField = document.getElementById("proveedorField");
+  const idNuevoLote = document.getElementById("idNuevoLote");
+  const fechaVencField = document.getElementById("nuevaFechaVenc");
+  const fechaCompField = document.getElementById("nuevaFechaComp");
+  const cantidadField = document.getElementById("nuevaCantidad");
+  const precioCompField = document.getElementById("nuevoPrecioComp");
+  const precioVentaField = document.getElementById("nuevoPrecioVenta");
+  const idUsuario = document.getElementById("ID_USUARIO");
 
   const nombreValue = nombreField.value.trim();
   const descripcionValue = descripcionField.value.trim();
@@ -32,8 +46,8 @@ function agregarNuevoProducto() {
   const idUsuarioValue = idUsuario.textContent.trim();
 
   try {
-    console.log("entró al trycatch");
-    const response = fetch(
+    console.log("Enviando datos al servidor...");
+    const response = await fetch(
       `${API_BASE_URL}inventario/agregarNuevoProducto`,
       {
         method: "POST",
@@ -47,25 +61,85 @@ function agregarNuevoProducto() {
           P_ID_PROVEEDOR: proveedorValue,
           P_ID_USUARIO: idUsuarioValue,
           P_ID_LOTE: idNuevoLoteValue,
-          P_FECHA_VENCIMIENTO: fechaVencValue,  //"2024-10-10",
+          P_FECHA_VENCIMIENTO: fechaVencValue,
           P_CANTIDAD: cantidadValue,
           P_PRECIO_COMPRA: precioCompValue,
           P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompValue // "2024-10-10"
+          P_FECHA_COMPRA: fechaCompValue,
         }),
       }
     );
-  } catch {
-    const data = response.json();
-    console.log("Datos de la respuesta:", data);
-    console.error("Error al enviar la solicitud");
+
+    if (!response.ok) {
+      throw new Error(
+        `Error al agregar el producto. Estado: ${response.status}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      console.log("Producto agregado con éxito:", data);
+
+      $("body").toast({
+        message: "Se ha agregado un nuevo producto exitosamente",
+        class: "success",
+        displayTime: 3000,
+      });
+    } else {
+      console.warn("El servidor no devolvió un JSON válido.");
+      $("body").toast({
+        message:
+          "Producto agregado exitosamente, pero la respuesta no es válida.",
+        class: "warning",
+        displayTime: 3000,
+      });
+    }
+  } catch (error) {
+    console.error("Error al enviar la solicitud:", error);
+
+    // Mostrar mensaje de error
+    $("body").toast({
+      message:
+        "Error al agregar el producto. Revisa la consola para más detalles.",
+      class: "error",
+      displayTime: 3000,
+    });
+  }
+}
+
+// funcion limpiar formulario agregar nuevos productos
+function limpiarFormularioProducto() {
+  document
+    .querySelectorAll(
+      '#productModal input[type="text"], #productModal input[type="number"]'
+    )
+    .forEach((input) => {
+      input.value = "";
+    });
+
+  document.querySelectorAll("#productModal select").forEach((select) => {
+    select.selectedIndex = 0;
+  });
+
+  document
+    .querySelectorAll('#productModal input[type="date"]')
+    .forEach((input) => {
+      input.value = "";
+    });
+
+  const newProductCheckbox = document
+    .getElementById("newProductCheckbox")
+    .querySelector("input");
+  if (newProductCheckbox.checked) {
+    newProductCheckbox.checked = false;
+    // Asegúrate de ocultar los campos de "Datos Producto"
+    document.getElementById("datosProducto").style.display = "none";
   }
 }
 
 //Función seleccionar Proveedores
-
 async function selectProveedores() {
-
   try {
     const idusuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
@@ -77,7 +151,7 @@ async function selectProveedores() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          P_IDUSUARIO: idusuario
+          P_IDUSUARIO: idusuario,
         }),
       }
     );
@@ -95,7 +169,6 @@ async function selectProveedores() {
   } catch {
     console.error("Error al enviar la solicitud");
   }
-
 }
 
 // function llenadoSelect(idSelect, codOpcion, nomOpcion) {
@@ -114,7 +187,7 @@ async function selectUnidadMedida() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       }
     );
     const dropdown = document.getElementById("unidadField");
@@ -126,12 +199,11 @@ async function selectUnidadMedida() {
       opt.value = opcion.ID_UNIDAD_MEDIDA;
       opt.innerHTML = opcion.DESCRIPCION_UNIDAD;
       dropdown.appendChild(opt);
-      console.log("Error")
+      console.log("Error");
     });
   } catch {
     console.error("Error al enviar la solicitud");
   }
-
 }
 $(document).ready(function () {
   console.log("entre a inventario.js");
@@ -338,13 +410,13 @@ $(document).ready(function () {
   });
 
   // Lógica del filtro de estado (Activo, Inactivo)
-  $('#estadoDropdown').change(function () {
+  $("#estadoDropdown").change(function () {
     var selectedEstado = $(this).val(); // Captura el valor seleccionado (1, 2 o vacío para "Todos")
 
     // Itera sobre cada fila de la tabla
-    $('#productTableBody tr').each(function () {
+    $("#productTableBody tr").each(function () {
       // Obtiene el valor seleccionado en el dropdown de cada fila
-      var estadoFila = $(this).find('.estado-dropdown').val();
+      var estadoFila = $(this).find(".estado-dropdown").val();
 
       // Compara con el valor seleccionado en el dropdown de filtro
       if (selectedEstado === "" || estadoFila === selectedEstado) {
@@ -408,12 +480,15 @@ $(document).ready(function () {
                 <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
                 <td class="center aligned">${producto.FECHA_COMPRA}</td>
                 <td class="center aligned">
-                    <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
-          }">
-                        <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
-          }>Activo</option>
-                        <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
-          }>Inactivo</option>
+                    <select class="estado-dropdown" data-producto-id="${
+                      producto.ID_PRODUCTO
+                    }">
+                        <option value="1" ${
+                          producto.ID_ESTADO == 1 ? "selected" : ""
+                        }>Activo</option>
+                        <option value="2" ${
+                          producto.ID_ESTADO == 2 ? "selected" : ""
+                        }>Inactivo</option>
                     </select>
                 </td>
             `;
@@ -446,8 +521,6 @@ $(document).ready(function () {
     ocultarLoader(); // Ocultar el loader cuando se termine de cargar la tabla
   }
 
-
-
   function cambiarEstadoProducto(dropdown) {
     const idProducto = dropdown.getAttribute("data-producto-id");
     const nuevoEstado = dropdown.value;
@@ -458,9 +531,65 @@ $(document).ready(function () {
     actualizarEstadoProducto(idProducto, nuevoEstado);
   }
 
+  async function actualizarEstadoProducto(idProducto, nuevoEstado) {
+    const idUsuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+    console.log("Datos enviados al backend:", {
+      P_IDUSUARIO: idUsuario,
+      P_IDPRODUCTO: idProducto,
+      P_IDESTADO: nuevoEstado,
+    });
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}inventario/actualizaEstadoProducto`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_IDUSUARIO: idUsuario,
+            P_IDPRODUCTO: idProducto,
+            P_IDESTADO: nuevoEstado,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.success) {
+          mostrarToast(
+            "El estado del producto ha sido actualizado correctamente.",
+            "success"
+          );
+        }
+      } else {
+        mostrarToast("Error al actualizar el estado del producto.", "error");
+      }
+    } catch (error) {
+      console.error("Error al actualizar el estado del producto:", error);
+      mostrarToast("Hubo un problema al actualizar el estado.", "error");
+    }
+  }
+
+  // array de toast
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
+
   document
     .getElementById("productTableBody")
-    .addEventListener("change", async function (event) {
+    .addEventListener("change", function (event) {
       if (event.target && event.target.classList.contains("estado-dropdown")) {
         const idProducto = event.target.getAttribute("data-producto-id");
         const nuevoEstado = event.target.value; // Obtener el nuevo estado seleccionado
@@ -479,60 +608,167 @@ $(document).ready(function () {
           return; // Si alguno de los valores es inválido, detener la ejecución
         }
 
-        const idUsuario = document
-          .getElementById("ID_USUARIO")
-          .innerHTML.trim();
-
-        console.log("Datos enviados al backend:", {
-          P_IDUSUARIO: idUsuario,
-          P_IDPRODUCTO: idProducto,
-          P_IDESTADO: nuevoEstado,
-        });
-
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}inventario/actualizaEstadoProducto`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                P_IDUSUARIO: idUsuario,
-                P_IDPRODUCTO: idProducto,
-                P_IDESTADO: nuevoEstado,
-              }),
-            }
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            mostrarToast(
-              "El estado del producto ha sido actualizado correctamente.",
-              "success"
-            );
-          } else {
-            mostrarToast(
-              "Error al actualizar el estado del producto.",
-              "error"
-            );
-          }
-        } catch (error) {
-          console.error("Error al actualizar el estado del producto:", error);
-          mostrarToast("Hubo un problema al actualizar el estado.", "error");
-        }
-      }
-
-      function mostrarToast(mensaje, tipo) {
-        $("body").toast({
-          class: tipo === "success" ? "success" : "error",
-          message: mensaje,
-          showProgress: "bottom",
-          displayTime: 3000,
-        });
+        actualizarEstadoProducto(idProducto, nuevoEstado); // Llamar a la función para actualizar el estado
       }
     });
 
   llenarTablaProductos();
+
+  // calendarios para fecha vencimiento y fecha compra
+
+  $(document).ready(function () {
+    $("#calendarioVencimiento").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+
+    $("#calendarioCompra").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+  });
+
+  // exportar excel
+  document
+    .getElementById("exportExcelButton")
+    .addEventListener("click", function () {
+      exportarTablaAExcel("productTableBody", "inventario.xlsx");
+    });
+
+  function exportarTablaAExcel(tablaID, nombreArchivo = "") {
+    var tabla = document.querySelector(`#${tablaID}`).closest("table");
+
+    var tablaClonada = tabla.cloneNode(true);
+
+    var headers = tablaClonada.querySelectorAll("thead th");
+    let indexAcciones = -1;
+    headers.forEach((header, index) => {
+      if (header.innerText.trim().toLowerCase() === "acciones") {
+        indexAcciones = index;
+      }
+    });
+    // remover columna 'acciones'
+    if (indexAcciones !== -1) {
+      headers[indexAcciones].remove();
+
+      tablaClonada.querySelectorAll("tbody tr").forEach((fila) => {
+        fila.querySelectorAll("td")[indexAcciones].remove();
+      });
+    }
+
+    tablaClonada.querySelectorAll("tr").forEach(function (fila) {
+      fila.querySelectorAll("td").forEach(function (celda) {
+        var select = celda.querySelector("select");
+        if (select) {
+          var selectedOption = select.options[select.selectedIndex].text;
+          celda.innerText = selectedOption; 
+        }
+      });
+    });
+
+    var wb = XLSX.utils.table_to_book(tablaClonada, {
+      sheet: "Inventario",
+      raw: true,
+    });
+
+    XLSX.writeFile(wb, nombreArchivo || "archivo.xlsx");
+  }
 });

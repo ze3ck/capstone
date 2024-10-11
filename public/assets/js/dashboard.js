@@ -3,10 +3,10 @@ $(document).ready(function () {
   $('.ui.sidebar').sidebar({
     transition: 'push',
     onVisible: function () {
-      console.log("Sidebar visible");
+      // console.log("Sidebar visible");
     },
     onHide: function () {
-      console.log("Sidebar hidden");
+      // console.log("Sidebar hidden");
     }
   });
 

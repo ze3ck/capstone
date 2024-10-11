@@ -114,8 +114,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioVencimiento">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento"
-                                            required>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento" required>
                                     </div>
                                 </div>
                             </div>
@@ -266,10 +265,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
 </body>
 
+<!-- Scripts  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
 <script type="module" src='/assets/js/inventario.js'></script>
 <script type="module" src="/assets/js/dashboard.js"></script>
+<!-- Scripts  -->
 
 </html>
