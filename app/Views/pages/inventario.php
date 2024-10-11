@@ -88,9 +88,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <label>Unidad de Medida</label>
                                 <select class="ui dropdown" name="P_UNIDAD_MEDIDA" id="unidadField" required>
                                     <option value="">Seleccione</option>
-                                    <option value="1">Gramos</option>
-                                    <option value="2">Mililitros</option>
-                                    <option value="3">Unidad</option>
                                 </select>
                             </div>
                             <span id="ID_USUARIO" style="display:none">

@@ -3,6 +3,7 @@ import { API_BASE_URL } from "./apiConfig.js";
 document.addEventListener("DOMContentLoaded", function () {
   $('#saveProductButton').click(agregarNuevoProducto)
   selectProveedores();
+  selectUnidadMedida();
 
 })
 function agregarNuevoProducto() {
@@ -83,39 +84,35 @@ async function selectProveedores() {
 
 }
 
-function llenadoSelect(idSelect, codOpcion, nomOpcion) {
-  select = document.getElementById(idSelect);
-  var opt = document.createElement('option');
-  opt.value = codOpcion;
-  opt.innerHTML =nomOpcion;
-  select.appendChild(opt);
-}
+// function llenadoSelect(idSelect, codOpcion, nomOpcion) {
+//   select = document.getElementById(idSelect);
+//   var opt = document.createElement('option');
+//   opt.value = codOpcion;
+//   opt.innerHTML =nomOpcion;
+//   select.appendChild(opt);
+// }
 
 async function selectUnidadMedida() {
   try {
-    const idusuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-
     const response = await fetch(
       `${API_BASE_URL}inventario/selectUnidadMedida`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          P_IDUSUARIO: idusuario
-        }),
+        }
       }
     );
-    const dropdown =  document.getElementById("proveedorField");
+    const dropdown =  document.getElementById("unidadField");
 
     const data = await response.json();
-    console.log("Datos de la respuesta:", data);
+    console.log("Datos unidad:", data);
     data.response.forEach((opcion) => {
       var opt = document.createElement("option");
-      opt.value = opcion.ID_PROVEEDOR;
-      opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      opt.value = opcion.ID_UNIDAD_MEDIDA;
+      opt.innerHTML = opcion.DESCRIPCION_UNIDAD;
       dropdown.appendChild(opt);
+      console.log("Error")
     });
   } catch {
     console.error("Error al enviar la solicitud");
