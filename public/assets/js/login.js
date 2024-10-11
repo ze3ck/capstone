@@ -95,57 +95,47 @@ document.addEventListener("DOMContentLoaded", function () {
           }),
         });
 
-        // Si la respuesta no es exitosa (status 400, etc.), procesar el error
-        const errorData = await response.json();
-        if (!response.ok) {
-          try {
-            // Intentar obtener el cuerpo de la respuesta JSON
-            // const errorData = await response.json();
-            console.log("Error data from server:", errorData); // Para depuración
+        // Almacenar los datos de la respuesta para evitar leerla dos veces
+        const responseData = await response.json();
 
-            // Verificar si el error tiene un mensaje específico desde el backend
-            if (errorData.messages && errorData.messages.error) {
-              // Si es el caso de usuario inactivo, mostrar el toast de advertencia
-              if (
-                errorData.messages.error ===
-                'Usuario inactivo, no tiene acceso'
-              ) {
-                $("body").toast({
-                  class: "warning",
-                  message: "Usuario inactivo, no tiene acceso.",
-                  position: "top right",
-                  displayTime: 5000,
-                });
-              } else {
-                // Mostrar otros mensajes de error genéricos
-                $("body").toast({
-                  class: "error",
-                  message: errorData.messages.error,
-                  position: "top right",
-                  displayTime: 5000,
-                });
-              }
+        // Verificar si la respuesta no es exitosa (status 400, etc.)
+        if (!response.ok) {
+          console.log("Error data from server:", responseData); // Para depuración
+
+          if (responseData.messages && responseData.messages.error) {
+            // Si es el caso de usuario inactivo, mostrar el toast de advertencia
+            if (
+              responseData.messages.error ===
+              "Usuario inactivo, no tiene acceso"
+            ) {
+              $("body").toast({
+                class: "warning",
+                message: "Usuario inactivo, no tiene acceso.",
+                position: "top right",
+                displayTime: 5000,
+              });
             } else {
+              // Otros mensajes de error genéricos
               $("body").toast({
                 class: "error",
-                message: "Ocurrió un error al procesar la solicitud.",
+                message: responseData.messages.error,
                 position: "top right",
                 displayTime: 5000,
               });
             }
-          } catch (jsonError) {
-            // Si no se puede convertir la respuesta en JSON, mostrar un error genérico
-            console.error("Error al procesar la respuesta JSON:", jsonError);
-            mostrarError(
-              "Ocurrió un error inesperado al procesar la respuesta."
-            );
+          } else {
+            $("body").toast({
+              class: "error",
+              message: "Ocurrió un error al procesar la solicitud.",
+              position: "top right",
+              displayTime: 5000,
+            });
           }
         } else {
-          const data = await response.json();
-          console.log(data); // Verificar la respuesta del servidor
+          // Si el login es exitoso
+          console.log(responseData); // Verificar la respuesta del servidor
 
-          // Si el login es exitoso, redireccionar al dashboard
-          if (data.success === true) {
+          if (responseData.success === true) {
             window.location.href = "/dashboard"; // Redirigir al dashboard
           }
         }

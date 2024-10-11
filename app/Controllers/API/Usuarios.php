@@ -511,7 +511,7 @@ class Usuarios extends ResourceController
 
       // Verificar si no se encontró ningún resultado
       if (!$result) {
-        return $this->failValidationErrors('Email no encontrado o contraseña incorrecta 🔴');
+        return $this->failValidationErrors('Credenciales de Acceso Incorrectas');
       }
 
       // Verificar si el procedimiento almacenado devuelve un estado específico
