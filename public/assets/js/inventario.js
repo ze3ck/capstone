@@ -431,21 +431,25 @@ $(document).ready(function () {
     });
 
     // Mostrar el modal cuando se haga clic en el botón de agregar producto
-    $('#addProductButton').on('click', function () {
+    $('#addProductButton').on('click', function (e) {
+        e.preventDefault(); // Prevenir comportamiento por defecto del botón
         $('#productModal').modal('show');
     });
 
-    // Mostrar/ocultar "Datos Producto" según el checkbox
-    $('#newProductCheckbox').checkbox({
-        onChange: function () {
-            if ($(this).checkbox('is checked')) {
-                $('#datosProducto').slideDown();
-            } else {
-                $('#datosProducto').slideUp();
-            }
-        }
+    // // Mostrar/ocultar "Datos Producto" según el checkbox
+    // $('#newProductCheckbox').checkbox({
+    //     onChange: function () {
+    //         if ($(this).checkbox('is checked')) {
+    //             $('#datosProducto').slideDown();
+    //         } else {
+    //             $('#datosProducto').slideUp();
+    //         }
+    //     }
+    // });
+    // Prevenir el cierre del modal inmediatamente al marcar el checkbox
+    $("#newProductCheckbox input").on("click", function (e) {
+        e.stopPropagation(); // Evitar la propagación del evento
     });
-
     // Inicializar los dropdowns
     $('.ui.dropdown').dropdown();
 
@@ -475,4 +479,5 @@ $(document).ready(function () {
             }
         });
     });
+
 });
