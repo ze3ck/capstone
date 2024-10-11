@@ -1,5 +1,5 @@
 // Importar API_BASE_URL
-import {API_BASE_URL} from "./apiConfig.js";
+import { API_BASE_URL } from "./apiConfig.js";
 
 // Mostrar loader
 function mostrarLoader() {
