@@ -93,12 +93,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                     <option value="3">Unidad</option>
                                 </select>
                             </div>
+                            <span id="ID_USUARIO" style="display:none">
+                                <?php echo $_SESSION['user_id'] ?></span>
                             <div class="field">
                                 <label>Proveedor</label>
                                 <select class="ui dropdown" name="P_ID_PROVEEDOR" id="proveedorField" required>
                                     <option value="">Seleccione Proveedor</option>
-                                    <option value="1">Proveedor 1</option>
-                                    <option value="2">Proveedor 2</option>
                                 </select>
                                 <div class="ui icon button" id="infoButton" data-title="Información"
                                     data-content="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor"

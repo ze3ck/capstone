@@ -1,18 +1,20 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-  $('#saveProductButton').click(prod)
+  $('#saveProductButton').click(agregarNuevoProducto)
+  selectProveedores();
 
 })
-function prod() {
+function agregarNuevoProducto() {
   const nombreField = document.getElementById("nombreField")
   const descripcionField = document.getElementById("descripcionField")
   const unidadField = document.getElementById("unidadField")
+  const proveedorField = document.getElementById("proveedorField")
 
   const nombreValue = nombreField.value.trim();
   const descripcionValue = descripcionField.value.trim();
   const unidadValue = unidadField.value.trim();
-  // const proveedorValue = proveedorField.value.trim();
+  const proveedorValue = proveedorField.value.trim();
 
   console.log(nombreValue);
   console.log("entró al dom");
@@ -29,7 +31,7 @@ function prod() {
           P_NOMBRE_PRODUCTO: nombreValue,
           P_DESCRIPCION_PROD1: descripcionValue,
           P_UNIDAD_MEDIDA: unidadValue,
-          P_ID_PROVEEDOR: 1, // Simuación  de id de proveedor
+          P_ID_PROVEEDOR: proveedorValue, // Simuación  de id de proveedor
           P_ID_USUARIO: 1, // Simulación  de id de usuario
           P_ID_LOTE: 8, //  Simulación  de id de lote
           P_FECHA_VENCIMIENTO: "2025-12-31",  // Simulación  de fecha de vencimiento
@@ -43,9 +45,81 @@ function prod() {
   } catch {
     console.error("Error al enviar la solicitud");
   }
-  $("#saveProductButton").on("click", function () {
-    response;
-  });
+}
+
+//Función seleccionar Proveedores
+
+async function selectProveedores() {
+
+  try {
+    const idusuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+    const response = await fetch(
+      `${API_BASE_URL}inventario/selectProveedores`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_IDUSUARIO: idusuario
+        }),
+      }
+    );
+    const dropdown =  document.getElementById("proveedorField");
+
+    const data = await response.json();
+    console.log("Datos de la respuesta:", data);
+    data.response.forEach((opcion) => {
+      // llenadoSelect("proveedorField", opcion.ID_PROVEEDOR, opcion.NOMBRE_PROVEEDOR)
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_PROVEEDOR;
+      opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      dropdown.appendChild(opt);
+    });
+  } catch {
+    console.error("Error al enviar la solicitud");
+  }
+
+}
+
+function llenadoSelect(idSelect, codOpcion, nomOpcion) {
+  select = document.getElementById(idSelect);
+  var opt = document.createElement('option');
+  opt.value = codOpcion;
+  opt.innerHTML =nomOpcion;
+  select.appendChild(opt);
+}
+
+async function selectUnidadMedida() {
+  try {
+    const idusuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+    const response = await fetch(
+      `${API_BASE_URL}inventario/selectUnidadMedida`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_IDUSUARIO: idusuario
+        }),
+      }
+    );
+    const dropdown =  document.getElementById("proveedorField");
+
+    const data = await response.json();
+    console.log("Datos de la respuesta:", data);
+    data.response.forEach((opcion) => {
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_PROVEEDOR;
+      opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      dropdown.appendChild(opt);
+    });
+  } catch {
+    console.error("Error al enviar la solicitud");
+  }
 
 }
 $(document).ready(function () {
