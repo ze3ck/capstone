@@ -403,4 +403,76 @@ $(document).ready(function () {
         });
 
     llenarTablaProductos(); // Llenar la tabla al cargar la página
+
+    $('#calendarioVencimiento').calendar({
+        type: 'date',
+        formatter: {
+            date: function (date, settings) {
+                if (!date) return '';
+                var day = ('0' + date.getDate()).slice(-2);
+                var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                var year = date.getFullYear();
+                return day + '-' + month + '-' + year; // Formato DD-MM-YYYY
+            }
+        }
+    });
+
+    $('#calendarioCompra').calendar({
+        type: 'date',
+        formatter: {
+            date: function (date, settings) {
+                if (!date) return '';
+                var day = ('0' + date.getDate()).slice(-2);
+                var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                var year = date.getFullYear();
+                return day + '-' + month + '-' + year; // Formato DD-MM-YYYY
+            }
+        }
+    });
+
+    // Mostrar el modal cuando se haga clic en el botón de agregar producto
+    $('#addProductButton').on('click', function () {
+        $('#productModal').modal('show');
+    });
+
+    // Mostrar/ocultar "Datos Producto" según el checkbox
+    $('#newProductCheckbox').checkbox({
+        onChange: function () {
+            if ($(this).checkbox('is checked')) {
+                $('#datosProducto').slideDown();
+            } else {
+                $('#datosProducto').slideUp();
+            }
+        }
+    });
+
+    // Inicializar los dropdowns
+    $('.ui.dropdown').dropdown();
+
+    // Inicializar el popup de información
+    $('#infoButton').popup();
+
+    // Enviar los datos del formulario cuando se hace clic en "Guardar"
+    $('#saveProductButton').on('click', function () {
+        const formData = $('#productForm').serialize(); // Serializa los datos del formulario
+
+        // Enviar los datos vía AJAX
+        $.ajax({
+            url: `${API_BASE_URL}inventario/guardarProducto`, // URL del controlador de CodeIgniter
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    alert('Producto guardado exitosamente');
+                    location.reload(); // Recargar la página
+                } else {
+                    alert('Error al guardar el producto');
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                alert('Hubo un problema al guardar el producto.');
+            }
+        });
+    });
 });
