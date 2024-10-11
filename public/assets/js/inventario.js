@@ -206,18 +206,15 @@ $(document).ready(function () {
 
     // Lógica del filtro de estado (Activo, Inactivo)
     $('#estadoDropdown').change(function () {
-        var selectedEstado = $(this).val(); // Captura el valor seleccionado (1, 2 o vacío para "Todos")
+        var selectedEstado = $(this).val(); 
 
-        // Itera sobre cada fila de la tabla
         $('#productTableBody tr').each(function () {
-            // Obtiene el valor seleccionado en el dropdown de cada fila
             var estadoFila = $(this).find('.estado-dropdown').val();
 
-            // Compara con el valor seleccionado en el dropdown de filtro
             if (selectedEstado === "" || estadoFila === selectedEstado) {
-                $(this).show(); // Muestra la fila si coincide el estado o si "Todos" está seleccionado
+                $(this).show(); 
             } else {
-                $(this).hide(); // Oculta la fila si no coincide
+                $(this).hide(); 
             }
         });
     });
