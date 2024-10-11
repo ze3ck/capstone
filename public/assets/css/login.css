@@ -68,7 +68,7 @@ html {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(270deg, #1c2b5a, #2b67a3, #2b5579, #3b6d92);
+  background: linear-gradient(270deg, #1c2b5a, #2b67a3, #2b5579, #2d6188);
   background-size: 400% 400%;
   animation: gradientAnimation 20s ease infinite;
   filter: blur(8px);
@@ -371,8 +371,8 @@ header {
 
 /* Text Styles */
 .text-container-frase {
-  padding-top: 12%;
-  padding-left: 14%;
+  padding-top: 11%;
+  padding-left: 13%;
 }
 
 /* Ajustar el tamaño y alineación de la imagen "O" */
