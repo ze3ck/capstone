@@ -517,7 +517,7 @@ class Usuarios extends ResourceController
       // Verificar si el procedimiento almacenado devuelve un estado específico
       if (isset($result['estado']) && $result['estado'] == 2) {
         // Si el estado es 2, el usuario está inactivo
-        return $this->failValidationErrors('Usuario inactivo, no tiene acceso 🔴');
+        return $this->failValidationErrors('Usuario inactivo, no tiene acceso');
       }
 
       // Verificar si los datos del usuario están completos

@@ -45,7 +45,8 @@
                 <h4 class="ui teal image header">
                     <div class="content-subtitle" style="font-size: 150%">Inicia Sesión con Tu Cuenta</div>
                 </h4>
-
+                <!-- errores   -->
+                <div id="formError" style="display: none; color: pink;"></div>
                 <!-- Mostrar errores si existen -->
                 <?php if (session()->getFlashdata('error')): ?>
                     <div class="ui negative message">

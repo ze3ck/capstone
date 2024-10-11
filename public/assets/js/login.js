@@ -95,34 +95,62 @@ document.addEventListener("DOMContentLoaded", function () {
           }),
         });
 
+        // Si la respuesta no es exitosa (status 400, etc.), procesar el error
+        const errorData = await response.json();
         if (!response.ok) {
-          const errorData = await response.json();
+          try {
+            // Intentar obtener el cuerpo de la respuesta JSON
+            // const errorData = await response.json();
+            console.log("Error data from server:", errorData); // Para depuración
 
-          if (errorData.messages && errorData.messages.error) {
-            if (
-              errorData.messages.error ===
-              "Usuario inactivo, no tiene acceso 🔴"
-            ) {
+            // Verificar si el error tiene un mensaje específico desde el backend
+            if (errorData.messages && errorData.messages.error) {
+              // Si es el caso de usuario inactivo, mostrar el toast de advertencia
+              if (
+                errorData.messages.error ===
+                'Usuario inactivo, no tiene acceso'
+              ) {
+                $("body").toast({
+                  class: "warning",
+                  message: "Usuario inactivo, no tiene acceso.",
+                  position: "top right",
+                  displayTime: 5000,
+                });
+              } else {
+                // Mostrar otros mensajes de error genéricos
+                $("body").toast({
+                  class: "error",
+                  message: errorData.messages.error,
+                  position: "top right",
+                  displayTime: 5000,
+                });
+              }
+            } else {
               $("body").toast({
-                class: "warning",
-                message: "Usuario inactivo, no tiene acceso.",
+                class: "error",
+                message: "Ocurrió un error al procesar la solicitud.",
                 position: "top right",
-                showProgress: "bottom",
                 displayTime: 5000,
               });
-            } else {
-              mostrarError(errorData.messages.error);
             }
-          } else {
-            mostrarError("Ocurrió un error al procesar la solicitud.");
+          } catch (jsonError) {
+            // Si no se puede convertir la respuesta en JSON, mostrar un error genérico
+            console.error("Error al procesar la respuesta JSON:", jsonError);
+            mostrarError(
+              "Ocurrió un error inesperado al procesar la respuesta."
+            );
           }
         } else {
           const data = await response.json();
+          console.log(data); // Verificar la respuesta del servidor
+
+          // Si el login es exitoso, redireccionar al dashboard
           if (data.success === true) {
-            window.location.href = "/dashboard";
+            window.location.href = "/dashboard"; // Redirigir al dashboard
           }
         }
       } catch (error) {
+        console.error("Error en la solicitud:", error);
         mostrarError("Ocurrió un error inesperado.");
       } finally {
         ocultarLoader();
