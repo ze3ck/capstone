@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   gsap.to(".char", {
     y: 0,
     stagger: 0.02,
-    delay: 0.1,
+    delay: 0.01,
     duration: 0.01,
     onComplete: animarSubrayado,
   });
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.from(formSide, {
       opacity: 0,
       y: 50,
-      duration: 0.3,
+      duration: 0.2,
       ease: "power2.out",
     });
   }
@@ -246,14 +246,14 @@ const myText = new SplitType("#my-text");
 gsap.to(".char", {
   y: 0,
   stagger: 0.02,
-  delay: 0.4,
+  delay: 0.2,
   duration: 0.1,
 });
 
 // Animación de subrayado de la palabra "OptiFlow"
 gsap.to(".highlight::after", {
   width: "100%",
-  duration: 1,
+  duration: 0.5,
   ease: "power2.out",
   delay: 3,
 });
