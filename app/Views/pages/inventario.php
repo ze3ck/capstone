@@ -104,6 +104,47 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </div>
                             </div>
                         </div>
+                        <div class="field">
+                            <label>ID Lote</label>
+                            <input type="text" name="P_ID_LOTE" id="idNuevoLote" placeholder="ID del Lote" required>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Fecha de Vencimiento</label>
+                                <div class="ui calendar" id="calendarioVencimiento">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompra">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" id="nuevaFechaComp" placeholder="Fecha de Compra" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Cantidad</label>
+                                <input type="number" name="P_CANTIDAD" id="nuevaCantidad" placeholder="Cantidad" required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Compra</label>
+                                <input type="number" name="P_PRECIO_COMPRA" id="nuevoPrecioComp" step="0.01" placeholder="Precio de Compra"
+                                    required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" id="nuevoPrecioVenta" step="0.01" placeholder="Precio de Venta"
+                                    required>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

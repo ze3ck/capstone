@@ -11,14 +11,26 @@ function agregarNuevoProducto() {
   const descripcionField = document.getElementById("descripcionField")
   const unidadField = document.getElementById("unidadField")
   const proveedorField = document.getElementById("proveedorField")
+  const idNuevoLote = document.getElementById("idNuevoLote")
+  const fechaVencField = document.getElementById("nuevaFechaVenc")
+  const fechaCompField = document.getElementById("nuevaFechaComp")
+  const cantidadField = document.getElementById("nuevaCantidad")
+  const precioCompField = document.getElementById("nuevoPrecioComp")
+  const precioVentaField = document.getElementById("nuevoPrecioVenta")
+  const idUsuario = document.getElementById("ID_USUARIO")
 
   const nombreValue = nombreField.value.trim();
   const descripcionValue = descripcionField.value.trim();
   const unidadValue = unidadField.value.trim();
   const proveedorValue = proveedorField.value.trim();
+  const idNuevoLoteValue = idNuevoLote.value.trim();
+  const fechaVencValue = fechaVencField.value.trim();
+  const fechaCompValue = fechaCompField.value.trim();
+  const cantidadValue = cantidadField.value.trim();
+  const precioCompValue = precioCompField.value.trim();
+  const precioVentaValue = precioVentaField.value.trim();
+  const idUsuarioValue = idUsuario.textContent.trim();
 
-  console.log(nombreValue);
-  console.log("entró al dom");
   try {
     console.log("entró al trycatch");
     const response = fetch(
@@ -32,18 +44,20 @@ function agregarNuevoProducto() {
           P_NOMBRE_PRODUCTO: nombreValue,
           P_DESCRIPCION_PROD1: descripcionValue,
           P_UNIDAD_MEDIDA: unidadValue,
-          P_ID_PROVEEDOR: proveedorValue, // Simuación  de id de proveedor
-          P_ID_USUARIO: 1, // Simulación  de id de usuario
-          P_ID_LOTE: 8, //  Simulación  de id de lote
-          P_FECHA_VENCIMIENTO: "2025-12-31",  // Simulación  de fecha de vencimiento
-          P_CANTIDAD: 1,  // Simulación  de cantidad
-          P_PRECIO_COMPRA: 1,   // Simulación  de precio de compra
-          P_PRECIO_VENTA: 1,   // Simulación  de precio de venta
-          P_FECHA_COMPRA: "2024-10-01"   // Simulación  de fecha de compra
+          P_ID_PROVEEDOR: proveedorValue,
+          P_ID_USUARIO: idUsuarioValue,
+          P_ID_LOTE: idNuevoLoteValue,
+          P_FECHA_VENCIMIENTO: fechaVencValue,  //"2024-10-10",
+          P_CANTIDAD: cantidadValue,
+          P_PRECIO_COMPRA: precioCompValue,
+          P_PRECIO_VENTA: precioVentaValue,
+          P_FECHA_COMPRA: fechaCompValue // "2024-10-10"
         }),
       }
     );
   } catch {
+    const data = response.json();
+    console.log("Datos de la respuesta:", data);
     console.error("Error al enviar la solicitud");
   }
 }
@@ -67,7 +81,7 @@ async function selectProveedores() {
         }),
       }
     );
-    const dropdown =  document.getElementById("proveedorField");
+    const dropdown = document.getElementById("proveedorField");
 
     const data = await response.json();
     console.log("Datos de la respuesta:", data);
@@ -103,7 +117,7 @@ async function selectUnidadMedida() {
         }
       }
     );
-    const dropdown =  document.getElementById("unidadField");
+    const dropdown = document.getElementById("unidadField");
 
     const data = await response.json();
     console.log("Datos unidad:", data);
