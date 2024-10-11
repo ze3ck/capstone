@@ -117,3 +117,11 @@ th.actions-column, td.actions-column {
   opacity: 0.9;
   max-width: 300px;
 } */
+
+
+.ui.dropdown.estado-dropdown {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
