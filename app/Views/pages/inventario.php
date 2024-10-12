@@ -146,7 +146,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                     </div>
                 </div>
-
+                <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
+                <span id="ROL" style="display: none;"><?php echo session('rol');?></span>
                 <!-- Datos Lote -->
                 <div id="datosLote" style="margin-top: 20px;">
                     <h4>Datos Lote</h4>
@@ -201,13 +202,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
-<<<<<<< Updated upstream
         <!-- Botón para abrir el modal de generar producto -->
-        <div class="button-container">
+        <!-- <div class="button-container">
             <div class="ui button green" id="addProductButton" tabindex="0">
                 Generar Producto
             </div>
-            <!-- Formularios para Exportar e Importar -->
             <form id="exportForm" action="exportar_excel.php" method="post">
                 <div type="button" class="ui green basic button" id="exportExcelButton">
                     <i class="file excel icon"></i>
@@ -223,9 +222,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     Importar Excel
                 </label>
             </form>
-        </div>
+        </div> -->
         <!-- Buscador  -->
-        <div class="ui form" style="margin: 2% 3%;">
+        <!-- <div class="ui form" style="margin: 2% 3%;">
             <div class="field">
                 <label>Filtrar por Estado:</label>
                 <select id="estadoDropdown" class="ui dropdown">
@@ -234,12 +233,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <option value="2">Inactivo</option>
                 </select>
             </div>
-        </div>
-        <!-- EDITAR MODAL -->
+        </div> -->
         <div id="editModal" class="ui modal">
             <div class="header">Editar ingreso de inventario</div>
             <div class="content">
-                <!-- Datos Productos, se oculta inicialmente -->
                 <div style="margin-top: 10px;">
                     <h4>Datos Productos</h4>
                     <div class="ui form">
@@ -314,13 +311,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
-=======
-
-
-        <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
-        <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
->>>>>>> Stashed changes
-
 
         <!-- Tabla de productos -->
         <div style="margin-top: 3%; margin-right: 2%; margin-left: 3%;">
