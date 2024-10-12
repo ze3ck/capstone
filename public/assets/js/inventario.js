@@ -291,6 +291,7 @@ $(document).ready(function () {
                       </h3>
                   </td>
               </tr>
+
           `);
     });
   }
@@ -469,45 +470,54 @@ $(document).ready(function () {
 
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
-
+      
         let filaHTML = `
-                <td class="center aligned">${producto.ID_PRODUCTO}</td>
-                <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
-                <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
-                <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
-                <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-                <td class="center aligned">${producto.PRECIO_VENTA}</td>
-                <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
-                <td class="center aligned">${producto.FECHA_COMPRA}</td>
-                <td class="center aligned">
-                    <select class="estado-dropdown" data-producto-id="${
-                      producto.ID_PRODUCTO
-                    }">
-                        <option value="1" ${
-                          producto.ID_ESTADO == 1 ? "selected" : ""
-                        }>Activo</option>
-                        <option value="2" ${
-                          producto.ID_ESTADO == 2 ? "selected" : ""
-                        }>Inactivo</option>
-                    </select>
-                </td>
-            `;
-
+              <td class="center aligned">${producto.ID_PRODUCTO}</td>
+              <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
+              <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
+              <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
+              <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
+              <td class="center aligned">${producto.PRECIO_VENTA}</td>
+              <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+              <td class="center aligned">${producto.FECHA_COMPRA}</td>
+              <td class="center aligned">
+                  <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO}">
+                      <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""}>Activo</option>
+                      <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""}>Inactivo</option>
+                  </select>
+              </td>
+          `;
+      
         if (userRol === "1") {
           filaHTML += `
-                  <td class="center aligned actions-column">
-                      <div class="ui icon buttons">
-                          <button class="ui icon button" title="Editar">
-                              <i class="fas fa-edit" style="color: blue;"></i>
-                          </button>
-                      </div>
-                  </td>
-              `;
-        }
+              <td class="center aligned actions-column">
+                  <div class="ui icon buttons">
+                      <button class="ui icon button edit-button" data-producto-id="${producto.ID_PRODUCTO}" title="Editar">
+                          <i class="fas fa-edit" style="color: blue;"></i>
+                      </button>
+                  </div>
+              </td>
 
+            `;
+        }
+      
         fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
       });
+      
+      // Delegación de eventos para los botones de editar
+      tbody.addEventListener("click", function (event) {
+        if (event.target.closest(".edit-button")) {
+          const productoId = event.target.closest(".edit-button").dataset.productoId;
+          console.log("Producto a editar:", productoId);
+      
+          // Mostrar el modal y cargar los datos del producto correspondiente
+          $("#editModal").modal("show");
+      
+          // Aquí puedes cargar los datos del producto al modal
+        }
+      });
+      
 
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", () =>
@@ -759,7 +769,7 @@ $(document).ready(function () {
         var select = celda.querySelector("select");
         if (select) {
           var selectedOption = select.options[select.selectedIndex].text;
-          celda.innerText = selectedOption; 
+          celda.innerText = selectedOption;
         }
       });
     });

@@ -195,7 +195,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
             </div>
-
             <div class="actions">
                 <input type="hidden" name="P_ID_USUARIO" value="<?php echo $_SESSION['user_id']; ?>">
                 <button class="ui green button" id="saveProductButton">Guardar</button>
@@ -235,7 +234,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </select>
             </div>
         </div>
-
+        <div id="editModal" class="ui modal">
+            <div class="header">Header</div>
+        </div>
         <!-- Buscador  -->
 
 
