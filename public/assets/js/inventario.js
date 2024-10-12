@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
   selectUnidadMedida();
 });
 
+window.onload = function () {
+  document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
+    dropdown.addEventListener("change", () => cambiarEstadoProducto(dropdown));
+  });
+};
+
 // Limpieza del modal
 document
   .querySelector(".ui.red.cancel.button")
@@ -222,7 +228,6 @@ $(document).ready(function () {
 
   function mostarLoader() {
     document.getElementById("loader").style.display = "block";
-    
   }
 
   // Función para ocultar el loader
@@ -479,7 +484,7 @@ $(document).ready(function () {
 
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
-      
+
         let filaHTML = `
               <td class="center aligned">${producto.ID_PRODUCTO}</td>
               <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
@@ -490,13 +495,19 @@ $(document).ready(function () {
               <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
               <td class="center aligned">${producto.FECHA_COMPRA}</td>
               <td class="center aligned">
-                  <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO}">
-                      <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""}>Activo</option>
-                      <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""}>Inactivo</option>
+                  <select class="estado-dropdown" data-producto-id="${
+                    producto.ID_PRODUCTO
+                  }">
+                      <option value="1" ${
+                        producto.ID_ESTADO == 1 ? "selected" : ""
+                      }>Activo</option>
+                      <option value="2" ${
+                        producto.ID_ESTADO == 2 ? "selected" : ""
+                      }>Inactivo</option>
                   </select>
               </td>
           `;
-      
+
         if (userRol === "1") {
           filaHTML += `
                 <td class="center aligned actions-column">
@@ -508,24 +519,24 @@ $(document).ready(function () {
                 </td>
             `;
         }
-      
+
         fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
       });
-      
+
       // Delegación de eventos para los botones de editar
       tbody.addEventListener("click", function (event) {
         if (event.target.closest(".edit-button")) {
-          const productoId = event.target.closest(".edit-button").dataset.productoId;
+          const productoId =
+            event.target.closest(".edit-button").dataset.productoId;
           console.log("Producto a editar:", productoId);
-      
+
           // Mostrar el modal y cargar los datos del producto correspondiente
           $("#editModal").modal("show");
-      
+
           // Aquí puedes cargar los datos del producto al modal
         }
       });
-      
 
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
         dropdown.addEventListener("change", () =>
@@ -543,6 +554,62 @@ $(document).ready(function () {
   // document.addEventListener("DOMContentLoaded", function () {
   //    // Llamamos a la función para llenar la tabla al cargar la página
   // });
+
+  // controladr cambio estado productos
+  async function cambiarEstadoProducto(dropdown) {
+    const productoId = dropdown.getAttribute("data-producto-id");
+    const nuevoEstado = dropdown.value;
+    const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+    // Hacemos el console.log para verificar que los datos son correctos
+    console.log({
+      P_IDUSUARIO: idUsuario,
+      P_IDPRODUCTO: productoId, // Cambiado para que coincida con el controlador
+      P_IDESTADO: nuevoEstado, // Cambiado para que coincida con el controlador
+    });
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}inventario/actualizaEstadoProducto`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_IDUSUARIO: idUsuario,
+            P_IDPRODUCTO: productoId, // Cambiado a P_IDPRODUCTO
+            P_IDESTADO: nuevoEstado, // Cambiado a P_IDESTADO
+          }),
+        }
+      );
+
+      // Verifica si la respuesta no fue exitosa (status >= 400)
+      if (!response.ok) {
+        throw new Error(
+          `Error al cambiar el estado del producto. Estado: ${response.status}`
+        );
+      }
+
+      // Procesamos el cuerpo de la respuesta en formato JSON
+      const data = await response.json();
+      console.log("Estado del producto actualizado exitosamente:", data);
+
+      // Muestra un mensaje de éxito si todo salió bien
+      $("body").toast({
+        message: "El estado del producto se ha actualizado correctamente.",
+        class: "success",
+        displayTime: 3000,
+      });
+    } catch (error) {
+      // Si ocurre algún error, lo mostramos en la consola y como toast
+      console.error("Error al actualizar el estado del producto:", error);
+
+      $("body").toast({
+        message: "Error al actualizar el estado del producto.",
+        class: "error",
+        displayTime: 3000,
+      });
+    }
+  }
 });
-
-
