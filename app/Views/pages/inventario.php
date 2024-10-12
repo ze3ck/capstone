@@ -234,10 +234,85 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </select>
             </div>
         </div>
+        <!-- EDITAR MODAL -->
         <div id="editModal" class="ui modal">
-            <div class="header">Header</div>
+            <div class="header">Editar ingreso de inventario</div>
+            <div class="content">
+                <!-- Datos Productos, se oculta inicialmente -->
+                <div style="margin-top: 10px;">
+                    <h4>Datos Productos</h4>
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Nombre Producto</label>
+                                <input type="text" name="P_NOMBRE_PRODUCTO" id="nombreProducto" placeholder="Nombre Producto" required>
+                            </div>
+                            <div class="field">
+                                <label>Descripción Producto</label>
+                                <input type="text" name="P_DESCRIPCION_PRODUCTO" id="descripcionProducto" placeholder="Descripción Producto" required>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Unidad de Medida</label>
+                                <select class="ui dropdown" name="P_UNIDAD_MEDIDA" id="unidadMedida" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="kg">Kilogramos</option>
+                                    <option value="ltr">Litros</option>
+                                    <option value="unidad">Unidad</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Total Cantidad</label>
+                                <input type="number" name="P_TOTAL_CANTIDAD" id="totalCantidad" placeholder="Cantidad Total" required>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" id="precioVenta" step="0.01" placeholder="Precio de Venta" required>
+                            </div>
+                            <div class="field">
+                                <label>Nombre Proveedor</label>
+                                <select class="ui dropdown" name="P_ID_PROVEEDOR" id="nombreProveedor" required>
+                                    <option value="">Seleccione Proveedor</option>
+                                    <!-- Aquí deberías llenar las opciones dinámicamente -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompra">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" id="fechaCompra" placeholder="Fecha de Compra" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Estado</label>
+                                <select class="ui dropdown" name="P_ESTADO" id="estadoProducto" required>
+                                    <option value="">Seleccione Estado</option>
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <input type="hidden" name="P_ID_USUARIO" value="<?php echo $_SESSION['user_id']; ?>">
+                <button class="ui green button" id="saveProductButton">Guardar</button>
+                <button class="ui red cancel button">Cancelar</button>
+            </div>
         </div>
-        <!-- Buscador  -->
 
 
         <!-- Tabla de productos -->
