@@ -19,8 +19,89 @@ document.addEventListener("DOMContentLoaded", function () {
   //   }
   // }
 
+  // array de toast
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
+
+  // agregar nuevos usuarios
   $("#crearUsuario").on("click", function () {
     $("#modalUsuario").modal("show");
+  });
+
+  $(".menu .item").tab();
+  $(".ui.dropdown").dropdown();
+
+  // Mostrar modal para crear usuario
+  $("#crearUsuario").on("click", function () {
+    $("#crearUsuarioModal").modal("show");
+  });
+
+  // Lógica para crear usuario con botón del modal
+  $("#crearUsuarioButton").on("click", async function () {
+    // Cambiado a async function
+    const nombreUsuario = $("#nombreUsuario").val();
+    const emailUsuario = $("#emailUsuario").val();
+    const contraseniaUsuario = $("#contraseniaUsuario").val();
+    const nombre = $("#nombre_nuevo_usuario").val();
+    const apellidoPaterno = $("#apellidoPaterno").val();
+    const apellidoMaterno = $("#apellidoMaterno").val();
+    const telefonoUsuario = $("#telefonoUsuario").val();
+    const estadoUsuario = $("#estadoUsuario").val();
+    const empresaUsuario = $("#empresaUsuario").val();
+    const rolUsuario = $("#rolUsuario").val();
+
+    if (nombreUsuario && emailUsuario && contraseniaUsuario) {
+      try {
+        // Enviar los datos usando fetch con await
+        const response = await fetch(
+          `${API_BASE_URL}usuarios/crearNuevoUsuario`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              p_NOMBRE_USUARIO: nombreUsuario,
+              p_EMAIL: emailUsuario,
+              p_CONTRASENIA: contraseniaUsuario,
+              p_NOMBRE: nombre,
+              p_APATERNO: apellidoPaterno,
+              p_AMATERNO: apellidoMaterno,
+              p_TELEFONO: telefonoUsuario,
+              p_IDESTADO: estadoUsuario,
+              p_IDEMPRESA: empresaUsuario,
+              P_IDROL: rolUsuario,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          // alert("Usuario creado exitosamente");
+          mostrarToast("Usuario creado exitosamente", "success");
+          $("#crearUsuarioModal").modal("hide");
+        } else {
+          alert("Error: " + data.error);
+        }
+      } catch (error) {
+        console.error("Error al crear usuario:", error);
+        // alert("Ocurrió un error al crear el usuario");
+        mostrarToast("Error al intentar crear el usuario", "error");
+      }
+    } else {
+      // alert("Todos los campos son obligatorios");
+      mostrarToast("Todos los campos son obligatorios", "warning");
+    }
   });
 });
 
