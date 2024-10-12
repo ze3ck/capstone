@@ -94,6 +94,7 @@ $routes->group(
     $routes->post('usuarios/gestionarUsuarios',   'Usuarios::gestionarUsuarios');
     $routes->get('usuarios/llenarEstadoUsuario',  'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado',    'Usuarios::actualizarEstado');
+    $routes->post('usuarios/crearNuevoUsuario',   'Usuarios::crearNuevoUsuario');
 
     /**
      * RESTful API's: Controllers\API\Movimientos

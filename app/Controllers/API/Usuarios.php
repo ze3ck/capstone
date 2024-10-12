@@ -194,6 +194,73 @@ class Usuarios extends ResourceController
   //   }
   // }
 
+
+  /**
+   * crearNuevoUsuario()
+   * PR_07_NUEVO_USUARIO
+   */
+  public function crearNuevoUsuario()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (
+        !isset($json->p_NOMBRE_USUARIO) || !isset($json->p_EMAIL) || !isset($json->p_CONTRASENIA) ||
+        !isset($json->p_NOMBRE) || !isset($json->p_APATERNO) || !isset($json->p_AMATERNO) ||
+        !isset($json->p_TELEFONO) || !isset($json->p_IDESTADO) || !isset($json->p_IDEMPRESA) ||
+        !isset($json->P_IDROL)
+      ) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Faltan parámetros requeridos.']);
+      }
+
+      $db = \Config\Database::connect();
+
+      try {
+        $db->transBegin();
+
+        $db->query("CALL PR_07_NUEVO_USUARIO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+          $json->p_NOMBRE_USUARIO,
+          $json->p_EMAIL,
+          $json->p_CONTRASENIA,
+          $json->p_NOMBRE,
+          $json->p_APATERNO,
+          $json->p_AMATERNO,
+          $json->p_TELEFONO,
+          $json->p_IDESTADO,
+          $json->p_IDEMPRESA,
+          $json->P_IDROL
+        ]);
+
+        if ($db->transStatus() === false) {
+          $db->transRollback();
+          return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al crear el nuevo usuario en la base de datos.']);
+        } else {
+          $db->transCommit();
+          return $this->response->setStatusCode(200)->setJSON([
+            'success' => true,
+            'message' => 'Usuario creado correctamente.'
+          ]);
+        }
+      } catch (\Exception $e) {
+        $db->transRollback();
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+  }
+
+
+
   /**
    * actualizarEstado
    * PR_06_ACTUALIZAR_ESTADO_USUARIO
