@@ -94,24 +94,26 @@ $routes->group(
     $routes->post('usuarios/gestionarUsuarios',   'Usuarios::gestionarUsuarios');
     $routes->get('usuarios/llenarEstadoUsuario',  'Usuarios::llenarEstadoUsuario');
     $routes->post('usuarios/actualizarEstado',    'Usuarios::actualizarEstado');
+    $routes->post('usuarios/crearNuevoUsuario',   'Usuarios::crearNuevoUsuario');
 
     /**
      * RESTful API's: Controllers\API\Movimientos
      */
     $routes->post('movimientos/llenadoMovimiento',        'Movimientos::llenadoMovimiento');
     $routes->post('movimientos/llenadoDetalleMovimiento', 'Movimientos::llenadoDetalleMovimiento');
-    $routes->get('movimientos/selectCatMovimiento', 'Movimientos::selectCatMovimiento');
+    $routes->get('movimientos/selectCatMovimiento',       'Movimientos::selectCatMovimiento');
 
     /**
      * RESTful API's: Controllers\API\Inventario-Productos
      */
-    $routes->post('inventario/agregarProducto',       'Inventario::agregarProducto');
-    $routes->post('inventario/llenarTablaProductos',  'Inventario::llenarTablaProductos');
-    $routes->post('inventario/agregarNuevoProducto',  'Inventario::agregarNuevoProducto');
-    $routes->post('inventario/selectProductos',       'Inventario::selectProductos');
-    $routes->get('inventario/selectUnidadMedida',     'Inventario::selectUnidadMedida');
-    $routes->post('inventario/selectProveedores',     'Inventario::selectProveedores');
-    $routes->post('inventario/nuevoLote',             'Inventario::nuevoLote');
+    $routes->post('inventario/agregarProducto',         'Inventario::agregarProducto');
+    $routes->post('inventario/llenarTablaProductos',    'Inventario::llenarTablaProductos');
+    $routes->post('inventario/agregarNuevoProducto',    'Inventario::agregarNuevoProducto');
+    $routes->post('inventario/selectProductos',         'Inventario::selectProductos');
+    $routes->get('inventario/selectUnidadMedida',       'Inventario::selectUnidadMedida');
+    $routes->post('inventario/selectProveedores',       'Inventario::selectProveedores');
+    $routes->post('inventario/nuevoLote',               'Inventario::nuevoLote');
+    $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');
   }
 
 

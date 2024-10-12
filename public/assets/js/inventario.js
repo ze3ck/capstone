@@ -1,6 +1,213 @@
 import { API_BASE_URL } from "./apiConfig.js";
+
+document.addEventListener("DOMContentLoaded", function () {
+  $("#saveProductButton").click(agregarNuevoProducto);
+  selectProveedores();
+  selectUnidadMedida();
+});
+
+// Limpieza del modal
+document
+  .querySelector(".ui.red.cancel.button")
+  .addEventListener("click", function () {
+    limpiarFormularioProducto();
+  });
+$("#productModal").on("hidden.bs.modal", function () {
+  limpiarFormularioProducto();
+});
+
+$("#productModal").on("show.bs.modal", function () {
+  limpiarFormularioProducto();
+});
+
+async function agregarNuevoProducto() {
+  const nombreField = document.getElementById("nombreField");
+  const descripcionField = document.getElementById("descripcionField");
+  const unidadField = document.getElementById("unidadField");
+  const proveedorField = document.getElementById("proveedorField");
+  const idNuevoLote = document.getElementById("idNuevoLote");
+  const fechaVencField = document.getElementById("nuevaFechaVenc");
+  const fechaCompField = document.getElementById("nuevaFechaComp");
+  const cantidadField = document.getElementById("nuevaCantidad");
+  const precioCompField = document.getElementById("nuevoPrecioComp");
+  const precioVentaField = document.getElementById("nuevoPrecioVenta");
+  const idUsuario = document.getElementById("ID_USUARIO");
+
+  const nombreValue = nombreField.value.trim();
+  const descripcionValue = descripcionField.value.trim();
+  const unidadValue = unidadField.value.trim();
+  const proveedorValue = proveedorField.value.trim();
+  const idNuevoLoteValue = idNuevoLote.value.trim();
+  const fechaVencValue = fechaVencField.value.trim();
+  const fechaCompValue = fechaCompField.value.trim();
+  const cantidadValue = cantidadField.value.trim();
+  const precioCompValue = precioCompField.value.trim();
+  const precioVentaValue = precioVentaField.value.trim();
+  const idUsuarioValue = idUsuario.textContent.trim();
+
+  try {
+    console.log("Enviando datos al servidor...");
+    const response = await fetch(
+      `${API_BASE_URL}inventario/agregarNuevoProducto`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_NOMBRE_PRODUCTO: nombreValue,
+          P_DESCRIPCION_PROD1: descripcionValue,
+          P_UNIDAD_MEDIDA: unidadValue,
+          P_ID_PROVEEDOR: proveedorValue,
+          P_ID_USUARIO: idUsuarioValue,
+          P_ID_LOTE: idNuevoLoteValue,
+          P_FECHA_VENCIMIENTO: fechaVencValue,
+          P_CANTIDAD: cantidadValue,
+          P_PRECIO_COMPRA: precioCompValue,
+          P_PRECIO_VENTA: precioVentaValue,
+          P_FECHA_COMPRA: fechaCompValue,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Error al agregar el producto. Estado: ${response.status}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      console.log("Producto agregado con éxito:", data);
+
+      $("body").toast({
+        message: "Se ha agregado un nuevo producto exitosamente",
+        class: "success",
+        displayTime: 3000,
+      });
+    } else {
+      console.warn("El servidor no devolvió un JSON válido.");
+      $("body").toast({
+        message:
+          "Producto agregado exitosamente, pero la respuesta no es válida.",
+        class: "warning",
+        displayTime: 3000,
+      });
+    }
+  } catch (error) {
+    console.error("Error al enviar la solicitud:", error);
+
+    // Mostrar mensaje de error
+    $("body").toast({
+      message:
+        "Error al agregar el producto. Revisa la consola para más detalles.",
+      class: "error",
+      displayTime: 3000,
+    });
+  }
+}
+
+// funcion limpiar formulario agregar nuevos productos
+function limpiarFormularioProducto() {
+  document
+    .querySelectorAll(
+      '#productModal input[type="text"], #productModal input[type="number"]'
+    )
+    .forEach((input) => {
+      input.value = "";
+    });
+
+  document.querySelectorAll("#productModal select").forEach((select) => {
+    select.selectedIndex = 0;
+  });
+
+  document
+    .querySelectorAll('#productModal input[type="date"]')
+    .forEach((input) => {
+      input.value = "";
+    });
+
+  const newProductCheckbox = document
+    .getElementById("newProductCheckbox")
+    .querySelector("input");
+  if (newProductCheckbox.checked) {
+    newProductCheckbox.checked = false;
+    // Asegúrate de ocultar los campos de "Datos Producto"
+    document.getElementById("datosProducto").style.display = "none";
+  }
+}
+
+//Función seleccionar Proveedores
+async function selectProveedores() {
+  try {
+    const idusuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+    const response = await fetch(
+      `${API_BASE_URL}inventario/selectProveedores`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_IDUSUARIO: idusuario,
+        }),
+      }
+    );
+    const dropdown = document.getElementById("proveedorField");
+
+    const data = await response.json();
+    console.log("Datos de la respuesta:", data);
+    data.response.forEach((opcion) => {
+      // llenadoSelect("proveedorField", opcion.ID_PROVEEDOR, opcion.NOMBRE_PROVEEDOR)
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_PROVEEDOR;
+      opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      dropdown.appendChild(opt);
+    });
+  } catch {
+    console.error("Error al enviar la solicitud");
+  }
+}
+
+// function llenadoSelect(idSelect, codOpcion, nomOpcion) {
+//   select = document.getElementById(idSelect);
+//   var opt = document.createElement('option');
+//   opt.value = codOpcion;
+//   opt.innerHTML =nomOpcion;
+//   select.appendChild(opt);
+// }
+
+async function selectUnidadMedida() {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}inventario/selectUnidadMedida`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const dropdown = document.getElementById("unidadField");
+
+    const data = await response.json();
+    console.log("Datos unidad:", data);
+    data.response.forEach((opcion) => {
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_UNIDAD_MEDIDA;
+      opt.innerHTML = opcion.DESCRIPCION_UNIDAD;
+      dropdown.appendChild(opt);
+      console.log("Error");
+    });
+  } catch {
+    console.error("Error al enviar la solicitud");
+  }
+}
 $(document).ready(function () {
   console.log("entre a inventario.js");
+
   llenarTablaProductos();
   let products = []; // Array de productos
 
@@ -12,13 +219,13 @@ $(document).ready(function () {
   //   on: "hover", // Muestra el popup al pasar el ratón
   // });
   // Evento para abrir el modal al hacer clic en el botón "Agregar Producto"
-  function editarProducto(param){
-    console.log('cristian wekito ', param)
-  }
+
   function mostarLoader() {
     document.getElementById("loader").style.display = "block";
     
   }
+
+  // Función para ocultar el loader
   function ocultarLoader() {
     document.getElementById("loader").style.display = "none";
   }
@@ -93,6 +300,7 @@ $(document).ready(function () {
                       </h3>
                   </td>
               </tr>
+
           `);
     });
   }
@@ -105,7 +313,6 @@ $(document).ready(function () {
     const filteredProducts = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm) ||
-        // product.category.toLowerCase().includes(searchTerm) ||
         product.supplier.toLowerCase().includes(searchTerm)
     );
 
@@ -200,29 +407,42 @@ $(document).ready(function () {
     },
   });
 
-  // Controlar el evento de cambio del checkbox
   $("#newProductCheckbox").on("change", function () {
     if ($(this).find("input").is(":checked")) {
-      // Mostrar los datos de producto
-      $("#datosProducto").slideDown(); // Mostrar los datos del producto
-      $("#buscarProducto").hide(); // Ocultar el campo de búsqueda de producto
-      $("#datosLote input, #datosLote select").attr("disabled", true); // Desactivar campos
+      $("#datosProducto").slideDown();
+      $("#buscarProducto").hide();
+      $("#datosLote input, #datosLote select").attr("disabled", true);
     } else {
-      // Ocultar los datos de producto
-      $("#datosProducto").slideUp(); // Ocultar los datos del producto
-      $("#buscarProducto").show(); // Mostrar el campo de búsqueda de producto
-      $("#datosLote input, #datosLote select").attr("disabled", false); // Habilitar campos
+      $("#datosProducto").slideUp();
+      $("#buscarProducto").show();
+      $("#datosLote input, #datosLote select").attr("disabled", false);
     }
   });
 
-  // llenarTablaProductos()
+  // Lógica del filtro de estado (Activo, Inactivo)
+  $("#estadoDropdown").change(function () {
+    var selectedEstado = $(this).val(); // Captura el valor seleccionado (1, 2 o vacío para "Todos")
+
+    // Itera sobre cada fila de la tabla
+    $("#productTableBody tr").each(function () {
+      // Obtiene el valor seleccionado en el dropdown de cada fila
+      var estadoFila = $(this).find(".estado-dropdown").val();
+
+      // Compara con el valor seleccionado en el dropdown de filtro
+      if (selectedEstado === "" || estadoFila === selectedEstado) {
+        $(this).show(); // Muestra la fila si coincide el estado o si "Todos" está seleccionado
+      } else {
+        $(this).hide(); // Oculta la fila si no coincide
+      }
+    });
+  });
+
   async function llenarTablaProductos() {
-    console.log("entre a llenartabla");
+    console.log("Entré a llenartabla");
     mostarLoader();
 
     try {
-      let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-
+      const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
       console.log("ID del usuario:", id_usuario);
 
       const response = await fetch(
@@ -246,7 +466,6 @@ $(document).ready(function () {
       }
 
       const data = await response.json();
-
       console.log("Datos de la respuesta:", data);
 
       if (!data.success) {
@@ -260,8 +479,7 @@ $(document).ready(function () {
 
       data.response.forEach((producto) => {
         const fila = document.createElement("tr");
-
-        // Estructura básica de las celdas de la fila
+      
         let filaHTML = `
               <td class="center aligned">${producto.ID_PRODUCTO}</td>
               <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
@@ -271,23 +489,48 @@ $(document).ready(function () {
               <td class="center aligned">${producto.PRECIO_VENTA}</td>
               <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
               <td class="center aligned">${producto.FECHA_COMPRA}</td>
-              <td class="center aligned">DISPONIBLE</td>
+              <td class="center aligned">
+                  <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO}">
+                      <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""}>Activo</option>
+                      <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""}>Inactivo</option>
+                  </select>
+              </td>
           `;
-
+      
         if (userRol === "1") {
           filaHTML += `
                 <td class="center aligned actions-column">
                     <div class="ui icon buttons">
-                        <button class="ui icon button" title="Editar" onclick="editarProducto(${producto.ID_PRODUCTO})">
+                        <button class="ui icon button" title="Editar">
                             <i class="fas fa-edit" style="color: blue;"></i>
                         </button>
                     </div>
                 </td>
             `;
         }
-
+      
         fila.innerHTML = filaHTML;
         tbody.appendChild(fila);
+      });
+      
+      // Delegación de eventos para los botones de editar
+      tbody.addEventListener("click", function (event) {
+        if (event.target.closest(".edit-button")) {
+          const productoId = event.target.closest(".edit-button").dataset.productoId;
+          console.log("Producto a editar:", productoId);
+      
+          // Mostrar el modal y cargar los datos del producto correspondiente
+          $("#editModal").modal("show");
+      
+          // Aquí puedes cargar los datos del producto al modal
+        }
+      });
+      
+
+      document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
+        dropdown.addEventListener("change", () =>
+          cambiarEstadoProducto(dropdown)
+        );
       });
     } catch (error) {
       console.error("Error:", error);
@@ -300,7 +543,6 @@ $(document).ready(function () {
   // document.addEventListener("DOMContentLoaded", function () {
   //    // Llamamos a la función para llenar la tabla al cargar la página
   // });
-
 });
 
 

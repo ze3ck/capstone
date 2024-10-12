@@ -40,7 +40,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <!-- Mensaje de bienvenida -->
             <div class="item">
                 <p><?php echo $saludo . ', ' .  $_SESSION['nombre'] . ' ' . $_SESSION['apaterno'] ?></p>
-
             </div>
             <!-- Cerrar sesión a la derecha -->
             <div class="right menu">
@@ -119,117 +118,18 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </tr>
                             </thead>
                             <tbody id="gestionador_body">
-
+                                <!-- Aquí se cargarán los usuarios -->
                             </tbody>
                         </table>
-                        <span id="ID_USUARIO" style="display:none">
-                            <?php echo $_SESSION['user_id'] ?></span>
-                        <span id="EMAIL" style="display:none">
-                            <?php echo $_SESSION['email'] ?></span>
-                        <span id="NOMBRE_USUARIO" style="display:none">
-                            <?php echo $_SESSION['nombre_usuario'] ?></span>
-                        <span id="ROL" style="display:none">
-                            <?php echo $_SESSION['rol'] ?></span>
+                        <span id="ID_USUARIO" style="display:none"><?php echo $_SESSION['user_id'] ?></span>
+                        <span id="EMAIL" style="display:none"><?php echo $_SESSION['email'] ?></span>
+                        <span id="NOMBRE_USUARIO" style="display:none"><?php echo $_SESSION['nombre_usuario'] ?></span>
+                        <span id="ROL" style="display:none"><?php echo $_SESSION['rol'] ?></span>
 
-                        <!-- bOTONERA -->
+                        <!-- Botón para crear nuevo usuario -->
                         <div class="ui right aligned grid">
                             <div class="column">
-                                <button id="crearUsuario" class="ui green button">Crear Usuario
-                                    <div id="modalUsuario" class="ui large modal">
-                                        <div class="header">
-                                            Crear Nuevo Usuario
-                                        </div>
-                                        <div class="ui two column grid" style="margin: 0 20px;">
-                                            <!-- Primera fila: Información de Conexión -->
-                                            <div class="row">
-                                                <div class="column">
-                                                    <h3>Información de Conexión</h3>
-                                                    <form class="ui form">
-                                                        <div class="field">
-                                                            <label>Usuario</label>
-                                                            <input type="text" name="username" placeholder="Usuario">
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Contraseña</label>
-                                                            <input type="password" name="password" placeholder="Contraseña">
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Email</label>
-                                                            <input type="email" name="email" placeholder="Email">
-                                                        </div>
-                                                        <div class="ui divider"></div>
-                                                    </form>
-                                                </div>
-                                                <div class="column">
-                                                    <h3>Información Laboral</h3>
-                                                    <form class="ui form">
-                                                        <div class="field">
-                                                            <label>Seleccionar Empresa</label>
-                                                            <div class="ui selection dropdown">
-                                                                <input type="hidden" name="empresa">
-                                                                <i class="dropdown icon"></i>
-                                                                <div class="default text">Empresa</div>
-                                                                <div class="menu">
-                                                                    <div class="item" data-value="0">Cualquier Empresa</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Seleccionar Rol</label>
-                                                            <div class="ui selection dropdown">
-                                                                <input type="hidden" name="rol">
-                                                                <i class="dropdown icon"></i>
-                                                                <div class="default text">Rol</div>
-                                                                <div class="menu">
-                                                                    <div class="item" data-value="0">Administrador</div>
-                                                                    <div class="item" data-value="1">Empleado</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Seleccionar Estado</label>
-                                                            <div class="ui selection dropdown">
-                                                                <input type="hidden" name="estado">
-                                                                <i class="dropdown icon"></i>
-                                                                <div class="default text">Estado</div>
-                                                                <div class="menu">
-                                                                    <div class="item" data-value="0">Cat</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ui divider"></div>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                            <!-- Segunda fila: Información Personal -->
-                                            <div class="row">
-                                                <div class="column">
-                                                    <h3>Información Personal</h3>
-                                                    <form class="ui form">
-                                                        <div class="field">
-                                                            <label>Nombre</label>
-                                                            <input type="text" name="first-name" placeholder="Nombre">
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Apellido Paterno</label>
-                                                            <input type="text" name="last-name" placeholder="Apellido Paterno">
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Apellido Materno</label>
-                                                            <input type="text" name="middle-name" placeholder="Apellido Materno">
-                                                        </div>
-                                                        <div class="field">
-                                                            <label>Teléfono</label>
-                                                            <input type="text" name="phone" placeholder="Teléfono">
-                                                        </div>
-                                                        <div class="ui divider"></div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </button>
+                                <button id="crearUsuario" class="ui green button">Crear Usuario</button>
                                 <button id="guardarCambiosGestion" class="ui primary button">Guardar cambios</button>
                             </div>
                         </div>
@@ -241,25 +141,86 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
+    <!-- Modal para Crear Usuario -->
+    <div class="ui modal" id="crearUsuarioModal">
+        <i class="close icon"></i>
+        <div class="header">Crear Nuevo Usuario</div>
+        <div class="content">
+            <form class="ui form" id="formCrearUsuario">
+                <div class="field">
+                    <label>Nombre de Usuario</label>
+                    <input type="text" name="p_NOMBRE_USUARIO" id="nombreUsuario" placeholder="Nombre de Usuario" required>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" name="p_EMAIL" id="emailUsuario" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="field">
+                    <label>Contraseña</label>
+                    <input type="password" name="p_CONTRASENIA" id="contraseniaUsuario" placeholder="Contraseña" required>
+                </div>
+                <div class="field">
+                    <label>Nombre</label>
+                    <input type="text" name="p_NOMBRE" id="nombre_nuevo_usuario" placeholder="Nombre" required>
+                </div>
+                <div class="field">
+                    <label>Apellido Paterno</label>
+                    <input type="text" name="p_APATERNO" id="apellidoPaterno" placeholder="Apellido Paterno" required>
+                </div>
+                <div class="field">
+                    <label>Apellido Materno</label>
+                    <input type="text" name="p_AMATERNO" id="apellidoMaterno" placeholder="Apellido Materno" required>
+                </div>
+                <div class="field">
+                    <label>Teléfono</label>
+                    <input type="text" name="p_TELEFONO" id="telefonoUsuario" placeholder="Teléfono" required>
+                </div>
+                <div class="field">
+                    <label>Estado</label>
+                    <select class="ui dropdown" name="p_IDESTADO" id="estadoUsuario" required>
+                        <option value="">Selecciona Estado</option>
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Empresa</label>
+                    <select class="ui dropdown" name="p_IDEMPRESA" id="empresaUsuario" required>
+                        <option value="">Selecciona Empresa</option>
+                        <option value="1">TECH SOLUTIONS</option>
+                        <option value="2">INNOVATIVE IDEAS</option>
+                        <option value="2">EMPRESA DE PRUEBA</option>
 
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Rol</label>
+                    <select class="ui dropdown" name="P_IDROL" id="rolUsuario" required>
+                        <option value="">Selecciona Rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Usuario</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">Cancelar</div>
+            <div class="ui green right labeled icon button" id="crearUsuarioButton">
+                Crear Usuario
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-    <script>
-        $(".menu .item").tab();
-        $(".ui.dropdown").dropdown();
-
-        $('#estado-dropdown').on('change', function() {
-            var nuevoEstado = $(this).val();
-            $('#estado-label').text(nuevoEstado);
-        });
-        $('#crearUsuario').on('click', function() {
-            $('#modalUsuario').modal('show');
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/perfilUsuario.js"></script>
+
+    <script>
+        
+    </script>
 </body>
 
 </html>

@@ -74,7 +74,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <div class="resumen-titulo">
             <h1>Resumen</h1>
         </div>
-        <div class="ui container" style="width: 100%;">
+        <div class="ui container" style="width: 100%;" id="graficos-container">
             <!-- Contenedor de los gráficos -->
             <!-- <div id="wrapper"> -->
             <!-- <div class="content-area"> -->

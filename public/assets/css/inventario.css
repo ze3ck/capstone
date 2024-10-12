@@ -5,7 +5,7 @@
 .ui.button:active {
   background-color: #1e7e34;
 }
-.main-container, .ui.category.search, .button-container {
+.main-container, .ui.category.search {
   margin: 0 20rem;
 }
 
@@ -14,10 +14,10 @@
   margin-bottom: 10px;
 }
 
-.button-container{
+/* .button-container{
   display: flex;
   justify-content: space-between;
-}
+} */
 
 #editIcon:hover, #deleteIcon:hover{
   transform: scale(1.3);
@@ -104,4 +104,43 @@ table.ui.celled.table td.center.aligned {
 /* Ancho fijo para la columna de acciones */
 th.actions-column, td.actions-column {
     width: 100px; /* Puedes ajustar este valor */
+}
+
+/* .toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  max-width: 300px;
+} */
+
+
+.ui.dropdown.estado-dropdown {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* .ui.grid.centered {
+  justify-content: center;
+  align-items: center;
+} */
+
+.ui.buttons .button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.ui.grid .three.wide.column {
+  max-width: 300px; /* Ajustar el ancho del dropdown */
 }

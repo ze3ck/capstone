@@ -191,6 +191,115 @@ function cargarFilasDetalleMovimientos(
 }
 
 $(document).ready(function () {
+  // Inicializar calendario "Fecha Desde"
+  $("#fechaInicio").calendar({
+    type: "date",
+    text: {
+      days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      today: "Hoy",
+      now: "Ahora",
+      am: "AM",
+      pm: "PM",
+    },
+    formatter: {
+      date: function (date, settings) {
+        if (!date) return "";
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        return (
+          year +
+          "-" +
+          (month < 10 ? "0" + month : month) +
+          "-" +
+          (day < 10 ? "0" + day : day)
+        );
+      },
+    },
+  });
+
+  // Inicializar calendario "Fecha Hasta"
+  $("#fechaFin").calendar({
+    type: "date",
+    text: {
+      days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      today: "Hoy",
+      now: "Ahora",
+      am: "AM",
+      pm: "PM",
+    },
+    formatter: {
+      date: function (date, settings) {
+        if (!date) return "";
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        return (
+          year +
+          "-" +
+          (month < 10 ? "0" + month : month) +
+          "-" +
+          (day < 10 ? "0" + day : day)
+        );
+      },
+    },
+  });
   // Mostrar el modal cuando se haga clic en el botón "Generar Salida Producto"
   $("#btnNuevoMovimiento").on("click", function () {
     $("#modalGenerarSalida").modal("show");
@@ -241,134 +350,148 @@ $(document).ready(function () {
   });
 });
 
-
 // FILTROS DE LA TABLA
 
 // Function to filter the table based on the selected filters
 function filterTable() {
   // Get the values from the filter inputs
-  let tipo = document.getElementById('dropDownTipomov').value;
-  let fechaDesde = document.getElementById('fechaDesde').value;
-  let fechaHasta = document.getElementById('fechaHasta').value;
-  let categoria = document.getElementById('selectCategoria').value.toUpperCase();
-  let responsable = document.getElementById('selectResponsable').value.toUpperCase();
-  let metodoPago = document.getElementById('selectMetodoPago').value.toUpperCase();
+  let tipo = document.getElementById("dropDownTipomov").value;
+  let fechaDesde = document.getElementById("fechaDesde").value;
+  let fechaHasta = document.getElementById("fechaHasta").value;
+  let categoria = document
+    .getElementById("selectCategoria")
+    .value.toUpperCase();
+  let responsable = document
+    .getElementById("selectResponsable")
+    .value.toUpperCase();
+  let metodoPago = document
+    .getElementById("selectMetodoPago")
+    .value.toUpperCase();
 
-  let table = document.getElementById('tblMovimientos_body');
-  let rows = table.getElementsByTagName('tr');
+  let table = document.getElementById("tblMovimientos_body");
+  let rows = table.getElementsByTagName("tr");
 
   // Loop through all table rows, and hide those that don't match the search query
   for (let i = 0; i < rows.length; i++) {
-      let tdTipo = rows[i].getElementsByTagName('td')[1];  // This is where "ENTRADA" or "SALIDA" is located in the table
-      let tdFecha = rows[i].getElementsByTagName('td')[2];
-      let tdCategoria = rows[i].getElementsByTagName('td')[5];
-      let tdResponsable = rows[i].getElementsByTagName('td')[6];
-      let tdMetodoPago = rows[i].getElementsByTagName('td')[7];
+    let tdTipo = rows[i].getElementsByTagName("td")[1]; // This is where "ENTRADA" or "SALIDA" is located in the table
+    let tdFecha = rows[i].getElementsByTagName("td")[2];
+    let tdCategoria = rows[i].getElementsByTagName("td")[5];
+    let tdResponsable = rows[i].getElementsByTagName("td")[6];
+    let tdMetodoPago = rows[i].getElementsByTagName("td")[7];
 
-      let show = true;
+    let show = true;
 
-      // Filter by Tipo
-      if (tipo && tdTipo) {
-          let tipoText = tdTipo.textContent.trim().toUpperCase();
-          if ((tipo === '1' && tipoText !== 'ENTRADA') || (tipo === '2' && tipoText !== 'SALIDA')) {
-              show = false;
-          }
+    // Filter by Tipo
+    if (tipo && tdTipo) {
+      let tipoText = tdTipo.textContent.trim().toUpperCase();
+      if (
+        (tipo === "1" && tipoText !== "ENTRADA") ||
+        (tipo === "2" && tipoText !== "SALIDA")
+      ) {
+        show = false;
       }
+    }
 
-      // Filter by Fecha Desde and Hasta
-      if (fechaDesde || fechaHasta) {
-          let rowDate = new Date(tdFecha.textContent);
-          let startDate = fechaDesde ? new Date(fechaDesde) : null;
-          let endDate = fechaHasta ? new Date(fechaHasta) : null;
+    // Filter by Fecha Desde and Hasta
+    if (fechaDesde || fechaHasta) {
+      let rowDate = new Date(tdFecha.textContent);
+      let startDate = fechaDesde ? new Date(fechaDesde) : null;
+      let endDate = fechaHasta ? new Date(fechaHasta) : null;
 
-          if ((startDate && rowDate < startDate) || (endDate && rowDate > endDate)) {
-              show = false;
-          }
+      if (
+        (startDate && rowDate < startDate) ||
+        (endDate && rowDate > endDate)
+      ) {
+        show = false;
       }
+    }
 
-      // Filter by Categoria
-      if (categoria && tdCategoria) {
-          if (tdCategoria.textContent.toUpperCase().indexOf(categoria) === -1) {
-              show = false;
-          }
+    // Filter by Categoria
+    if (categoria && tdCategoria) {
+      if (tdCategoria.textContent.toUpperCase().indexOf(categoria) === -1) {
+        show = false;
       }
+    }
 
-      // Filter by Responsable
-      if (responsable && tdResponsable) {
-          if (tdResponsable.textContent.toUpperCase().indexOf(responsable) === -1) {
-              show = false;
-          }
+    // Filter by Responsable
+    if (responsable && tdResponsable) {
+      if (tdResponsable.textContent.toUpperCase().indexOf(responsable) === -1) {
+        show = false;
       }
+    }
 
-      // Filter by Metodo Pago
-      if (metodoPago && tdMetodoPago) {
-          if (tdMetodoPago.textContent.toUpperCase().indexOf(metodoPago) === -1) {
-              show = false;
-          }
+    // Filter by Metodo Pago
+    if (metodoPago && tdMetodoPago) {
+      if (tdMetodoPago.textContent.toUpperCase().indexOf(metodoPago) === -1) {
+        show = false;
       }
+    }
 
-      // Toggle row visibility
-      rows[i].style.display = show ? "" : "none";
+    // Toggle row visibility
+    rows[i].style.display = show ? "" : "none";
   }
 }
 
 // Function to clear all filters
 function clearFilters() {
   // Reset all filter inputs
-  document.getElementById('dropDownTipomov').value = '';
-  document.getElementById('fechaDesde').value = '';
-  document.getElementById('fechaHasta').value = '';
-  document.getElementById('selectCategoria').value = '';
-  document.getElementById('selectResponsable').value = '';
-  document.getElementById('selectMetodoPago').value = '';
+  document.getElementById("dropDownTipomov").value = "";
+  document.getElementById("fechaDesde").value = "";
+  document.getElementById("fechaHasta").value = "";
+  document.getElementById("selectCategoria").value = "";
+  document.getElementById("selectResponsable").value = "";
+  document.getElementById("selectMetodoPago").value = "";
 
   // Reset the dropdowns
-  $('#dropDownTipomov').dropdown('clear');
-  $('#selectCategoria').dropdown('clear');
-  $('#selectResponsable').dropdown('clear');
-  $('#selectMetodoPago').dropdown('clear');
+  $("#dropDownTipomov").dropdown("clear");
+  $("#selectCategoria").dropdown("clear");
+  $("#selectResponsable").dropdown("clear");
+  $("#selectMetodoPago").dropdown("clear");
 
   // Re-display all rows (reset the table)
-  let table = document.getElementById('tblMovimientos_body');
-  let rows = table.getElementsByTagName('tr');
+  let table = document.getElementById("tblMovimientos_body");
+  let rows = table.getElementsByTagName("tr");
   for (let i = 0; i < rows.length; i++) {
-      rows[i].style.display = "";
+    rows[i].style.display = "";
   }
 }
 
-
 // Attach event listeners after the page is loaded
-document.addEventListener('DOMContentLoaded', function () {
-      // Initialize Fomantic UI dropdowns
-      $('#dropDownTipomov').dropdown({
-        placeholder: "Tipo"
-    });
-    $('#selectCategoria').dropdown({
-        placeholder: "Categoria"
-    });
-    $('#selectResponsable').dropdown({
-        placeholder: "Responsable"
-    });
-    $('#selectMetodoPago').dropdown({
-        placeholder: "Metodo Pago"
-    });
+document.addEventListener("DOMContentLoaded", function () {
+  // Initialize Fomantic UI dropdowns
+  $("#dropDownTipomov").dropdown({
+    placeholder: "Tipo",
+  });
+  $("#selectCategoria").dropdown({
+    placeholder: "Categoria",
+  });
+  $("#selectResponsable").dropdown({
+    placeholder: "Responsable",
+  });
+  $("#selectMetodoPago").dropdown({
+    placeholder: "Metodo Pago",
+  });
 
-    // Clear filters on page load
-    clearFilters();
+  // Clear filters on page load
+  clearFilters();
   // Attach event listeners for dynamic filtering
-  document.getElementById('dropDownTipomov').addEventListener('change', filterTable);
-  document.getElementById('fechaDesde').addEventListener('change', filterTable);
-  document.getElementById('fechaHasta').addEventListener('change', filterTable);
-  document.getElementById('selectCategoria').addEventListener('change', filterTable);
-  document.getElementById('selectResponsable').addEventListener('change', filterTable);
-  document.getElementById('selectMetodoPago').addEventListener('change', filterTable);
+  document
+    .getElementById("dropDownTipomov")
+    .addEventListener("change", filterTable);
+  document.getElementById("fechaDesde").addEventListener("change", filterTable);
+  document.getElementById("fechaHasta").addEventListener("change", filterTable);
+  document
+    .getElementById("selectCategoria")
+    .addEventListener("change", filterTable);
+  document
+    .getElementById("selectResponsable")
+    .addEventListener("change", filterTable);
+  document
+    .getElementById("selectMetodoPago")
+    .addEventListener("change", filterTable);
 
   // Attach event listener for clearing filters
-  document.getElementById('btnLimpiarFiltros').addEventListener('click', clearFilters);
+  document
+    .getElementById("btnLimpiarFiltros")
+    .addEventListener("click", clearFilters);
 });
-
-
-
-
-
-

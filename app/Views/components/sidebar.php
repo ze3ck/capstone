@@ -53,7 +53,7 @@
   .profile-container {
     position: fixed;
     bottom: 0;
-    background-color: #394264;
+    background-color: #1b1c1d;
     width: 100%;
   }
 </style>

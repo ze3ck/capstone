@@ -99,21 +99,61 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <input type="text" placeholder="Fecha Desde" id="fechaDesde">
                             </div>
                         </div>
-                        <script>
-                            var today = new Date();
-                            let set_date = new Date(2021, 12, 1);
-                            $('#fechaInicio').calendar({
-                                type: 'date',
-                                minDate: set_date,
-                                maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1),
+                        <!-- <script>
+                            $("#fechaInicio").calendar({
+                                type: "date",
                                 text: {
-                                    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                    monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                                    today: 'Hoy'
-                                }
+                                    days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+                                    months: [
+                                        "Enero",
+                                        "Febrero",
+                                        "Marzo",
+                                        "Abril",
+                                        "Mayo",
+                                        "Junio",
+                                        "Julio",
+                                        "Agosto",
+                                        "Septiembre",
+                                        "Octubre",
+                                        "Noviembre",
+                                        "Diciembre",
+                                    ],
+                                    monthsShort: [
+                                        "Ene",
+                                        "Feb",
+                                        "Mar",
+                                        "Abr",
+                                        "May",
+                                        "Jun",
+                                        "Jul",
+                                        "Ago",
+                                        "Sep",
+                                        "Oct",
+                                        "Nov",
+                                        "Dic",
+                                    ],
+                                    today: "Hoy",
+                                    now: "Ahora",
+                                    am: "AM",
+                                    pm: "PM",
+                                },
+                                formatter: {
+                                    date: function(date, settings) {
+                                        if (!date) return "";
+                                        var day = date.getDate();
+                                        var month = date.getMonth() + 1;
+                                        var year = date.getFullYear();
+                                        return (
+                                            year +
+                                            "-" +
+                                            (month < 10 ? "0" + month : month) +
+                                            "-" +
+                                            (day < 10 ? "0" + day : day)
+                                        );
+                                    },
+                                },
                             });
-                        </script>
+                        </script> -->
                     </div>
                 </div>
 
@@ -126,21 +166,61 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <input type="text" placeholder="Fecha Hasta" id="fechaHasta">
                             </div>
                         </div>
-                        <script>
-                            var today = new Date();
-                            let date_actual = new Date(2021, 12, 1);
-                            $('#fechaFin').calendar({
-                                type: 'date',
-                                minDate: date_actual,
-                                maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1),
+                        <!-- <script>
+                            $("#fechaFin").calendar({
+                                type: "date",
                                 text: {
-                                    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                                    monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                                    today: 'Hoy'
-                                }
+                                    days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+                                    months: [
+                                        "Enero",
+                                        "Febrero",
+                                        "Marzo",
+                                        "Abril",
+                                        "Mayo",
+                                        "Junio",
+                                        "Julio",
+                                        "Agosto",
+                                        "Septiembre",
+                                        "Octubre",
+                                        "Noviembre",
+                                        "Diciembre",
+                                    ],
+                                    monthsShort: [
+                                        "Ene",
+                                        "Feb",
+                                        "Mar",
+                                        "Abr",
+                                        "May",
+                                        "Jun",
+                                        "Jul",
+                                        "Ago",
+                                        "Sep",
+                                        "Oct",
+                                        "Nov",
+                                        "Dic",
+                                    ],
+                                    today: "Hoy",
+                                    now: "Ahora",
+                                    am: "AM",
+                                    pm: "PM",
+                                },
+                                formatter: {
+                                    date: function(date, settings) {
+                                        if (!date) return "";
+                                        var day = date.getDate();
+                                        var month = date.getMonth() + 1;
+                                        var year = date.getFullYear();
+                                        return (
+                                            year +
+                                            "-" +
+                                            (month < 10 ? "0" + month : month) +
+                                            "-" +
+                                            (day < 10 ? "0" + day : day)
+                                        );
+                                    },
+                                },
                             });
-                        </script>
+                        </script> -->
                     </div>
                 </div>
 
@@ -342,16 +422,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="/assets/js/dashboard.js"></script>
     <!-- <script src="/assets/js/charts.js"></script> -->
 
-    <!-- Scripts -->
-    <!-- <script>
-            $(".menu .item").tab();
-            $(".ui.dropdown").dropdown();
-
-            $('#estado-dropdown').on('change', function() {
-                var nuevoEstado = $(this).val();
-                $('#estado-label').text(nuevoEstado);
-            });
-        </script> -->
 
     </div>
 </body>

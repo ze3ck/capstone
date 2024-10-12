@@ -194,6 +194,73 @@ class Usuarios extends ResourceController
   //   }
   // }
 
+
+  /**
+   * crearNuevoUsuario()
+   * PR_07_NUEVO_USUARIO
+   */
+  public function crearNuevoUsuario()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (
+        !isset($json->p_NOMBRE_USUARIO) || !isset($json->p_EMAIL) || !isset($json->p_CONTRASENIA) ||
+        !isset($json->p_NOMBRE) || !isset($json->p_APATERNO) || !isset($json->p_AMATERNO) ||
+        !isset($json->p_TELEFONO) || !isset($json->p_IDESTADO) || !isset($json->p_IDEMPRESA) ||
+        !isset($json->P_IDROL)
+      ) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Faltan parámetros requeridos.']);
+      }
+
+      $db = \Config\Database::connect();
+
+      try {
+        $db->transBegin();
+
+        $db->query("CALL PR_07_NUEVO_USUARIO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+          $json->p_NOMBRE_USUARIO,
+          $json->p_EMAIL,
+          $json->p_CONTRASENIA,
+          $json->p_NOMBRE,
+          $json->p_APATERNO,
+          $json->p_AMATERNO,
+          $json->p_TELEFONO,
+          $json->p_IDESTADO,
+          $json->p_IDEMPRESA,
+          $json->P_IDROL
+        ]);
+
+        if ($db->transStatus() === false) {
+          $db->transRollback();
+          return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al crear el nuevo usuario en la base de datos.']);
+        } else {
+          $db->transCommit();
+          return $this->response->setStatusCode(200)->setJSON([
+            'success' => true,
+            'message' => 'Usuario creado correctamente.'
+          ]);
+        }
+      } catch (\Exception $e) {
+        $db->transRollback();
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+  }
+
+
+
   /**
    * actualizarEstado
    * PR_06_ACTUALIZAR_ESTADO_USUARIO
@@ -477,47 +544,55 @@ class Usuarios extends ResourceController
   }
 
 
-
-
+  /**
+   * login()
+   * PR_01_LOGIN
+   */
   public function login()
   {
-    // Configura los encabezados CORS para aceptar solicitudes desde http://localhost
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); // Permitir credenciales
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
 
-    // Manejo de preflight request
     if ($this->request->getMethod() === 'options') {
       return $this->response->setStatusCode(200);
     }
 
     try {
-      // Iniciar sesión de CodeIgniter
       $session = session();
 
       $input = $this->request->getJSON();
 
-      // Validar que los campos de email y contraseña existan
+      // Validar si el email o contraseña no se proporcionaron
       if (!isset($input->email) || !isset($input->contrasenia)) {
         return $this->failValidationErrors('Correo o contraseña no proporcionados 🔴');
       }
 
-      // Conectar a la base de datos
       $db = \Config\Database::connect();
 
       // Ejecutar el procedimiento almacenado
       $query = $db->query("CALL PR_01_LOGIN(?, ?)", [$input->email, $input->contrasenia]);
 
-      // Obtener el resultado del procedimiento almacenado
       $result = $query->getRowArray();
 
-      // Verificar si se obtuvo el usuario con los datos solicitados
-      if (!$result || !isset($result['ID_USUARIO']) || !isset($result['EMAIL']) || !isset($result['NOMBRE_USUARIO']) || !isset($result['ROL']) || !isset($result['NOMBRE']) || !isset($result['APATERNO'])) {
-        return $this->failValidationErrors('Email no encontrado o contraseña incorrecta 🔴');
+      // Verificar si no se encontró ningún resultado
+      if (!$result) {
+        return $this->failValidationErrors('Credenciales de Acceso Incorrectas');
       }
 
-      // Almacenar los datos del usuario en la sesión
+      // Verificar si el procedimiento almacenado devuelve un estado específico
+      if (isset($result['estado']) && $result['estado'] == 2) {
+        // Si el estado es 2, el usuario está inactivo
+        return $this->failValidationErrors('Usuario inactivo, no tiene acceso');
+      }
+
+      // Verificar si los datos del usuario están completos
+      if (!isset($result['ID_USUARIO']) || !isset($result['EMAIL']) || !isset($result['NOMBRE_USUARIO']) || !isset($result['ROL']) || !isset($result['NOMBRE']) || !isset($result['APATERNO'])) {
+        return $this->failValidationErrors('Datos incompletos del usuario, por favor contacte al soporte 🔴');
+      }
+
+      // Si el estado es 1 (Activo), proceder con el inicio de sesión
       $session->set([
         'loggedin'        => true,
         'user_id'         => $result['ID_USUARIO'],
@@ -528,7 +603,6 @@ class Usuarios extends ResourceController
         'apaterno'        => $result['APATERNO']
       ]);
 
-      // Responder con éxito, devolviendo los datos del usuario
       return $this->respond([
         'success' => true,
         'message' => 'Login exitoso',
@@ -546,6 +620,7 @@ class Usuarios extends ResourceController
       return $this->failServerError('Ocurrió un error en el servidor: 🔴' . $e->getMessage());
     }
   }
+
 
 
 

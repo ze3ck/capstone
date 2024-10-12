@@ -45,7 +45,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
             <!-- Mensaje de bienvenida -->
             <div class="item">
-                <p><?php echo $saludo . ', ' .  $_SESSION['nombre'] . ' ' . $_SESSION['apaterno'] ?></p>
+                <p><?php echo $saludo . ', ' . $_SESSION['nombre'] . ' ' . $_SESSION['apaterno'] ?></p>
             </div>
 
             <!-- Cerrar sesión a la derecha -->
@@ -57,196 +57,269 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
         <h1 class="titulo-gestion-prod" style="text-align: center; margin-top: 4%;">Gestión de Productos</h1>
+
+
         <!-- Formulario para generar productos -->
-        <!-- <div id="modalContainer"> -->
-            <!-- Modal para editar producto -->
-            <div class="ui modal" id="editProductModal">
-                <div class="header">Editar Producto</div>
-                <form class="ui form" style="margin: 20px 50px">
-                    <h4 class="ui dividing header">Información del Producto</h4>
+        <div class="ui modal" id="productModal">
+            <div class="header">Nuevo ingreso de inventario</div>
+            <div class="content">
+                <!-- Checkbox para controlar la visualización de Datos Productos -->
+                <div class="ui checkbox" id="newProductCheckbox">
+                    <input type="checkbox" name="new-product">
+                    <label>Producto nuevo</label>
+                </div>
 
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Nombre del Producto</label>
-                            <input type="text" id="editProductName" required />
-                        </div>
-                        <div class="field">
-                            <label>Categoría</label>
-                            <select id="editCategory" class="ui dropdown" required>
-                                <option value="fruits">Frutas y Verduras</option>
-                                <option value="dairy">Lácteos</option>
-                                <option value="bakery">Panadería</option>
-                                <option value="beverages">Bebidas</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="ui large checkbox" style="margin-bottom: 10px">
-                        <input type="checkbox" id="editIsPerishable" />
-                        <label>Producto Perecible (Opcional)</label>
-                    </div>
-
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Cantidad</label>
-                            <input type="number" id="editQuantity" step="0.01" required />
-                        </div>
-                        <div class="field">
-                            <label>Precio Unitario</label>
-                            <input type="number" id="editUnitPrice" step="0.01" required />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Proveedor</label>
-                        <input type="text" id="editSupplier" required />
-                    </div>
-                    <div class="field">
-                        <label>Fecha de Ingreso</label>
-                        <input type="date" id="editEntryDate" required />
-                    </div>
-                    <div class="actions">
-                        <div id="saveEditProductModal" class="ui green approve button">
-                            Guardar Cambios
-                        </div>
-                        <div class="ui red cancel button">Cancelar</div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Modal de generar producto -->
-            <div class="ui modal" id="productModal">
-                <div class="header">Nuevo ingreso de inventario</div>
-                <div class="content">
-                    <!-- Checkbox para controlar la visualización de Datos Productos -->
-                    <div class="ui checkbox" id="newProductCheckbox">
-                        <input type="checkbox" name="new-product">
-                        <label>Producto nuevo</label>
-                    </div>
-
-                    <!-- Datos Productos, se oculta inicialmente -->
-                    <div id="datosProducto" style="display: none; margin-top: 10px;">
-                        <h4>Datos Productos</h4>
-                        <div class="ui form">
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Nombre Producto</label>
-                                    <input type="text" name="nombre-producto" placeholder="Nombre Producto">
-                                </div>
-                                <div class="field">
-                                    <label>Descripción</label>
-                                    <input type="text" name="nombre-producto" placeholder="Nombre Producto">
-                                </div>
-                            </div>
-                            <div class="two fields">
-
-                                <div class="field">
-                                    <label>Unidad de Medida</label>
-                                    <select class="ui dropdown">
-                                        <option value="">Seleccione</option>
-                                        <option value="unidad">Unidad</option>
-                                        <option value="unidad">Gramos/Mililitros</option>
-                                    </select>
-                                </div>
-                                <div class="field">
-                                    <label>Proveedor</label>
-                                    <select class="ui dropdown">
-                                        <option value="">Seleccione</option>
-                                        <option value="proveedor1">Proveedor 1</option>
-                                        <option value="proveedor2">Proveedor 2</option>
-                                    </select>
-                                    <div class="ui icon button" id="infoButton"
-                                        data-title="Información"
-                                        data-content="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor"
-                                        data-position="bottom center"
-                                        style="margin-top: 5px; background-color: transparent;">
-                                        <i class="info circle big icon"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <!-- Datos Lote -->
-                    <div id="datosLote" style="margin-top: 20px;">
-                        <h4>Datos Lote</h4>
-                        <div class="ui form">
+                <!-- Datos Productos, se oculta inicialmente -->
+                <div id="datosProducto" style="display: none; margin-top: 10px;">
+                    <h4>Datos Productos</h4>
+                    <div class="ui form" id="formulario" method="POST">
+                        <div class="two fields">
                             <div class="field">
-                                <label>Nro. Lote</label>
-                                <input type="text" name="nro-lote" placeholder="Nro. Lote">
+                                <label>Nombre Producto</label>
+                                <input type="text" name="P_NOMBRE_PRODUCTO" id="nombreField" placeholder="Nombre Producto" required>
                             </div>
                             <div class="field">
-                                <label>Buscar Producto</label>
-                                <select class="ui dropdown">
+                                <label>Descripción Producto</label>
+                                <input type="text" name="P_DESCRIPCION_PROD1" id="descripcionField" placeholder="Descripción Producto" required>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Unidad de Medida</label>
+                                <select class="ui dropdown" name="P_UNIDAD_MEDIDA" id="unidadField" required>
                                     <option value="">Seleccione</option>
-                                    <option value="productos">Proveedor 1</option>
+                                </select>
+                            </div>
+                            <span id="ID_USUARIO" style="display:none">
+                                <?php echo $_SESSION['user_id'] ?></span>
+                            <div class="field">
+                                <label>Proveedor</label>
+                                <select class="ui dropdown" name="P_ID_PROVEEDOR" id="proveedorField" required>
+                                    <option value="">Seleccione Proveedor</option>
+                                </select>
+                                <div class="ui icon button" id="infoButton" data-title="Información"
+                                    data-content="Si no encuentra a su proveedor vaya a la sección de proveedores para agregar a su nuevo proveedor"
+                                    data-position="bottom center" style="margin-top: 5px; background-color: transparent;">
+                                    <i class="info circle big icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>ID Lote</label>
+                            <input type="text" name="P_ID_LOTE" id="idNuevoLote" placeholder="ID del Lote" required>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Fecha de Vencimiento</label>
+                                <div class="ui calendar" id="calendarioVencimiento">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompra">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" id="nuevaFechaComp" placeholder="Fecha de Compra" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Cantidad</label>
+                                <input type="number" name="P_CANTIDAD" id="nuevaCantidad" placeholder="Cantidad" required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Compra</label>
+                                <input type="number" name="P_PRECIO_COMPRA" id="nuevoPrecioComp" step="0.01" placeholder="Precio de Compra"
+                                    required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" id="nuevoPrecioVenta" step="0.01" placeholder="Precio de Venta"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
+                <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
+                <!-- Datos Lote -->
+                <div id="datosLote" style="margin-top: 20px;">
+                    <h4>Datos Lote</h4>
+                    <div class="ui form">
+                        <div class="field">
+                            <label>ID Lote</label>
+                            <input type="text" name="P_ID_LOTE" placeholder="ID del Lote" required>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Fecha de Vencimiento</label>
+                                <div class="ui calendar" id="calendarioVencimiento">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompra">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" placeholder="Fecha de Compra" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Cantidad</label>
+                                <input type="number" name="P_CANTIDAD" placeholder="Cantidad" required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Compra</label>
+                                <input type="number" name="P_PRECIO_COMPRA" step="0.01" placeholder="Precio de Compra"
+                                    required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" step="0.01" placeholder="Precio de Venta"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <input type="hidden" name="P_ID_USUARIO" value="<?php echo $_SESSION['user_id']; ?>">
+                <button class="ui green button" id="saveProductButton">Guardar</button>
+                <button class="ui red cancel button">Cancelar</button>
+            </div>
+        </div>
+        <div id="editModal" class="ui modal">
+            <div class="header">Editar ingreso de inventario</div>
+            <div class="content">
+                <div style="margin-top: 10px;">
+                    <h4>Datos Productos</h4>
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Nombre Producto</label>
+                                <input type="text" name="P_NOMBRE_PRODUCTO" id="nombreProducto" placeholder="Nombre Producto" required>
+                            </div>
+                            <div class="field">
+                                <label>Descripción Producto</label>
+                                <input type="text" name="P_DESCRIPCION_PRODUCTO" id="descripcionProducto" placeholder="Descripción Producto" required>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Unidad de Medida</label>
+                                <select class="ui dropdown" name="P_UNIDAD_MEDIDA" id="unidadMedida" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="kg">Kilogramos</option>
+                                    <option value="ltr">Litros</option>
+                                    <option value="unidad">Unidad</option>
                                 </select>
                             </div>
                             <div class="field">
-                                <label>Precio Compra</label>
-                                <input type="number" name="precio-compra" placeholder="Precio Compra">
+                                <label>Total Cantidad</label>
+                                <input type="number" name="P_TOTAL_CANTIDAD" id="totalCantidad" placeholder="Cantidad Total" required>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" id="precioVenta" step="0.01" placeholder="Precio de Venta" required>
                             </div>
                             <div class="field">
-                                <label>Cantidad</label>
-                                <input type="number" name="cantidad" placeholder="Cantidad">
+                                <label>Nombre Proveedor</label>
+                                <select class="ui dropdown" name="P_ID_PROVEEDOR" id="nombreProveedor" required>
+                                    <option value="">Seleccione Proveedor</option>
+                                    <!-- Aquí deberías llenar las opciones dinámicamente -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompra">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" id="fechaCompra" placeholder="Fecha de Compra" required>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field">
-                                <label>Precio Venta</label>
-                                <input type="number" name="precio-venta" placeholder="Precio Venta">
+                                <label>Estado</label>
+                                <select class="ui dropdown" name="P_ESTADO" id="estadoProducto" required>
+                                    <option value="">Seleccione Estado</option>
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                </select>
                             </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <input type="hidden" name="P_ID_USUARIO" value="<?php echo $_SESSION['user_id']; ?>">
+                <button class="ui green button" id="saveProductButton">Guardar</button>
+                <button class="ui red cancel button">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div style="margin-top: 3%; margin-right: 2%; margin-left: 3%;">
+            <!-- Buscador -->
+            <div class="ui grid">
+                <div class="left aligned three wide column">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Filtrar por Estado:</label>
+                            <select id="estadoDropdown" class="ui dropdown">
+                                <option value="">Todos</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-
-                <div class="actions">
-                    <button class="ui button">Guardar</button>
-                    <button class="ui button">Cancelar</button>
+            </div>
+            <!-- Botón para abrir el modal de generar producto -->
+            <div class="ui grid" style="margin-bottom: 20px;">
+                <div class="left aligned eight wide column">
+                    <div class="ui buttons">
+                        <button class="ui green button" id="addProductButton">Generar Producto</button>
+                        <button class="ui green basic button" id="exportExcelButton">
+                            <i class="file excel icon"></i> Exportar a Excel
+                        </button>
+                        <label for="excelFile" class="ui green basic button">
+                            <i class="file excel icon"></i> Importar Excel
+                        </label>
+                    </div>
+                    <!-- Formulario para cargar el archivo de importación -->
+                    <form id="importForm" action="importar_excel.php" method="post" enctype="multipart/form-data" style="display: none;">
+                        <input type="file" name="excelFile" id="excelFile" />
+                    </form>
                 </div>
             </div>
-        <!-- </div> -->
 
-        <!-- Botón para abrir el modal de generar producto -->
-        <div class="button-container">
-            <div class="ui button green" id="addProductButton" tabindex="0">
-                Generar Producto
-            </div>
-            <!-- Formularios para Exportar e Importar -->
-            <form id="exportForm" action="exportar_excel.php" method="post">
-                <div type="button" class="ui green basic button" id="exportExcelButton">
-                    <i class="file excel icon"></i>
-                    <i class="arrow alternate circle up outline icon"></i>
-                    Exportar a Excel
-                </div>
-            </form>
-            <form id="importForm" action="importar_excel.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="excelFile" id="excelFile" style="display: none" />
-                <label for="excelFile" class="ui green basic button">
-                    <i class="file excel icon"></i>
-                    <i class="arrow alternate circle down outline icon"></i>
-                    Importar Excel
-                </label>
-            </form>
-        </div>
-        <!-- Buscador  -->
-
-        <div class="ui category search">
-            <div class="ui icon input" style="width: 100%">
-                <input class="prompt" type="text" id="searchProduct" placeholder="Buscar por producto, proveedor o categoría..." />
-                <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
-        </div>
-        <!-- Tabla de productos -->
-        <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
-        <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
-        <!-- <div class="main-container"> -->
             <table class="ui celled long scrolling table">
                 <thead>
                     <tr>
-                        <th class="center aligned">ID Producto</th>
+                        <th id="id-producto" class="center aligned">ID Producto</th>
                         <th class="center aligned">Nombre Producto</th>
                         <th class="center aligned">Descripción Producto</th>
                         <th class="center aligned">Unidad de Medida</th>
@@ -256,20 +329,23 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Fecha Compra</th>
                         <th class="center aligned">Estado</th>
                         <?php if (session('rol') == 1): ?>
-                            <th class="center aligned one wide actions-column">Acciones</th>
+                            <th class="center aligned wide actions-column">Acciones</th>
                         <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody id="productTableBody"></tbody>
             </table>
-        <!-- </div> -->
-    </div>
+        </div>
 </body>
+
+<!-- Scripts  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
 <script type="module" src='/assets/js/inventario.js'></script>
 <script type="module" src="/assets/js/dashboard.js"></script>
+<!-- Scripts  -->
 
 </html>

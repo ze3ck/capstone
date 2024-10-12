@@ -74,7 +74,8 @@ class Inventario extends ResourceController
             "PRECIO_VENTA"          => $row['PRECIO_VENTA'],
             "NOMBRE_PROVEEDOR"      => $row['NOMBRE_PROVEEDOR'],
             "TOTAL_CANTIDAD"        => $row['TOTAL_CANTIDAD'],
-            "FECHA_COMPRA"          => $row['FECHA_COMPRA']
+            "FECHA_COMPRA"          => $row['FECHA_COMPRA'],
+            "ID_ESTADO"             => $row['ID_ESTADO']
           ];
         }
 
@@ -163,7 +164,7 @@ class Inventario extends ResourceController
           return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al insertar el producto en la base de datos.']);
         } else {
           $db->transCommit();
-          return $this->respond([
+          return $this->response->setStatusCode(200)->setJSON([
             'success' => true,
             'message' => 'Producto agregado correctamente.'
           ]);
@@ -181,7 +182,6 @@ class Inventario extends ResourceController
    * selectProductos()
    * PR_14_SELECT_PRODUCTOS
    */
-
   public function selectProductos()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
@@ -415,6 +415,55 @@ class Inventario extends ResourceController
           'success' => false,
           'message' => 'Método no permitido'
         ]);
+      }
+    } catch (\Exception $e) {
+      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * actualizaEstadoProducto()
+   * PR_18_ACTUALIZA_ESTADO_PRODUCTO
+   */
+  public function actualizaEstadoProducto()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    try {
+      $input = $this->request->getJSON();
+
+      if ($this->request->getMethod() === 'POST') {
+        $db = \Config\Database::connect();
+
+        $query = $db->query(
+          "CALL PR_18_ACTUALIZA_ESTADO_PRODUCTO(?, ?, ?)",
+          [
+            $input->P_IDUSUARIO,
+            $input->P_IDPRODUCTO,
+            $input->P_IDESTADO
+          ]
+        );
+
+        // Verificar si se afectó alguna fila
+        if ($db->affectedRows() > 0) {
+          return $this->respond([
+            'success' => true,
+            'message' => 'Estado del producto actualizado correctamente.',
+          ], 200);
+        } else {
+          // No se realizaron cambios
+          return $this->respond([
+            'success' => false,
+            'message' => 'No se realizaron cambios en el estado del producto.',
+          ], 200); 
+        }
       }
     } catch (\Exception $e) {
       return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
