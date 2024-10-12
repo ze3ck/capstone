@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // selectCategoria();
 });
 
+window.onload = function () {
+  selectCategoria();
+  selectResponsables();
+  selectCatGastoOperacional();
+};
+
+
 async function selectCategoria() {
   try {
     const response = await fetch(`${API_BASE_URL}movimientos/selectCatMovimiento`, {
@@ -30,7 +37,7 @@ async function selectCategoria() {
     }
 
     // Limpiamos el select antes de llenarlo
-    select.innerHTML = '<option value="">Todas</option>';
+    select.innerHTML = '<option value="">categoría</option>';
 
     // Recorremos la respuesta de la API y llenamos el select
     for (let x of data.response) {
@@ -40,16 +47,99 @@ async function selectCategoria() {
       select.appendChild(opt);
     }
 
+
+
+  } catch (error) {
+    console.error("Error al cargar las categorías:", error);
+  }
+  
+}
+
+async function selectResponsables() {
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/selectResponsables`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+
+    const data = await response.json();
+    // console.log("Datos de la respuesta:", data);
+
+    // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+    const select = document.getElementById('selectResponsable');
+
+    if (!select) {
+      console.error('No se encontró el elemento select en el DOM.');
+      return;
+    }
+
+    // Limpiamos el select antes de llenarlo
+    select.innerHTML = '<option value="">Responsable</option>';
+
+    // Recorremos la respuesta de la API y llenamos el select
+    for (let x of data.response) {
+      const opt = document.createElement('option');
+      opt.value = x.NOMBRE.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      opt.textContent = x.NOMBRE.trim();
+      select.appendChild(opt);
+    }
+
   } catch (error) {
     console.error("Error al cargar las categorías:", error);
   }
 }
 
-// Aseguramos que la función se ejecute cuando el DOM esté listo
-window.onload = function () {
-  selectCategoria();
-};
+async function selectCatGastoOperacional() {
 
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/selectCatGastoOperativoMovimiento`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+
+    const data = await response.json();
+    // console.log("Datos de la respuesta:", data);
+
+    // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+    const select = document.getElementById('selectCategoriaGastoOperacional');
+
+    if (!select) {
+      console.error('No se encontró el elemento select en el DOM.');
+      return;
+    }
+
+    // Limpiamos el select antes de llenarlo
+    select.innerHTML = '<option value="">categoría</option>';
+
+    // Recorremos la respuesta de la API y llenamos el select
+    for (let x of data.response) {
+      const opt = document.createElement('option');
+      opt.value = x.DESCRIPCION_CATEGORIA.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      opt.textContent = x.DESCRIPCION_CATEGORIA.trim();
+      select.appendChild(opt);
+    }
+
+  } catch (error) {
+    console.error("Error al cargar las categorías:", error);
+  }
+}
 
 
 async function llenarTablaMovimientos() {
@@ -138,7 +228,14 @@ function cargarFilasMovimientos(
   // Agregar evento de clic al botón para mostrar el modal
   button.addEventListener("click", function () {
     // Mostrar el modal usando jQuery
-    $("#modalDetalleMovimientos").modal("show");
+    $("#modalDetalleMovimientos")
+    .modal({
+      onDeny: function(){
+        return true;
+      }
+      
+    })
+    .modal("show");
     llenarTblDetalleMovimiento(ID_MOVIMIENTO);
   });
 

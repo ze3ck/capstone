@@ -102,7 +102,8 @@ $routes->group(
     $routes->post('movimientos/llenadoMovimiento',                'Movimientos::llenadoMovimiento');
     $routes->post('movimientos/llenadoDetalleMovimiento',         'Movimientos::llenadoDetalleMovimiento');
     $routes->get('movimientos/selectCatMovimiento',               'Movimientos::selectCatMovimiento');
-    $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento');
+    $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento'); 
+    $routes->post('movimientos/selectResponsables',                'Movimientos::selectResponsables'); 
     
     /**
      * RESTful API's: Controllers\API\Inventario-Productos

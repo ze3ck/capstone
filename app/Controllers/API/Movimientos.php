@@ -206,8 +206,114 @@ class Movimientos extends ResourceController
       }
     }
   }
+/**
+   * selectRespoinsables()
+   * PR_21_SELECT_RESPONSABLES
+   */
+  public function selectResponsables()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+      // Validar que el ID de usuario exista y sea numérico
+      if (!isset($json->P_IDUSUARIO) || !is_numeric($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el P_IDUSUARIO o es inválido']);
+      }
+
+      $P_IDUSUARIO = $json->P_IDUSUARIO;
+      try {
+        // Conectar a la base de datos
+        $db = \Config\Database::connect();
+
+        // Ejecutar el procedimiento almacenado con el ID del usuario
+        $query = $db->query("CALL PR_21_SELECT_RESPONSABLES(?)", [$P_IDUSUARIO]);
+
+        // Obtener los resultados como un array
+        $result = $query->getResultArray();
+
+        // Verificar si hay resultados
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para este usuario.']);
+        }
+
+        // Procesar los resultados
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_USUARIO" => $row['ID_USUARIO'],
+            "NOMBRE"  => $row['NOMBRE'],
+          ];
+        }
+        // Devolver los resultados procesados como JSON
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
+        ]);
+      } catch (\Exception $e) {
+        // Manejar excepciones
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+  }
 
 
+  /**
+   * selectCatGastoOperativoMovimiento()
+   * PR_22_SELECT_CATGASTOOPERACIONAL
+   */
+  public function selectCatGastoOperativoMovimiento()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
 
-  
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'GET') {
+      $json = $this->request->getJSON();
+
+      try {
+        // Conectar a la base de datos
+        $db = \Config\Database::connect();
+
+        // Ejecutar el procedimiento almacenado con el ID del usuario
+        $query = $db->query("CALL PR_22_SELECT_CATGASTOOPERACIONAL()");
+
+        // Obtener los resultados como un array
+        $result = $query->getResultArray();
+
+        // Verificar si hay resultados
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para este usuario.']);
+        }
+
+        // Procesar los resultados
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "DESCRIPCION_CATEGORIA" => $row['DESCRIPCION_CATEGORIA']
+          ];
+        }
+        // Devolver los resultados procesados como JSON
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
+        ]);
+      } catch (\Exception $e) {
+        // Manejar excepciones
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+  }
 }

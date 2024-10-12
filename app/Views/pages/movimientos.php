@@ -76,18 +76,18 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </h2>
             <div class="ui grid">
                 <!-- Tipo -->
-                <div class="two wide column">
-                    <select name="clinica" class="ui clearable fluid search dropdown" id="dropDownTipomov">
+                <div class="three wide column">
+                    <select name="clinica" class="ui selection dropdown" id="dropDownTipomov">
                         <!-- <option value="">Tipo</option> -->
                         <option value="1">ENTRADA</option>
                         <option value="2">SALIDA</option>
                     </select>
-                    <script>
+                    <!-- <script>
                         $('#dropDownTipomov').dropdown({
                             ignoreDiacritics: true,
                             fullTextSearch: 'exact'
                         });
-                    </script>
+                    </script> -->
                 </div>
 
                 <!-- Fecha Desde -->
@@ -227,7 +227,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <!-- Categoria -->
                 <div class="three wide column">
                     <select class="ui selection dropdown" id="selectCategoria">
-                        <option value="">Todas</option>
+
                     </select>
                 </div>
 
@@ -235,12 +235,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div class="three wide column">
                     <div class="field">
                         <select class="ui selection dropdown" id="selectResponsable" placeholder="Responsable">
-                            <!-- <option value="">Responsable</option> -->
-                            <option value="JUANITO">JUANITO</option>
-                            <option value="ANA">ANA</option>
-                            <option value="ANDREA">ANDREA</option>
-                            <option value="BASTI PUTO">BASTI PUTO</option>
-                            <option value="ELMA SCAPITO">ELMA SCAPITO</option>
+                        <option value="" style="color:gray;">categoría</option>
+
                         </select>
                     </div>
                 </div>
@@ -310,6 +306,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <tbody id="tblDetalleMovimientos_body">
                 </tbody>
             </table>
+        </div>
+        <div class="actions">
             <button class="negative ui button">Cerrar</button>
         </div>
     </div>
@@ -393,7 +391,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="field">
                     <label>Categoría</label>
-                    <select id="selectCategoria">
+                    <select id="selectCategoriaGastoOperacional">
                         <option value="">LLenar dinamico</option>
                         <option value="">Recreacion</option>
                         <option value="">Servicion</option>
