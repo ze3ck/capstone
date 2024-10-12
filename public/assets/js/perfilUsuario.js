@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           // alert("Error: " + data.error);
           mostrarToast("Ha ocurrido un error al crear el usuario", "error");
+          console.log("error: ", data);
         }
       } catch (error) {
         // Manejo de errores
