@@ -298,7 +298,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th>Item</th>
                         <th>Producto</th>
                         <th>Lote</th>
-                        <th>CAntidad</th>
+                        <th>Cantidad</th>
                         <th>Precio</th>
                         <th>Total</th>
                     </tr>
@@ -383,11 +383,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <form class="ui form">
                 <div class="field">
                     <label>Descripción</label>
-                    <input type="text" name="descripcion" placeholder="Descripción">
+                    <input type="text" id="descripcion" placeholder="Descripción">
                 </div>
                 <div class="field">
                     <label>Monto</label>
-                    <input type="number" name="monto" placeholder="Monto" min="0">
+                    <input type="number" id="monto" placeholder="Monto" min="0">
                 </div>
                 <div class="field">
                     <label>Categoría</label>

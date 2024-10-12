@@ -178,9 +178,8 @@ async function llenarTablaMovimientos() {
       x.DESCRIPCION_PAGO
     );
   }
-
-  // ocultarLoader();
 }
+
 
 // Cargar Data movimientos usuarios
 function cargarFilasMovimientos(
@@ -467,7 +466,7 @@ $(document).ready(function () {
       .modal({
         onApprove: function () {
           event.preventDefault();
-          console.log('modal aprovado')
+          generarGastoOperativo();
         },
         onDeny: function () {
           event.preventDefault();
@@ -655,3 +654,65 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("btnLimpiarFiltros")
     .addEventListener("click", clearFilters);
 });
+
+function mensaje(clase, tiempo, mensaje) {
+  $('body')
+      .toast({
+          displayTime: tiempo,
+          class: clase,
+          message: mensaje,
+          showProgress: 'top',
+          progressUp: true
+      });
+}
+
+async function generarGastoOperativo() {
+  let descripcion = document.getElementById('descripcion').value.trim();
+  let monto = document.getElementById('monto').value;
+  let categoria = document.getElementById('selectCategoriaGastoOperacional').value;
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+  console.log(descripcion);
+  console.log(monto);
+  console.log(categoria);
+  console.log(id_usuario);
+  
+
+  if(!descripcion || descripcion.length > 100){
+    mensaje('error', 2000, 'Descripción inválida')
+    return;
+  }
+
+  if(!monto || monto == 0 || monto < 0  || Number.isInteger(monto) === false){
+    mensaje('error', 2000, 'Monto Inválido')
+    return;
+  }
+
+  if(categoria != "RECREACION" || categoria != 'MANTENIMIENTO'|| categoria != 'INSUMOS'|| categoria != 'SERVICIOS'){
+    mensaje('error', 2000, 'Categoría Inválida')
+    return;
+  }
+  
+  const response = await fetch(
+    `${API_BASE_URL}movimientos/llenadoDetalleMovimiento`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_DESCRIPCION: descripcion,
+        P_MONTO: monto,
+        P_CATEGORIA: categoria,
+        P_IDUSUARIO: id_usuario,
+      }),
+    }
+  );
+  const data = await response.json();
+  vaalidacion = data.response(); 
+  if (vaalidacion = 1)
+    mensaje('success', 2000, 'Gasto operativo ingresado con éxito!!!')
+
+
+}
