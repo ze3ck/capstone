@@ -178,6 +178,94 @@ class Inventario extends ResourceController
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
   }
 
+
+  /**
+   * editarProducto()
+   * PR_20_NUEVO_PRODUCTO
+   */
+  // public function editarProducto()
+  // {
+  //   $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+  //   $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  //   $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  //   $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+  //   if ($this->request->getMethod() === 'options') {
+  //     return $this->response->setStatusCode(200);
+  //   }
+
+  //   if ($this->request->getMethod() === 'POST') {
+  //     $json = $this->request->getJSON();
+
+  //     // Verificación de los parámetros requeridos
+  //     if (
+  //       !isset($json->P_ID_PRODUCTO) || !isset($json->P_NOMBRE_PRODUCTO) || !isset($json->P_DESCRIPCION_PROD1) || !isset($json->P_UNIDAD_MEDIDA) ||
+  //       !isset($json->P_ID_PROVEEDOR) || !isset($json->P_ID_USUARIO) || !isset($json->P_ID_LOTE) ||
+  //       !isset($json->P_FECHA_VENCIMIENTO) || !isset($json->P_CANTIDAD) || !isset($json->P_PRECIO_COMPRA) ||
+  //       !isset($json->P_PRECIO_VENTA) || !isset($json->P_FECHA_COMPRA)
+  //     ) {
+  //       return $this->response->setStatusCode(400)->setJSON(['error' => 'Faltan parámetros requeridos.']);
+  //     }
+
+  //     $db = \Config\Database::connect();
+
+  //     try {
+  //       // Asignación de valores desde el JSON
+  //       $P_ID_PRODUCTO       = $json->P_ID_PRODUCTO;
+  //       $P_NOMBRE_PRODUCTO   = $json->P_NOMBRE_PRODUCTO;
+  //       $P_DESCRIPCION_PROD1 = $json->P_DESCRIPCION_PROD1;
+  //       $P_UNIDAD_MEDIDA     = $json->P_UNIDAD_MEDIDA;
+  //       $P_ID_PROVEEDOR      = $json->P_ID_PROVEEDOR;
+  //       $P_ID_USUARIO        = $json->P_ID_USUARIO;
+  //       $P_ID_LOTE           = $json->P_ID_LOTE;
+  //       $P_FECHA_VENCIMIENTO = $json->P_FECHA_VENCIMIENTO;
+  //       $P_CANTIDAD          = $json->P_CANTIDAD;
+  //       $P_PRECIO_COMPRA     = $json->P_PRECIO_COMPRA;
+  //       $P_PRECIO_VENTA      = $json->P_PRECIO_VENTA;
+  //       $P_FECHA_COMPRA      = $json->P_FECHA_COMPRA;
+
+  //       // Inicia la transacción
+  //       $db->transBegin();
+
+  //       // Llama al procedimiento almacenado para editar el producto
+  //       $db->query("CALL PR_20_EDITAR_PRODUCTO(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+  //         $P_ID_PRODUCTO,
+  //         $P_NOMBRE_PRODUCTO,
+  //         $P_DESCRIPCION_PROD1,
+  //         $P_UNIDAD_MEDIDA,
+  //         $P_ID_PROVEEDOR,
+  //         $P_ID_USUARIO,
+  //         $P_ID_LOTE,
+  //         $P_FECHA_VENCIMIENTO,
+  //         $P_CANTIDAD,
+  //         $P_PRECIO_COMPRA,
+  //         $P_PRECIO_VENTA,
+  //         $P_FECHA_COMPRA
+  //       ]);
+
+  //       // Verifica si la transacción fue exitosa
+  //       if ($db->transStatus() === FALSE) {
+  //         $db->transRollback();
+  //         return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al editar el producto en la base de datos.']);
+  //       } else {
+  //         $db->transCommit();
+  //         return $this->response->setStatusCode(200)->setJSON([
+  //           'success' => true,
+  //           'message' => 'Producto editado correctamente.'
+  //         ]);
+  //       }
+  //     } catch (\Exception $e) {
+  //       // Si hay un error, se revierte la transacción
+  //       $db->transRollback();
+  //       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+  //     }
+  //   }
+
+  //   // Si no es POST, retorna un error 405 (Método no permitido)
+  //   return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+  // }
+
+
   /**
    * selectProductos()
    * PR_14_SELECT_PRODUCTOS
@@ -462,7 +550,7 @@ class Inventario extends ResourceController
           return $this->respond([
             'success' => false,
             'message' => 'No se realizaron cambios en el estado del producto.',
-          ], 200); 
+          ], 200);
         }
       }
     } catch (\Exception $e) {
