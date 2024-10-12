@@ -668,7 +668,7 @@ function mensaje(clase, tiempo, mensaje) {
 
 async function generarGastoOperativo() {
   let descripcion = document.getElementById('descripcion').value.trim();
-  let monto = document.getElementById('monto').value;
+  let monto = document.getElementById('monto').value.trim();
   let categoria = document.getElementById('selectCategoriaGastoOperacional').value;
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
@@ -683,18 +683,18 @@ async function generarGastoOperativo() {
     return;
   }
 
-  if(!monto || monto == 0 || monto < 0  || Number.isInteger(monto) === false){
+  if(!monto || monto == 0 || monto < 0){
     mensaje('error', 2000, 'Monto Inválido')
     return;
   }
 
-  if(categoria != "RECREACION" || categoria != 'MANTENIMIENTO'|| categoria != 'INSUMOS'|| categoria != 'SERVICIOS'){
+  if(categoria == ""){
     mensaje('error', 2000, 'Categoría Inválida')
     return;
   }
   
   const response = await fetch(
-    `${API_BASE_URL}movimientos/llenadoDetalleMovimiento`,
+    `${API_BASE_URL}movimientos/GenerarGastoOperativo`,
     {
       method: "POST",
       headers: {
@@ -710,9 +710,13 @@ async function generarGastoOperativo() {
     }
   );
   const data = await response.json();
-  vaalidacion = data.response(); 
-  if (vaalidacion = 1)
+  // vaalidacion = data.response();
+  for (let x of data.response){
+    console.log(x.VALIDACION)
+  if (x.VALIDACION == 1){
     mensaje('success', 2000, 'Gasto operativo ingresado con éxito!!!')
+  }
 
+}
 
 }

@@ -358,7 +358,7 @@ class Movimientos extends ResourceController
         $db = \Config\Database::connect();
 
         // Ejecutar el procedimiento almacenado con el ID del usuario
-        $query = $db->query("CALL PR_23_NUEVO_GASTO_OPERACIONAL(?,?,?,?)", [$P_CATEGORIA,$P_IDUSUARIO,$P_DESCRIPCION,$P_MONTO]);
+        $query = $db->query("CALL PR_23_NUEVO_GASTO_OPERACIONAL(?,?,?,?)", [$P_DESCRIPCION,$P_MONTO,$P_CATEGORIA,$P_IDUSUARIO]);
 
         // Obtener los resultados como un array
         $result = $query->getResultArray();
