@@ -201,6 +201,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
+<<<<<<< Updated upstream
         <!-- Botón para abrir el modal de generar producto -->
         <div class="button-container">
             <div class="ui button green" id="addProductButton" tabindex="0">
@@ -313,12 +314,50 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
+=======
+
+
+        <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
+        <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
+>>>>>>> Stashed changes
 
 
         <!-- Tabla de productos -->
-        <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
-        <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
         <div style="margin-top: 3%; margin-right: 2%; margin-left: 3%;">
+            <!-- Buscador -->
+            <div class="ui grid">
+                <div class="left aligned three wide column">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Filtrar por Estado:</label>
+                            <select id="estadoDropdown" class="ui dropdown">
+                                <option value="">Todos</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Botón para abrir el modal de generar producto -->
+            <div class="ui grid" style="margin-bottom: 20px;">
+                <div class="left aligned eight wide column">
+                    <div class="ui buttons">
+                        <button class="ui green button" id="addProductButton">Generar Producto</button>
+                        <button class="ui green basic button" id="exportExcelButton">
+                            <i class="file excel icon"></i> Exportar a Excel
+                        </button>
+                        <label for="excelFile" class="ui green basic button">
+                            <i class="file excel icon"></i> Importar Excel
+                        </label>
+                    </div>
+                    <!-- Formulario para cargar el archivo de importación -->
+                    <form id="importForm" action="importar_excel.php" method="post" enctype="multipart/form-data" style="display: none;">
+                        <input type="file" name="excelFile" id="excelFile" />
+                    </form>
+                </div>
+            </div>
+
             <table class="ui celled long scrolling table">
                 <thead>
                     <tr>
