@@ -147,7 +147,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
                 <span id="ID_USUARIO" style="display: none;"><?php echo session('user_id'); ?></span>
-                <span id="ROL" style="display: none;"><?php echo session('rol');?></span>
+                <span id="ROL" style="display: none;"><?php echo session('rol'); ?></span>
                 <!-- Datos Lote -->
                 <div id="datosLote" style="margin-top: 20px;">
                     <h4>Datos Lote</h4>
@@ -202,38 +202,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
-        <!-- Botón para abrir el modal de generar producto -->
-        <!-- <div class="button-container">
-            <div class="ui button green" id="addProductButton" tabindex="0">
-                Generar Producto
-            </div>
-            <form id="exportForm" action="exportar_excel.php" method="post">
-                <div type="button" class="ui green basic button" id="exportExcelButton">
-                    <i class="file excel icon"></i>
-                    <i class="arrow alternate circle up outline icon"></i>
-                    Exportar a Excel
-                </div>
-            </form>
-            <form id="importForm" action="importar_excel.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="excelFile" id="excelFile" style="display: none" />
-                <label for="excelFile" class="ui green basic button">
-                    <i class="file excel icon"></i>
-                    <i class="arrow alternate circle down outline icon"></i>
-                    Importar Excel
-                </label>
-            </form>
-        </div> -->
-        <!-- Buscador  -->
-        <!-- <div class="ui form" style="margin: 2% 3%;">
-            <div class="field">
-                <label>Filtrar por Estado:</label>
-                <select id="estadoDropdown" class="ui dropdown">
-                    <option value="">Todos</option>
-                    <option value="1">Activo</option>
-                    <option value="2">Inactivo</option>
-                </select>
-            </div>
-        </div> -->
         <div id="editModal" class="ui modal">
             <div class="header">Editar ingreso de inventario</div>
             <div class="content">
