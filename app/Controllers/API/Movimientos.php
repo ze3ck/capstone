@@ -170,25 +170,44 @@ class Movimientos extends ResourceController
     }
 
     if ($this->request->getMethod() === 'GET') {
-      $db = \Config\Database::connect();
+      $json = $this->request->getJSON();
 
       try {
-        $query = $db->query('CALL PR_19_SELECT_CATEGORIA_MOVIMIENTO()');
+        // Conectar a la base de datos
+        $db = \Config\Database::connect();
 
-        $result = $query->getResult();
+        // Ejecutar el procedimiento almacenado con el ID del usuario
+        $query = $db->query("CALL PR_19_SELECT_CATEGORIA_MOVIMIENTO()");
 
-        return $this->response->setJSON([
-          'status' => 'success',
-          'data'   => $result
+        // Obtener los resultados como un array
+        $result = $query->getResultArray();
+
+        // Verificar si hay resultados
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para este usuario.']);
+        }
+
+        // Procesar los resultados
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_CATEGORIA" => $row['ID_CATEGORIA'],
+            "DESCRIPCION"  => $row['DESCRIPCION'],
+          ];
+        }
+        // Devolver los resultados procesados como JSON
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
         ]);
       } catch (\Exception $e) {
+        // Manejar excepciones
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
       }
-    } else {
-      return $this->response->setJSON([
-        'status'  => 'error',
-        'message' => 'Método HTTP no permitido'
-      ])->setStatusCode(405);
     }
   }
+
+
+
+  
 }

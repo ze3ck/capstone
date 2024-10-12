@@ -27,7 +27,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <script type="module" src="/assets/js/movimientos.js"></script>
+    
 </head>
 
 <body>
@@ -227,12 +227,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <!-- Categoria -->
                 <div class="three wide column">
                     <select class="ui selection dropdown" id="selectCategoria">
-                        <!-- <option value="">Categoria</option> -->
-                        <option value="COMPRA">COMPRA</option>
-                        <option value="REEMBOLSO">REEMBOLSO</option>
-                        <option value="VENTA">VENTA</option>
-                        <option value="GASTO OPERATIVO">GASTO OPERATIVO</option>
-                        <option value="REEMBOLSO PROVEEDOR">REEMBOLSO PROVEEDOR</option>
+                        <option value="">Todas</option>
                     </select>
                 </div>
 
@@ -291,7 +286,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <?php echo $_SESSION['user_id'] ?></span>
             </table>
             <button id="btnNuevoMovimiento" class="ui blue button">Nueva Salida Producto</button>
-            <button id="btnNuevoGastoOperativo"  class="ui blue button">Nuevo Gasto Operativo</button>
+            <button id="btnNuevoGastoOperativo" class="ui blue button">Nuevo Gasto Operativo</button>
 
         </div>
     </div>
@@ -378,11 +373,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </form>
         </div>
         <div class="actions">
-            <button class="ui red button" id="cancelarSalidaBtn">Cancelar</button>
-            <button class="ui green button" id="generarSalidaBtn">Generar Salida</button>
+            <button class="ui positive button">Generar Salida</button>
+            <button class="ui negative button">Cancelar</button>
         </div>
     </div>
-    
+
     <!-- Modal para Generar Gasto Operativo -->
     <div class="ui large modal" id="modalNuevoGastoOperativo">
         <div class="header">Nuevo Gasto Operativo</div>
@@ -394,7 +389,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="field">
                     <label>Monto</label>
-                    <input type="number" name="monto" placeholder="Monto" min="0"">
+                    <input type="number" name="monto" placeholder="Monto" min="0">
                 </div>
                 <div class="field">
                     <label>Categoría</label>
@@ -413,6 +408,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     </div>
 
 
+    
+    <!-- <script src="/assets/js/charts.js"></script> -->
+
+
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -420,10 +420,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script type="module" src="/assets/js/movimientos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
-    <!-- <script src="/assets/js/charts.js"></script> -->
-
-
-    </div>
+    <script type="module" src="/assets/js/movimientos.js"></script>
 </body>
 
 </html>

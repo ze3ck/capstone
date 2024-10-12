@@ -2,15 +2,63 @@ import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   llenarTablaMovimientos();
+  // selectCategoria();
 });
 
+async function selectCategoria() {
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/selectCatMovimiento`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+
+    const data = await response.json();
+    // console.log("Datos de la respuesta:", data);
+
+    // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+    const select = document.getElementById('selectCategoria');
+
+    if (!select) {
+      console.error('No se encontró el elemento select en el DOM.');
+      return;
+    }
+
+    // Limpiamos el select antes de llenarlo
+    select.innerHTML = '<option value="">Todas</option>';
+
+    // Recorremos la respuesta de la API y llenamos el select
+    for (let x of data.response) {
+      const opt = document.createElement('option');
+      opt.value = x.DESCRIPCION.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      opt.textContent = x.DESCRIPCION.trim();
+      select.appendChild(opt);
+    }
+
+  } catch (error) {
+    console.error("Error al cargar las categorías:", error);
+  }
+}
+
+// Aseguramos que la función se ejecute cuando el DOM esté listo
+window.onload = function () {
+  selectCategoria();
+};
+
+
+
 async function llenarTablaMovimientos() {
-  console.log("Entre a llenarTablaMovimientos");
+  // console.log("Entre a llenarTablaMovimientos");
   // mostarLoader();
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
   $("#tblMovimientos tbody tr").remove();
-  console.log(id_usuario);
+  // console.log(id_usuario);
 
   const response = await fetch(`${API_BASE_URL}movimientos/llenadoMovimiento`, {
     //             await fetch(`${API_BASE_URL}inventario/llenadoDetalleMovimiento`
@@ -25,10 +73,10 @@ async function llenarTablaMovimientos() {
   });
   const data = await response.json();
   // console.log(P_IDUSUARIO);
-  console.log("Datos de la respuesta:", data);
+  // console.log("Datos de la respuesta:", data);
 
   for (let x of data.response) {
-    console.log(x.ID_MOVIMIENTO);
+    // console.log(x.ID_MOVIMIENTO);
     cargarFilasMovimientos(
       x.ID_MOVIMIENTO,
       x.DESCRIPCION_MOVIMIENTO,
@@ -302,11 +350,35 @@ $(document).ready(function () {
   });
   // Mostrar el modal cuando se haga clic en el botón "Generar Salida Producto"
   $("#btnNuevoMovimiento").on("click", function () {
-    $("#modalGenerarSalida").modal("show");
+    $("#modalGenerarSalida")
+      .modal({
+        onApprove: function () {
+          // GENERAR SALIDA (falta agregar funcion)
+          event.preventDefault();
+          // return ;
+        },
+        onDeny: function () {
+
+          return true;
+        }
+      })
+      .modal("show");
   });
 
   $("#btnNuevoGastoOperativo").on("click", function () {
-    $("#modalNuevoGastoOperativo").modal("show");
+    $("#modalNuevoGastoOperativo")
+      .modal({
+        onApprove: function () {
+          event.preventDefault();
+          console.log('modal aprovado')
+        },
+        onDeny: function () {
+          event.preventDefault();
+          console.log('modal cancelado')
+          return true;
+        }
+      })
+      .modal("show");
   });
 
   let total = 0;
@@ -337,18 +409,9 @@ $(document).ready(function () {
     }
   });
 
-  // Función para generar salida
-  $("#generarSalidaBtn").on("click", function () {
-    // Aquí puedes añadir la lógica para generar la salida y enviarla al backend.
-    alert("Salida generada con éxito");
-    $("#modalGenerarSalida").modal("hide");
-  });
-
-  // Función para cerrar el modal al hacer clic en el botón "Cancelar"
-  $("#cancelarSalidaBtn").on("click", function () {
-    $("#modalGenerarSalida").modal("hide");
-  });
 });
+
+
 
 // FILTROS DE LA TABLA
 

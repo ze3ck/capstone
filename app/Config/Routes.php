@@ -99,10 +99,11 @@ $routes->group(
     /**
      * RESTful API's: Controllers\API\Movimientos
      */
-    $routes->post('movimientos/llenadoMovimiento',        'Movimientos::llenadoMovimiento');
-    $routes->post('movimientos/llenadoDetalleMovimiento', 'Movimientos::llenadoDetalleMovimiento');
-    $routes->get('movimientos/selectCatMovimiento',       'Movimientos::selectCatMovimiento');
-
+    $routes->post('movimientos/llenadoMovimiento',                'Movimientos::llenadoMovimiento');
+    $routes->post('movimientos/llenadoDetalleMovimiento',         'Movimientos::llenadoDetalleMovimiento');
+    $routes->get('movimientos/selectCatMovimiento',               'Movimientos::selectCatMovimiento');
+    $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento');
+    
     /**
      * RESTful API's: Controllers\API\Inventario-Productos
      */
