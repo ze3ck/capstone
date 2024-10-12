@@ -105,6 +105,8 @@ $routes->group(
     $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento'); 
     $routes->post('movimientos/selectResponsables',               'Movimientos::selectResponsables'); 
     $routes->post('movimientos/GenerarGastoOperativo',            'Movimientos::GenerarGastoOperativo'); 
+    $routes->post('movimientos/selectProductos',                  'Movimientos::selectProductos'); 
+    $routes->post('movimientos/cant_total',                       'Movimientos::cant_total'); 
     
     /**
      * RESTful API's: Controllers\API\Inventario-Productos

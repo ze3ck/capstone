@@ -323,14 +323,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <label>Producto</label>
                     <select class="ui dropdown" name="producto" id="productoDropdown">
                         <option value="">Seleccionar</option>
-                        <option value="1">ENTRADA DE LAPTOPS AL INVENTARIO</option>
-                        <option value="2">SALIDA DE ROUTERS PARA CLIENTE</option>
+
                     </select>
                 </div>
                 <div class="field">
                     <label>Disponibilidad en Inventario</label>
-                    <b>10</b>
-                    <b>10</b>
+                    <b id="cant_total"></b>
                 </div>
                 <div class="field">
                     <label>Tipo de Pago</label>

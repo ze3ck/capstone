@@ -52,7 +52,7 @@ async function selectCategoria() {
   } catch (error) {
     console.error("Error al cargar las categorías:", error);
   }
-  
+
 }
 
 async function selectResponsables() {
@@ -228,15 +228,16 @@ function cargarFilasMovimientos(
   button.addEventListener("click", function () {
     // Mostrar el modal usando jQuery
     $("#modalDetalleMovimientos")
-    .modal({
-      onDeny: function(){
-        return true;
-      }
-      
-    })
-    .modal("show");
+      .modal({
+        onDeny: function () {
+          return true;
+        }
+
+      })
+      .modal("show");
     llenarTblDetalleMovimiento(ID_MOVIMIENTO);
   });
+
 
   tr.appendChild(col1);
   tr.appendChild(col2);
@@ -446,6 +447,7 @@ $(document).ready(function () {
   });
   // Mostrar el modal cuando se haga clic en el botón "Generar Salida Producto"
   $("#btnNuevoMovimiento").on("click", function () {
+    selectProductos();
     $("#modalGenerarSalida")
       .modal({
         onApprove: function () {
@@ -657,13 +659,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function mensaje(clase, tiempo, mensaje) {
   $('body')
-      .toast({
-          displayTime: tiempo,
-          class: clase,
-          message: mensaje,
-          showProgress: 'top',
-          progressUp: true
-      });
+    .toast({
+      displayTime: tiempo,
+      class: clase,
+      message: mensaje,
+      showProgress: 'top',
+      progressUp: true
+    });
 }
 
 async function generarGastoOperativo() {
@@ -676,23 +678,23 @@ async function generarGastoOperativo() {
   console.log(monto);
   console.log(categoria);
   console.log(id_usuario);
-  
 
-  if(!descripcion || descripcion.length > 100){
+
+  if (!descripcion || descripcion.length > 100) {
     mensaje('error', 2000, 'Descripción inválida')
     return;
   }
 
-  if(!monto || monto == 0 || monto < 0){
+  if (!monto || monto == 0 || monto < 0) {
     mensaje('error', 2000, 'Monto Inválido')
     return;
   }
 
-  if(categoria == ""){
+  if (categoria == "") {
     mensaje('error', 2000, 'Categoría Inválida')
     return;
   }
-  
+
   const response = await fetch(
     `${API_BASE_URL}movimientos/GenerarGastoOperativo`,
     {
@@ -711,12 +713,79 @@ async function generarGastoOperativo() {
   );
   const data = await response.json();
   // vaalidacion = data.response();
-  for (let x of data.response){
+  for (let x of data.response) {
     console.log(x.VALIDACION)
-  if (x.VALIDACION == 1){
-    mensaje('success', 2000, 'Gasto operativo ingresado con éxito!!!')
+    if (x.VALIDACION == 1) {
+      mensaje('success', 2000, 'Gasto operativo ingresado con éxito!!!')
+    }
+
   }
 
 }
+
+async function selectProductos() {
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+  const response = await fetch(
+    `${API_BASE_URL}movimientos/selectProductos`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario
+      }),
+    }
+  );
+
+  const data = await response.json();
+  // console.log("Datos de la respuesta:", data);
+
+  // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+  const select = document.getElementById('productoDropdown');
+  // Limpiamos el select antes de llenarlo
+  select.innerHTML = '<option value="">producto</option>';
+
+  if (!select) {
+    console.error('No se encontró el elemento select en el DOM.');
+    return;
+  }
+
+  for (let x of data.response) {
+    const opt = document.createElement('option');
+    opt.value = x.ID_PRODUCTO;
+    opt.textContent = x.DESCRIPCION_PRODUCTO;
+    select.appendChild(opt);
+  }
+
+
+  // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
+  async function cant_total() {
+    let id_producto = document.getElementById('productoDropdown').value;
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/selectProductos`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_PRODUCTO: id_producto
+        }),
+      }
+    );
+
+    const data = await response.json();
+    
+    for (let x of data.response) {
+      document.getElementById('cant_total').innerHTML = x.CANTIDAD;
+    }
+
+  }
+  // Se ejecuta cuando cambia de estado el select
+  document.getElementById('productoDropdown').addEventListener('change', cant_total);
 
 }
