@@ -2,6 +2,20 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+  // array toast's
+
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
+
   const botonGuardar = document.getElementById("guardarCambios");
   // Asegúrate de que el botón exista en el DOM antes de agregar el evento
   if (guardarCambios) {
@@ -18,7 +32,97 @@ document.addEventListener("DOMContentLoaded", function () {
   //     thirdTab.style.display = 'block'; // Asegurar que se muestre
   //   }
   // }
+  // $("#crearUsuario").on("click", function () {
+  //   $("#modalUsuario").modal("show");
+  // });
 
+  /**
+   * crearNuevoUsuario()
+   */
+  $(".menu .item").tab();
+  $(".ui.dropdown").dropdown();
+
+  // Mostrar modal para crear usuario
+  $("#crearUsuario").on("click", function () {
+    $("#crearUsuarioModal").modal("show");
+  });
+
+  // Lógica para crear usuario con fetch
+  $("#crearUsuarioButton").on("click", async function () {
+    const nombreUsuario = $("#nombreUsuario").val();
+    const emailUsuario = $("#emailUsuario").val();
+    const contraseniaUsuario = $("#contraseniaUsuario").val();
+    const nombre = $("#nombre").val();
+    const apellidoPaterno = $("#apellidoPaterno").val();
+    const apellidoMaterno = $("#apellidoMaterno").val();
+    const telefonoUsuario = $("#telefonoUsuario").val();
+    const estadoUsuario = $("#estadoUsuario").val();
+    const empresaUsuario = $("#empresaUsuario").val();
+    const rolUsuario = $("#rolUsuario").val();
+
+    if (
+      nombreUsuario &&
+      emailUsuario &&
+      contraseniaUsuario &&
+      nombre &&
+      apellidoPaterno &&
+      apellidoMaterno &&
+      telefonoUsuario &&
+      estadoUsuario &&
+      empresaUsuario &&
+      rolUsuario
+    ) {
+      try {
+        // Mostrar loader si tienes uno
+        // mostrarLoader();
+
+        // Realizar la solicitud POST utilizando fetch
+        const response = await fetch(
+          `${API_BASE_URL}usuarios/crearNuevoUsuario`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              p_NOMBRE_USUARIO: nombreUsuario,
+              p_EMAIL: emailUsuario,
+              p_CONTRASENIA: contraseniaUsuario,
+              p_NOMBRE: nombre,
+              p_APATERNO: apellidoPaterno,
+              p_AMATERNO: apellidoMaterno,
+              p_TELEFONO: telefonoUsuario,
+              p_IDESTADO: estadoUsuario,
+              p_IDEMPRESA: empresaUsuario,
+              P_IDROL: rolUsuario,
+            }),
+          }
+        );
+
+        // Verifica si la respuesta fue exitosa
+        const data = await response.json();
+        if (response.ok) {
+          // alert("Usuario creado exitosamente");
+          mostrarToast("El usuario ha sido creado correctamente.", "success");
+          $("#crearUsuarioModal").modal("hide");
+        } else {
+          // alert("Error: " + data.error);
+          mostrarToast("Ha ocurrido un error al crear el usuario", "error");
+        }
+      } catch (error) {
+        // Manejo de errores
+        console.error("Error al crear el usuario:", error);
+        // alert("Ocurrió un error al crear el usuario.");
+      } finally {
+        // Ocultar loader si tienes uno
+        // ocultarLoader();
+      }
+    } else {
+      // alert("Todos los campos son obligatorios");
+      mostrarToast("Todos los campos son obligatorios", "warning");
+    }
+  });
 });
 
 async function cargarPerfil() {
@@ -61,7 +165,8 @@ async function cargarPerfil() {
     // }
 
     // estado-label.inner
-    document.getElementById("nombre_usuario").value = data.perfil.nombre_usuario;
+    document.getElementById("nombre_usuario").value =
+      data.perfil.nombre_usuario;
     document.getElementById("email").value = data.perfil.email;
     document.getElementById("nombre").value = data.perfil.nombre;
     document.getElementById("apaterno").value = data.perfil.apaterno;
@@ -69,12 +174,11 @@ async function cargarPerfil() {
     document.getElementById("telefono").value = data.perfil.telefono;
     document.getElementById("ROL").value = data.perfil.rol;
 
-    var rol = document.getElementById('ROL').value.trim();
+    var rol = document.getElementById("ROL").value.trim();
     if (rol == 1) {
-
       var thirdTab = document.querySelector('[data-tab="user-management"]');
       if (thirdTab) {
-        thirdTab.style.display = 'block'; // Asegurar que se muestre
+        thirdTab.style.display = "block"; // Asegurar que se muestre
       }
     }
     // document.getElementById("estado-label").innerHTML =
@@ -284,7 +388,6 @@ async function obtenerDatosTabla() {
     body: JSON.stringify(datos), // Convertir el array de datos a formato JSON
   });
 
-
   // console.log("Datos de la respuesta:", data);
 
   // Verificar si la respuesta tiene éxito
@@ -300,7 +403,6 @@ async function obtenerDatosTabla() {
   } else {
     console.error("Mensaje de error del servidor:", data.message);
   }
-
 }
 
 // document.addEventListener("DOMContentLoaded", function () {
@@ -398,3 +500,5 @@ async function actualizarEstadoUsuario(ID_DROPDOWN) {
   // dropdown.id = "dropdown_" + ID_USUARIO;
   let ID_USUARIO = Document.getElementById(ID_DROPDOWN).id.split("_")[1];
 }
+
+// crear nuevo usuario
