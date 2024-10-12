@@ -172,7 +172,7 @@ footer {
 
 /* Styling for radial bar and chart containers */
 #radialBarBottom, #line-adwords, #barchart, #areachart {
-  background-color: #ffffff;
+  background-color: #0000;
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
@@ -223,3 +223,8 @@ table.ui.celled.table tfoot {
   text-align: center;
   font-size: 2rem;
 }
+
+#graficos-container{
+  background-color: #333;
+}
+
