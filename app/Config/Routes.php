@@ -119,7 +119,7 @@ $routes->group(
     $routes->post('inventario/selectProveedores',       'Inventario::selectProveedores');
     $routes->post('inventario/nuevoLote',               'Inventario::nuevoLote');
     $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');
-    // $routes->post('inventario/editarProducto',          'Inventario::editarProducto');
+    $routes->post('inventario/editarProducto',          'Inventario::editarProducto');
   }
 
 
