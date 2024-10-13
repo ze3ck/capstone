@@ -2,6 +2,7 @@ import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   $("#saveProductButton").click(agregarNuevoProducto);
+  $("#editProductButton").click(editarProducto);
   selectProveedores();
   selectUnidadMedida();
 });
@@ -113,6 +114,100 @@ async function agregarNuevoProducto() {
     });
   }
 }
+
+async function editarProducto() {
+  const nombreField = document.getElementById("nombreProductoEdit");
+  const descripcionField = document.getElementById("descripcionProductoEdit");
+  const unidadField = document.getElementById("unidadMedidaEdit");
+  const proveedorField = document.getElementById("nombreProveedorEdit");
+  const idProductoField = document.getElementById("idProductoEdit"); // Campo oculto para el ID del producto
+  const idNuevoLote = document.getElementById("idNuevoLoteEdit");
+  const fechaVencField = document.getElementById("nuevaFechaVencEdit");
+  const fechaCompField = document.getElementById("fechaCompraEdit");
+  const cantidadField = document.getElementById("totalCantidadEdit");
+  const precioCompField = document.getElementById("nuevoPrecioCompEdit");
+  const precioVentaField = document.getElementById("precioVentaEdit");
+  const idUsuario = document.getElementById("idUsuarioEdit");
+
+  // Obtener los valores de los campos
+  const idProductoValue = idProductoField.value.trim();
+  const nombreValue = nombreField.value.trim();
+  const descripcionValue = descripcionField.value.trim();
+  const unidadValue = unidadField.value.trim();
+  const proveedorValue = proveedorField.value.trim();
+  const idNuevoLoteValue = idNuevoLote.value.trim();
+  const fechaVencValue = fechaVencField.value.trim();
+  const fechaCompValue = fechaCompField.value.trim();
+  const cantidadValue = cantidadField.value.trim();
+  const precioCompValue = precioCompField.value.trim();
+  const precioVentaValue = precioVentaField.value.trim();
+  const idUsuarioValue = idUsuario.textContent.trim();
+
+  try {
+    console.log("Enviando datos al servidor para editar producto...");
+
+    const response = await fetch(
+      `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
+      {
+        method: "POST", // El método sigue siendo POST
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_ID_PRODUCTO: idProductoValue, // Incluye el ID del producto
+          P_NOMBRE_PRODUCTO: nombreValue,
+          P_DESCRIPCION_PROD1: descripcionValue,
+          P_UNIDAD_MEDIDA: unidadValue,
+          P_ID_PROVEEDOR: proveedorValue,
+          P_ID_USUARIO: idUsuarioValue,
+          P_ID_LOTE: idNuevoLoteValue,
+          P_FECHA_VENCIMIENTO: fechaVencValue,
+          P_CANTIDAD: cantidadValue,
+          P_PRECIO_COMPRA: precioCompValue,
+          P_PRECIO_VENTA: precioVentaValue,
+          P_FECHA_COMPRA: fechaCompValue,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Error al editar el producto. Estado: ${response.status}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      console.log("Producto editado con éxito:", data);
+
+      $("body").toast({
+        message: "Se ha editado el producto exitosamente",
+        class: "success",
+        displayTime: 3000,
+      });
+    } else {
+      console.warn("El servidor no devolvió un JSON válido.");
+      $("body").toast({
+        message:
+          "Producto editado exitosamente, pero la respuesta no es válida.",
+        class: "warning",
+        displayTime: 3000,
+      });
+    }
+  } catch (error) {
+    console.error("Error al enviar la solicitud:", error);
+
+    // Mostrar mensaje de error
+    $("body").toast({
+      message:
+        "Error al editar el producto. Revisa la consola para más detalles.",
+      class: "error",
+      displayTime: 3000,
+    });
+  }
+}
+
 
 // funcion limpiar formulario agregar nuevos productos
 function limpiarFormularioProducto() {
@@ -495,15 +590,12 @@ $(document).ready(function () {
               <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
               <td class="center aligned">${producto.FECHA_COMPRA}</td>
               <td class="center aligned">
-                  <select class="estado-dropdown" data-producto-id="${
-                    producto.ID_PRODUCTO
-                  }">
-                      <option value="1" ${
-                        producto.ID_ESTADO == 1 ? "selected" : ""
-                      }>Activo</option>
-                      <option value="2" ${
-                        producto.ID_ESTADO == 2 ? "selected" : ""
-                      }>Inactivo</option>
+                  <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
+          }">
+                      <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
+          }>Activo</option>
+                      <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
+          }>Inactivo</option>
                   </select>
               </td>
           `;
