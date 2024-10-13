@@ -11,15 +11,17 @@ window.onload = function () {
   selectCatGastoOperacional();
 };
 
-
 async function selectCategoria() {
   try {
-    const response = await fetch(`${API_BASE_URL}movimientos/selectCatMovimiento`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/selectCatMovimiento`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Error en la respuesta del servidor");
@@ -29,10 +31,10 @@ async function selectCategoria() {
     // console.log("Datos de la respuesta:", data);
 
     // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
-    const select = document.getElementById('selectCategoria');
+    const select = document.getElementById("selectCategoria");
 
     if (!select) {
-      console.error('No se encontró el elemento select en el DOM.');
+      console.error("No se encontró el elemento select en el DOM.");
       return;
     }
 
@@ -41,33 +43,32 @@ async function selectCategoria() {
 
     // Recorremos la respuesta de la API y llenamos el select
     for (let x of data.response) {
-      const opt = document.createElement('option');
-      opt.value = x.DESCRIPCION.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      const opt = document.createElement("option");
+      opt.value = x.DESCRIPCION.trim(); // Cambia esto si el nombre de la propiedad es diferente
       opt.textContent = x.DESCRIPCION.trim();
       select.appendChild(opt);
     }
-
-
-
   } catch (error) {
     console.error("Error al cargar las categorías:", error);
   }
-
 }
 
 async function selectResponsables() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
   try {
-    const response = await fetch(`${API_BASE_URL}movimientos/selectResponsables`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        P_IDUSUARIO: id_usuario,
-      }),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/selectResponsables`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_IDUSUARIO: id_usuario,
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Error en la respuesta del servidor");
@@ -77,10 +78,10 @@ async function selectResponsables() {
     // console.log("Datos de la respuesta:", data);
 
     // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
-    const select = document.getElementById('selectResponsable');
+    const select = document.getElementById("selectResponsable");
 
     if (!select) {
-      console.error('No se encontró el elemento select en el DOM.');
+      console.error("No se encontró el elemento select en el DOM.");
       return;
     }
 
@@ -89,26 +90,27 @@ async function selectResponsables() {
 
     // Recorremos la respuesta de la API y llenamos el select
     for (let x of data.response) {
-      const opt = document.createElement('option');
-      opt.value = x.NOMBRE.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      const opt = document.createElement("option");
+      opt.value = x.NOMBRE.trim(); // Cambia esto si el nombre de la propiedad es diferente
       opt.textContent = x.NOMBRE.trim();
       select.appendChild(opt);
     }
-
   } catch (error) {
     console.error("Error al cargar las categorías:", error);
   }
 }
 
 async function selectCatGastoOperacional() {
-
   try {
-    const response = await fetch(`${API_BASE_URL}movimientos/selectCatGastoOperativoMovimiento`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/selectCatGastoOperativoMovimiento`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Error en la respuesta del servidor");
@@ -118,10 +120,10 @@ async function selectCatGastoOperacional() {
     // console.log("Datos de la respuesta:", data);
 
     // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
-    const select = document.getElementById('selectCategoriaGastoOperacional');
+    const select = document.getElementById("selectCategoriaGastoOperacional");
 
     if (!select) {
-      console.error('No se encontró el elemento select en el DOM.');
+      console.error("No se encontró el elemento select en el DOM.");
       return;
     }
 
@@ -130,17 +132,15 @@ async function selectCatGastoOperacional() {
 
     // Recorremos la respuesta de la API y llenamos el select
     for (let x of data.response) {
-      const opt = document.createElement('option');
-      opt.value = x.DESCRIPCION_CATEGORIA.trim();  // Cambia esto si el nombre de la propiedad es diferente
+      const opt = document.createElement("option");
+      opt.value = x.DESCRIPCION_CATEGORIA.trim(); // Cambia esto si el nombre de la propiedad es diferente
       opt.textContent = x.DESCRIPCION_CATEGORIA.trim();
       select.appendChild(opt);
     }
-
   } catch (error) {
     console.error("Error al cargar las categorías:", error);
   }
 }
-
 
 async function llenarTablaMovimientos() {
   // console.log("Entre a llenarTablaMovimientos");
@@ -179,7 +179,6 @@ async function llenarTablaMovimientos() {
     );
   }
 }
-
 
 // Cargar Data movimientos usuarios
 function cargarFilasMovimientos(
@@ -231,13 +230,11 @@ function cargarFilasMovimientos(
       .modal({
         onDeny: function () {
           return true;
-        }
-
+        },
       })
       .modal("show");
     llenarTblDetalleMovimiento(ID_MOVIMIENTO);
   });
-
 
   tr.appendChild(col1);
   tr.appendChild(col2);
@@ -253,6 +250,9 @@ function cargarFilasMovimientos(
   tablaVisor.appendChild(tr);
 }
 
+/**
+ * llenarTblDetalleMovimiento
+ */
 async function llenarTblDetalleMovimiento(ID_MOVIMIENTO) {
   // mostarLoader();
   // console.log(ID_MOVIMIENTO);
@@ -450,15 +450,16 @@ $(document).ready(function () {
     selectProductos();
     $("#modalGenerarSalida")
       .modal({
-        onApprove: function () {
+        onApprove: function (event) {
           // GENERAR SALIDA (falta agregar funcion)
-          event.preventDefault();
+          if (event) {
+            event.preventDefault();
+          }
           // return ;
         },
         onDeny: function () {
-
           return true;
-        }
+        },
       })
       .modal("show");
   });
@@ -466,15 +467,15 @@ $(document).ready(function () {
   $("#btnNuevoGastoOperativo").on("click", function () {
     $("#modalNuevoGastoOperativo")
       .modal({
-        onApprove: function () {
-          event.preventDefault();
+        onApprove: function (event) {
+          event.preventDefault(); // Usar event.preventDefault() correctamente
           generarGastoOperativo();
         },
-        onDeny: function () {
-          event.preventDefault();
-          console.log('modal cancelado')
-          return true;
-        }
+        onDeny: function (event) {
+          event.preventDefault(); // Prevenir el comportamiento predeterminado
+          console.log("modal cancelado");
+          return true; // Permitir cerrar el modal
+        },
       })
       .modal("show");
   });
@@ -506,10 +507,7 @@ $(document).ready(function () {
       alert("Por favor seleccione un producto y una cantidad válida");
     }
   });
-
 });
-
-
 
 // FILTROS DE LA TABLA
 
@@ -658,20 +656,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function mensaje(clase, tiempo, mensaje) {
-  $('body')
-    .toast({
-      displayTime: tiempo,
-      class: clase,
-      message: mensaje,
-      showProgress: 'top',
-      progressUp: true
-    });
+  $("body").toast({
+    displayTime: tiempo,
+    class: clase,
+    message: mensaje,
+    showProgress: "top",
+    progressUp: true,
+  });
 }
 
 async function generarGastoOperativo() {
-  let descripcion = document.getElementById('descripcion').value.trim();
-  let monto = document.getElementById('monto').value.trim();
-  let categoria = document.getElementById('selectCategoriaGastoOperacional').value;
+  let descripcion = document.getElementById("descripcion").value.trim();
+  let monto = document.getElementById("monto").value.trim();
+  let categoria = document.getElementById(
+    "selectCategoriaGastoOperacional"
+  ).value;
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
   console.log(descripcion);
@@ -679,19 +678,18 @@ async function generarGastoOperativo() {
   console.log(categoria);
   console.log(id_usuario);
 
-
   if (!descripcion || descripcion.length > 100) {
-    mensaje('error', 2000, 'Descripción inválida')
+    mensaje("error", 2000, "Descripción inválida");
     return;
   }
 
   if (!monto || monto == 0 || monto < 0) {
-    mensaje('error', 2000, 'Monto Inválido')
+    mensaje("error", 2000, "Monto Inválido");
     return;
   }
 
   if (categoria == "") {
-    mensaje('error', 2000, 'Categoría Inválida')
+    mensaje("error", 2000, "Categoría Inválida");
     return;
   }
 
@@ -714,78 +712,69 @@ async function generarGastoOperativo() {
   const data = await response.json();
   // vaalidacion = data.response();
   for (let x of data.response) {
-    console.log(x.VALIDACION)
+    console.log(x.VALIDACION);
     if (x.VALIDACION == 1) {
-      mensaje('success', 2000, 'Gasto operativo ingresado con éxito!!!')
+      mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
     }
-
   }
-
 }
 
 async function selectProductos() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
-  const response = await fetch(
-    `${API_BASE_URL}movimientos/selectProductos`,
-    {
+  const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      P_IDUSUARIO: id_usuario,
+    }),
+  });
+
+  const data = await response.json();
+  // console.log("Datos de la respuesta:", data);
+
+  // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+  const select = document.getElementById("productoDropdown");
+  // Limpiamos el select antes de llenarlo
+  select.innerHTML = '<option value="">producto</option>';
+
+  if (!select) {
+    console.error("No se encontró el elemento select en el DOM.");
+    return;
+  }
+
+  for (let x of data.response) {
+    const opt = document.createElement("option");
+    opt.value = x.ID_PRODUCTO;
+    opt.textContent = x.DESCRIPCION_PRODUCTO;
+    select.appendChild(opt);
+  }
+
+  // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
+  async function cant_total() {
+    let id_producto = document.getElementById("productoDropdown").value;
+    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify({
-        P_IDUSUARIO: id_usuario
+        P_PRODUCTO: id_producto,
       }),
-    }
-  );
-
-  const data = await response.json();
-  // console.log("Datos de la respuesta:", data);
-
-  // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
-  const select = document.getElementById('productoDropdown');
-  // Limpiamos el select antes de llenarlo
-  select.innerHTML = '<option value="">producto</option>';
-
-  if (!select) {
-    console.error('No se encontró el elemento select en el DOM.');
-    return;
-  }
-
-  for (let x of data.response) {
-    const opt = document.createElement('option');
-    opt.value = x.ID_PRODUCTO;
-    opt.textContent = x.DESCRIPCION_PRODUCTO;
-    select.appendChild(opt);
-  }
-
-
-  // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
-  async function cant_total() {
-    let id_producto = document.getElementById('productoDropdown').value;
-    const response = await fetch(
-      `${API_BASE_URL}movimientos/selectProductos`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          P_PRODUCTO: id_producto
-        }),
-      }
-    );
+    });
 
     const data = await response.json();
-    
-    for (let x of data.response) {
-      document.getElementById('cant_total').innerHTML = x.CANTIDAD;
-    }
 
+    for (let x of data.response) {
+      document.getElementById("cant_total").innerHTML = x.CANTIDAD;
+    }
   }
   // Se ejecuta cuando cambia de estado el select
-  document.getElementById('productoDropdown').addEventListener('change', cant_total);
-
+  document
+    .getElementById("productoDropdown")
+    .addEventListener("change", cant_total);
 }

@@ -117,7 +117,7 @@ class Movimientos extends ResourceController
 
         // Verificar si hay resultados
         if (empty($result)) {
-          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron P_IDMOVIMIENTO.']);
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para: '. $P_IDMOVIMIENTO]);
         }
         /**
          * ID_MOVIMIENTO

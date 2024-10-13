@@ -652,117 +652,119 @@ $(document).ready(function () {
       XLSX.utils.book_append_sheet(wb, ws, "Productos");
       XLSX.writeFile(wb, "gestion_productos.xlsx");
     });
+
+
+
+  // lógica calendario nuevo producto
+  $(document).ready(function () {
+    // Inicializar calendario "Fecha Desde"
+    $("#calendarioVencimiento").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+
+    // Inicializar calendario "Fecha Hasta"
+    $("#calendarioCompra").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+  });
 });
-
-// lógica calendario nuevo producto
-// $(document).ready(function () {
-//   // Inicializar calendario "Fecha Desde"
-//   $("#fechaInicio").calendar({
-//     type: "date",
-//     text: {
-//       days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-//       months: [
-//         "Enero",
-//         "Febrero",
-//         "Marzo",
-//         "Abril",
-//         "Mayo",
-//         "Junio",
-//         "Julio",
-//         "Agosto",
-//         "Septiembre",
-//         "Octubre",
-//         "Noviembre",
-//         "Diciembre",
-//       ],
-//       monthsShort: [
-//         "Ene",
-//         "Feb",
-//         "Mar",
-//         "Abr",
-//         "May",
-//         "Jun",
-//         "Jul",
-//         "Ago",
-//         "Sep",
-//         "Oct",
-//         "Nov",
-//         "Dic",
-//       ],
-//       today: "Hoy",
-//       now: "Ahora",
-//       am: "AM",
-//       pm: "PM",
-//     },
-//     formatter: {
-//       date: function (date, settings) {
-//         if (!date) return "";
-//         var day = date.getDate();
-//         var month = date.getMonth() + 1;
-//         var year = date.getFullYear();
-//         return (
-//           year +
-//           "-" +
-//           (month < 10 ? "0" + month : month) +
-//           "-" +
-//           (day < 10 ? "0" + day : day)
-//         );
-//       },
-//     },
-//   });
-
-//   // Inicializar calendario "Fecha Hasta"
-//   $("#fechaFin").calendar({
-//     type: "date",
-//     text: {
-//       days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-//       months: [
-//         "Enero",
-//         "Febrero",
-//         "Marzo",
-//         "Abril",
-//         "Mayo",
-//         "Junio",
-//         "Julio",
-//         "Agosto",
-//         "Septiembre",
-//         "Octubre",
-//         "Noviembre",
-//         "Diciembre",
-//       ],
-//       monthsShort: [
-//         "Ene",
-//         "Feb",
-//         "Mar",
-//         "Abr",
-//         "May",
-//         "Jun",
-//         "Jul",
-//         "Ago",
-//         "Sep",
-//         "Oct",
-//         "Nov",
-//         "Dic",
-//       ],
-//       today: "Hoy",
-//       now: "Ahora",
-//       am: "AM",
-//       pm: "PM",
-//     },
-//     formatter: {
-//       date: function (date, settings) {
-//         if (!date) return "";
-//         var day = date.getDate();
-//         var month = date.getMonth() + 1;
-//         var year = date.getFullYear();
-//         return (
-//           year +
-//           "-" +
-//           (month < 10 ? "0" + month : month) +
-//           "-" +
-//           (day < 10 ? "0" + day : day)
-//         );
-//       },
-//     },
-
-//   });
