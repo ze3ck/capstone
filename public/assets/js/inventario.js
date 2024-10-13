@@ -115,17 +115,35 @@ async function agregarNuevoProducto() {
   }
 }
 
+let productoId = null;
+
+const tbody = document.getElementById("productTableBody");
+// Delegación de eventos para el clic en los botones de edición
+tbody.addEventListener("click", function (event) {
+  const editarButton = event.target.closest(".editarProductoBtn");
+
+  if (editarButton) {
+    // Captura el ID del producto desde el atributo 'data-producto-id'
+    productoId = editarButton.getAttribute("data-producto-id");
+    console.log("ID del producto a editar:", productoId);
+
+    // Mostrar el modal de edición
+    $("#editModal").modal("show");
+  }
+});
+
+
 async function editarProducto() {
   const nombreField = document.getElementById("nombreProductoEdit");
   const descripcionField = document.getElementById("descripcionProductoEdit");
   const unidadField = document.getElementById("unidadMedidaEdit");
-  const proveedorField = document.getElementById("nombreProveedorEdit");
+  const proveedorField = document.getElementById("proveedorEditField");
   const idProductoField = document.getElementById("idProductoEdit"); // Campo oculto para el ID del producto
-  const idNuevoLote = document.getElementById("idNuevoLoteEdit");
-  const fechaVencField = document.getElementById("nuevaFechaVencEdit");
-  const fechaCompField = document.getElementById("fechaCompraEdit");
+  const idLoteField = document.getElementById("idLoteEdit"); // Campo para el ID del lote
+  const fechaVencimientoField = document.getElementById("fechaVencimientoEdit"); // Campo para la fecha de vencimiento
+  const fechaCompraField = document.getElementById("fechaCompraEdit");
   const cantidadField = document.getElementById("totalCantidadEdit");
-  const precioCompField = document.getElementById("nuevoPrecioCompEdit");
+  const precioCompraField = document.getElementById("precioCompraEdit");
   const precioVentaField = document.getElementById("precioVentaEdit");
   const idUsuario = document.getElementById("idUsuarioEdit");
 
@@ -135,16 +153,32 @@ async function editarProducto() {
   const descripcionValue = descripcionField.value.trim();
   const unidadValue = unidadField.value.trim();
   const proveedorValue = proveedorField.value.trim();
-  const idNuevoLoteValue = idNuevoLote.value.trim();
-  const fechaVencValue = fechaVencField.value.trim();
-  const fechaCompValue = fechaCompField.value.trim();
+  const idLoteValue = idLoteField.value.trim(); // ID del lote
+  const fechaVencimientoValue = fechaVencimientoField.value.trim();
+  const fechaCompraValue = fechaCompraField.value.trim();
   const cantidadValue = cantidadField.value.trim();
-  const precioCompValue = precioCompField.value.trim();
+  const precioCompraValue = precioCompraField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
-  const idUsuarioValue = idUsuario.textContent.trim();
+  const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
 
   try {
     console.log("Enviando datos al servidor para editar producto...");
+
+
+    console.log({
+      P_ID_PRODUCTO: productoId,
+      P_NOMBRE_PRODUCTO: nombreValue,
+      P_DESCRIPCION_PROD1: descripcionValue,
+      P_UNIDAD_MEDIDA: unidadValue,
+      P_ID_PROVEEDOR: proveedorValue,
+      P_ID_USUARIO: idUsuarioValue,
+      P_ID_LOTE: idLoteValue,
+      P_FECHA_VENCIMIENTO: fechaVencimientoValue,
+      P_FECHA_COMPRA: fechaCompraValue,
+      P_CANTIDAD: cantidadValue,
+      P_PRECIO_COMPRA: precioCompraValue,
+      P_PRECIO_VENTA: precioVentaValue
+    });
 
     const response = await fetch(
       `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
@@ -154,33 +188,34 @@ async function editarProducto() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          P_ID_PRODUCTO: idProductoValue, // Incluye el ID del producto
+          P_ID_PRODUCTO: productoId, // Incluye el ID del producto
           P_NOMBRE_PRODUCTO: nombreValue,
           P_DESCRIPCION_PROD1: descripcionValue,
           P_UNIDAD_MEDIDA: unidadValue,
           P_ID_PROVEEDOR: proveedorValue,
           P_ID_USUARIO: idUsuarioValue,
-          P_ID_LOTE: idNuevoLoteValue,
-          P_FECHA_VENCIMIENTO: fechaVencValue,
+          P_ID_LOTE: idLoteValue, // Incluye el ID del lote
+          P_FECHA_VENCIMIENTO: fechaVencimientoValue,
+          P_FECHA_COMPRA: fechaCompraValue,
           P_CANTIDAD: cantidadValue,
-          P_PRECIO_COMPRA: precioCompValue,
-          P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompValue,
+          P_PRECIO_COMPRA: precioCompraValue,
+          P_PRECIO_VENTA: precioVentaValue
         }),
       }
     );
 
+    // Verificar si la respuesta es exitosa
     if (!response.ok) {
-      throw new Error(
-        `Error al editar el producto. Estado: ${response.status}`
-      );
+      throw new Error(`Error al editar el producto. Estado: ${response.status}`);
     }
 
+    // Verificar si el contenido es JSON y procesarlo
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       const data = await response.json();
       console.log("Producto editado con éxito:", data);
 
+      // Mostrar mensaje de éxito con toast
       $("body").toast({
         message: "Se ha editado el producto exitosamente",
         class: "success",
@@ -188,25 +223,28 @@ async function editarProducto() {
       });
     } else {
       console.warn("El servidor no devolvió un JSON válido.");
+      // Mostrar mensaje de advertencia si no es JSON válido
       $("body").toast({
-        message:
-          "Producto editado exitosamente, pero la respuesta no es válida.",
+        message: "Producto editado exitosamente, pero la respuesta no es válida.",
         class: "warning",
         displayTime: 3000,
       });
     }
   } catch (error) {
+    // Manejo de errores: mostrar mensaje con toast
     console.error("Error al enviar la solicitud:", error);
-
-    // Mostrar mensaje de error
     $("body").toast({
-      message:
-        "Error al editar el producto. Revisa la consola para más detalles.",
+      message: "Error al editar el producto. Revisa la consola para más detalles.",
       class: "error",
       displayTime: 3000,
     });
   }
+  // Obtener los campos del formulario de edición
+
 }
+
+
+
 
 
 // funcion limpiar formulario agregar nuevos productos
@@ -256,21 +294,32 @@ async function selectProveedores() {
         }),
       }
     );
-    const dropdown = document.getElementById("proveedorField");
 
-    const data = await response.json();
-    console.log("Datos de la respuesta:", data);
+    const data = await response.json();  // Consumir la respuesta solo una vez
+
+    // Dropdown para proveedorField
+    const dropdown = document.getElementById("proveedorField");
     data.response.forEach((opcion) => {
-      // llenadoSelect("proveedorField", opcion.ID_PROVEEDOR, opcion.NOMBRE_PROVEEDOR)
       var opt = document.createElement("option");
       opt.value = opcion.ID_PROVEEDOR;
       opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
       dropdown.appendChild(opt);
     });
-  } catch {
-    console.error("Error al enviar la solicitud");
+
+    // Dropdown para proveedorEditField
+    const dropdownEdit = document.getElementById("proveedorEditField");
+    data.response.forEach((opcion) => {
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_PROVEEDOR;
+      opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      dropdownEdit.appendChild(opt);
+    });
+
+  } catch (error) {
+    console.error("Error al enviar la solicitud", error);
   }
 }
+
 
 // function llenadoSelect(idSelect, codOpcion, nomOpcion) {
 //   select = document.getElementById(idSelect);
@@ -291,15 +340,26 @@ async function selectUnidadMedida() {
         },
       }
     );
+    const data = await response.json();
     const dropdown = document.getElementById("unidadField");
 
-    const data = await response.json();
     console.log("Datos unidad:", data);
     data.response.forEach((opcion) => {
       var opt = document.createElement("option");
       opt.value = opcion.ID_UNIDAD_MEDIDA;
       opt.innerHTML = opcion.DESCRIPCION_UNIDAD;
       dropdown.appendChild(opt);
+      console.log("Error");
+    });
+
+    const dropdownEdit = document.getElementById("unidadMedidaEdit");
+
+    console.log("Datos unidad:", data);
+    data.response.forEach((opcion) => {
+      var opt = document.createElement("option");
+      opt.value = opcion.ID_UNIDAD_MEDIDA;
+      opt.innerHTML = opcion.DESCRIPCION_UNIDAD;
+      dropdownEdit.appendChild(opt);
       console.log("Error");
     });
   } catch {
@@ -538,26 +598,23 @@ $(document).ready(function () {
   });
 
   async function llenarTablaProductos() {
-    console.log("Entré a llenartabla");
+    console.log("Entré a llenarTabla");
     mostarLoader();
 
     try {
       const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
       console.log("ID del usuario:", id_usuario);
 
-      const response = await fetch(
-        `${API_BASE_URL}inventario/llenarTablaProductos`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            P_IDUSUARIO: id_usuario,
-          }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}inventario/llenarTablaProductos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_IDUSUARIO: id_usuario,
+        }),
+      });
 
       console.log("Estado de la respuesta:", response.status);
 
@@ -581,30 +638,28 @@ $(document).ready(function () {
         const fila = document.createElement("tr");
 
         let filaHTML = `
-              <td class="center aligned">${producto.ID_PRODUCTO}</td>
-              <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
-              <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
-              <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
-              <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-              <td class="center aligned">${producto.PRECIO_VENTA}</td>
-              <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
-              <td class="center aligned">${producto.FECHA_COMPRA}</td>
-              <td class="center aligned">
-                  <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
-          }">
-                      <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
-          }>Activo</option>
-                      <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
-          }>Inactivo</option>
-                  </select>
-              </td>
-          `;
+            <td class="center aligned">${producto.ID_PRODUCTO}</td>
+            <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
+            <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
+            <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
+            <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
+            <td class="center aligned">${producto.PRECIO_VENTA}</td>
+            <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+            <td class="center aligned">${producto.FECHA_COMPRA}</td>
+            <td class="center aligned">
+                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO}">
+                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""}>Activo</option>
+                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""}>Inactivo</option>
+                </select>
+            </td>
+        `;
 
+        // Agregar botón de edición si el rol del usuario es "1"
         if (userRol === "1") {
           filaHTML += `
                 <td class="center aligned actions-column">
                     <div class="ui icon buttons">
-                        <button class="ui icon button" title="Editar">
+                        <button class="ui icon button editarProductoBtn" data-producto-id="${producto.ID_PRODUCTO}" title="Editar">
                             <i class="fas fa-edit" style="color: blue;"></i>
                         </button>
                     </div>
@@ -616,18 +671,9 @@ $(document).ready(function () {
         tbody.appendChild(fila);
       });
 
-      $(".fas.fa-edit").on("click", function () {
-        $("#editModal")
-          .modal({
-            centered: true, // Esto asegura que el modal esté centrado
-          })
-          .modal("show");
-      });
-
+      // Evento para cambiar el estado del producto
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
-        dropdown.addEventListener("change", () =>
-          cambiarEstadoProducto(dropdown)
-        );
+        dropdown.addEventListener("change", () => cambiarEstadoProducto(dropdown));
       });
     } catch (error) {
       console.error("Error:", error);
@@ -635,7 +681,6 @@ $(document).ready(function () {
 
     ocultarLoader();
   }
-
   // Llamada de la función al cargar el documento
   // document.addEventListener("DOMContentLoaded", function () {
   //    // Llamamos a la función para llenar la tabla al cargar la página

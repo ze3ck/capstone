@@ -97,7 +97,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <?php echo $_SESSION['user_id'] ?></span>
                             <div class="field">
                                 <label>Proveedor</label>
-                                <select class="ui dropdown" name="P_ID_PROVEEDOR" id="proveedorField" required>
+                                <select class="ui dropdown proveedorField" name="P_ID_PROVEEDOR" id="proveedorField" required>
                                     <option value="">Seleccione Proveedor</option>
                                 </select>
                                 <div class="ui icon button" id="infoButton" data-title="Información"
@@ -213,6 +213,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div style="margin-top: 10px;">
                     <h4>Datos Productos</h4>
                     <div class="ui form">
+                        <!-- Campo oculto para ID Producto -->
+                        <input type="hidden" name="P_ID_PRODUCTO" id="idProductoEdit">
+
                         <div class="two fields">
                             <div class="field">
                                 <label>Nombre Producto</label>
@@ -229,14 +232,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <label>Unidad de Medida</label>
                                 <select class="ui dropdown" name="P_UNIDAD_MEDIDA" id="unidadMedidaEdit" required>
                                     <option value="">Seleccione</option>
-                                    <option value="kg">Kilogramos</option>
-                                    <option value="ltr">Litros</option>
-                                    <option value="unidad">Unidad</option>
                                 </select>
                             </div>
                             <div class="field">
                                 <label>Total Cantidad</label>
-                                <input type="number" name="P_TOTAL_CANTIDAD" id="totalCantidadEdit" placeholder="Cantidad Total" required>
+                                <input type="number" name="P_CANTIDAD" id="totalCantidadEdit" placeholder="Cantidad Total" required>
                             </div>
                         </div>
 
@@ -246,11 +246,21 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <input type="number" name="P_PRECIO_VENTA" id="precioVentaEdit" step="0.01" placeholder="Precio de Venta" required>
                             </div>
                             <div class="field">
-                                <label>Nombre Proveedor</label>
-                                <select class="ui dropdown" name="P_ID_PROVEEDOR" id="nombreProveedorEdit" required>
+                                <label>Precio de Compra</label>
+                                <input type="number" name="P_PRECIO_COMPRA" id="precioCompraEdit" step="0.01" placeholder="Precio de Compra" required>
+                            </div>
+                        </div>
+
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Proveedor</label>
+                                <select class="ui dropdown proveedorField" name="P_ID_PROVEEDOR" id="proveedorEditField" required>
                                     <option value="">Seleccione Proveedor</option>
-                                    <!-- Aquí deberías llenar las opciones dinámicamente -->
                                 </select>
+                            </div>
+                            <div class="field">
+                                <label>ID Lote</label>
+                                <input type="number" name="P_ID_LOTE" id="idLoteEdit" placeholder="ID del Lote" required>
                             </div>
                         </div>
 
@@ -265,26 +275,28 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </div>
                             </div>
                             <div class="field">
-                                <label>Estado</label>
-                                <select class="ui dropdown" name="P_ESTADO" id="estadoProductoEdit" required>
-                                    <option value="">Seleccione Estado</option>
-                                    <option value="1">Activo</option>
-                                    <option value="2">Inactivo</option>
-                                </select>
+                                <label>Fecha de Vencimiento</label>
+                                <div class="ui calendar" id="calendarioVencimientoEdit">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="fechaVencimientoEdit" placeholder="Fecha de Vencimiento" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
             <div class="actions">
-                <input type="hidden" name="P_ID_PRODUCTO" id="idProductoEdit">
-                <input type="hidden" name="P_ID_USUARIO" value="<?php echo $_SESSION['user_id']; ?>" id="idUsuarioEdit">
+                <!-- Campo oculto para ID Usuario -->
+                <span id="idUsuarioEdit" style="display: none;"><?php echo session('user_id'); ?></span>
                 <button class="ui green button" id="editProductButton">Guardar</button>
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
+
+
 
 
         <!-- Tabla de productos -->
