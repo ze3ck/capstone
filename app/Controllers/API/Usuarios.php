@@ -315,7 +315,7 @@ class Usuarios extends ResourceController
         'response'  => $results,
       ]);
     } catch (\Exception $e) {
-      return $this->failServerError('Error al actualizar el perfil: 🟡' . $e->getMessage());
+      return $this->failServerError('Error al actualizar el perfil' . $e->getMessage());
     }
   }
 

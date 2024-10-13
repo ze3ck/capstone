@@ -323,72 +323,197 @@ async function llenarTablaGestionUsuario() {
   ocultarLoader();
 }
 
-// Seleccionar el botón usando su id
 const button = document.getElementById("guardarCambiosGestion");
 
-// Asignar el evento click al botón
 button.addEventListener("click", function () {
   obtenerDatosTabla();
 });
 
-async function obtenerDatosTabla() {
-  // Seleccionamos el cuerpo de la tabla
+// async function obtenerDatosTabla() {
+//   function mostrarToast(mensaje, tipo) {
+//     const validTypes = ["success", "error", "warning", "info"];
+//     const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+//     $("body").toast({
+//       class: toastClass,
+//       message: mensaje,
+//       showProgress: "bottom",
+//       displayTime: 3000,
+//     });
+//   }
+//   const tabla = document.getElementById("gestionador_body");
+//   const filas = tabla.getElementsByTagName("tr");
+//   let datos = [];
+
+//   for (let i = 0; i < filas.length; i++) {
+//     let celdas = filas[i].getElementsByTagName("td");
+
+//     let dropdown = celdas[3].getElementsByTagName("select")[0];
+//     let id_estado = dropdown ? dropdown.value : null;
+
+//     let usuario = {
+//       id_usuario: celdas[0].innerText,
+//       ID_ESTADO: id_estado,
+//     };
+
+//     datos.push(usuario);
+
+//     console.log(datos);
+//   }
+
+//   // console.log("Datos de la respuesta:", data);
+
+//   // Verificar si la respuesta tiene éxito
+//   const data = await response.json();
+//   console.log("Datos de la respuesta:", data);
+
+//   // Verificar si la respuesta tiene éxito
+//   if (data.success === true) {
+//     data.response.forEach((usuario) => {
+//       console.log(`Usuario ${usuario.id_usuario}: ${usuario.message}`);
+//     });
+//     mensaje("success", 2000, "Datos Actualizados Exitosamente");
+//   } else {
+//     console.error("Mensaje de error del servidor:", data.message);
+//   }
+// }
+
+/**
+ * actualizarEstadoUsuario()
+ */
+// async function actualizarEstadoUsuario(id_usuario, id_estado) {
+
+//   // array de toast
+//   function mostrarToast(mensaje, tipo) {
+//     const validTypes = ["success", "error", "warning", "info"];
+//     const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+//     $("body").toast({
+//       class: toastClass,
+//       message: mensaje,
+//       showProgress: "bottom",
+//       displayTime: 3000,
+//     });
+//   }
+//   try {
+//     const response = await fetch(`${API_BASE_URL}usuarios/actualizarEstado`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       credentials: "include",
+//       body: JSON.stringify({
+//         id_usuario: id_usuario,
+//         ID_ESTADO: id_estado,
+//       }),
+//     });
+
+//     if (response.ok) {
+//       // return { success: true, message: "Estado del usuario actualizado" };
+//       mostrarToast("Estado actualizado con éxito.", "success");
+//     } else {
+//       const errorData = await response.json();
+//       return {
+//         success: false,
+//         message:
+//           errorData.message || "Error al actualizar el estado del usuario",
+//       };
+//     }
+//     mostrarToast("Error al actualizar el estado del usuario", "warning");
+//   } catch (error) {
+//     // return { success: false, message: "Error de red o servidor" };
+//     mostrarToast("Error interno.", "error");
+//   }
+// }
+
+// Función para mostrar toast
+function mostrarToast(mensaje, tipo) {
+  const validTypes = ["success", "error", "warning", "info"];
+  const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+  $("body").toast({
+    class: toastClass,
+    message: mensaje,
+    showProgress: "bottom",
+    displayTime: 3000,
+  });
+}
+
+// Función para obtener los datos de la tabla
+function obtenerDatosDeLaTabla() {
   const tabla = document.getElementById("gestionador_body");
   const filas = tabla.getElementsByTagName("tr");
   let datos = [];
 
-  // Recorremos cada fila de la tabla
   for (let i = 0; i < filas.length; i++) {
     let celdas = filas[i].getElementsByTagName("td");
 
-    // Acceder al dropdown en la columna 4
-    let dropdown = celdas[3].getElementsByTagName("select")[0]; // Seleccionamos el primer <select> dentro de la celda
-    let id_estado = dropdown ? dropdown.value : null; // Obtenemos el valor seleccionado del dropdown
+    let dropdown = celdas[3].getElementsByTagName("select")[0];
+    let id_estado = dropdown ? dropdown.value : null;
 
-    // Guardamos cada dato en un objeto
-    let usuario = {
-      id_usuario: celdas[0].innerText, // ID del usuario
-      ID_ESTADO: id_estado, // Valor seleccionado del dropdown (estado)
-    };
+    let id_usuario = celdas[0].innerText;
 
-    // Añadimos el objeto a la lista de datos
-    datos.push(usuario);
+    if (id_usuario && id_estado) {
+      let usuario = {
+        id_usuario: id_usuario,
+        ID_ESTADO: id_estado,
+      };
+
+      datos.push(usuario);
+    } else {
+      mostrarToast("Error: faltan datos en la tabla.", "error");
+    }
   }
 
-  // Aquí puedes procesar los datos o enviarlos a través de una petición AJAX
-  console.log(datos);
+  return datos;
+}
 
-  // Fetch usuarios/actualizarEstado
-  const response = await fetch(`${API_BASE_URL}usuarios/actualizarEstado`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(datos), // Convertir el array de datos a formato JSON
-  });
-
-  // console.log("Datos de la respuesta:", data);
-
-  // Verificar si la respuesta tiene éxito
-  const data = await response.json();
-  console.log("Datos de la respuesta:", data);
-
-  // Verificar si la respuesta tiene éxito
-  if (data.success === true) {
-    data.response.forEach((usuario) => {
-      console.log(`Usuario ${usuario.id_usuario}: ${usuario.message}`);
+// Función para actualizar el estado del usuario
+async function actualizarEstadoUsuario(usuarios) {
+  try {
+    const response = await fetch(`${API_BASE_URL}usuarios/actualizarEstado`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(usuarios),
     });
-    mensaje("success", 2000, "Datos Actualizados Exitosamente");
+
+    if (response.ok) {
+      mostrarToast("Estado del usuario actualizado con éxito.", "success");
+    } else {
+      const errorData = await response.json();
+      mostrarToast(
+        errorData.message || "Error al actualizar el estado de los usuarios.",
+        "error"
+      );
+    }
+  } catch (error) {
+    mostrarToast("Error de red al actualizar los usuarios.", "error");
+  }
+  console.log("respuesta", usuarios);
+}
+
+$("#botonActualizar").on("click", function () {
+  obtenerDatosTabla();
+});
+
+// Función principal que combina la obtención de datos y actualización
+async function obtenerDatosTabla() {
+  const datos = obtenerDatosDeLaTabla(); // Llamar a la función que obtiene los datos de la tabla
+
+  if (datos.length > 0) {
+    await actualizarEstadoUsuario(datos); // Enviar el array completo
   } else {
-    console.error("Mensaje de error del servidor:", data.message);
+    mostrarToast("No hay usuarios válidos para actualizar.", "error");
   }
 }
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const button = document.getElementById("guardarCambiosGestion");
-//   button.addEventListener("click", llenarTablaGestionUsuario);
-// });
+// Evento de clic que dispara la acción
+$("#botonActualizar").on("click", function () {
+  obtenerDatosTabla(); // Llama a la función principal para obtener datos y actualizar
+});
 
 $(document).ready(function () {
   // Inicializar el componente tab de Fomantic UI
@@ -396,6 +521,7 @@ $(document).ready(function () {
 
   $('a[data-tab="user-management"]').on("click", function () {
     llenarTablaGestionUsuario();
+    // actualizarEstadoUsuario();
   });
 });
 
@@ -474,9 +600,9 @@ function solicitarDatosDropdown(ID_USUARIO, dropdown, ESTADO) {
     });
 }
 
-// Actualizar Estado Usuario
-async function actualizarEstadoUsuario(ID_DROPDOWN) {
-  let valor = document.getElementById(ID_DROPDOWN).value;
-  // dropdown.id = "dropdown_" + ID_USUARIO;
-  let ID_USUARIO = Document.getElementById(ID_DROPDOWN).id.split("_")[1];
-}
+// // Actualizar Estado Usuario
+// async function actualizarEstadoUsuario(ID_DROPDOWN) {
+//   let valor = document.getElementById(ID_DROPDOWN).value;
+//   // dropdown.id = "dropdown_" + ID_USUARIO;
+//   let ID_USUARIO = Document.getElementById(ID_DROPDOWN).id.split("_")[1];
+// }
