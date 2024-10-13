@@ -492,14 +492,13 @@ $(document).ready(function () {
   $("#btnNuevoGastoOperativo").on("click", function () {
     $("#modalNuevoGastoOperativo")
       .modal({
-        onApprove: function (event) {
-          event.preventDefault(); // Usar event.preventDefault() correctamente
+        onApprove: function () {
           generarGastoOperativo();
+          return false;
         },
-        onDeny: function (event) {
-          event.preventDefault(); // Prevenir el comportamiento predeterminado
+        onDeny: function () {
           console.log("modal cancelado");
-          return true; // Permitir cerrar el modal
+          return true;
         },
       })
       .modal("show");
@@ -691,7 +690,7 @@ function mensaje(clase, tiempo, mensaje) {
 }
 
 async function generarGastoOperativo(event) {
-  event.preventDefault(); // Evitar recarga o comportamiento por defecto del formulario
+  event.preventDefault(); 
 
   let descripcion = document.getElementById("descripcion").value.trim();
   let monto = parseFloat(document.getElementById("monto").value.trim());
@@ -715,6 +714,13 @@ async function generarGastoOperativo(event) {
     mensaje("error", 2000, "Categoría Inválida");
     return;
   }
+
+  console.log("datos GastoOperativo:", {
+    P_DESCRIPCION: descripcion,
+    P_MONTO: monto,
+    P_CATEGORIA: categoria,
+    P_IDUSUARIO: id_usuario,
+  });
 
   // Realizar el fetch para generar el gasto operativo
   try {
@@ -740,8 +746,8 @@ async function generarGastoOperativo(event) {
     if (response.ok && data.response && data.response.length > 0) {
       for (let x of data.response) {
         if (x.VALIDACION == 1) {
-          mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
-          $("#modalNuevoGastoOperativo").modal("hide"); // Cerrar modal después de éxito
+          mensaje("success", 2000, "Gasto operativo ingresado con éxito.");
+          $("#modalNuevoGastoOperativo").modal("hide");
         } else {
           mensaje("error", 2000, "Hubo un problema al ingresar el gasto.");
         }
@@ -763,12 +769,6 @@ async function generarGastoOperativo(event) {
 document
   .getElementById("btnGenerarGasto")
   .addEventListener("click", generarGastoOperativo);
-
-// // Función para mostrar mensajes (toast)
-// function mensaje(tipo, tiempo, texto) {
-//   // Aquí agregas tu lógica para mostrar un toast o alerta
-//   console.log(`[${tipo}] - ${texto}`);
-// }
 
 async function selectProductos() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
