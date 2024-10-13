@@ -492,14 +492,13 @@ $(document).ready(function () {
   $("#btnNuevoGastoOperativo").on("click", function () {
     $("#modalNuevoGastoOperativo")
       .modal({
-        onApprove: function (event) {
-          event.preventDefault(); // Usar event.preventDefault() correctamente
+        onApprove: function () {
           generarGastoOperativo();
+          return false;
         },
-        onDeny: function (event) {
-          event.preventDefault(); // Prevenir el comportamiento predeterminado
+        onDeny: function () {
           console.log("modal cancelado");
-          return true; // Permitir cerrar el modal
+          return true;
         },
       })
       .modal("show");
@@ -690,59 +689,86 @@ function mensaje(clase, tiempo, mensaje) {
   });
 }
 
-async function generarGastoOperativo() {
+async function generarGastoOperativo(event) {
+  event.preventDefault(); 
+
   let descripcion = document.getElementById("descripcion").value.trim();
-  let monto = document.getElementById("monto").value.trim();
+  let monto = parseFloat(document.getElementById("monto").value.trim());
   let categoria = document.getElementById(
     "selectCategoriaGastoOperacional"
   ).value;
-  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+  let id_usuario = 6; // Puedes obtener esto dinámicamente si es necesario
 
-  console.log(descripcion);
-  console.log(monto);
-  console.log(categoria);
-  console.log(id_usuario);
-
+  // Validaciones
   if (!descripcion || descripcion.length > 100) {
     mensaje("error", 2000, "Descripción inválida");
     return;
   }
 
-  if (!monto || monto == 0 || monto < 0) {
+  if (isNaN(monto) || monto <= 0) {
     mensaje("error", 2000, "Monto Inválido");
     return;
   }
 
-  if (categoria == "") {
+  if (!categoria) {
     mensaje("error", 2000, "Categoría Inválida");
     return;
   }
 
-  const response = await fetch(
-    `${API_BASE_URL}movimientos/GenerarGastoOperativo`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        P_DESCRIPCION: descripcion,
-        P_MONTO: monto,
-        P_CATEGORIA: categoria,
-        P_IDUSUARIO: id_usuario,
-      }),
+  console.log("datos GastoOperativo:", {
+    P_DESCRIPCION: descripcion,
+    P_MONTO: monto,
+    P_CATEGORIA: categoria,
+    P_IDUSUARIO: id_usuario,
+  });
+
+  // Realizar el fetch para generar el gasto operativo
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/generarGastoOperativo`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_DESCRIPCION: descripcion,
+          P_MONTO: monto,
+          P_CATEGORIA: categoria,
+          P_IDUSUARIO: id_usuario,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok && data.response && data.response.length > 0) {
+      for (let x of data.response) {
+        if (x.VALIDACION == 1) {
+          mensaje("success", 2000, "Gasto operativo ingresado con éxito.");
+          $("#modalNuevoGastoOperativo").modal("hide");
+        } else {
+          mensaje("error", 2000, "Hubo un problema al ingresar el gasto.");
+        }
+      }
+    } else {
+      mensaje(
+        "error",
+        2000,
+        "No se pudo validar el ingreso del gasto operativo."
+      );
     }
-  );
-  const data = await response.json();
-  // vaalidacion = data.response();
-  for (let x of data.response) {
-    console.log(x.VALIDACION);
-    if (x.VALIDACION == 1) {
-      mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
-    }
+  } catch (error) {
+    console.error("Error en el fetch:", error);
+    mensaje("error", 2000, "Error de conexión o del servidor.");
   }
 }
+
+// Asignar evento click al botón "Generar Gasto Operativo"
+document
+  .getElementById("btnGenerarGasto")
+  .addEventListener("click", generarGastoOperativo);
 
 async function selectProductos() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();

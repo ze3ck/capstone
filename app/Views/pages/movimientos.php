@@ -384,7 +384,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <input type="text" id="descripcion" placeholder="Descripción">
                 </div>
                 <div class="field">
-                    <label>Monto</label>
+                    <label>Monto ($)</label>
                     <input type="number" id="monto" placeholder="Monto" min="0">
                 </div>
                 <div class="field">
@@ -398,7 +398,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
         </div>
         <div class="actions">
-            <button class="ui positive button">Guardar</button>
+            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
             <button class="ui negative button">Cancelar</button>
         </div>
     </div>
