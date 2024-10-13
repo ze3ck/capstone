@@ -524,18 +524,12 @@ $(document).ready(function () {
         tbody.appendChild(fila);
       });
 
-      // Delegación de eventos para los botones de editar
-      tbody.addEventListener("click", function (event) {
-        if (event.target.closest(".edit-button")) {
-          const productoId =
-            event.target.closest(".edit-button").dataset.productoId;
-          console.log("Producto a editar:", productoId);
-
-          // Mostrar el modal y cargar los datos del producto correspondiente
-          $("#editModal").modal("show");
-
-          // Aquí puedes cargar los datos del producto al modal
-        }
+      $(".fas.fa-edit").on("click", function () {
+        $("#editModal")
+          .modal({
+            centered: true, // Esto asegura que el modal esté centrado
+          })
+          .modal("show");
       });
 
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {

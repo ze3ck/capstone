@@ -202,9 +202,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui red cancel button">Cancelar</button>
             </div>
         </div>
+        <!-- EDITAR MODAL -->
         <div id="editModal" class="ui modal">
             <div class="header">Editar ingreso de inventario</div>
             <div class="content">
+                <!-- Datos Productos, se oculta inicialmente -->
                 <div style="margin-top: 10px;">
                     <h4>Datos Productos</h4>
                     <div class="ui form">
