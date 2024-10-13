@@ -612,4 +612,157 @@ $(document).ready(function () {
       });
     }
   }
+
+  // logica exportar excel
+  document
+    .getElementById("exportExcelButton")
+    .addEventListener("click", function () {
+      var table = document.querySelector(
+        "table.ui.celled.long.scrolling.table"
+      );
+      var rows = table.querySelectorAll("tr");
+      var accionesColumnIndex = -1;
+      var data = [];
+
+      rows.forEach(function (row, rowIndex) {
+        var cells = row.querySelectorAll("th, td");
+        var rowData = [];
+
+        cells.forEach(function (cell, cellIndex) {
+          if (rowIndex === 0 && cell.textContent.trim() === "Acciones") {
+            accionesColumnIndex = cellIndex;
+          }
+
+          if (cellIndex !== accionesColumnIndex) {
+            if (cell.querySelector("select")) {
+              var selectedText =
+                cell.querySelector("select").selectedOptions[0].textContent;
+              rowData.push(selectedText);
+            } else {
+              rowData.push(cell.textContent.trim());
+            }
+          }
+        });
+
+        data.push(rowData);
+      });
+
+      var wb = XLSX.utils.book_new();
+      var ws = XLSX.utils.aoa_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, "Productos");
+      XLSX.writeFile(wb, "gestion_productos.xlsx");
+    });
 });
+
+// lógica calendario nuevo producto
+// $(document).ready(function () {
+//   // Inicializar calendario "Fecha Desde"
+//   $("#fechaInicio").calendar({
+//     type: "date",
+//     text: {
+//       days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+//       months: [
+//         "Enero",
+//         "Febrero",
+//         "Marzo",
+//         "Abril",
+//         "Mayo",
+//         "Junio",
+//         "Julio",
+//         "Agosto",
+//         "Septiembre",
+//         "Octubre",
+//         "Noviembre",
+//         "Diciembre",
+//       ],
+//       monthsShort: [
+//         "Ene",
+//         "Feb",
+//         "Mar",
+//         "Abr",
+//         "May",
+//         "Jun",
+//         "Jul",
+//         "Ago",
+//         "Sep",
+//         "Oct",
+//         "Nov",
+//         "Dic",
+//       ],
+//       today: "Hoy",
+//       now: "Ahora",
+//       am: "AM",
+//       pm: "PM",
+//     },
+//     formatter: {
+//       date: function (date, settings) {
+//         if (!date) return "";
+//         var day = date.getDate();
+//         var month = date.getMonth() + 1;
+//         var year = date.getFullYear();
+//         return (
+//           year +
+//           "-" +
+//           (month < 10 ? "0" + month : month) +
+//           "-" +
+//           (day < 10 ? "0" + day : day)
+//         );
+//       },
+//     },
+//   });
+
+//   // Inicializar calendario "Fecha Hasta"
+//   $("#fechaFin").calendar({
+//     type: "date",
+//     text: {
+//       days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+//       months: [
+//         "Enero",
+//         "Febrero",
+//         "Marzo",
+//         "Abril",
+//         "Mayo",
+//         "Junio",
+//         "Julio",
+//         "Agosto",
+//         "Septiembre",
+//         "Octubre",
+//         "Noviembre",
+//         "Diciembre",
+//       ],
+//       monthsShort: [
+//         "Ene",
+//         "Feb",
+//         "Mar",
+//         "Abr",
+//         "May",
+//         "Jun",
+//         "Jul",
+//         "Ago",
+//         "Sep",
+//         "Oct",
+//         "Nov",
+//         "Dic",
+//       ],
+//       today: "Hoy",
+//       now: "Ahora",
+//       am: "AM",
+//       pm: "PM",
+//     },
+//     formatter: {
+//       date: function (date, settings) {
+//         if (!date) return "";
+//         var day = date.getDate();
+//         var month = date.getMonth() + 1;
+//         var year = date.getFullYear();
+//         return (
+//           year +
+//           "-" +
+//           (month < 10 ? "0" + month : month) +
+//           "-" +
+//           (day < 10 ? "0" + day : day)
+//         );
+//       },
+//     },
+
+//   });
