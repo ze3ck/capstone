@@ -690,15 +690,15 @@ function mensaje(clase, tiempo, mensaje) {
   });
 }
 
-async function generarGastoOperativo() {
+async function generarGastoOperativo(event) {
+  event.preventDefault(); // Evitar recarga o comportamiento por defecto del formulario
+
   let descripcion = document.getElementById("descripcion").value.trim();
   let monto = parseFloat(document.getElementById("monto").value.trim());
   let categoria = document.getElementById(
     "selectCategoriaGastoOperacional"
   ).value;
-  let id_usuario = parseInt(
-    document.getElementById("ID_USUARIO").innerHTML.trim()
-  );
+  let id_usuario = 6; // Puedes obtener esto dinámicamente si es necesario
 
   // Validaciones
   if (!descripcion || descripcion.length > 100) {
@@ -716,7 +716,7 @@ async function generarGastoOperativo() {
     return;
   }
 
-  // Intentar realizar el fetch
+  // Realizar el fetch para generar el gasto operativo
   try {
     const response = await fetch(
       `${API_BASE_URL}movimientos/generarGastoOperativo`,
@@ -735,24 +735,13 @@ async function generarGastoOperativo() {
       }
     );
 
-    // Parsear la respuesta JSON
     const data = await response.json();
 
-    if (!response.ok) {
-      // Mostrar mensaje de error si la respuesta no fue exitosa
-      mensaje(
-        "error",
-        2000,
-        data.error || "Ocurrió un error al generar el gasto operativo."
-      );
-      return;
-    }
-
-    // Si la respuesta es exitosa y contiene resultados
-    if (data.response && data.response.length > 0) {
+    if (response.ok && data.response && data.response.length > 0) {
       for (let x of data.response) {
         if (x.VALIDACION == 1) {
           mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
+          $("#modalNuevoGastoOperativo").modal("hide"); // Cerrar modal después de éxito
         } else {
           mensaje("error", 2000, "Hubo un problema al ingresar el gasto.");
         }
@@ -765,11 +754,21 @@ async function generarGastoOperativo() {
       );
     }
   } catch (error) {
-    // Capturar y mostrar errores de la solicitud
     console.error("Error en el fetch:", error);
     mensaje("error", 2000, "Error de conexión o del servidor.");
   }
 }
+
+// Asignar evento click al botón "Generar Gasto Operativo"
+document
+  .getElementById("btnGenerarGasto")
+  .addEventListener("click", generarGastoOperativo);
+
+// // Función para mostrar mensajes (toast)
+// function mensaje(tipo, tiempo, texto) {
+//   // Aquí agregas tu lógica para mostrar un toast o alerta
+//   console.log(`[${tipo}] - ${texto}`);
+// }
 
 async function selectProductos() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();

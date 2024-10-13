@@ -398,7 +398,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
         </div>
         <div class="actions">
-            <button class="ui positive button">Generar Gasto Operativo</button>
+            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
             <button class="ui negative button">Cancelar</button>
         </div>
     </div>
