@@ -253,43 +253,68 @@ function cargarFilasMovimientos(
 /**
  * llenarTblDetalleMovimiento
  */
+
 async function llenarTblDetalleMovimiento(ID_MOVIMIENTO) {
-  // mostarLoader();
-  // console.log(ID_MOVIMIENTO);
-
+  // Limpiar las filas actuales de la tabla
   $("#tblDetalleMovimientos tbody tr").remove();
-  // console.log(usuario)
 
-  const response = await fetch(
-    `${API_BASE_URL}movimientos/llenadoDetalleMovimiento`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        P_IDMOVIMIENTO: ID_MOVIMIENTO,
-      }),
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/llenadoDetalleMovimiento`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_IDMOVIMIENTO: ID_MOVIMIENTO,
+        }),
+      }
+    );
+
+    const data = await response.json();
+    console.log("Datos de la respuesta:", data);
+
+    // Verificar si la respuesta es exitosa
+    if (response.ok && data.response && data.response.length > 0) {
+      // Si hay detalles de movimientos, recorrerlos y agregarlos a la tabla
+      for (let x of data.response) {
+        cargarFilasDetalleMovimientos(
+          x.ID_MOVIMIENTO,
+          x.ITEM,
+          x.ID_LOTE,
+          x.CANTIDAD,
+          x.PRECIO,
+          x.DESCRIPCION_PRODUCTO,
+          x.TOTAL
+        );
+      }
+    } else {
+      // Si no hay detalles, mostrar un toast con el mensaje correspondiente
+      mostrarToast("No se encontraron detalles del movimiento.", "warning");
     }
-  );
-  const data = await response.json();
-
-  console.log("Datos de la respuesta:", data);
-
-  for (let x of data.response) {
-    // console.log(x.EMAIL);
-    cargarFilasDetalleMovimientos(
-      x.ID_MOVIMIENTO,
-      x.ITEM,
-      x.ID_LOTE,
-      x.CANTIDAD,
-      x.PRECIO,
-      x.DESCRIPCION_PRODUCTO,
-      x.TOTAL
+  } catch (error) {
+    // Mostrar un mensaje de error si ocurre un problema con la solicitud
+    console.error("Error al cargar los detalles del movimiento:", error);
+    mostrarToast(
+      "Ocurrió un error al cargar los detalles del movimiento.",
+      "error"
     );
   }
-  // ocultarLoader();
+}
+
+// Función para mostrar el toast de alerta
+function mostrarToast(mensaje, tipo) {
+  const validTypes = ["success", "error", "warning", "info"];
+  const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+  $("body").toast({
+    class: toastClass,
+    message: mensaje,
+    showProgress: "bottom",
+    displayTime: 3000,
+  });
 }
 
 // Cargar Data detalle movimiento
