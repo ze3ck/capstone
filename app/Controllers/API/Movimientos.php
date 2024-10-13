@@ -319,9 +319,9 @@ class Movimientos extends ResourceController
 
   /**
    * Generar Gastooperativo()
-   * PR_23_SELECT_CATGASTOOPERACIONAL
+   * PR_23_NUEVO_GASTO_OPERACIONAL
    */
-  public function GenerarGastoOperativo()
+  public function generarGastoOperativo()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');

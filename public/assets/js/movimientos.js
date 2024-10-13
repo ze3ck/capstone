@@ -692,55 +692,82 @@ function mensaje(clase, tiempo, mensaje) {
 
 async function generarGastoOperativo() {
   let descripcion = document.getElementById("descripcion").value.trim();
-  let monto = document.getElementById("monto").value.trim();
+  let monto = parseFloat(document.getElementById("monto").value.trim());
   let categoria = document.getElementById(
     "selectCategoriaGastoOperacional"
   ).value;
-  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+  let id_usuario = parseInt(
+    document.getElementById("ID_USUARIO").innerHTML.trim()
+  );
 
-  console.log(descripcion);
-  console.log(monto);
-  console.log(categoria);
-  console.log(id_usuario);
-
+  // Validaciones
   if (!descripcion || descripcion.length > 100) {
     mensaje("error", 2000, "Descripción inválida");
     return;
   }
 
-  if (!monto || monto == 0 || monto < 0) {
+  if (isNaN(monto) || monto <= 0) {
     mensaje("error", 2000, "Monto Inválido");
     return;
   }
 
-  if (categoria == "") {
+  if (!categoria) {
     mensaje("error", 2000, "Categoría Inválida");
     return;
   }
 
-  const response = await fetch(
-    `${API_BASE_URL}movimientos/GenerarGastoOperativo`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        P_DESCRIPCION: descripcion,
-        P_MONTO: monto,
-        P_CATEGORIA: categoria,
-        P_IDUSUARIO: id_usuario,
-      }),
+  // Intentar realizar el fetch
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/generarGastoOperativo`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_DESCRIPCION: descripcion,
+          P_MONTO: monto,
+          P_CATEGORIA: categoria,
+          P_IDUSUARIO: id_usuario,
+        }),
+      }
+    );
+
+    // Parsear la respuesta JSON
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Mostrar mensaje de error si la respuesta no fue exitosa
+      mensaje(
+        "error",
+        2000,
+        data.error || "Ocurrió un error al generar el gasto operativo."
+      );
+      return;
     }
-  );
-  const data = await response.json();
-  // vaalidacion = data.response();
-  for (let x of data.response) {
-    console.log(x.VALIDACION);
-    if (x.VALIDACION == 1) {
-      mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
+
+    // Si la respuesta es exitosa y contiene resultados
+    if (data.response && data.response.length > 0) {
+      for (let x of data.response) {
+        if (x.VALIDACION == 1) {
+          mensaje("success", 2000, "Gasto operativo ingresado con éxito!!!");
+        } else {
+          mensaje("error", 2000, "Hubo un problema al ingresar el gasto.");
+        }
+      }
+    } else {
+      mensaje(
+        "error",
+        2000,
+        "No se pudo validar el ingreso del gasto operativo."
+      );
     }
+  } catch (error) {
+    // Capturar y mostrar errores de la solicitud
+    console.error("Error en el fetch:", error);
+    mensaje("error", 2000, "Error de conexión o del servidor.");
   }
 }
 
