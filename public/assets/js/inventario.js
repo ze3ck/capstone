@@ -132,7 +132,6 @@ tbody.addEventListener("click", function (event) {
   }
 });
 
-
 async function editarProducto() {
   const nombreField = document.getElementById("nombreProductoEdit");
   const descripcionField = document.getElementById("descripcionProductoEdit");
@@ -164,7 +163,6 @@ async function editarProducto() {
   try {
     console.log("Enviando datos al servidor para editar producto...");
 
-
     console.log({
       P_ID_PRODUCTO: productoId,
       P_NOMBRE_PRODUCTO: nombreValue,
@@ -177,7 +175,7 @@ async function editarProducto() {
       P_FECHA_COMPRA: fechaCompraValue,
       P_CANTIDAD: cantidadValue,
       P_PRECIO_COMPRA: precioCompraValue,
-      P_PRECIO_VENTA: precioVentaValue
+      P_PRECIO_VENTA: precioVentaValue,
     });
 
     const response = await fetch(
@@ -199,14 +197,16 @@ async function editarProducto() {
           P_FECHA_COMPRA: fechaCompraValue,
           P_CANTIDAD: cantidadValue,
           P_PRECIO_COMPRA: precioCompraValue,
-          P_PRECIO_VENTA: precioVentaValue
+          P_PRECIO_VENTA: precioVentaValue,
         }),
       }
     );
 
     // Verificar si la respuesta es exitosa
     if (!response.ok) {
-      throw new Error(`Error al editar el producto. Estado: ${response.status}`);
+      throw new Error(
+        `Error al editar el producto. Estado: ${response.status}`
+      );
     }
 
     // Verificar si el contenido es JSON y procesarlo
@@ -225,7 +225,8 @@ async function editarProducto() {
       console.warn("El servidor no devolvió un JSON válido.");
       // Mostrar mensaje de advertencia si no es JSON válido
       $("body").toast({
-        message: "Producto editado exitosamente, pero la respuesta no es válida.",
+        message:
+          "Producto editado exitosamente, pero la respuesta no es válida.",
         class: "warning",
         displayTime: 3000,
       });
@@ -234,18 +235,14 @@ async function editarProducto() {
     // Manejo de errores: mostrar mensaje con toast
     console.error("Error al enviar la solicitud:", error);
     $("body").toast({
-      message: "Error al editar el producto. Revisa la consola para más detalles.",
+      message:
+        "Error al editar el producto. Revisa la consola para más detalles.",
       class: "error",
       displayTime: 3000,
     });
   }
   // Obtener los campos del formulario de edición
-
 }
-
-
-
-
 
 // funcion limpiar formulario agregar nuevos productos
 function limpiarFormularioProducto() {
@@ -295,7 +292,7 @@ async function selectProveedores() {
       }
     );
 
-    const data = await response.json();  // Consumir la respuesta solo una vez
+    const data = await response.json(); // Consumir la respuesta solo una vez
 
     // Dropdown para proveedorField
     const dropdown = document.getElementById("proveedorField");
@@ -314,12 +311,10 @@ async function selectProveedores() {
       opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
       dropdownEdit.appendChild(opt);
     });
-
   } catch (error) {
     console.error("Error al enviar la solicitud", error);
   }
 }
-
 
 // function llenadoSelect(idSelect, codOpcion, nomOpcion) {
 //   select = document.getElementById(idSelect);
@@ -605,16 +600,19 @@ $(document).ready(function () {
       const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
       console.log("ID del usuario:", id_usuario);
 
-      const response = await fetch(`${API_BASE_URL}inventario/llenarTablaProductos`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          P_IDUSUARIO: id_usuario,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}inventario/llenarTablaProductos`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            P_IDUSUARIO: id_usuario,
+          }),
+        }
+      );
 
       console.log("Estado de la respuesta:", response.status);
 
@@ -647,9 +645,15 @@ $(document).ready(function () {
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">
-                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO}">
-                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""}>Activo</option>
-                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""}>Inactivo</option>
+                <select class="estado-dropdown" data-producto-id="${
+                  producto.ID_PRODUCTO
+                }">
+                    <option value="1" ${
+                      producto.ID_ESTADO == 1 ? "selected" : ""
+                    }>Activo</option>
+                    <option value="2" ${
+                      producto.ID_ESTADO == 2 ? "selected" : ""
+                    }>Inactivo</option>
                 </select>
             </td>
         `;
@@ -673,7 +677,9 @@ $(document).ready(function () {
 
       // Evento para cambiar el estado del producto
       document.querySelectorAll(".estado-dropdown").forEach((dropdown) => {
-        dropdown.addEventListener("change", () => cambiarEstadoProducto(dropdown));
+        dropdown.addEventListener("change", () =>
+          cambiarEstadoProducto(dropdown)
+        );
       });
     } catch (error) {
       console.error("Error:", error);
@@ -784,7 +790,116 @@ $(document).ready(function () {
       XLSX.writeFile(wb, "gestion_productos.xlsx");
     });
 
+  // calendarizacion nuevo lote
+  $(document).ready(function () {
+    $("#calendarioVencimientoLote").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
 
+    $("#calendarioCompraLote").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+  });
 
   // lógica calendario nuevo producto
   $(document).ready(function () {
