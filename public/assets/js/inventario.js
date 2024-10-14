@@ -5,6 +5,45 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#editProductButton").click(editarProducto);
   selectProveedores();
   selectUnidadMedida();
+
+
+  
+  // llenar campos editar producto modal
+  const tbody = document.getElementById("productTableBody");
+
+  // Delegación de eventos para detectar clics en los botones de edición
+  tbody.addEventListener("click", function (event) {
+    const editarButton = event.target.closest(".editarProductoBtn");
+
+    if (editarButton) {
+      // Obtener la fila que contiene el botón que fue clickeado
+      const row = editarButton.closest("tr");
+
+      // Extraer los valores de las celdas de la fila correspondiente
+      const idProducto = row.cells[0].textContent.trim();
+      const nombreProducto = row.cells[1].textContent.trim();
+      const descripcionProducto = row.cells[2].textContent.trim();
+      const unidadMedida = row.cells[3].textContent.trim();
+      const totalCantidad = row.cells[4].textContent.trim();
+      const precioVenta = row.cells[5].textContent.trim();
+      const proveedor = row.cells[6].textContent.trim();
+      const fechaCompra = row.cells[7].textContent.trim();
+
+      // Rellenar los campos del modal con los valores obtenidos
+      document.getElementById("idProductoEdit").value = idProducto;
+      document.getElementById("nombreProductoEdit").value = nombreProducto;
+      document.getElementById("descripcionProductoEdit").value =
+        descripcionProducto;
+      document.getElementById("unidadMedidaEdit").value = unidadMedida;
+      document.getElementById("totalCantidadEdit").value = totalCantidad;
+      document.getElementById("precioVentaEdit").value = precioVenta;
+      document.getElementById("proveedorEditField").value = proveedor;
+      document.getElementById("fechaCompraEdit").value = fechaCompra;
+
+      // Abrir el modal de edición
+      $("#editModal").modal("show");
+    }
+  });
 });
 
 window.onload = function () {
@@ -264,6 +303,11 @@ async function editarProducto() {
         class: "warning",
         displayTime: 3000,
       });
+      // Limpiar los campos del formulario
+      limpiarFormulario();
+
+      // Cerrar el modal
+      $("#editModal").modal("hide");
     }
   } catch (error) {
     // Manejo de errores: mostrar mensaje con toast
