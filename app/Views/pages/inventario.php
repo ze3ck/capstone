@@ -162,7 +162,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <div class="two fields">
                             <div class="field">
                                 <label>Fecha de Vencimiento</label>
-                                <div class="ui calendar" id="calendarioVencimiento">
+                                <div class="ui calendar" id="calendarioVencimientoLote">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
                                         <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento"
@@ -172,7 +172,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </div>
                             <div class="field">
                                 <label>Fecha de Compra</label>
-                                <div class="ui calendar" id="calendarioCompra">
+                                <div class="ui calendar" id="calendarioCompraLote">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
                                         <input type="text" name="P_FECHA_COMPRA" placeholder="Fecha de Compra" required>
