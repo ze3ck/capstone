@@ -242,12 +242,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
                         <div class="two fields">
                             <div class="field">
-                                <label>Precio de Venta</label>
-                                <input type="number" name="P_PRECIO_VENTA" id="precioVentaEdit" step="0.01" placeholder="Precio de Venta" required>
-                            </div>
-                            <div class="field">
                                 <label>Precio de Compra</label>
                                 <input type="number" name="P_PRECIO_COMPRA" id="precioCompraEdit" step="0.01" placeholder="Precio de Compra" required>
+                            </div>
+                            <div class="field">
+                                <label>Precio de Venta</label>
+                                <input type="number" name="P_PRECIO_VENTA" id="precioVentaEdit" step="0.01" placeholder="Precio de Venta" required>
                             </div>
                         </div>
 
@@ -266,20 +266,20 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
                         <div class="two fields">
                             <div class="field">
-                                <label>Fecha de Compra</label>
-                                <div class="ui calendar" id="calendarioCompraEdit">
-                                    <div class="ui input left icon">
-                                        <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_COMPRA" id="fechaCompraEdit" placeholder="Fecha de Compra" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
                                 <label>Fecha de Vencimiento</label>
                                 <div class="ui calendar" id="calendarioVencimientoEdit">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
                                         <input type="text" name="P_FECHA_VENCIMIENTO" id="fechaVencimientoEdit" placeholder="Fecha de Vencimiento" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de Compra</label>
+                                <div class="ui calendar" id="calendarioCompraEdit">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input type="text" name="P_FECHA_COMPRA" id="fechaCompraEdit" placeholder="Fecha de Compra" required>
                                     </div>
                                 </div>
                             </div>

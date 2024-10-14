@@ -52,8 +52,35 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
+  // console.log([
+  //   nombreValue,
+  //   descripcionValue,
+  //   unidadValue,
+  //   proveedorValue,
+  //   idNuevoLoteValue,
+  //   fechaVencValue,
+  //   fechaCompValue,
+  //   cantidadValue,
+  //   precioCompValue,
+  //   precioVentaValue,
+  //   idUsuarioValue,
+  // ]);
+
   try {
     console.log("Enviando datos al servidor...");
+    console.log([
+      nombreValue,
+      descripcionValue,
+      unidadValue,
+      proveedorValue,
+      idNuevoLoteValue,
+      fechaVencValue,
+      fechaCompValue,
+      cantidadValue,
+      precioCompValue,
+      precioVentaValue,
+      idUsuarioValue,
+    ]);
     const response = await fetch(
       `${API_BASE_URL}inventario/agregarNuevoProducto`,
       {
@@ -75,7 +102,6 @@ async function agregarNuevoProducto() {
           P_FECHA_COMPRA: fechaCompValue,
         }),
       }
-
     );
     if (!response.ok) {
       throw new Error(
@@ -135,9 +161,13 @@ tbody.addEventListener("click", function (event) {
   if (editarButton) {
     productoId = editarButton.getAttribute("data-producto-id");
     $("#editModal").modal("show");
+    console.log("id producto editar: ", productoId);
   }
 });
 
+/**
+ * editarProducto()
+ */
 async function editarProducto() {
   const nombreField = document.getElementById("nombreProductoEdit");
   const descripcionField = document.getElementById("descripcionProductoEdit");
@@ -156,30 +186,30 @@ async function editarProducto() {
   const descripcionValue = descripcionField.value.trim();
   const unidadValue = unidadField.value.trim();
   const proveedorValue = proveedorField.value.trim();
+  const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
   const idLoteValue = idLoteField.value.trim(); // ID del lote
   const fechaVencimientoValue = fechaVencimientoField.value.trim();
   const fechaCompraValue = fechaCompraField.value.trim();
   const cantidadValue = cantidadField.value.trim();
   const precioCompraValue = precioCompraField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
-  const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
 
   try {
     console.log("Enviando datos al servidor para editar producto...");
 
     console.log({
-      P_ID_PRODUCTO: productoId,
+      P_ID_PRODUCTO: productoId, // Incluye el ID del producto
       P_NOMBRE_PRODUCTO: nombreValue,
       P_DESCRIPCION_PROD1: descripcionValue,
       P_UNIDAD_MEDIDA: unidadValue,
       P_ID_PROVEEDOR: proveedorValue,
       P_ID_USUARIO: idUsuarioValue,
-      P_ID_LOTE: idLoteValue,
+      P_ID_LOTE: idLoteValue, // Incluye el ID del lote
       P_FECHA_VENCIMIENTO: fechaVencimientoValue,
-      P_FECHA_COMPRA: fechaCompraValue,
       P_CANTIDAD: cantidadValue,
       P_PRECIO_COMPRA: precioCompraValue,
       P_PRECIO_VENTA: precioVentaValue,
+      P_FECHA_COMPRA: fechaCompraValue,
     });
 
     const response = await fetch(
@@ -198,10 +228,10 @@ async function editarProducto() {
           P_ID_USUARIO: idUsuarioValue,
           P_ID_LOTE: idLoteValue, // Incluye el ID del lote
           P_FECHA_VENCIMIENTO: fechaVencimientoValue,
-          P_FECHA_COMPRA: fechaCompraValue,
           P_CANTIDAD: cantidadValue,
           P_PRECIO_COMPRA: precioCompraValue,
           P_PRECIO_VENTA: precioVentaValue,
+          P_FECHA_COMPRA: fechaCompraValue,
         }),
       }
     );
@@ -649,12 +679,15 @@ $(document).ready(function () {
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">
-                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
-          }">
-                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
-          }>Activo</option>
-                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
-          }>Inactivo</option>
+                <select class="estado-dropdown" data-producto-id="${
+                  producto.ID_PRODUCTO
+                }">
+                    <option value="1" ${
+                      producto.ID_ESTADO == 1 ? "selected" : ""
+                    }>Activo</option>
+                    <option value="2" ${
+                      producto.ID_ESTADO == 2 ? "selected" : ""
+                    }>Inactivo</option>
                 </select>
             </td>
         `;
@@ -790,6 +823,117 @@ $(document).ready(function () {
       XLSX.utils.book_append_sheet(wb, ws, "Productos");
       XLSX.writeFile(wb, "gestion_productos.xlsx");
     });
+
+  //calendarizacion editar producto
+  $(document).ready(function () {
+    $("#calendarioVencimientoEdit").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+
+    $("#calendarioCompraEdit").calendar({
+      type: "date",
+      text: {
+        days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        today: "Hoy",
+        now: "Ahora",
+        am: "AM",
+        pm: "PM",
+      },
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return "";
+          var day = date.getDate();
+          var month = date.getMonth() + 1;
+          var year = date.getFullYear();
+          return (
+            year +
+            "-" +
+            (month < 10 ? "0" + month : month) +
+            "-" +
+            (day < 10 ? "0" + day : day)
+          );
+        },
+      },
+    });
+  });
 
   // calendarizacion nuevo lote
   $(document).ready(function () {
