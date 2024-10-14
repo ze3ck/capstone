@@ -76,7 +76,6 @@ async function agregarNuevoProducto() {
         }),
       }
     );
-
     if (!response.ok) {
       throw new Error(
         `Error al agregar el producto. Estado: ${response.status}`
@@ -102,6 +101,7 @@ async function agregarNuevoProducto() {
         displayTime: 3000,
       });
     }
+
   } catch (error) {
     console.error("Error al enviar la solicitud:", error);
 
@@ -123,22 +123,16 @@ tbody.addEventListener("click", function (event) {
   const editarButton = event.target.closest(".editarProductoBtn");
 
   if (editarButton) {
-    // Captura el ID del producto desde el atributo 'data-producto-id'
     productoId = editarButton.getAttribute("data-producto-id");
-    console.log("ID del producto a editar:", productoId);
-
-    // Mostrar el modal de edición
     $("#editModal").modal("show");
   }
 });
-
 
 async function editarProducto() {
   const nombreField = document.getElementById("nombreProductoEdit");
   const descripcionField = document.getElementById("descripcionProductoEdit");
   const unidadField = document.getElementById("unidadMedidaEdit");
   const proveedorField = document.getElementById("proveedorEditField");
-  const idProductoField = document.getElementById("idProductoEdit"); // Campo oculto para el ID del producto
   const idLoteField = document.getElementById("idLoteEdit"); // Campo para el ID del lote
   const fechaVencimientoField = document.getElementById("fechaVencimientoEdit"); // Campo para la fecha de vencimiento
   const fechaCompraField = document.getElementById("fechaCompraEdit");
@@ -148,7 +142,6 @@ async function editarProducto() {
   const idUsuario = document.getElementById("idUsuarioEdit");
 
   // Obtener los valores de los campos
-  const idProductoValue = idProductoField.value.trim();
   const nombreValue = nombreField.value.trim();
   const descripcionValue = descripcionField.value.trim();
   const unidadValue = unidadField.value.trim();
@@ -162,24 +155,6 @@ async function editarProducto() {
   const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
 
   try {
-    console.log("Enviando datos al servidor para editar producto...");
-
-
-    console.log({
-      P_ID_PRODUCTO: productoId,
-      P_NOMBRE_PRODUCTO: nombreValue,
-      P_DESCRIPCION_PROD1: descripcionValue,
-      P_UNIDAD_MEDIDA: unidadValue,
-      P_ID_PROVEEDOR: proveedorValue,
-      P_ID_USUARIO: idUsuarioValue,
-      P_ID_LOTE: idLoteValue,
-      P_FECHA_VENCIMIENTO: fechaVencimientoValue,
-      P_FECHA_COMPRA: fechaCompraValue,
-      P_CANTIDAD: cantidadValue,
-      P_PRECIO_COMPRA: precioCompraValue,
-      P_PRECIO_VENTA: precioVentaValue
-    });
-
     const response = await fetch(
       `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
       {
@@ -783,8 +758,6 @@ $(document).ready(function () {
       XLSX.utils.book_append_sheet(wb, ws, "Productos");
       XLSX.writeFile(wb, "gestion_productos.xlsx");
     });
-
-
 
   // lógica calendario nuevo producto
   $(document).ready(function () {
