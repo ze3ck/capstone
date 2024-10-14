@@ -7,19 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
   selectUnidadMedida();
 
 
-  
-  // llenar campos editar producto modal
+  // llenar campos modal editar productos
   const tbody = document.getElementById("productTableBody");
 
-  // Delegación de eventos para detectar clics en los botones de edición
   tbody.addEventListener("click", function (event) {
     const editarButton = event.target.closest(".editarProductoBtn");
 
     if (editarButton) {
-      // Obtener la fila que contiene el botón que fue clickeado
       const row = editarButton.closest("tr");
 
-      // Extraer los valores de las celdas de la fila correspondiente
       const idProducto = row.cells[0].textContent.trim();
       const nombreProducto = row.cells[1].textContent.trim();
       const descripcionProducto = row.cells[2].textContent.trim();
@@ -29,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const proveedor = row.cells[6].textContent.trim();
       const fechaCompra = row.cells[7].textContent.trim();
 
-      // Rellenar los campos del modal con los valores obtenidos
       document.getElementById("idProductoEdit").value = idProducto;
       document.getElementById("nombreProductoEdit").value = nombreProducto;
       document.getElementById("descripcionProductoEdit").value =
@@ -40,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("proveedorEditField").value = proveedor;
       document.getElementById("fechaCompraEdit").value = fechaCompra;
 
-      // Abrir el modal de edición
       $("#editModal").modal("show");
     }
   });
