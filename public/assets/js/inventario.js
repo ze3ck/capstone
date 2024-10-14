@@ -75,6 +75,7 @@ async function agregarNuevoProducto() {
           P_FECHA_COMPRA: fechaCompValue,
         }),
       }
+
     );
     if (!response.ok) {
       throw new Error(
@@ -101,7 +102,16 @@ async function agregarNuevoProducto() {
         displayTime: 3000,
       });
     }
-
+    nombreField.value = "";
+    descripcionField.value = "";
+    unidadField.value = "";
+    proveedorField.value = "";
+    idNuevoLote.value = "";
+    fechaVencField.value = "";
+    fechaCompField.value = "";
+    cantidadField.value = "";
+    precioCompField.value = "";
+    precioVentaField.value = "";
   } catch (error) {
     console.error("Error al enviar la solicitud:", error);
 
@@ -639,15 +649,12 @@ $(document).ready(function () {
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">
-                <select class="estado-dropdown" data-producto-id="${
-                  producto.ID_PRODUCTO
-                }">
-                    <option value="1" ${
-                      producto.ID_ESTADO == 1 ? "selected" : ""
-                    }>Activo</option>
-                    <option value="2" ${
-                      producto.ID_ESTADO == 2 ? "selected" : ""
-                    }>Inactivo</option>
+                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
+          }">
+                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
+          }>Activo</option>
+                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
+          }>Inactivo</option>
                 </select>
             </td>
         `;
