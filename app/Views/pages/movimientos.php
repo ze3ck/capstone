@@ -27,7 +27,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    
+
 </head>
 
 <body>
@@ -235,7 +235,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <div class="three wide column">
                     <div class="field">
                         <select class="ui selection dropdown" id="selectResponsable" placeholder="Responsable">
-                        <option value="" style="color:gray;">categoría</option>
+                            <option value="" style="color:gray;">categoría</option>
 
                         </select>
                     </div>
@@ -283,6 +283,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </table>
             <button id="btnNuevoMovimiento" class="ui blue button">Nueva Salida Producto</button>
             <button id="btnNuevoGastoOperativo" class="ui blue button">Nuevo Gasto Operativo</button>
+            <button id="btnNuevaSalidaMerma" class="ui blue button">Nueva Salida Merma</button>
+
 
         </div>
     </div>
@@ -374,6 +376,52 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
+    <!-- Modal para Salida de Merma -->
+    <div class="ui modal" id="modalSalidaMerma">
+        <div class="header">Nueva Salida de Merma</div>
+        <div class="content">
+            <form class="ui form">
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Producto</label>
+                            <select class="ui clearable dropdown" id="mermaProductoDropdown">
+                                <option value="">Seleccionar Producto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Lote</label>
+                            <select class="ui clearable dropdown" id="mermaLoteDropdown">
+                                <option value="">Seleccionar Lote</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="sixteen wide column">
+                        <div class="field">
+                            <label>Descripción del Producto</label>
+                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción del producto" readonly>
+                        </div>
+                    </div>
+                    <div class="sixteen wide column">
+                        <div class="field">
+                            <label>Cantidad para Merma</label>
+                            <input type="number" id="cantidadMerma" placeholder="Cantidad" min="1">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida</button>
+            <button type="button" class="ui red button">Cancelar</button>
+        </div>
+    </div>
+
     <!-- Modal para Generar Gasto Operativo -->
     <div class="ui large modal" id="modalNuevoGastoOperativo">
         <div class="header">Nuevo Gasto Operativo</div>
@@ -404,7 +452,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     </div>
 
 
-    
+
     <!-- <script src="/assets/js/charts.js"></script> -->
 
 
