@@ -86,102 +86,112 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
-  // console.log([
-  //   nombreValue,
-  //   descripcionValue,
-  //   unidadValue,
-  //   proveedorValue,
-  //   idNuevoLoteValue,
-  //   fechaVencValue,
-  //   fechaCompValue,
-  //   cantidadValue,
-  //   precioCompValue,
-  //   precioVentaValue,
-  //   idUsuarioValue,
-  // ]);
+  if(cantidadValue <= 0 || precioCompValue <= 0 || precioVentaValue <= 0) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0",
+      showProgress: 'top',
+      class: 'error',
+      displayTime: 8000,
+  })
+  }else{
 
-  try {
-    console.log("Enviando datos al servidor...");
-    console.log([
-      nombreValue,
-      descripcionValue,
-      unidadValue,
-      proveedorValue,
-      idNuevoLoteValue,
-      fechaVencValue,
-      fechaCompValue,
-      cantidadValue,
-      precioCompValue,
-      precioVentaValue,
-      idUsuarioValue,
-    ]);
-    const response = await fetch(
-      `${API_BASE_URL}inventario/agregarNuevoProducto`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          P_NOMBRE_PRODUCTO: nombreValue,
-          P_DESCRIPCION_PROD1: descripcionValue,
-          P_UNIDAD_MEDIDA: unidadValue,
-          P_ID_PROVEEDOR: proveedorValue,
-          P_ID_USUARIO: idUsuarioValue,
-          P_ID_LOTE: idNuevoLoteValue,
-          P_FECHA_VENCIMIENTO: fechaVencValue,
-          P_CANTIDAD: cantidadValue,
-          P_PRECIO_COMPRA: precioCompValue,
-          P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompValue,
-        }),
-      }
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Error al agregar el producto. Estado: ${response.status}`
+    // console.log([
+    //   nombreValue,
+    //   descripcionValue,
+    //   unidadValue,
+    //   proveedorValue,
+    //   idNuevoLoteValue,
+    //   fechaVencValue,
+    //   fechaCompValue,
+    //   cantidadValue,
+    //   precioCompValue,
+    //   precioVentaValue,
+    //   idUsuarioValue,
+    // ]);
+  
+    try {
+      console.log("Enviando datos al servidor...");
+      console.log([
+        nombreValue,
+        descripcionValue,
+        unidadValue,
+        proveedorValue,
+        idNuevoLoteValue,
+        fechaVencValue,
+        fechaCompValue,
+        cantidadValue,
+        precioCompValue,
+        precioVentaValue,
+        idUsuarioValue,
+      ]);
+      const response = await fetch(
+        `${API_BASE_URL}inventario/agregarNuevoProducto`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_NOMBRE_PRODUCTO: nombreValue,
+            P_DESCRIPCION_PROD1: descripcionValue,
+            P_UNIDAD_MEDIDA: unidadValue,
+            P_ID_PROVEEDOR: proveedorValue,
+            P_ID_USUARIO: idUsuarioValue,
+            P_ID_LOTE: idNuevoLoteValue,
+            P_FECHA_VENCIMIENTO: fechaVencValue,
+            P_CANTIDAD: cantidadValue,
+            P_PRECIO_COMPRA: precioCompValue,
+            P_PRECIO_VENTA: precioVentaValue,
+            P_FECHA_COMPRA: fechaCompValue,
+          }),
+        }
       );
-    }
-
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      console.log("Producto agregado con éxito:", data);
-
-      $("body").toast({
-        message: "Se ha agregado un nuevo producto exitosamente",
-        class: "success",
-        displayTime: 3000,
-      });
-    } else {
-      console.warn("El servidor no devolvió un JSON válido.");
+      if (!response.ok) {
+        throw new Error(
+          `Error al agregar el producto. Estado: ${response.status}`
+        );
+      }
+  
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        console.log("Producto agregado con éxito:", data);
+  
+        $("body").toast({
+          message: "Se ha agregado un nuevo producto exitosamente",
+          class: "success",
+          displayTime: 3000,
+        });
+      } else {
+        console.warn("El servidor no devolvió un JSON válido.");
+        $("body").toast({
+          message:
+            "Producto agregado exitosamente, pero la respuesta no es válida.",
+          class: "warning",
+          displayTime: 3000,
+        });
+      }
+      nombreField.value = "";
+      descripcionField.value = "";
+      unidadField.value = "";
+      proveedorField.value = "";
+      idNuevoLote.value = "";
+      fechaVencField.value = "";
+      fechaCompField.value = "";
+      cantidadField.value = "";
+      precioCompField.value = "";
+      precioVentaField.value = "";
+    } catch (error) {
+      console.error("Error al enviar la solicitud:", error);
+  
+      // Mostrar mensaje de error
       $("body").toast({
         message:
-          "Producto agregado exitosamente, pero la respuesta no es válida.",
-        class: "warning",
+          "Error al agregar el producto. Revisa la consola para más detalles.",
+        class: "error",
         displayTime: 3000,
       });
     }
-    nombreField.value = "";
-    descripcionField.value = "";
-    unidadField.value = "";
-    proveedorField.value = "";
-    idNuevoLote.value = "";
-    fechaVencField.value = "";
-    fechaCompField.value = "";
-    cantidadField.value = "";
-    precioCompField.value = "";
-    precioVentaField.value = "";
-  } catch (error) {
-    console.error("Error al enviar la solicitud:", error);
-
-    // Mostrar mensaje de error
-    $("body").toast({
-      message:
-        "Error al agregar el producto. Revisa la consola para más detalles.",
-      class: "error",
-      displayTime: 3000,
-    });
   }
 }
 
@@ -337,13 +347,12 @@ function limpiarFormularioProducto() {
       input.value = "";
     });
 
-  const newProductCheckbox = document
-    .getElementById("newProductCheckbox")
-    .querySelector("input");
+  const newProductCheckbox = document.getElementById("newProductCheckbox").querySelector("input");
   if (newProductCheckbox.checked) {
     newProductCheckbox.checked = false;
     // Asegúrate de ocultar los campos de "Datos Producto"
     document.getElementById("datosProducto").style.display = "none";
+    document.getElementById("datosLote").style.display = "none";
   }
 }
 
@@ -696,11 +705,11 @@ $(document).ready(function () {
   $("#newProductCheckbox").on("change", function () {
     if ($(this).find("input").is(":checked")) {
       $("#datosProducto").slideDown();
-      $("#buscarProducto").hide();
+      $("#datosLote").slideUp();
       $("#datosLote input, #datosLote select").attr("disabled", true);
     } else {
       $("#datosProducto").slideUp();
-      $("#buscarProducto").show();
+      $("#datosLote").slideDown();
       $("#datosLote input, #datosLote select").attr("disabled", false);
     }
   });
@@ -920,38 +929,13 @@ $(document).ready(function () {
 
   //calendarizacion editar producto
   $(document).ready(function () {
+
     $("#calendarioVencimientoEdit").calendar({
       type: "date",
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -972,40 +956,18 @@ $(document).ready(function () {
           );
         },
       },
+      if() {
+
+      }
     });
 
     $("#calendarioCompraEdit").calendar({
+      
       type: "date",
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1031,38 +993,23 @@ $(document).ready(function () {
 
   // calendarizacion nuevo lote
   $(document).ready(function () {
+    function showToast(message) {
+      $('body').toast({
+        message: message,
+        showProgress: 'top',
+        class: 'warning',
+        displayTime: 8000,
+      });
+    }
+    // Inicializar calendario "Fecha Desde"
+    var today = new Date(); // Obtener la fecha actual
     $("#calendarioVencimientoLote").calendar({
       type: "date",
+      minDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1083,40 +1030,25 @@ $(document).ready(function () {
           );
         },
       },
+      onChange: function (date, text, mode) {
+        if (!date) return;
+
+        var oneWeekBefore = new Date(date);
+        oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
+
+        if (today >= oneWeekBefore && today <= date) {
+          showToast("¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana");
+        }
+      }
     });
 
     $("#calendarioCompraLote").calendar({
       type: "date",
+      maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1142,39 +1074,24 @@ $(document).ready(function () {
 
   // lógica calendario nuevo producto
   $(document).ready(function () {
+    function showToast(message) {
+      $('body').toast({
+        message: message,
+        showProgress: 'top',
+        class: 'warning',
+        displayTime: 8000,
+      });
+    }
     // Inicializar calendario "Fecha Desde"
+    var today = new Date(); // Obtener la fecha actual
+
     $("#calendarioVencimiento").calendar({
       type: "date",
+      minDate: today, // Establecer la fecha mínima a hoy
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1195,41 +1112,28 @@ $(document).ready(function () {
           );
         },
       },
+      onChange: function (date, text, mode) {
+        if (!date) return;
+
+        var oneWeekBefore = new Date(date);
+        oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
+
+        if (today >= oneWeekBefore && today <= date) {
+          showToast("¡Atención! Tenga en cuenta que su producto vencerá dentro de una semana");
+        }
+      }
     });
+
+
 
     // Inicializar calendario "Fecha Hasta"
     $("#calendarioCompra").calendar({
       type: "date",
+      maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
