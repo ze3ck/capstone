@@ -377,7 +377,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
-    <!-- Modal para Salida de Merma -->
+    <!-- Generar Modal para salida de Merma  -->
     <div class="ui modal" id="modalSalidaMerma">
         <div class="header">Nueva Salida de Merma</div>
         <div class="content">
@@ -392,80 +392,49 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                     </div>
 
-                    <div class="eight wide column">
-                        <div class="field">
-                            <label>Lote</label>
-                            <select class="ui clearable dropdown" id="mermaLoteDropdown">
-                                <option value="">Seleccionar Lote</option>
-                            </select>
+                    <!-- Modal para Generar Gasto Operativo -->
+                    <div class="ui large modal" id="modalNuevoGastoOperativo">
+                        <div class="header">Nuevo Gasto Operativo</div>
+                        <div class="content">
+                            <form class="ui form">
+                                <div class="field">
+                                    <label>Descripción</label>
+                                    <input type="text" id="descripcion" placeholder="Descripción">
+                                </div>
+                                <div class="field">
+                                    <label>Monto ($)</label>
+                                    <input type="number" id="monto" placeholder="Monto" min="0">
+                                </div>
+                                <div class="field">
+                                    <label>Categoría</label>
+                                    <select id="selectCategoriaGastoOperacional">
+                                        <option value="">LLenar dinamico</option>
+                                        <option value="">Recreacion</option>
+                                        <option value="">Servicion</option>
+                                    </select>
+
+                                </div>
+                        </div>
+                        <div class="actions">
+                            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
+                            <button class="ui negative button">Cancelar</button>
                         </div>
                     </div>
 
-                    <div class="sixteen wide column">
-                        <div class="field">
-                            <label>Descripción del Producto</label>
-                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción del producto" readonly>
-                        </div>
-                    </div>
-                    <div class="sixteen wide column">
-                        <div class="field">
-                            <label>Cantidad para Merma</label>
-                            <input type="number" id="cantidadMerma" placeholder="Cantidad" min="1">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
 
-        <div class="actions">
-            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida</button>
-            <button type="button" class="ui red button">Cancelar</button>
-        </div>
-    </div>
 
-    <!-- Modal para Generar Gasto Operativo -->
-    <div class="ui large modal" id="modalNuevoGastoOperativo">
-        <div class="header">Nuevo Gasto Operativo</div>
-        <div class="content">
-            <form class="ui form">
-                <div class="field">
-                    <label>Descripción</label>
-                    <input type="text" id="descripcion" placeholder="Descripción">
-                </div>
-                <div class="field">
-                    <label>Monto ($)</label>
-                    <input type="number" id="monto" placeholder="Monto" min="0">
-                </div>
-                <div class="field">
-                    <label>Categoría</label>
-                    <select id="selectCategoriaGastoOperacional">
-                        <option value="">LLenar dinamico</option>
-                        <option value="">Recreacion</option>
-                        <option value="">Servicion</option>
-                    </select>
+                    <!-- <script src="/assets/js/charts.js"></script> -->
+
 
                 </div>
-        </div>
-        <div class="actions">
-            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
-            <button class="ui negative button">Cancelar</button>
-        </div>
-    </div>
-
-
-
-    <!-- <script src="/assets/js/charts.js"></script> -->
-
-
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <script type="module" src="/assets/js/movimientos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
-    <script src="/assets/js/dashboard.js"></script>
-    <script type="module" src="/assets/js/movimientos.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+                <script type="module" src="/assets/js/movimientos.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/ag-charts-community@7.0.0/dist/ag-charts-community.min.js"></script>
+                <script src="/assets/js/dashboard.js"></script>
+                <script type="module" src="/assets/js/movimientos.js"></script>
 </body>
 
 </html>
