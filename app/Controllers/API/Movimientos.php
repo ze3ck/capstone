@@ -465,16 +465,21 @@ class Movimientos extends ResourceController
       $json = $this->request->getJSON();
       // Validar que el ID de usuario exista y sea numérico
       if (!isset($json->P_PRODUCTO) || !is_numeric($json->P_PRODUCTO)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el P_PRODUCTO o es inválido']);
+      }
+      if (!isset($json->P_IDUSUARIO) || !is_numeric($json->P_IDUSUARIO)) {
         return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el P_IDUSUARIO o es inválido']);
       }
 
       $P_PRODUCTO = $json->P_PRODUCTO;
+      $P_IDUSUARIO = $json->P_IDUSUARIO;
+
       try {
         // Conectar a la base de datos
         $db = \Config\Database::connect();
 
         // Ejecutar el procedimiento almacenado con el ID del usuario
-        $query = $db->query("CALL PR_24_CANTIDAD_TOTAL_PRODUCTO(?)", [$P_PRODUCTO]);
+        $query = $db->query("CALL PR_24_CANTIDAD_TOTAL_PRODUCTO(?,?)", [$P_PRODUCTO,$P_IDUSUARIO]);
 
         // Obtener los resultados como un array
         $result = $query->getResultArray();
@@ -488,7 +493,9 @@ class Movimientos extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "CANTIDAD" => $row['CANTIDAD']
+            "CANTIDAD" => $row['CANTIDAD'],
+            "PRECIO_VENTA" => $row['PRECIO_VENTA'],
+
           ];
         }
         // Devolver los resultados procesados como JSON

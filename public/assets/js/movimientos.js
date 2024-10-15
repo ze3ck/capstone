@@ -522,6 +522,7 @@ $(document).ready(function () {
                   <td>${producto}</td>
                   <td>${cantidad}</td>
                   <td>$${subtotal}</td>
+                  <td><i class="window close icon" style="color: red;"></i></td>
               </tr>
           `);
 
@@ -807,7 +808,9 @@ async function selectProductos() {
   // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
   async function cant_total() {
     let id_producto = document.getElementById("productoDropdown").value;
-    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+    let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+    console.log(id_producto);
+    const response = await fetch(`${API_BASE_URL}movimientos/cant_total`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -815,13 +818,15 @@ async function selectProductos() {
       credentials: "include",
       body: JSON.stringify({
         P_PRODUCTO: id_producto,
+        P_IDUSUARIO: id_usuario,
       }),
     });
 
     const data = await response.json();
-
+    console.log("Datos de la respuesta:", data);
     for (let x of data.response) {
       document.getElementById("cant_total").innerHTML = x.CANTIDAD;
+      document.getElementById("precio").value = x.PRECIO_VENTA;
     }
   }
   // Se ejecuta cuando cambia de estado el select

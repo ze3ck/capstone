@@ -340,7 +340,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="field">
                     <label>Precio ($)</label>
-                    <input type="number" name="precio" placeholder="1000" min="0" step="0.01">
+                    <input type="number" name="precio" placeholder="1000" min="0" step="1" id="precio">
                 </div>
                 <div class="field">
                     <label>Descuento (%)</label>
@@ -354,6 +354,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <th>Producto</th>
                             <th>Unidad</th>
                             <th>Precio</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody id="productList">
