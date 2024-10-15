@@ -414,39 +414,44 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </form>
         </div>
-
-        <!-- Modal para Generar Gasto Operativo -->
-        <div class="ui large modal" id="modalNuevoGastoOperativo">
-            <div class="header">Nuevo Gasto Operativo</div>
-            <div class="content">
-                <form class="ui form">
-                    <div class="field">
-                        <label>Descripción</label>
-                        <input type="text" id="descripcion" placeholder="Descripción">
-                    </div>
-                    <div class="field">
-                        <label>Monto ($)</label>
-                        <input type="number" id="monto" placeholder="Monto" min="0">
-                    </div>
-                    <div class="field">
-                        <label>Categoría</label>
-                        <select id="selectCategoriaGastoOperacional">
-                            <option value="">LLenar dinamico</option>
-                            <option value="">Recreacion</option>
-                            <option value="">Servicion</option>
-                        </select>
-
-                    </div>
-            </div>
-            <div class="actions">
-                <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
-                <button class="ui negative button">Cancelar</button>
-            </div>
+        <div class="actions">
+            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida</button>
+            <button type="button" class="ui red button">Cancelar</button>
         </div>
+    </div>
+
+    <!-- Modal para Generar Gasto Operativo -->
+    <div class="ui large modal" id="modalNuevoGastoOperativo">
+        <div class="header">Nuevo Gasto Operativo</div>
+        <div class="content">
+            <form class="ui form">
+                <div class="field">
+                    <label>Descripción</label>
+                    <input type="text" id="descripcion" placeholder="Descripción">
+                </div>
+                <div class="field">
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto" placeholder="Monto" min="0">
+                </div>
+                <div class="field">
+                    <label>Categoría</label>
+                    <select id="selectCategoriaGastoOperacional">
+                        <option value="">LLenar dinamico</option>
+                        <option value="">Recreacion</option>
+                        <option value="">Servicion</option>
+                    </select>
+
+                </div>
+        </div>
+        <div class="actions">
+            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
+            <button class="ui negative button">Cancelar</button>
+        </div>
+    </div>
 
 
 
-        <!-- <script src="/assets/js/charts.js"></script> -->
+    <!-- <script src="/assets/js/charts.js"></script> -->
 
 
     </div>
