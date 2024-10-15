@@ -377,7 +377,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
-    <!-- Generar Modal para salida de Merma  -->
+    <!-- Modal para salida de Merma  -->
     <div class="ui modal" id="modalSalidaMerma">
         <div class="header">Nueva Salida de Merma</div>
         <div class="content">
