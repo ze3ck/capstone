@@ -365,12 +365,10 @@ $(document).ready(function () {
   $("#mermaProductoDropdown").dropdown();
   $("#mermaLoteDropdown").dropdown();
 
-  // Abrir modal al hacer clic en el botón "Nueva Salida Merma"
   $("#btnNuevaSalidaMerma").on("click", function () {
     $("#modalSalidaMerma").modal("show");
   });
 
-  // Manejar el botón de generar salida de merma
   $("#btnGenerarSalidaMerma").on("click", function () {
     const producto = $("#mermaProductoDropdown").val();
     const lote = $("#mermaLoteDropdown").val();
@@ -381,14 +379,12 @@ $(document).ready(function () {
       return;
     }
 
-    // Aquí puedes hacer la lógica para enviar la salida de merma al servidor
     console.log({
       producto,
       lote,
       cantidad,
     });
 
-    // Después de procesar la salida, cerrar el modal
     $("#modalSalidaMerma").modal("hide");
   });
 
