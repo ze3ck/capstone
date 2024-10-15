@@ -361,6 +361,38 @@ function cargarFilasDetalleMovimientos(
 }
 
 $(document).ready(function () {
+  // modal salida de mermas
+  // Inicializar dropdowns
+  $("#mermaProductoDropdown").dropdown();
+  $("#mermaLoteDropdown").dropdown();
+
+  // Abrir modal al hacer clic en el botón "Nueva Salida Merma"
+  $("#btnNuevaSalidaMerma").on("click", function () {
+    $("#modalSalidaMerma").modal("show");
+  });
+
+  // Manejar el botón de generar salida de merma
+  $("#btnGenerarSalidaMerma").on("click", function () {
+    const producto = $("#mermaProductoDropdown").val();
+    const lote = $("#mermaLoteDropdown").val();
+    const cantidad = $("#cantidadMerma").val();
+
+    if (!producto || !lote || !cantidad) {
+      alert("Todos los campos son obligatorios.");
+      return;
+    }
+
+    // Aquí puedes hacer la lógica para enviar la salida de merma al servidor
+    console.log({
+      producto,
+      lote,
+      cantidad,
+    });
+
+    // Después de procesar la salida, cerrar el modal
+    $("#modalSalidaMerma").modal("hide");
+  });
+
   // Inicializar calendario "Fecha Desde"
   $("#fechaInicio").calendar({
     type: "date",
@@ -522,6 +554,7 @@ $(document).ready(function () {
                   <td>${producto}</td>
                   <td>${cantidad}</td>
                   <td>$${subtotal}</td>
+                  <td><i class="window close icon" style="color: red;"></i></td>
               </tr>
           `);
 
@@ -690,7 +723,7 @@ function mensaje(clase, tiempo, mensaje) {
 }
 
 async function generarGastoOperativo(event) {
-  event.preventDefault(); 
+  event.preventDefault();
 
   let descripcion = document.getElementById("descripcion").value.trim();
   let monto = parseFloat(document.getElementById("monto").value.trim());
@@ -807,7 +840,9 @@ async function selectProductos() {
   // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
   async function cant_total() {
     let id_producto = document.getElementById("productoDropdown").value;
-    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+    let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+    console.log(id_producto);
+    const response = await fetch(`${API_BASE_URL}movimientos/cant_total`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -815,13 +850,15 @@ async function selectProductos() {
       credentials: "include",
       body: JSON.stringify({
         P_PRODUCTO: id_producto,
+        P_IDUSUARIO: id_usuario,
       }),
     });
 
     const data = await response.json();
-
+    console.log("Datos de la respuesta:", data);
     for (let x of data.response) {
       document.getElementById("cant_total").innerHTML = x.CANTIDAD;
+      document.getElementById("precio").value = x.PRECIO_VENTA;
     }
   }
   // Se ejecuta cuando cambia de estado el select
