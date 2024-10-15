@@ -391,7 +391,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </select>
                         </div>
                     </div>
-
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Lote</label>
+                            <select class="ui clearable dropdown" id="mermaLoteDropdown">
+                                <option value="">Seleccionar Lote</option>
+                            </select>
+                        </div>
+                    </div>
                     <!-- Modal para Generar Gasto Operativo -->
                     <div class="ui large modal" id="modalNuevoGastoOperativo">
                         <div class="header">Nuevo Gasto Operativo</div>
