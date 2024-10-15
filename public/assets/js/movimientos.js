@@ -361,6 +361,38 @@ function cargarFilasDetalleMovimientos(
 }
 
 $(document).ready(function () {
+  // modal salida de mermas
+  // Inicializar dropdowns
+  $("#mermaProductoDropdown").dropdown();
+  $("#mermaLoteDropdown").dropdown();
+
+  // Abrir modal al hacer clic en el botón "Nueva Salida Merma"
+  $("#btnNuevaSalidaMerma").on("click", function () {
+    $("#modalSalidaMerma").modal("show");
+  });
+
+  // Manejar el botón de generar salida de merma
+  $("#btnGenerarSalidaMerma").on("click", function () {
+    const producto = $("#mermaProductoDropdown").val();
+    const lote = $("#mermaLoteDropdown").val();
+    const cantidad = $("#cantidadMerma").val();
+
+    if (!producto || !lote || !cantidad) {
+      alert("Todos los campos son obligatorios.");
+      return;
+    }
+
+    // Aquí puedes hacer la lógica para enviar la salida de merma al servidor
+    console.log({
+      producto,
+      lote,
+      cantidad,
+    });
+
+    // Después de procesar la salida, cerrar el modal
+    $("#modalSalidaMerma").modal("hide");
+  });
+
   // Inicializar calendario "Fecha Desde"
   $("#fechaInicio").calendar({
     type: "date",
@@ -691,7 +723,7 @@ function mensaje(clase, tiempo, mensaje) {
 }
 
 async function generarGastoOperativo(event) {
-  event.preventDefault(); 
+  event.preventDefault();
 
   let descripcion = document.getElementById("descripcion").value.trim();
   let monto = parseFloat(document.getElementById("monto").value.trim());
