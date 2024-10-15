@@ -361,8 +361,7 @@ function cargarFilasDetalleMovimientos(
 }
 
 $(document).ready(function () {
-  // modal salida de mermas
-  // Inicializar dropdowns
+  // <!-- Generar Modal para salida de Merma  -->
   $("#mermaProductoDropdown").dropdown();
   $("#mermaLoteDropdown").dropdown();
 
