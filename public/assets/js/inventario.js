@@ -2,6 +2,7 @@ import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   $("#saveProductButton").click(agregarNuevoProducto);
+  $("#addProductButton").click(selectProductos);
   $("#editProductButton").click(editarProducto);
   selectProveedores();
   selectUnidadMedida();
@@ -268,7 +269,7 @@ async function editarProducto() {
         }),
       }
     );
-
+    console.log(response);
     // Verificar si la respuesta es exitosa
     if (!response.ok) {
       throw new Error(
@@ -395,7 +396,65 @@ async function selectProveedores() {
 //   opt.innerHTML =nomOpcion;
 //   select.appendChild(opt);
 // }
+async function selectProductos() {
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
+  const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      P_IDUSUARIO: id_usuario,
+    }),
+  });
+
+  const data = await response.json();
+  // console.log("Datos de la respuesta:", data);
+
+  // Obtenemos el elemento select una vez fuera del bucle para evitar múltiples búsquedas en el DOM
+  const select = document.getElementById("productoDropdown");
+  // Limpiamos el select antes de llenarlo
+  select.innerHTML = '<option value="">Seleccionar Producto</option>';
+
+  if (!select) {
+    console.error("No se encontró el elemento select en el DOM.");
+    return;
+  }
+
+  for (let x of data.response) {
+    const opt = document.createElement("option");
+    opt.value = x.ID_PRODUCTO;
+    opt.textContent = x.DESCRIPCION_PRODUCTO;
+    select.appendChild(opt);
+  }
+
+  // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
+  async function cant_total() {
+    let id_producto = document.getElementById("productoDropdown").value;
+    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_PRODUCTO: id_producto,
+      }),
+    });
+
+    const data = await response.json();
+
+    for (let x of data.response) {
+      document.getElementById("cant_total").innerHTML = x.CANTIDAD;
+    }
+  }
+  // Se ejecuta cuando cambia de estado el select
+  document
+    .getElementById("productoDropdown")
+    .addEventListener("change", cant_total);
+}
 async function selectUnidadMedida() {
   try {
     const response = await fetch(
@@ -717,15 +776,12 @@ $(document).ready(function () {
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">
-                <select class="estado-dropdown" data-producto-id="${
-                  producto.ID_PRODUCTO
-                }">
-                    <option value="1" ${
-                      producto.ID_ESTADO == 1 ? "selected" : ""
-                    }>Activo</option>
-                    <option value="2" ${
-                      producto.ID_ESTADO == 2 ? "selected" : ""
-                    }>Inactivo</option>
+                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
+          }">
+                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
+          }>Activo</option>
+                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
+          }>Inactivo</option>
                 </select>
             </td>
         `;

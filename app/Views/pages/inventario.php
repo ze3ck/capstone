@@ -154,11 +154,22 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <!-- Datos Lote -->
                 <div id="datosLote" style="margin-top: 20px;">
                     <h4>Datos Lote</h4>
+
                     <div class="ui form">
-                        <div class="field">
-                            <label>ID Lote</label>
-                            <input type="text" name="P_ID_LOTE" placeholder="ID del Lote" required>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Producto</label>
+                                <select id="productoDropdown" class="ui dropdown">
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>ID Lote</label>
+                                <input type="text" name="P_ID_LOTE" placeholder="ID del Lote" required>
+                            </div>
                         </div>
+                    </div>
+                    <div class="ui form">
+
                         <div class="two fields">
                             <div class="field">
                                 <label>Fecha de Vencimiento</label>
