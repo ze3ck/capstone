@@ -861,3 +861,48 @@ async function selectProductos() {
     .getElementById("productoDropdown")
     .addEventListener("change", cant_total);
 }
+
+// cargar productos dropdown salida merma
+async function cargarProductos() {
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al cargar los productos");
+    }
+
+    const data = await response.json();
+
+    const productoDropdown = document.getElementById("mermaProductoDropdown");
+
+    productoDropdown.innerHTML =
+      '<option value="">Seleccionar Producto</option>';
+
+    if (data.success && data.response.length > 0) {
+      data.response.forEach((producto) => {
+        const option = document.createElement("option");
+        option.value = producto.ID_PRODUCTO;
+        option.textContent = producto.NOMBRE_PRODUCTO;
+        productoDropdown.appendChild(option);
+      });
+    } else {
+      alert("No se encontraron productos");
+    }
+  } catch (error) {
+    console.error("Hubo un error:", error);
+    alert("Error al cargar los productos");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  cargarProductos();
+});
