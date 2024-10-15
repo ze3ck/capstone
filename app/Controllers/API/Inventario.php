@@ -344,7 +344,7 @@ class Inventario extends ResourceController
     if ($this->request->getMethod() !== 'GET') {
       return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
     }
-
+    
     $db = \Config\Database::connect();
 
     try {
