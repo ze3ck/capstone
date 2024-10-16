@@ -109,7 +109,8 @@ $routes->group(
     $routes->post('movimientos/cant_total',                       'Movimientos::cant_total');
     $routes->post('movimientos/salidaMermaProductos',             'Movimientos::salidaMermaProductos');
     $routes->get('movimientos/obtenerRazonesMerma',               'Movimientos::obtenerRazonesMerma');
-    $routes->post('movimientos/obtenerPrecioCompraLote',           'Movimientos::obtenerPrecioCompraLote');
+    $routes->post('movimientos/obtenerPrecioCompraLote',          'Movimientos::obtenerPrecioCompraLote');
+    $routes->post('movimientos/obtenerCostoMerma',                'Movimientos::obtenerCostoMerma');
 
     /**
      * RESTful API's: Controllers\API\Inventario-Productos

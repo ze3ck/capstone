@@ -680,7 +680,7 @@ class Movimientos extends ResourceController
 
 
   /**
-   * PR_30_OBTENER_PRECIO_COMPRA_LOTE
+   * PR_31_OBTENER_COSTO_MERMA
    * obtenerCostoMerma()
    */
   public function obtenerCostoMerma()
@@ -711,7 +711,7 @@ class Movimientos extends ResourceController
 
     try {
       // Consulta para obtener el costo de merma
-      $query = $db->query("SELECT COSTO_MERMA FROM PRODUCTOS_MERMA WHERE ID_LOTE = ? AND ID_PRODUCTO = ?", [$id_lote, $id_producto]);
+      $query = $db->query("CALL PR_31_OBTENER_COSTO_MERMA(?,?)", [$id_lote, $id_producto]);
       $result = $query->getRowArray();
 
       if (!$result) {

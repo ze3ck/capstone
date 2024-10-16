@@ -421,7 +421,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <div class="eight wide column">
                         <div class="field">
                             <label>Costo de Merma</label>
-                            <input type="number" id="costoMerma" placeholder="Costo de Merma" min="0" step="0.01">
+                            <input type="text" id="costoMerma" placeholder="Costo de Merma" readonly>
                         </div>
                     </div>
                     <div class="sixteen wide column">
