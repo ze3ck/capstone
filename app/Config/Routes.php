@@ -102,12 +102,15 @@ $routes->group(
     $routes->post('movimientos/llenadoMovimiento',                'Movimientos::llenadoMovimiento');
     $routes->post('movimientos/llenadoDetalleMovimiento',         'Movimientos::llenadoDetalleMovimiento');
     $routes->get('movimientos/selectCatMovimiento',               'Movimientos::selectCatMovimiento');
-    $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento'); 
-    $routes->post('movimientos/selectResponsables',               'Movimientos::selectResponsables'); 
-    $routes->post('movimientos/generarGastoOperativo',            'Movimientos::generarGastoOperativo'); 
-    $routes->post('movimientos/selectProductos',                  'Movimientos::selectProductos'); 
-    $routes->post('movimientos/cant_total',                       'Movimientos::cant_total'); 
-    
+    $routes->get('movimientos/selectCatGastoOperativoMovimiento', 'Movimientos::selectCatGastoOperativoMovimiento');
+    $routes->post('movimientos/selectResponsables',               'Movimientos::selectResponsables');
+    $routes->post('movimientos/generarGastoOperativo',            'Movimientos::generarGastoOperativo');
+    $routes->post('movimientos/selectProductos',                  'Movimientos::selectProductos');
+    $routes->post('movimientos/cant_total',                       'Movimientos::cant_total');
+    $routes->post('movimientos/salidaMermaProductos',             'Movimientos::salidaMermaProductos');
+    $routes->get('movimientos/obtenerRazonesMerma',               'Movimientos::obtenerRazonesMerma');
+    $routes->post('movimientos/obtenerPrecioCompraLote',           'Movimientos::obtenerPrecioCompraLote');
+
     /**
      * RESTful API's: Controllers\API\Inventario-Productos
      */
@@ -121,6 +124,4 @@ $routes->group(
     $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');
     $routes->post('inventario/editarProducto',          'Inventario::editarProducto');
   }
-
-
 );

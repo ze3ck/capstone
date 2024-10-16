@@ -410,10 +410,24 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </select>
                         </div>
                     </div>
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Razón de Merma</label>
+                            <select class="ui clearable dropdown" id="razonMermaDropdown">
+                                <option value="">Seleccionar Razón de Merma</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Costo de Merma</label>
+                            <input type="number" id="costoMerma" placeholder="Costo de Merma" min="0" step="0.01">
+                        </div>
+                    </div>
                     <div class="sixteen wide column">
                         <div class="field">
-                            <label>Descripción del Producto</label>
-                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción del producto" readonly>
+                            <label>Descripción de la Merma</label>
+                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción de la Merma">
                         </div>
                     </div>
                     <div class="sixteen wide column">
@@ -426,7 +440,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </form>
         </div>
         <div class="actions">
-            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida</button>
+            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida de Merma</button>
             <button type="button" class="ui red button">Cancelar</button>
         </div>
     </div>

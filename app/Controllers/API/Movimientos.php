@@ -117,7 +117,7 @@ class Movimientos extends ResourceController
 
         // Verificar si hay resultados
         if (empty($result)) {
-          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para: '. $P_IDMOVIMIENTO]);
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para: ' . $P_IDMOVIMIENTO]);
         }
         /**
          * ID_MOVIMIENTO
@@ -206,7 +206,7 @@ class Movimientos extends ResourceController
       }
     }
   }
-/**
+  /**
    * selectRespoinsables()
    * PR_21_SELECT_RESPONSABLES
    */
@@ -358,7 +358,7 @@ class Movimientos extends ResourceController
         $db = \Config\Database::connect();
 
         // Ejecutar el procedimiento almacenado con el ID del usuario
-        $query = $db->query("CALL PR_23_NUEVO_GASTO_OPERACIONAL(?,?,?,?)", [$P_DESCRIPCION,$P_MONTO,$P_CATEGORIA,$P_IDUSUARIO]);
+        $query = $db->query("CALL PR_23_NUEVO_GASTO_OPERACIONAL(?,?,?,?)", [$P_DESCRIPCION, $P_MONTO, $P_CATEGORIA, $P_IDUSUARIO]);
 
         // Obtener los resultados como un array
         $result = $query->getResultArray();
@@ -388,7 +388,7 @@ class Movimientos extends ResourceController
   }
 
   /**
-   * selectRespoinsables()
+   * selectProductos()
    * PR_14_SELECT_PRODUCTOS
    */
   public function selectProductos()
@@ -479,7 +479,7 @@ class Movimientos extends ResourceController
         $db = \Config\Database::connect();
 
         // Ejecutar el procedimiento almacenado con el ID del usuario
-        $query = $db->query("CALL PR_24_CANTIDAD_TOTAL_PRODUCTO(?,?)", [$P_PRODUCTO,$P_IDUSUARIO]);
+        $query = $db->query("CALL PR_24_CANTIDAD_TOTAL_PRODUCTO(?,?)", [$P_PRODUCTO, $P_IDUSUARIO]);
 
         // Obtener los resultados como un array
         $result = $query->getResultArray();
@@ -507,6 +507,223 @@ class Movimientos extends ResourceController
         // Manejar excepciones
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
       }
+    }
+  }
+
+  /**
+   * PR_26_SALIDA_MERMA_PRODUCTOS_USUARIO
+   * salidaMermaProductos
+   */
+  public function salidaMermaProductos()
+  {
+    // Configurar los encabezados CORS
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    // Manejar solicitudes de tipo OPTIONS (preflight request)
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    // Manejar la solicitud POST
+    if ($this->request->getMethod() === 'POST') {
+      // Obtener los datos JSON enviados
+      $json = $this->request->getJSON();
+
+      // Validar que el ID de usuario y el ID de producto existan y sean numéricos
+      if (!isset($json->P_IDUSUARIO) || !is_numeric($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el P_IDUSUARIO o es inválido']);
+      }
+
+      if (!isset($json->P_IDPRODUCTO) || !is_numeric($json->P_IDPRODUCTO)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el P_IDPRODUCTO o es inválido']);
+      }
+
+      // Asignar los valores de usuario y producto a las variables
+      $P_IDUSUARIO = $json->P_IDUSUARIO;
+      $P_IDPRODUCTO = $json->P_IDPRODUCTO;
+
+      try {
+        // Conectar a la base de datos
+        $db = \Config\Database::connect();
+
+        // Ejecutar el procedimiento almacenado con los parámetros de usuario y producto
+        $query = $db->query("CALL PR_26_SALIDA_MERMA_PRODUCTOS_USUARIO(?, ?)", [$P_IDUSUARIO, $P_IDPRODUCTO]);
+
+        // Obtener los resultados como un array
+        $result = $query->getResultArray();
+
+        // Verificar si se encontraron resultados
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron lotes para este producto y usuario, o el producto no está activo o ha caducado.']);
+        }
+
+        // Procesar los resultados
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_LOTE"           => $row['ID_LOTE'],
+            "ID_PRODUCTO"       => $row['ID_PRODUCTO'],
+            "NOMBRE_PRODUCTO"   => $row['NOMBRE_PRODUCTO'],
+            "FECHA_VENCIMIENTO" => $row['FECHA_VENCIMIENTO'],
+            "CANTIDAD"          => $row['CANTIDAD'],
+          ];
+        }
+
+        // Devolver los resultados procesados como JSON
+        return $this->respond([
+          'success' => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        // Manejar excepciones en la base de datos
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+  }
+
+  /**
+   * obtenerRazonesMerma()
+   * PR_27_OBTENER_RAZONES_MERMA
+   */
+  public function obtenerRazonesMerma()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() !== 'GET') {
+      return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+    }
+
+    $db = \Config\Database::connect();
+
+    try {
+      $query = $db->query("CALL PR_27_OBTENER_RAZONES_MERMA()");
+
+      $result = $query->getResultArray();
+
+      if (empty($result)) {
+        return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron razones de merma.']);
+      }
+
+      $response = [];
+      foreach ($result as $row) {
+        $response[] = [
+          "ID_RAZON_MERMA" => $row['ID_RAZON_MERMA'],
+          "DESCRIPCION_RAZON" => $row['DESCRIPCION_RAZON'],
+        ];
+      }
+
+      return $this->respond([
+        'success' => true,
+        'response' => $response
+      ]);
+    } catch (\Exception $e) {
+      return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+    }
+  }
+
+  /**
+   * PR_30_OBTENER_PRECIO_COMPRA_LOTE
+   * obtenerPrecioCompraLote()
+   */
+
+  public function obtenerPrecioCompraLote()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() !== 'POST') {
+      return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+    }
+    $json = $this->request->getJSON();
+
+    if (!isset($json->ID_LOTE)) {
+      return $this->response->setStatusCode(400)->setJSON(['error' => 'ID_LOTE es requerido']);
+    }
+
+    $id_lote = $json->ID_LOTE;
+
+    $db = \Config\Database::connect();
+
+    try {
+      // Llamada al procedimiento almacenado PR_OBTENER_PRECIO_COMPRA_LOTE
+      $query = $db->query("CALL PR_30_OBTENER_PRECIO_COMPRA_LOTE(?)", [$id_lote]);
+      $result = $query->getRowArray();
+
+      if (!$result) {
+        return $this->response->setStatusCode(404)->setJSON(['message' => 'Lote no encontrado']);
+      }
+
+      return $this->respond([
+        'success' => true,
+        'PRECIO_COMPRA' => $result['PRECIO_COMPRA']
+      ]);
+    } catch (\Exception $e) {
+      return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
+    }
+  }
+
+
+  /**
+   * PR_30_OBTENER_PRECIO_COMPRA_LOTE
+   * obtenerCostoMerma()
+   */
+  public function obtenerCostoMerma()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() !== 'POST') {
+      return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
+    }
+
+    $json = $this->request->getJSON();
+
+    if (!isset($json->ID_LOTE) || !isset($json->ID_PRODUCTO)) {
+      return $this->response->setStatusCode(400)->setJSON(['error' => 'ID_LOTE y ID_PRODUCTO son requeridos']);
+    }
+
+    $id_lote = $json->ID_LOTE;
+    $id_producto = $json->ID_PRODUCTO;
+
+    $db = \Config\Database::connect();
+
+    try {
+      // Consulta para obtener el costo de merma
+      $query = $db->query("SELECT COSTO_MERMA FROM PRODUCTOS_MERMA WHERE ID_LOTE = ? AND ID_PRODUCTO = ?", [$id_lote, $id_producto]);
+      $result = $query->getRowArray();
+
+      if (!$result) {
+        return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontró el costo de merma para el lote y producto seleccionados']);
+      }
+
+      return $this->respond([
+        'success' => true,
+        'COSTO_MERMA' => $result['COSTO_MERMA']
+      ]);
+    } catch (\Exception $e) {
+      return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
     }
   }
 }
