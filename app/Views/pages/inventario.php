@@ -162,7 +162,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </div>
                             <div class="field">
                                 <label>ID Lote</label>
-                                <input type="text" name="P_ID_LOTE" placeholder="ID del Lote" required>
+                                <input type="text" name="P_ID_LOTE" placeholder="ID del Lote" id="idLote" required>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioVencimientoLote">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento"
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento" id="calendarioVencLote"
                                             required>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioCompraLote">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_COMPRA" placeholder="Fecha de Compra" required>
+                                        <input type="text" name="P_FECHA_COMPRA" placeholder="Fecha de Compra" id="calendarioCompLote" required>
                                     </div>
                                 </div>
                             </div>
@@ -191,16 +191,16 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <div class="two fields">
                             <div class="field">
                                 <label>Cantidad</label>
-                                <input type="number" name="P_CANTIDAD" placeholder="Cantidad" required>
+                                <input type="number" name="P_CANTIDAD" placeholder="Cantidad" id="cantidadLote" required>
                             </div>
                             <div class="field">
                                 <label>Precio de Compra</label>
-                                <input type="number" name="P_PRECIO_COMPRA" step="0.01" placeholder="Precio de Compra"
+                                <input type="number" name="P_PRECIO_COMPRA" step="0.01" placeholder="Precio de Compra" id="precioCompLote"
                                     required>
                             </div>
                             <div class="field">
                                 <label>Precio de Venta</label>
-                                <input type="number" name="P_PRECIO_VENTA" step="0.01" placeholder="Precio de Venta"
+                                <input type="number" name="P_PRECIO_VENTA" step="0.01" placeholder="Precio de Venta" id="precioVentaLote"
                                     required>
                             </div>
                         </div>
