@@ -707,6 +707,7 @@ $(document).ready(function () {
       $("#datosProducto").slideDown();
       $("#datosLote").slideUp();
       $("#datosLote input, #datosLote select").attr("disabled", true);
+      let datos = documer
     } else {
       $("#datosProducto").slideUp();
       $("#datosLote").slideDown();

@@ -385,7 +385,7 @@ header {
 
 #my-text {
   color: white;
-  font-size: 5.5rem;
+  font-size: 3.5rem;
   text-transform: uppercase;
   font-style: oblique;
   font-family: "Montserrat", sans-serif;
@@ -396,13 +396,13 @@ header {
   text-align: left;
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1027px) {
   #my-text {
     font-size: 5rem;
   }
-}
+} */
 
-@media (max-width: 768px) {
+@media (max-width: 1027px) {
   #my-text {
     font-size: 3rem;
   }

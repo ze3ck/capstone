@@ -332,34 +332,34 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <label>Disponibilidad en Inventario</label>
                     <b id="cant_total"></b>
                 </div>
-                <div class="field">
-                    <label>Tipo de Pago</label>
-                    <b>Efectivo</b>
-                </div>
+
                 <div class="field">
                     <label>Cantidad</label>
-                    <input type="number" name="cantidad" placeholder="Cantidad">
+                    <input type="number" name="cantidad" placeholder="Cantidad" id="inputCantidad">
                 </div>
                 <div class="field">
                     <label>Precio ($)</label>
                     <input type="number" name="precio" placeholder="1000" min="0" step="1" id="precio">
                 </div>
                 <div class="field">
-                    <label>Descuento (%)</label>
-                    <input type="number" name="descuento" placeholder="0">
+                    <label>Descuento ($)</label>
+                    <input type="number" name="descuento" placeholder="0" id="inputDescuento">
                 </div>
                 <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
 
-                <table class="ui unstackable celled very small scrolling table">
+                <table class="ui unstackable celled very small scrolling table" id="carrito">
                     <thead>
                         <tr>
+                            <th>Item</th>
+                            <th>id_producto</th>
                             <th>Producto</th>
                             <th>Unidad</th>
                             <th>Precio</th>
+                            <th>Dcto</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="productList">
+                    <tbody id="carrito_body">
                     </tbody>
                 </table>
 
@@ -372,6 +372,17 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </form>
         </div>
         <div class="actions">
+            <div class="field">
+                <label>Tipo de Pago</label>
+                <select class="ui dropdown" name="producto" id="SelectTipoPago">
+                    <option value="0">Seleccionar</option>
+                    <option value="1">Efectivo</option>
+                    <option value="2">Débito</option>
+                    <option value="3">Crédito</option>
+                    <option value="4">Transferencia</option>
+                </select>
+            </div>
+            <br>
             <button class="ui positive button">Generar Salida</button>
             <button class="ui negative button">Cancelar</button>
         </div>

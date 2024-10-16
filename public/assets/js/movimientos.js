@@ -530,36 +530,120 @@ $(document).ready(function () {
       })
       .modal("show");
   });
+});
 
-  let total = 0;
+// MANEJO DE CARRITO DE COMPRAS ----------------------------
 
-  // Función para agregar producto
-  $("#agregarProducto").on("click", function () {
-    const producto = $("#productoDropdown").dropdown("get value");
-    const cantidad = $('input[name="cantidad"]').val();
-    const precio = 1000; // Simulación del precio
+$(document).ready(function() {
+  // Función para agregar un producto al carrito
+  $("#agregarProducto").on("click", function() {
+      let productoSeleccionado = $("#productoDropdown").val();
+      let cantidadIngresada = parseInt($("#inputCantidad").val());
+      let descuento = parseFloat($("#inputDescuento").val()) || 0;
+      let precio = Math.ceil(parseFloat($("#precio").val()));  // Redondear precio a entero hacia arriba
+      let inventarioDisponible = parseInt($("#cant_total").text()); // Cantidad total disponible en inventario
 
-    if (producto && cantidad > 0) {
-      const subtotal = precio * cantidad;
-      total += subtotal;
+      // Calcular la cantidad total del producto ya en el carrito
+      let cantidadEnCarrito = 0;
+      $("#carrito_body tr").each(function() {
+          let productoEnFila = $(this).find("td:eq(1)").text();
+          if (productoEnFila === productoSeleccionado) {
+              cantidadEnCarrito += parseInt($(this).find("td:eq(3)").text());
+          }
+      });
 
-      // Añadir el producto a la tabla
-      $("#productList").append(`
-              <tr>
-                  <td>${producto}</td>
-                  <td>${cantidad}</td>
-                  <td>$${subtotal}</td>
-                  <td><i class="window close icon" style="color: red;"></i></td>
-              </tr>
-          `);
+      // Validar que se seleccionó un producto y que la cantidad es válida
+      if (!productoSeleccionado) {
+          mensaje("error", 2000, "Selecciona un producto.");
+          return;
+      }
+      if (isNaN(cantidadIngresada) || cantidadIngresada <= 0) {
+          mensaje("error", 2000, "Ingresa una cantidad válida.");
+          return;
+      }
+
+      // Verificar que no se supere el inventario disponible
+      if (cantidadEnCarrito + cantidadIngresada > inventarioDisponible) {
+          mensaje("error", 2000, "No puedes agregar más de la cantidad disponible en inventario.");
+          return;
+      }
+
+      // Aplicar el descuento y redondear hacia arriba el total de la fila
+      let precioConDescuento = Math.ceil(precio - descuento);
+      let totalFila = Math.ceil(precioConDescuento * cantidadIngresada); // Redondear el total hacia arriba
+
+      // Crear una nueva fila en la tabla
+      let $nuevaFila = $(`
+          <tr>
+              <td></td>
+              <td>${productoSeleccionado}</td>
+              <td>${$("#productoDropdown option:selected").text()}</td>
+              <td>${cantidadIngresada}</td>
+              <td>${precio}</td>
+              <td>${descuento}</td>
+              <td><i class="window close icon" style="color: red; cursor: pointer;"></i></td>
+          </tr>
+      `);
+
+      // Añadir el evento para eliminar la fila
+      $nuevaFila.find("i.window.close.icon").on("click", function() {
+          $(this).closest("tr").remove();
+          actualizarNumerosFila();
+          actualizarTotal();
+      });
+
+      $("#carrito_body").append($nuevaFila);
+
+      // Actualizar el número de ítems
+      actualizarNumerosFila();
 
       // Actualizar el total
-      $("#totalAmount").text(total);
-    } else {
-      alert("Por favor seleccione un producto y una cantidad válida");
-    }
+      actualizarTotal();
+
+      // Limpiar los campos de entrada
+      limpiarCampos();
   });
+
+  // Función para limpiar los campos del formulario
+  function limpiarCampos() {
+      $("#productoDropdown").val('');       // Limpiar selección del dropdown
+      $("#inputCantidad").val('');          // Limpiar cantidad
+      $("#inputDescuento").val('');         // Limpiar descuento
+      $("#precio").val('');                 // Limpiar precio
+      $("#cant_total").text('');            // Limpiar disponibilidad
+  }
+
+  // Función para actualizar los números de ítems en la primera columna
+  function actualizarNumerosFila() {
+      $("#carrito_body tr").each(function(index) {
+          $(this).find("td:first").text(index + 1);
+      });
+  }
+
+  // Función para actualizar el total del carrito
+  function actualizarTotal() {
+      let total = 0;
+      $("#carrito_body tr").each(function() {
+          let precio = parseInt($(this).find("td:eq(4)").text());
+          let cantidad = parseInt($(this).find("td:eq(3)").text());
+          let descuento = parseFloat($(this).find("td:eq(5)").text());
+          let precioConDescuento = Math.ceil(precio - descuento);
+          total += precioConDescuento * cantidad;
+      });
+      $("#totalAmount").text(total);  // Mostrar el total como número entero
+  }
 });
+
+
+// ---------------------------------------------
+
+
+
+
+
+
+
+
 
 // FILTROS DE LA TABLA
 
