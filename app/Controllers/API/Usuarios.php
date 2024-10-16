@@ -354,12 +354,10 @@ class Usuarios extends ResourceController
   }
 
 
-
   /**
    * gestionarUsuarios()
    * PR_03_TABLA_GESTION_USUARIOS
    */
-
   public function gestionarUsuarios()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');

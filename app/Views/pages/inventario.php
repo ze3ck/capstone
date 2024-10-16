@@ -26,7 +26,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 </head>
 
-<body>
+<body style="min-width: 1200px; min-height: 800px">
     <!-- sessionControllerModal.php -->
     <?= $this->include('components/sessionControllerModal') ?>
     <!-- sessionControllerModal.php -->
@@ -343,7 +343,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </div>
 
-            <table class="ui celled long scrolling table">
+            <table class="ui celled long unstackable scrolling table">
                 <thead>
                     <tr>
                         <th id="id-producto" class="center aligned">ID Producto</th>

@@ -3,6 +3,7 @@ import { API_BASE_URL } from "./apiConfig.js";
 document.addEventListener("DOMContentLoaded", function () {
   llenarTablaMovimientos();
   // selectCategoria();
+  cargarRazonesMerma();
 });
 
 window.onload = function () {
@@ -530,36 +531,117 @@ $(document).ready(function () {
       })
       .modal("show");
   });
-
-  let total = 0;
-
-  // Función para agregar producto
-  $("#agregarProducto").on("click", function () {
-    const producto = $("#productoDropdown").dropdown("get value");
-    const cantidad = $('input[name="cantidad"]').val();
-    const precio = 1000; // Simulación del precio
-
-    if (producto && cantidad > 0) {
-      const subtotal = precio * cantidad;
-      total += subtotal;
-
-      // Añadir el producto a la tabla
-      $("#productList").append(`
-              <tr>
-                  <td>${producto}</td>
-                  <td>${cantidad}</td>
-                  <td>$${subtotal}</td>
-                  <td><i class="window close icon" style="color: red;"></i></td>
-              </tr>
-          `);
-
-      // Actualizar el total
-      $("#totalAmount").text(total);
-    } else {
-      alert("Por favor seleccione un producto y una cantidad válida");
-    }
-  });
 });
+
+// MANEJO DE CARRITO DE COMPRAS ----------------------------
+
+$(document).ready(function () {
+  // Función para agregar un producto al carrito
+  $("#agregarProducto").on("click", function () {
+    let productoSeleccionado = $("#productoDropdown").val();
+    let cantidadIngresada = parseInt($("#inputCantidad").val());
+    let descuento = parseFloat($("#inputDescuento").val()) || 0;
+    let precio = Math.ceil(parseFloat($("#precio").val())); // Redondear precio a entero hacia arriba
+    let inventarioDisponible = parseInt($("#cant_total").text()); // Cantidad total disponible en inventario
+
+    // Calcular la cantidad total del producto ya en el carrito
+    let cantidadEnCarrito = 0;
+    $("#carrito_body tr").each(function () {
+      let productoEnFila = $(this).find("td:eq(1)").text();
+      if (productoEnFila === productoSeleccionado) {
+        cantidadEnCarrito += parseInt($(this).find("td:eq(3)").text());
+      }
+    });
+
+    // Validar que se seleccionó un producto y que la cantidad es válida
+    if (!productoSeleccionado) {
+      mensaje("error", 2000, "Selecciona un producto.");
+      return;
+    }
+    if (isNaN(cantidadIngresada) || cantidadIngresada <= 0) {
+      mensaje("error", 2000, "Ingresa una cantidad válida.");
+      return;
+    }
+
+    // Verificar que no se supere el inventario disponible
+    if (cantidadEnCarrito + cantidadIngresada > inventarioDisponible) {
+      mensaje(
+        "error",
+        2000,
+        "No puedes agregar más de la cantidad disponible en inventario."
+      );
+      return;
+    }
+
+    // Aplicar el descuento y redondear hacia arriba el total de la fila
+    let precioConDescuento = Math.ceil(precio - descuento);
+    let totalFila = Math.ceil(precioConDescuento * cantidadIngresada); // Redondear el total hacia arriba
+
+    // Crear una nueva fila en la tabla
+    let $nuevaFila = $(`
+          <tr>
+              <td></td>
+              <td>${productoSeleccionado}</td>
+              <td>${$("#productoDropdown option:selected").text()}</td>
+              <td>${cantidadIngresada}</td>
+              <td>${precio}</td>
+              <td>${descuento}</td>
+              <td><i class="window close icon" style="color: red; cursor: pointer;"></i></td>
+          </tr>
+      `);
+
+    // Añadir el evento para eliminar la fila
+    $nuevaFila.find("i.window.close.icon").on("click", function () {
+      $(this).closest("tr").remove();
+      actualizarNumerosFila();
+      actualizarTotal();
+    });
+
+    $("#carrito_body").append($nuevaFila);
+
+    // Actualizar el número de ítems
+    actualizarNumerosFila();
+
+    // Actualizar el total
+    actualizarTotal();
+
+    // Limpiar los campos de entrada
+    limpiarCampos();
+  });
+
+  // Función para limpiar los campos del formulario
+  function limpiarCampos() {
+    $("#productoDropdown").val(""); // Limpiar selección del dropdown
+    $("#inputCantidad").val(""); // Limpiar cantidad
+    $("#inputDescuento").val(""); // Limpiar descuento
+    $("#precio").val(""); // Limpiar precio
+    $("#cant_total").text(""); // Limpiar disponibilidad
+  }
+
+  // Función para actualizar los números de ítems en la primera columna
+  function actualizarNumerosFila() {
+    $("#carrito_body tr").each(function (index) {
+      $(this)
+        .find("td:first")
+        .text(index + 1);
+    });
+  }
+
+  // Función para actualizar el total del carrito
+  function actualizarTotal() {
+    let total = 0;
+    $("#carrito_body tr").each(function () {
+      let precio = parseInt($(this).find("td:eq(4)").text());
+      let cantidad = parseInt($(this).find("td:eq(3)").text());
+      let descuento = parseFloat($(this).find("td:eq(5)").text());
+      let precioConDescuento = Math.ceil(precio - descuento);
+      total += precioConDescuento * cantidad;
+    });
+    $("#totalAmount").text(total); // Mostrar el total como número entero
+  }
+});
+
+// ---------------------------------------------
 
 // FILTROS DE LA TABLA
 
@@ -861,3 +943,273 @@ async function selectProductos() {
     .getElementById("productoDropdown")
     .addEventListener("change", cant_total);
 }
+
+// Función para cargar los productos en el dropdown de productos
+async function cargarProductos() {
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al cargar los productos");
+    }
+
+    const data = await response.json();
+
+    const productoDropdown = document.getElementById("mermaProductoDropdown");
+
+    productoDropdown.innerHTML =
+      '<option value="">Seleccionar Producto</option>';
+
+    if (data.success && data.response.length > 0) {
+      data.response.forEach((producto) => {
+        const option = document.createElement("option");
+        option.value = producto.ID_PRODUCTO;
+        option.textContent = producto.NOMBRE_PRODUCTO;
+        productoDropdown.appendChild(option);
+      });
+    } else {
+      alert("No se encontraron productos");
+    }
+  } catch (error) {
+    console.error("Hubo un error:", error);
+    alert("Error al cargar los productos");
+  }
+}
+
+window.onload = cargarProductos;
+
+// Función para cargar los lotes basados en el producto seleccionado
+async function cargarLotesPorProducto(id_producto) {
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/salidaMermaProductos`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          P_IDUSUARIO: id_usuario,
+          P_IDPRODUCTO: id_producto,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al cargar los lotes");
+    }
+
+    const data = await response.json();
+
+    const loteDropdown = document.getElementById("mermaLoteDropdown");
+
+    loteDropdown.innerHTML = '<option value="">Seleccionar Lote</option>';
+
+    if (data.success && data.response.length > 0) {
+      data.response.forEach((lote) => {
+        const option = document.createElement("option");
+        option.value = lote.ID_LOTE;
+        option.textContent = `Lote ${lote.ID_LOTE} - Expira: ${lote.FECHA_VENCIMIENTO} - Cantidad: ${lote.CANTIDAD}`;
+        loteDropdown.appendChild(option);
+      });
+    } else {
+      mostrarToast("No se encontraron lotes para este producto", "warning");
+    }
+  } catch (error) {
+    console.error("Hubo un error:", error);
+    mostrarToast("No se encontraron lotes para este producto", "warning");
+  }
+}
+
+document
+  .getElementById("mermaProductoDropdown")
+  .addEventListener("change", function () {
+    let id_producto = this.value;
+    if (id_producto) {
+      cargarLotesPorProducto(id_producto);
+    } else {
+      document.getElementById("mermaLoteDropdown").innerHTML =
+        '<option value="">Seleccionar Lote</option>';
+    }
+  });
+
+async function cargarRazonesMerma() {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/obtenerRazonesMerma`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al cargar las razones de merma");
+    }
+
+    const data = await response.json();
+
+    const razonMermaDropdown = document.getElementById("razonMermaDropdown");
+
+    // Limpiar el dropdown
+    razonMermaDropdown.innerHTML =
+      '<option value="">Seleccionar Razón de Merma</option>';
+
+    if (data.success && data.response.length > 0) {
+      // Llenar el dropdown con las razones de merma
+      data.response.forEach((razon) => {
+        const option = document.createElement("option");
+        option.value = razon.ID_RAZON_MERMA;
+        option.textContent = razon.DESCRIPCION_RAZON;
+        razonMermaDropdown.appendChild(option);
+      });
+    } else {
+      alert("No se encontraron razones de merma");
+    }
+  } catch (error) {
+    console.error("Hubo un error:", error);
+    alert("Error al cargar las razones de merma");
+  }
+}
+
+// Función para calcular el costo de merma basado en la cantidad ingresada por el usuario y el precio de compra del lote
+async function calcularCostoMerma(id_lote, cantidad) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/obtenerPrecioCompraLote`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ID_LOTE: id_lote,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al obtener el precio de compra del lote");
+    }
+
+    const data = await response.json();
+
+    const precioCompra = data.PRECIO_COMPRA;
+    const costoMermaCalculado = precioCompra * cantidad;
+
+    // Mostrar el cálculo de costo de merma
+    document.getElementById("costoMerma").value =
+      costoMermaCalculado.toFixed(2);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// Evento onchange en el dropdown de lotes para calcular el costo de merma al seleccionar un lote
+document
+  .getElementById("mermaLoteDropdown")
+  .addEventListener("change", function () {
+    const id_lote = this.value;
+    const cantidad = document.getElementById("cantidadMerma").value;
+
+    if (id_lote && cantidad) {
+      calcularCostoMerma(id_lote, cantidad);
+    }
+  });
+
+// Evento para actualizar el costo de merma cuando el usuario cambie la cantidad
+document.getElementById("cantidadMerma").addEventListener("input", function () {
+  const id_lote = document.getElementById("mermaLoteDropdown").value;
+  const cantidad = this.value;
+
+  if (id_lote && cantidad) {
+    calcularCostoMerma(id_lote, cantidad);
+  }
+});
+
+// Función para obtener el costo de merma desde la tabla productos_merma
+async function obtenerCostoMerma(id_lote, id_producto) {
+  console.log("id_lote en obtenerCostoMerma: ", id_lote);
+  console.log("id_producto en obtenerCostoMerma: ", id_producto);
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}movimientos/obtenerCostoMerma`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ID_LOTE: id_lote,
+          ID_PRODUCTO: id_producto,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al obtener el costo de merma");
+    }
+
+    const data = await response.json();
+    console.log("Datos obtenidos del servidor: ", data);
+
+    if (data.success) {
+      const costoMerma = parseFloat(data.COSTO_MERMA);
+      if (!isNaN(costoMerma)) {
+        const costoFormateado = "$" + Math.floor(costoMerma).toLocaleString();
+        document.getElementById("costoMerma").value = costoFormateado;
+        console.log("Costo de Merma mostrado: ", costoFormateado);
+      } else {
+        console.error(
+          "El valor de COSTO_MERMA no es un número válido:",
+          data.COSTO_MERMA
+        );
+        document.getElementById("costoMerma").value = "";
+      }
+    } else {
+      console.warn(data.message || "No se encontró el costo de merma.");
+      document.getElementById("costoMerma").value = "";
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+document
+  .getElementById("mermaLoteDropdown")
+  .addEventListener("change", function () {
+    const id_lote = this.value;
+    const id_producto = document.getElementById("mermaProductoDropdown").value;
+
+    if (id_lote && id_producto) {
+      obtenerCostoMerma(id_lote, id_producto);
+    } else {
+      console.warn("ID_LOTE o ID_PRODUCTO no seleccionados");
+    }
+  });

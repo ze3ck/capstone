@@ -332,34 +332,34 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <label>Disponibilidad en Inventario</label>
                     <b id="cant_total"></b>
                 </div>
-                <div class="field">
-                    <label>Tipo de Pago</label>
-                    <b>Efectivo</b>
-                </div>
+
                 <div class="field">
                     <label>Cantidad</label>
-                    <input type="number" name="cantidad" placeholder="Cantidad">
+                    <input type="number" name="cantidad" placeholder="Cantidad" id="inputCantidad">
                 </div>
                 <div class="field">
                     <label>Precio ($)</label>
                     <input type="number" name="precio" placeholder="1000" min="0" step="1" id="precio">
                 </div>
                 <div class="field">
-                    <label>Descuento (%)</label>
-                    <input type="number" name="descuento" placeholder="0">
+                    <label>Descuento ($)</label>
+                    <input type="number" name="descuento" placeholder="0" id="inputDescuento">
                 </div>
                 <button type="button" class="ui button" id="agregarProducto">Agregar Producto</button>
 
-                <table class="ui unstackable celled very small scrolling table">
+                <table class="ui unstackable celled very small scrolling table" id="carrito">
                     <thead>
                         <tr>
+                            <th>Item</th>
+                            <th>id_producto</th>
                             <th>Producto</th>
                             <th>Unidad</th>
                             <th>Precio</th>
+                            <th>Dcto</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="productList">
+                    <tbody id="carrito_body">
                     </tbody>
                 </table>
 
@@ -372,6 +372,17 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </form>
         </div>
         <div class="actions">
+            <div class="field">
+                <label>Tipo de Pago</label>
+                <select class="ui dropdown" name="producto" id="SelectTipoPago">
+                    <option value="0">Seleccionar</option>
+                    <option value="1">Efectivo</option>
+                    <option value="2">Débito</option>
+                    <option value="3">Crédito</option>
+                    <option value="4">Transferencia</option>
+                </select>
+            </div>
+            <br>
             <button class="ui positive button">Generar Salida</button>
             <button class="ui negative button">Cancelar</button>
         </div>
@@ -399,10 +410,24 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </select>
                         </div>
                     </div>
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Razón de Merma</label>
+                            <select class="ui clearable dropdown" id="razonMermaDropdown">
+                                <option value="">Seleccionar Razón de Merma</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="field">
+                            <label>Costo de Merma</label>
+                            <input type="text" id="costoMerma" placeholder="Costo de Merma" readonly>
+                        </div>
+                    </div>
                     <div class="sixteen wide column">
                         <div class="field">
-                            <label>Descripción del Producto</label>
-                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción del producto" readonly>
+                            <label>Descripción de la Merma</label>
+                            <input type="text" id="descripcionProductoMerma" placeholder="Descripción de la Merma">
                         </div>
                     </div>
                     <div class="sixteen wide column">
@@ -414,39 +439,44 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </form>
         </div>
-
-        <!-- Modal para Generar Gasto Operativo -->
-        <div class="ui large modal" id="modalNuevoGastoOperativo">
-            <div class="header">Nuevo Gasto Operativo</div>
-            <div class="content">
-                <form class="ui form">
-                    <div class="field">
-                        <label>Descripción</label>
-                        <input type="text" id="descripcion" placeholder="Descripción">
-                    </div>
-                    <div class="field">
-                        <label>Monto ($)</label>
-                        <input type="number" id="monto" placeholder="Monto" min="0">
-                    </div>
-                    <div class="field">
-                        <label>Categoría</label>
-                        <select id="selectCategoriaGastoOperacional">
-                            <option value="">LLenar dinamico</option>
-                            <option value="">Recreacion</option>
-                            <option value="">Servicion</option>
-                        </select>
-
-                    </div>
-            </div>
-            <div class="actions">
-                <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
-                <button class="ui negative button">Cancelar</button>
-            </div>
+        <div class="actions">
+            <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida de Merma</button>
+            <button type="button" class="ui red button">Cancelar</button>
         </div>
+    </div>
+
+    <!-- Modal para Generar Gasto Operativo -->
+    <div class="ui large modal" id="modalNuevoGastoOperativo">
+        <div class="header">Nuevo Gasto Operativo</div>
+        <div class="content">
+            <form class="ui form">
+                <div class="field">
+                    <label>Descripción</label>
+                    <input type="text" id="descripcion" placeholder="Descripción">
+                </div>
+                <div class="field">
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto" placeholder="Monto" min="0">
+                </div>
+                <div class="field">
+                    <label>Categoría</label>
+                    <select id="selectCategoriaGastoOperacional">
+                        <option value="">LLenar dinamico</option>
+                        <option value="">Recreacion</option>
+                        <option value="">Servicion</option>
+                    </select>
+
+                </div>
+        </div>
+        <div class="actions">
+            <button class="ui positive button" id="btnGenerarGasto">Generar Gasto Operativo</button>
+            <button class="ui negative button">Cancelar</button>
+        </div>
+    </div>
 
 
 
-        <!-- <script src="/assets/js/charts.js"></script> -->
+    <!-- <script src="/assets/js/charts.js"></script> -->
 
 
     </div>
