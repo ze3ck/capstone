@@ -461,7 +461,7 @@ class Inventario extends ResourceController
           [
             $input->P_NROLOTE,
             $input->P_IDPRODUCTO,
-            $input->P_IDEMPRESA,
+            $input->P_IDUSUARIO,
             $input->P_FECHA_VENCIMIENTO,
             $input->P_CANTIDAD,
             $input->P_PRECIO_COMPRA,

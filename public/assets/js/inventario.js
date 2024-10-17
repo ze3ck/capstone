@@ -224,6 +224,7 @@ async function agregarNuevoLote() {
   const fechaVencField = document.getElementById("calendarioVencLote");
   const fechaCompField = document.getElementById("calendarioCompLote");
   const precioVentaField = document.getElementById("precioVentaLote");
+  const idUsuario = document.getElementById("idUsuarioEdit");
 
   const idLoteValue = idLoteField.value.trim();
   const fechaVencValue = fechaVencField.value.trim();
@@ -231,6 +232,10 @@ async function agregarNuevoLote() {
   const cantidadValue = cantidadField.value.trim();
   const precioCompValue = precioCompField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
+  const idUsuarioValue = idUsuario.textContent.trim();
+
+  const productoDropdown = document.getElementById("productoDropdown");
+  const idProductoValue = productoDropdown.value
 
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompValue || precioCompValue <= 0 ||
@@ -268,8 +273,8 @@ async function agregarNuevoLote() {
           },
           body: JSON.stringify({
             P_NROLOTE: idLoteValue,
-            P_IDPRODUCTO: 1,
-            P_IDEMPRESA: 1,
+            P_IDPRODUCTO: idProductoValue,
+            P_IDUSUARIO: idUsuarioValue,
             P_FECHA_VENCIMIENTO: fechaVencValue,
             P_CANTIDAD: cantidadValue,
             P_PRECIO_COMPRA: precioCompValue,
@@ -309,6 +314,7 @@ async function agregarNuevoLote() {
       cantidadField.value = "";
       precioCompField.value = "";
       precioVentaField.value = "";
+      productoDropdown.value = "";
     } catch (error) {
       console.error("Error al enviar la solicitud:", error);
 
@@ -365,7 +371,6 @@ async function editarProducto() {
   const cantidadValue = cantidadField.value.trim();
   const precioCompraValue = precioCompraField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
-
   try {
     const response = await fetch(
       `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
