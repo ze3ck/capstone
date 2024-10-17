@@ -353,7 +353,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <th>Item</th>
                             <th>id_producto</th>
                             <th>Producto</th>
-                            <th>Unidad</th>
+                            <th>Cantidad</th>
                             <th>Precio</th>
                             <th>Dcto</th>
                             <th>Acción</th>

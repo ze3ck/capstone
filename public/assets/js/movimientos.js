@@ -503,12 +503,29 @@ $(document).ready(function () {
     selectProductos();
     $("#modalGenerarSalida")
       .modal({
-        onApprove: function (event) {
-          // GENERAR SALIDA (falta agregar funcion)
-          if (event) {
-            event.preventDefault();
+        onApprove: function () {
+          // Obtener elementos necesarios
+          const carritoBody = document.getElementById("carrito_body");
+          const pago = document.getElementById("SelectTipoPago").value.trim();
+
+          // Validación: Verificar si el carrito tiene al menos una fila
+          if (!carritoBody || carritoBody.rows.length === 0) {
+            mensaje("error", 2000, "El carrito está vacío. Agrega al menos un producto antes de generar la salida.");
+            return false; // Evita el cierre del modal
           }
-          // return ;
+
+          // Validación: Verificar si se ha seleccionado un tipo de pago válido
+          if (!pago || pago === "0") {
+            mensaje("error", 2000, "Seleccione tipo de pago.");
+            return false; // Evita el cierre del modal
+          }
+
+          // Si las validaciones pasan, proceder a generar la salida
+          // Puedes llamar a GenerarSalida aquí, pero recuerda que es una función asíncrona
+          GenerarSalida();
+
+          // Permitir que el modal se cierre
+          return true;
         },
         onDeny: function () {
           return true;
@@ -516,6 +533,7 @@ $(document).ready(function () {
       })
       .modal("show");
   });
+
 
   $("#btnNuevoGastoOperativo").on("click", function () {
     $("#modalNuevoGastoOperativo")
@@ -932,7 +950,7 @@ async function selectProductos() {
     });
 
     const data = await response.json();
-    console.log("Datos de la respuesta:", data);
+    // console.log("Datos de la respuesta:", data);
     for (let x of data.response) {
       document.getElementById("cant_total").innerHTML = x.CANTIDAD;
       document.getElementById("precio").value = x.PRECIO_VENTA;
@@ -1200,6 +1218,121 @@ async function obtenerCostoMerma(id_lote, id_producto) {
     console.error("Error:", error);
   }
 }
+
+async function GenerarSalida() {
+  let id_usuario_element = document.getElementById("ID_USUARIO");
+  let id_usuario = id_usuario_element ? parseInt(id_usuario_element.innerHTML.trim(), 10) : null;
+  let pago = parseInt(document.getElementById("SelectTipoPago").value, 10);
+  let productos = obtenerProductosDelCarrito();
+
+  if (!id_usuario) {
+      mensaje("error", 2000, "Usuario no identificado.");
+      return;
+  }
+
+  try {
+      // Hacer una única petición para generar movimiento y detalles
+      const response = await fetch(`${API_BASE_URL}movimientos/GenerarMovimientoCompleto`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              P_IDUSUARIO: id_usuario,
+              P_ID_TIPOPAGO: pago,
+              Detalles: productos.map(producto => ({
+                  P_ID_PRODUCTO: parseInt(producto.id_producto, 10),
+                  P_CANTIDAD_TOTAL: parseInt(producto.cantidad, 10),
+                  P_PRECIO: parseInt(producto.precio, 10),
+                  P_DESCUENTO: parseInt(producto.descuento, 10)
+              }))
+          }),
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Error al generar la salida.");
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+          mensaje("success", 2000, "Salida generada exitosamente.");
+          limpiarCarrito();
+          cerrarModal();
+      } else {
+          console.warn(data.message || "Error al generar la salida.");
+          mensaje("error", 2000, data.message || "Error al generar la salida.");
+      }
+  } catch (error) {
+      console.error("Error en GenerarSalida:", error);
+      mensaje("error", 2000, error.message || "Ocurrió un error al generar la salida.");
+  }
+}
+
+
+
+  
+function obtenerProductosDelCarrito() {
+  const carritoBody = document.getElementById("carrito_body");
+  const productos = [];
+
+  if (carritoBody) {
+      for (let row of carritoBody.rows) {
+          const cells = row.cells;
+
+          if (cells.length < 6) {
+              console.warn("Fila incompleta en el carrito:", row);
+              continue;
+          }
+
+          // Extraer los valores de cada columna y convertirlos a enteros
+          const id_producto = parseInt(cells[1].innerText.trim(), 10); // ID del producto
+          const nombre = cells[2].innerText.trim(); // Nombre del producto
+          const cantidad = parseInt(cells[3].innerText.trim(), 10) || 0; // Cantidad
+          const precio = parseInt(cells[4].innerText.trim().replace(/[^0-9]+/g, ""), 10) || 0; // Precio
+          const descuento = parseInt(cells[5].innerText.trim().replace(/[^0-9]+/g, ""), 10) || 0; // Descuento
+
+          // Crear el objeto del producto
+          const producto = {
+              id_producto,
+              nombre,
+              cantidad,
+              precio,
+              descuento
+          };
+
+          productos.push(producto); // Agregar el producto al array de productos
+      }
+  } else {
+      console.error("Elemento con id 'carrito_body' no encontrado.");
+  }
+
+  return productos; // Retornar el array con todos los productos del carrito
+}
+
+
+// Función para limpiar el carrito después de generar la salida
+function limpiarCarrito() {
+  const carritoBody = document.getElementById("carrito_body");
+  if (carritoBody) {
+    carritoBody.innerHTML = "";
+  }
+  document.getElementById("totalAmount").innerText = "0";
+}
+
+
+
+
+
+// Función para cerrar el modal (asegúrate de tener esta función definida)
+function cerrarModal() {
+  $('#modalGenerarSalida').modal('hide');
+}
+
+// Ejemplo de cómo podrías llamar a GenerarSalida al hacer clic en el botón
+document.querySelector(".ui.positive.button").addEventListener("click", GenerarSalida);
+
 
 document
   .getElementById("mermaLoteDropdown")

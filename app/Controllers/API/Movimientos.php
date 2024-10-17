@@ -726,4 +726,76 @@ class Movimientos extends ResourceController
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
     }
   }
+
+  public function GenerarMovimientoCompleto()
+{
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+        return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+        $json = $this->request->getJSON();
+        $idUsuario = $json->P_IDUSUARIO;
+        $tipoPago = $json->P_ID_TIPOPAGO;
+        $detalles = $json->Detalles;
+
+        try {
+            // Conectar a la base de datos
+            $db = \Config\Database::connect();
+            $db->transStart(); // Iniciar una transacción para garantizar atomicidad
+
+            // Llamar al procedimiento PR_28_INSERTAR_MOVIMIENTO
+            $db->query("CALL PR_28_INSERTAR_MOVIMIENTO($idUsuario, $tipoPago, @P_ID_MOVIMIENTO)");
+            
+            // Obtener el ID del movimiento generado
+            $query = $db->query("SELECT @P_ID_MOVIMIENTO as P_ID_MOVIMIENTO");
+            $result = $query->getRowArray();
+            if (!$result) {
+                $db->transRollback(); // Revertir la transacción si falla
+                return $this->response->setStatusCode(500)->setJSON(['error' => 'No se pudo generar el movimiento.']);
+            }
+
+            $idMovimiento = $result['P_ID_MOVIMIENTO'];
+
+            // Ahora procesar cada detalle de los productos con el procedimiento PR_29_INSERTAR_DETALLE_MOVIMIENTO
+            foreach ($detalles as $detalle) {
+                $idProducto = $detalle->P_ID_PRODUCTO;
+                $cantidadTotal = $detalle->P_CANTIDAD_TOTAL;
+                $precio = $detalle->P_PRECIO;
+                $descuento = $detalle->P_DESCUENTO;
+
+                // Llamar al procedimiento para insertar el detalle del movimiento
+                $db->query("CALL PR_29_INSERTAR_DETALLE_MOVIMIENTO($idMovimiento, $idProducto, $cantidadTotal, $precio, $idUsuario, $descuento)");
+            }
+
+            // Confirmar la transacción si todo ha ido bien
+            $db->transComplete();
+
+            if ($db->transStatus() === FALSE) {
+                // Si algo falló, revertir la transacción
+                return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la transacción.']);
+            }
+
+            // Responder con éxito si todo fue correcto
+            return $this->respond([
+                'success' => true,
+                'P_ID_MOVIMIENTO' => $idMovimiento,
+                'message' => 'Movimiento y detalles generados exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            // Si ocurre una excepción, revertir la transacción
+            $db->transRollback();
+            return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
+        }
+    }
+}
+
+
+
 }
