@@ -375,11 +375,22 @@ async function editarProducto() {
   const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
   const idLoteValue = idLoteField.value.trim(); // ID del lote
   let fechaVencimientoValue = fechaVencimientoField.value.trim();
-  const fechaCompraValue = fechaCompraField.value.trim();
   const cantidadValue = cantidadField.value.trim();
   const precioCompraValue = precioCompraField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
+  const fechaCompraValue = fechaCompraField.value.trim();
 
+  // console.log(nombreValue);
+  // console.log(descripcionValue);
+  // console.log(unidadValue);
+  // console.log(proveedorValue);
+  // console.log(idUsuarioValue);
+  // console.log(idLoteValue);
+  // console.log(fechaVencimientoValue);
+  // console.log(fechaCompraValue);
+  // console.log(cantidadValue);
+  // console.log(precioCompraValue);
+  // console.log(precioVentaValue);
   if(fechaVencimientoValue == ""){
     fechaVencimientoValue = "9999-01-01";
   }

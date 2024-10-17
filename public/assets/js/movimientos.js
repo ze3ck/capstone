@@ -1120,17 +1120,17 @@ async function cargarLotesPorProducto(id_producto) {
   }
 }
 
-document
-  .getElementById("mermaProductoDropdown")
-  .addEventListener("change", function () {
-    let id_producto = this.value;
-    if (id_producto) {
-      cargarLotesPorProducto(id_producto);
-    } else {
-      document.getElementById("mermaLoteDropdown").innerHTML =
-        '<option value="">Seleccionar Lote</option>';
-    }
-  });
+// document
+//   .getElementById("mermaProductoDropdown")
+//   .addEventListener("change", function () {
+//     let id_producto = this.value;
+//     if (id_producto) {
+//       cargarLotesPorProducto(id_producto);
+//     } else {
+//       document.getElementById("mermaLoteDropdown").innerHTML =
+//         '<option value="">Seleccionar Lote</option>';
+//     }
+//   });
 
 async function cargarRazonesMerma() {
   function mostrarToast(mensaje, tipo) {
