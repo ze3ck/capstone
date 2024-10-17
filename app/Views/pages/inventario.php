@@ -117,7 +117,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioVencimiento">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento" required>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="nuevaFechaVenc" placeholder="Fecha de Vencimiento">
                                     </div>
                                 </div>
                             </div>
@@ -173,8 +173,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioVencimientoLote">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento" id="calendarioVencLote"
-                                            required>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" placeholder="Fecha de Vencimiento" id="calendarioVencLote">
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +277,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <div class="ui calendar" id="calendarioVencimientoEdit">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="fechaVencimientoEdit" placeholder="Fecha de Vencimiento" required>
+                                        <input type="text" name="P_FECHA_VENCIMIENTO" id="fechaVencimientoEdit" placeholder="Fecha de Vencimiento">
                                     </div>
                                 </div>
                             </div>

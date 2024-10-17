@@ -98,6 +98,10 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
+  if(fechaVencValue === "") {
+    fechaVencValue = "0000-00-00";
+  }
+
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompValue || precioCompValue <= 0 ||
     !precioVentaValue || precioCompValue <= 0) {
