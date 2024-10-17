@@ -218,7 +218,7 @@ async function agregarNuevoProducto() {
 }
 
 async function agregarNuevoLote() {
-  const idLoteField = document.getElementById("idLote");
+  const idLoteField = document.getElementById("idLote")
   const cantidadField = document.getElementById("cantidadLote");
   const precioCompField = document.getElementById("precioCompLote");
   const fechaVencField = document.getElementById("calendarioVencLote");
@@ -251,12 +251,14 @@ async function agregarNuevoLote() {
   }
   else {
     try {
-      console.log(idLoteValue,
-        fechaVencValue,
-        fechaCompValue,
-        cantidadValue,
-        precioCompValue,
-        precioVentaValue);
+      console.log(fechaCompValue
+        // idLoteValue,
+        // fechaVencValue,
+        // ,
+        // cantidadValue,
+        // precioCompValue,
+        // precioVentaValue
+        );
       const response = await fetch(
         `${API_BASE_URL}inventario/nuevoLote`,
         {
