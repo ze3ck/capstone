@@ -1090,7 +1090,7 @@ async function cargarLotesPorProducto(id_producto) {
         loteDropdown.appendChild(option);
       });
     } else {
-      mostrarToast("No se encontraron lotes para este producto", "warning");
+      // mostrarToast("No se encontraron lotes para este producto", "warning");
     }
   } catch (error) {
     console.error("Hubo un error:", error);
@@ -1400,7 +1400,7 @@ async function guardarMerma() {
 
     // Manejar el resultado exitoso
     if (result.success) {
-      alert("Merma registrada correctamente.");
+      // alert("Merma registrada correctamente.");
       console.log("Merma registrada correctamente:", result.message);
       // Aquí podrías cerrar el modal o reiniciar los campos del formulario si lo necesitas
       $("#modalSalidaMerma").modal("hide"); // Cierra el modal usando jQuery si lo estás usando
