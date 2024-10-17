@@ -91,12 +91,16 @@ async function agregarNuevoProducto() {
   const unidadValue = unidadField.value.trim();
   const proveedorValue = proveedorField.value.trim();
   const idNuevoLoteValue = idNuevoLote.value.trim();
-  const fechaVencValue = fechaVencField.value.trim();
+  let fechaVencValue = fechaVencField.value.trim();
   const fechaCompValue = fechaCompField.value.trim();
   const cantidadValue = cantidadField.value.trim();
   const precioCompValue = precioCompField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
+
+  if(fechaVencValue == ""){
+    fechaVencValue = "9999-01-01";
+  }
 
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompValue || precioCompValue <= 0 ||
@@ -227,7 +231,7 @@ async function agregarNuevoLote() {
   const idUsuario = document.getElementById("idUsuarioEdit");
 
   const idLoteValue = idLoteField.value.trim();
-  const fechaVencValue = fechaVencField.value.trim();
+  let fechaVencValue = fechaVencField.value.trim();
   const fechaCompValue = fechaCompField.value.trim();
   const cantidadValue = cantidadField.value.trim();
   const precioCompValue = precioCompField.value.trim();
@@ -236,6 +240,10 @@ async function agregarNuevoLote() {
 
   const productoDropdown = document.getElementById("productoDropdown");
   const idProductoValue = productoDropdown.value
+
+  if(fechaVencValue == ""){
+    fechaVencValue = "9999-01-01";
+  }
 
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompValue || precioCompValue <= 0 ||
@@ -366,80 +374,106 @@ async function editarProducto() {
   const proveedorValue = proveedorField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim(); // Asegúrate que `value` es lo correcto aquí
   const idLoteValue = idLoteField.value.trim(); // ID del lote
-  const fechaVencimientoValue = fechaVencimientoField.value.trim();
+  let fechaVencimientoValue = fechaVencimientoField.value.trim();
   const fechaCompraValue = fechaCompraField.value.trim();
   const cantidadValue = cantidadField.value.trim();
   const precioCompraValue = precioCompraField.value.trim();
   const precioVentaValue = precioVentaField.value.trim();
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
-      {
-        method: "POST", // El método sigue siendo POST
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          P_ID_PRODUCTO: productoId, // Incluye el ID del producto
-          P_NOMBRE_PRODUCTO: nombreValue,
-          P_DESCRIPCION_PROD1: descripcionValue,
-          P_UNIDAD_MEDIDA: unidadValue,
-          P_ID_PROVEEDOR: proveedorValue,
-          P_ID_USUARIO: idUsuarioValue,
-          P_ID_LOTE: idLoteValue, // Incluye el ID del lote
-          P_FECHA_VENCIMIENTO: fechaVencimientoValue,
-          P_CANTIDAD: cantidadValue,
-          P_PRECIO_COMPRA: precioCompraValue,
-          P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompraValue,
-        }),
-      }
-    );
-    console.log(response);
-    // Verificar si la respuesta es exitosa
-    if (!response.ok) {
-      throw new Error(
-        `Error al editar el producto. Estado: ${response.status}`
+
+  if(fechaVencimientoValue == ""){
+    fechaVencimientoValue = "9999-01-01";
+  }
+
+  console.log(fechaVencimientoValue)
+  if (!cantidadValue || cantidadValue <= 0 ||
+    !precioCompraValue || precioCompraValue <= 0 ||
+    !precioVentaValue || precioVentaValue <= 0) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0",
+      showProgress: 'top',
+      class: 'error',
+      displayTime: 8000,
+    })
+  } else if (cantidadValue.length > 9 || precioCompraValue.length > 9 || precioVentaValue.length > 9) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
+      showProgress: 'top',
+      class: 'error',
+      displayTime: 8000,
+    })
+  }
+  else {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
+        {
+          method: "POST", // El método sigue siendo POST
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_ID_PRODUCTO: productoId, // Incluye el ID del producto
+            P_NOMBRE_PRODUCTO: nombreValue,
+            P_DESCRIPCION_PROD1: descripcionValue,
+            P_UNIDAD_MEDIDA: unidadValue,
+            P_ID_PROVEEDOR: proveedorValue,
+            P_ID_USUARIO: idUsuarioValue,
+            P_ID_LOTE: idLoteValue, // Incluye el ID del lote
+            P_FECHA_VENCIMIENTO: fechaVencimientoValue,
+            P_CANTIDAD: cantidadValue,
+            P_PRECIO_COMPRA: precioCompraValue,
+            P_PRECIO_VENTA: precioVentaValue,
+            P_FECHA_COMPRA: fechaCompraValue,
+          }),
+        }
       );
-    }
-
-    // Verificar si el contenido es JSON y procesarlo
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      console.log("Producto editado con éxito:", data);
-
-      // Mostrar mensaje de éxito con toast
-      $("body").toast({
-        message: "Se ha editado el producto exitosamente",
-        class: "success",
-        displayTime: 3000,
-      });
-    } else {
-      console.warn("El servidor no devolvió un JSON válido.");
-      // Mostrar mensaje de advertencia si no es JSON válido
+      console.log(response);
+      // Verificar si la respuesta es exitosa
+      if (!response.ok) {
+        throw new Error(
+          `Error al editar el producto. Estado: ${response.status}`
+        );
+      }
+  
+      // Verificar si el contenido es JSON y procesarlo
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        console.log("Producto editado con éxito:", data);
+  
+        // Mostrar mensaje de éxito con toast
+        $("body").toast({
+          message: "Se ha editado el producto exitosamente",
+          class: "success",
+          displayTime: 3000,
+        });
+      } else {
+        console.warn("El servidor no devolvió un JSON válido.");
+        // Mostrar mensaje de advertencia si no es JSON válido
+        $("body").toast({
+          message:
+            "Producto editado exitosamente, pero la respuesta no es válida.",
+          class: "warning",
+          displayTime: 3000,
+        });
+        // Limpiar los campos del formulario
+        limpiarFormulario();
+  
+        // Cerrar el modal
+        $("#editModal").modal("hide");
+      }
+    } catch (error) {
+      // Manejo de errores: mostrar mensaje con toast
+      console.error("Error al enviar la solicitud:", error);
       $("body").toast({
         message:
-          "Producto editado exitosamente, pero la respuesta no es válida.",
-        class: "warning",
+          "Error al editar el producto. Revisa la consola para más detalles.",
+        class: "error",
         displayTime: 3000,
       });
-      // Limpiar los campos del formulario
-      limpiarFormulario();
-
-      // Cerrar el modal
-      $("#editModal").modal("hide");
     }
-  } catch (error) {
-    // Manejo de errores: mostrar mensaje con toast
-    console.error("Error al enviar la solicitud:", error);
-    $("body").toast({
-      message:
-        "Error al editar el producto. Revisa la consola para más detalles.",
-      class: "error",
-      displayTime: 3000,
-    });
   }
+
   // Obtener los campos del formulario de edición
 }
 
@@ -1050,9 +1084,19 @@ $(document).ready(function () {
 
   //calendarizacion editar producto
   $(document).ready(function () {
-
+    function showToast(message) {
+      $('body').toast({
+        message: message,
+        showProgress: 'top',
+        class: 'warning',
+        displayTime: 8000,
+      });
+    }
+    // Inicializar calendario "Fecha Desde"
+    var today = new Date(); // Obtener la fecha actual
     $("#calendarioVencimientoEdit").calendar({
       type: "date",
+      minDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
@@ -1077,14 +1121,21 @@ $(document).ready(function () {
           );
         },
       },
-      if() {
+      onChange: function (date, text, mode) {
+        if (!date) return;
 
+        var oneWeekBefore = new Date(date);
+        oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
+
+        if (today >= oneWeekBefore && today <= date) {
+          showToast("¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana");
+        }
       }
     });
 
     $("#calendarioCompraEdit").calendar({
-
       type: "date",
+      maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
@@ -1277,4 +1328,5 @@ $(document).ready(function () {
       },
     });
   });
+
 });
