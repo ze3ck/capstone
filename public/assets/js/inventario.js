@@ -1054,9 +1054,19 @@ $(document).ready(function () {
 
   //calendarizacion editar producto
   $(document).ready(function () {
-
+    function showToast(message) {
+      $('body').toast({
+        message: message,
+        showProgress: 'top',
+        class: 'warning',
+        displayTime: 8000,
+      });
+    }
+    // Inicializar calendario "Fecha Desde"
+    var today = new Date(); // Obtener la fecha actual
     $("#calendarioVencimientoEdit").calendar({
       type: "date",
+      minDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
@@ -1081,14 +1091,21 @@ $(document).ready(function () {
           );
         },
       },
-      if() {
+      onChange: function (date, text, mode) {
+        if (!date) return;
 
+        var oneWeekBefore = new Date(date);
+        oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
+
+        if (today >= oneWeekBefore && today <= date) {
+          showToast("¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana");
+        }
       }
     });
 
     $("#calendarioCompraEdit").calendar({
-
       type: "date",
+      maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
         months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
@@ -1281,4 +1298,5 @@ $(document).ready(function () {
       },
     });
   });
+
 });
