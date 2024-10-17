@@ -1037,21 +1037,21 @@ $(document).ready(function () {
     }
   });
 
-  $("#btnGenerarSalidaMerma").on("click", function () {
-    const cantidadMerma = parseInt($("#cantidadMerma").val(), 10);
-    const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
+  // $("#btnGenerarSalidaMerma").on("click", function () {
+  //   const cantidadMerma = parseInt($("#cantidadMerma").val(), 10);
+  //   const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
 
-    if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
-      mensaje(
-        "error",
-        2000,
-        "No puedes agregar más de la cantidad disponible en inventario."
-      );
-      return;
-    }
+  //   if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
+  //     mensaje(
+  //       "error",
+  //       2000,
+  //       "No puedes agregar más de la cantidad disponible en inventario."
+  //     );
+  //     return;
+  //   }
 
-    alert("Salida de merma generada con éxito.");
-  });
+  //   alert("Salida de merma generada con éxito.");
+  // });
 });
 async function cargarLotesPorProducto(id_producto) {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
@@ -1216,6 +1216,7 @@ document.getElementById("cantidadMerma").addEventListener("input", function () {
 });
 
 $(document).ready(function () {
+
   $("#mermaLoteDropdown").on("change", function () {
     const selectedLote = $(this).val();
 
@@ -1244,17 +1245,28 @@ $(document).ready(function () {
   });
 
   $("#btnGenerarSalidaMerma").on("click", function () {
+    function mostrarToast(mensaje, tipo) {
+      const validTypes = ["success", "error", "warning", "info"];
+      const toastClass = validTypes.includes(tipo) ? tipo : "error";
+    
+      $("body").toast({
+        class: toastClass,
+        message: mensaje,
+        showProgress: "bottom",
+        displayTime: 3000,
+      });
+    }
     const cantidadMerma = parseInt($("#cantidadMerma").val(), 10);
     const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
 
     if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
-      alert(
-        "Por favor ingrese una cantidad válida que no exceda la disponibilidad del lote."
+      mostrarToast(
+        "Por favor ingrese una cantidad válida que no exceda la disponibilidad del lote.", "warning"
       );
       return;
     }
 
-    alert("Salida de merma generada con éxito.");
+    mostrarToast("Salida de merma generada con éxito.", "success");
   });
 });
 
