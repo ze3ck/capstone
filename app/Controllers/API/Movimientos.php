@@ -715,15 +715,74 @@ class Movimientos extends ResourceController
       $result = $query->getRowArray();
 
       if (!$result) {
-        return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontró el costo de merma para el lote y producto seleccionados']);
+        return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontró el PRECIO_COMPRA de merma para el lote y producto seleccionados']);
       }
 
       return $this->respond([
         'success' => true,
-        'COSTO_MERMA' => $result['COSTO_MERMA']
+        'PRECIO_COMPRA' => $result['PRECIO_COMPRA']
       ]);
     } catch (\Exception $e) {
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
     }
+  }
+
+  /**
+   * guardarMerma()
+   * PR_32_GUARDAR_MERMA
+   */
+  public function guardarMerma()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (
+        !isset($json->p_id_lote) || !isset($json->p_id_producto) ||
+        !isset($json->p_cantidad) || !isset($json->p_razon) ||
+        !isset($json->p_descripcion) || !isset($json->p_costo_merma)
+      ) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Faltan parámetros requeridos.']);
+      }
+
+      $db = \Config\Database::connect();
+
+      try {
+        $db->transBegin();
+
+        $db->query("CALL PR_32_GUARDAR_MERMA(?, ?, ?, ?, ?, ?)", [
+          $json->p_id_lote,
+          $json->p_id_producto,
+          $json->p_cantidad,
+          $json->p_razon,
+          $json->p_descripcion,
+          $json->p_costo_merma
+        ]);
+
+        if ($db->transStatus() === false) {
+          $db->transRollback();
+          return $this->response->setStatusCode(500)->setJSON(['error' => 'Error al registrar la merma en la base de datos.']);
+        } else {
+          $db->transCommit();
+          return $this->response->setStatusCode(200)->setJSON([
+            'success' => true,
+            'message' => 'Merma registrada correctamente.'
+          ]);
+        }
+      } catch (\Exception $e) {
+        $db->transRollback();
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
   }
 }

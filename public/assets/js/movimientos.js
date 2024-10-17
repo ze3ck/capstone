@@ -10,6 +10,7 @@ window.onload = function () {
   selectCategoria();
   selectResponsables();
   selectCatGastoOperacional();
+  // guardarMerma()
 };
 
 async function selectCategoria() {
@@ -362,6 +363,17 @@ function cargarFilasDetalleMovimientos(
 }
 
 $(document).ready(function () {
+  // Evento cuando se cambia el valor del campo
+  $("#cantidadMerma").on("input", function () {
+    var valor = $(this).val();
+
+    // Verificamos si el valor es un número entero mayor o igual a 1
+    if (!/^\d+$/.test(valor) || parseInt(valor) < 1) {
+      // Si no es válido, establecemos el valor mínimo (1)
+      $(this).val(1);
+    }
+  });
+
   // <!-- Generar Modal para salida de Merma  -->
   $("#mermaProductoDropdown").dropdown();
   $("#mermaLoteDropdown").dropdown();
@@ -987,20 +999,61 @@ async function cargarProductos() {
 }
 
 window.onload = cargarProductos;
+let lotesData = [];
 
-// Función para cargar los lotes basados en el producto seleccionado
+$(document).ready(function () {
+  $("#mermaProductoDropdown").on("change", function () {
+    const id_producto = $(this).val();
+    if (id_producto) {
+      cargarLotesPorProducto(id_producto);
+    }
+  });
+
+  $("#mermaLoteDropdown").on("change", function () {
+    const selectedLote = $(this).val();
+    let cantidadDisponibleLote = 0;
+
+    if (selectedLote) {
+      const loteSeleccionado = lotesData.find(
+        (lote) => lote.ID_LOTE == selectedLote
+      );
+      cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
+    }
+
+    $("#cant_total_prod_lote").text(cantidadDisponibleLote);
+  });
+
+  $("#cantidadMerma").on("input", function () {
+    const cantidadIngresada = parseInt($(this).val(), 10);
+    const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
+
+    if (cantidadIngresada > cantidadDisponible) {
+      mensaje(
+        "error",
+        2000,
+        "No puedes agregar más de la cantidad disponible en inventario."
+      );
+      $(this).val(cantidadDisponible);
+    }
+  });
+
+  // $("#btnGenerarSalidaMerma").on("click", function () {
+  //   const cantidadMerma = parseInt($("#cantidadMerma").val(), 10);
+  //   const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
+
+  //   if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
+  //     mensaje(
+  //       "error",
+  //       2000,
+  //       "No puedes agregar más de la cantidad disponible en inventario."
+  //     );
+  //     return;
+  //   }
+
+  //   alert("Salida de merma generada con éxito.");
+  // });
+});
 async function cargarLotesPorProducto(id_producto) {
-  function mostrarToast(mensaje, tipo) {
-    const validTypes = ["success", "error", "warning", "info"];
-    const toastClass = validTypes.includes(tipo) ? tipo : "error";
-
-    $("body").toast({
-      class: toastClass,
-      message: mensaje,
-      showProgress: "bottom",
-      displayTime: 3000,
-    });
-  }
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
   try {
@@ -1025,10 +1078,11 @@ async function cargarLotesPorProducto(id_producto) {
     const data = await response.json();
 
     const loteDropdown = document.getElementById("mermaLoteDropdown");
-
     loteDropdown.innerHTML = '<option value="">Seleccionar Lote</option>';
 
     if (data.success && data.response.length > 0) {
+      lotesData = data.response; // Almacena los datos en lotesData
+
       data.response.forEach((lote) => {
         const option = document.createElement("option");
         option.value = lote.ID_LOTE;
@@ -1036,7 +1090,7 @@ async function cargarLotesPorProducto(id_producto) {
         loteDropdown.appendChild(option);
       });
     } else {
-      mostrarToast("No se encontraron lotes para este producto", "warning");
+      // mostrarToast("No se encontraron lotes para este producto", "warning");
     }
   } catch (error) {
     console.error("Hubo un error:", error);
@@ -1057,6 +1111,17 @@ document
   });
 
 async function cargarRazonesMerma() {
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
   try {
     const response = await fetch(
       `${API_BASE_URL}movimientos/obtenerRazonesMerma`,
@@ -1089,11 +1154,11 @@ async function cargarRazonesMerma() {
         razonMermaDropdown.appendChild(option);
       });
     } else {
-      alert("No se encontraron razones de merma");
+      mostrarToast("No se encontraron razones de merma", "warning");
     }
   } catch (error) {
     console.error("Hubo un error:", error);
-    alert("Error al cargar las razones de merma");
+    mostrarToast("Error al cargar las razones de merma", "warning");
   }
 }
 
@@ -1130,7 +1195,6 @@ async function calcularCostoMerma(id_lote, cantidad) {
   }
 }
 
-// Evento onchange en el dropdown de lotes para calcular el costo de merma al seleccionar un lote
 document
   .getElementById("mermaLoteDropdown")
   .addEventListener("change", function () {
@@ -1142,7 +1206,6 @@ document
     }
   });
 
-// Evento para actualizar el costo de merma cuando el usuario cambie la cantidad
 document.getElementById("cantidadMerma").addEventListener("input", function () {
   const id_lote = document.getElementById("mermaLoteDropdown").value;
   const cantidad = this.value;
@@ -1152,10 +1215,65 @@ document.getElementById("cantidadMerma").addEventListener("input", function () {
   }
 });
 
+$(document).ready(function () {
+
+  $("#mermaLoteDropdown").on("change", function () {
+    const selectedLote = $(this).val();
+
+    let cantidadDisponibleLote = 0;
+
+    if (selectedLote) {
+      const loteSeleccionado = data.response.find(
+        (lote) => lote.ID_LOTE == selectedLote
+      );
+      cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
+    }
+
+    $("#cant_total_prod_lote").text(cantidadDisponibleLote);
+  });
+
+  $("#cantidadMerma").on("input", function () {
+    const cantidadIngresada = parseInt($(this).val(), 10);
+    const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
+
+    if (cantidadIngresada > cantidadDisponible) {
+      alert(
+        "La cantidad ingresada no puede ser mayor que la disponibilidad del producto en el lote."
+      );
+      $(this).val(cantidadDisponible);
+    }
+  });
+
+  $("#btnGenerarSalidaMerma").on("click", function () {
+    function mostrarToast(mensaje, tipo) {
+      const validTypes = ["success", "error", "warning", "info"];
+      const toastClass = validTypes.includes(tipo) ? tipo : "error";
+    
+      $("body").toast({
+        class: toastClass,
+        message: mensaje,
+        showProgress: "bottom",
+        displayTime: 3000,
+      });
+    }
+    const cantidadMerma = parseInt($("#cantidadMerma").val(), 10);
+    const cantidadDisponible = parseInt($("#cant_total_prod_lote").text(), 10);
+
+    if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
+      mostrarToast(
+        "Por favor ingrese una cantidad válida que no exceda la disponibilidad del lote.", "warning"
+      );
+      return;
+    }
+
+    mostrarToast("Salida de merma generada con éxito.", "success");
+  });
+});
+
 // Función para obtener el costo de merma desde la tabla productos_merma
 async function obtenerCostoMerma(id_lote, id_producto) {
-  console.log("id_lote en obtenerCostoMerma: ", id_lote);
-  console.log("id_producto en obtenerCostoMerma: ", id_producto);
+  console.log("id_lote en PRECIO_COMPRA: ", id_lote);
+  console.log("id_producto en PRECIO_COMPRA: ", id_producto);
 
   try {
     const response = await fetch(
@@ -1180,15 +1298,15 @@ async function obtenerCostoMerma(id_lote, id_producto) {
     console.log("Datos obtenidos del servidor: ", data);
 
     if (data.success) {
-      const costoMerma = parseFloat(data.COSTO_MERMA);
+      const costoMerma = parseFloat(data.PRECIO_COMPRA);
       if (!isNaN(costoMerma)) {
         const costoFormateado = "$" + Math.floor(costoMerma).toLocaleString();
         document.getElementById("costoMerma").value = costoFormateado;
         console.log("Costo de Merma mostrado: ", costoFormateado);
       } else {
         console.error(
-          "El valor de COSTO_MERMA no es un número válido:",
-          data.COSTO_MERMA
+          "El valor de PRECIO_COMPRA no es un número válido:",
+          data.PRECIO_COMPRA
         );
         document.getElementById("costoMerma").value = "";
       }
@@ -1213,3 +1331,89 @@ document
       console.warn("ID_LOTE o ID_PRODUCTO no seleccionados");
     }
   });
+
+// guardar nueva merma
+async function guardarMerma() {
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
+  // Extraer los valores de los campos del formulario
+  const p_id_lote = document.getElementById("mermaLoteDropdown").value;
+  const p_id_producto = document.getElementById("mermaProductoDropdown").value;
+  const p_cantidad = document.getElementById("cantidadMerma").value;
+  const p_razon = document.getElementById("razonMermaDropdown").value;
+  const p_descripcion = document.getElementById(
+    "descripcionProductoMerma"
+  ).value;
+  const p_costo_merma = document.getElementById("costoMerma").value;
+
+  // Validar que todos los campos obligatorios tienen valor
+  if (
+    !p_id_lote ||
+    !p_id_producto ||
+    !p_cantidad ||
+    !p_razon ||
+    !p_descripcion ||
+    !p_costo_merma
+  ) {
+    mostrarToast("Por favor, complete todos los campos requeridos.", "warning");
+    return;
+  }
+
+  // Crear el objeto con los datos que se enviarán al endpoint
+  const mermaData = {
+    p_id_lote: parseInt(p_id_lote),
+    p_id_producto: parseInt(p_id_producto),
+    p_cantidad: parseInt(p_cantidad),
+    p_razon: parseInt(p_razon),
+    p_descripcion: p_descripcion,
+    p_costo_merma: parseFloat(p_costo_merma),
+  };
+
+  console.log("Datos a enviar:", mermaData);
+
+  try {
+    const response = await fetch(`${API_BASE_URL}movimientos/guardarMerma`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(mermaData),
+    });
+
+    // Verificar si la respuesta fue exitosa
+    if (!response.ok) {
+      throw new Error("Error al guardar la merma: " + response.statusText);
+    }
+
+    // Obtener la respuesta en formato JSON
+    const result = await response.json();
+
+    // Manejar el resultado exitoso
+    if (result.success) {
+      // alert("Merma registrada correctamente.");
+      console.log("Merma registrada correctamente:", result.message);
+      // Aquí podrías cerrar el modal o reiniciar los campos del formulario si lo necesitas
+      $("#modalSalidaMerma").modal("hide"); // Cierra el modal usando jQuery si lo estás usando
+    } else {
+      console.error("Error en la respuesta:", result.error);
+      mostrarToast("Error: " + result.error);
+    }
+  } catch (error) {
+    // Manejo de errores
+    console.error("Ocurrió un error al enviar los datos:", error);
+    mostrarToast("Error al guardar la merma");
+  }
+}
+document.getElementById("btnGenerarSalidaMerma").onclick = function () {
+  guardarMerma();
+};
