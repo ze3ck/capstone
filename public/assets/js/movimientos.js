@@ -1111,6 +1111,17 @@ document
   });
 
 async function cargarRazonesMerma() {
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
   try {
     const response = await fetch(
       `${API_BASE_URL}movimientos/obtenerRazonesMerma`,
@@ -1143,11 +1154,11 @@ async function cargarRazonesMerma() {
         razonMermaDropdown.appendChild(option);
       });
     } else {
-      alert("No se encontraron razones de merma");
+      mostrarToast("No se encontraron razones de merma", "warning");
     }
   } catch (error) {
     console.error("Hubo un error:", error);
-    alert("Error al cargar las razones de merma");
+    mostrarToast("Error al cargar las razones de merma", "warning");
   }
 }
 
@@ -1311,12 +1322,25 @@ document
 
 // guardar nueva merma
 async function guardarMerma() {
+  function mostrarToast(mensaje, tipo) {
+    const validTypes = ["success", "error", "warning", "info"];
+    const toastClass = validTypes.includes(tipo) ? tipo : "error";
+
+    $("body").toast({
+      class: toastClass,
+      message: mensaje,
+      showProgress: "bottom",
+      displayTime: 3000,
+    });
+  }
   // Extraer los valores de los campos del formulario
   const p_id_lote = document.getElementById("mermaLoteDropdown").value;
   const p_id_producto = document.getElementById("mermaProductoDropdown").value;
   const p_cantidad = document.getElementById("cantidadMerma").value;
   const p_razon = document.getElementById("razonMermaDropdown").value;
-  const p_descripcion = document.getElementById("descripcionProductoMerma").value;
+  const p_descripcion = document.getElementById(
+    "descripcionProductoMerma"
+  ).value;
   const p_costo_merma = document.getElementById("costoMerma").value;
 
   // Validar que todos los campos obligatorios tienen valor
@@ -1328,7 +1352,7 @@ async function guardarMerma() {
     !p_descripcion ||
     !p_costo_merma
   ) {
-    alert("Por favor, complete todos los campos requeridos.");
+    mostrarToast("Por favor, complete todos los campos requeridos.", "warning");
     return;
   }
 
@@ -1370,12 +1394,12 @@ async function guardarMerma() {
       $("#modalSalidaMerma").modal("hide"); // Cierra el modal usando jQuery si lo estás usando
     } else {
       console.error("Error en la respuesta:", result.error);
-      alert("Error: " + result.error);
+      mostrarToast("Error: " + result.error);
     }
   } catch (error) {
     // Manejo de errores
     console.error("Ocurrió un error al enviar los datos:", error);
-    alert("Error al guardar la merma: " + error.message);
+    mostrarToast("Error al guardar la merma");
   }
 }
 document.getElementById("btnGenerarSalidaMerma").onclick = function () {
