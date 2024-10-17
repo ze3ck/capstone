@@ -1089,7 +1089,8 @@ async function cargarLotesPorProducto(id_producto) {
       data.response.forEach((lote) => {
         const option = document.createElement("option");
         option.value = lote.ID_LOTE;
-        option.textContent = `Lote ${lote.ID_LOTE} - Expira: ${lote.FECHA_VENCIMIENTO} - Cantidad: ${lote.CANTIDAD}`;
+        option.textContent = `Lote ${lote.ID_LOTE} - Cantidad: ${lote.CANTIDAD}`;
+        // option.textContent = `Lote ${lote.ID_LOTE} - Expira: ${lote.FECHA_VENCIMIENTO} - Cantidad: ${lote.CANTIDAD}`;
         loteDropdown.appendChild(option);
       });
     } else {
@@ -1219,20 +1220,20 @@ document.getElementById("cantidadMerma").addEventListener("input", function () {
 });
 
 $(document).ready(function () {
-  $("#mermaLoteDropdown").on("change", function () {
-    const selectedLote = $(this).val();
+  // $("#mermaLoteDropdown").on("change", function () {
+  //   const selectedLote = $(this).val();
+  //   // const data = response.json();
 
-    let cantidadDisponibleLote = 0;
+  //   let cantidadDisponibleLote = 0;
+  //   if (selectedLote) {
+  //     const loteSeleccionado = data.response.find(
+  //       (lote) => lote.ID_LOTE == selectedLote
+  //     );
+  //     cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
+  //   }
 
-    if (selectedLote) {
-      const loteSeleccionado = data.response.find(
-        (lote) => lote.ID_LOTE == selectedLote
-      );
-      cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
-    }
-
-    $("#cant_total_prod_lote").text(cantidadDisponibleLote);
-  });
+  //   $("#cant_total_prod_lote").text(cantidadDisponibleLote);
+  // });
 
   $("#cantidadMerma").on("input", function () {
     const cantidadIngresada = parseInt($(this).val(), 10);
