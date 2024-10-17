@@ -447,7 +447,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
         <div class="actions">
             <button type="button" class="ui green button" id="btnGenerarSalidaMerma">Generar Salida de Merma</button>
-            <button type="button" class="ui red button">Cancelar</button>
+            <button type="button" class="ui red button" id="btnCancelarMerma">Cancelar</button>
         </div>
     </div>
 

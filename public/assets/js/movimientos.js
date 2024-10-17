@@ -4,14 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
   llenarTablaMovimientos();
   // selectCategoria();
   cargarRazonesMerma();
-});
-
-window.onload = function () {
   selectCategoria();
   selectResponsables();
   selectCatGastoOperacional();
-  // guardarMerma()
-};
+});
+
+// window.onload = function () {
+//   // selectCategoria();
+//   // selectResponsables();
+//   // selectCatGastoOperacional();
+//   // guardarMerma()
+// };
 
 async function selectCategoria() {
   try {
@@ -1216,7 +1219,6 @@ document.getElementById("cantidadMerma").addEventListener("input", function () {
 });
 
 $(document).ready(function () {
-
   $("#mermaLoteDropdown").on("change", function () {
     const selectedLote = $(this).val();
 
@@ -1248,7 +1250,7 @@ $(document).ready(function () {
     function mostrarToast(mensaje, tipo) {
       const validTypes = ["success", "error", "warning", "info"];
       const toastClass = validTypes.includes(tipo) ? tipo : "error";
-    
+
       $("body").toast({
         class: toastClass,
         message: mensaje,
@@ -1261,7 +1263,8 @@ $(document).ready(function () {
 
     if (cantidadMerma > cantidadDisponible || isNaN(cantidadMerma)) {
       mostrarToast(
-        "Por favor ingrese una cantidad válida que no exceda la disponibilidad del lote.", "warning"
+        "Por favor ingrese una cantidad válida que no exceda la disponibilidad del lote.",
+        "warning"
       );
       return;
     }
@@ -1416,4 +1419,21 @@ async function guardarMerma() {
 }
 document.getElementById("btnGenerarSalidaMerma").onclick = function () {
   guardarMerma();
+};
+
+function limpiarFormularioMerma() {
+  $("#mermaProductoDropdown").dropdown("clear");
+  $("#mermaLoteDropdown").dropdown("clear");
+  $("#razonMermaDropdown").dropdown("clear");
+
+  document.getElementById("cantidadMerma").value = "";
+  document.getElementById("descripcionProductoMerma").value = "";
+  document.getElementById("costoMerma").value = "";
+  document.getElementById("cant_total_prod_lote").innerText = "";
+}
+
+document.getElementById("btnCancelarMerma").onclick = function () {
+  limpiarFormularioMerma();
+
+  $("#modalSalidaMerma").modal("hide");
 };
