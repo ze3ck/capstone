@@ -25,7 +25,7 @@ class Inventario extends ResourceController
     try {
     } catch (\Throwable $th) {
       //throw $th;
-    }
+    } 
   }
 
   /**

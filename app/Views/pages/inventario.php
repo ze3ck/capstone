@@ -291,7 +291,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
 
