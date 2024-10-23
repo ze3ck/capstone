@@ -126,7 +126,7 @@ $routes->group(
     $routes->post('movimientos/guardarMerma',                     'Movimientos::guardarMerma');    
     $routes->post('movimientos/GenerarSalida',                    'Movimientos::GenerarSalida');
     $routes->post('movimientos/GuardarDetalleMovimiento',         'Movimientos::GuardarDetalleMovimiento');
-    $routes->post('movimientos/GenerarMovimientoCompleto',         'Movimientos::GenerarMovimientoCompleto');
+    $routes->post('movimientos/GenerarMovimientoCompleto',        'Movimientos::GenerarMovimientoCompleto');
 
     /**
      * RESTful API's: Controllers\API\Inventario-Productos
@@ -140,5 +140,6 @@ $routes->group(
     $routes->post('inventario/nuevoLote',               'Inventario::nuevoLote');
     $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');
     $routes->post('inventario/editarProducto',          'Inventario::editarProducto');
+    $routes->post('inventario/llenarModalEditarProd',   'Inventario::llenarModalEditarProd');
   }
 );

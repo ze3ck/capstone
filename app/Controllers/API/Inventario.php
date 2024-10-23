@@ -25,7 +25,7 @@ class Inventario extends ResourceController
     try {
     } catch (\Throwable $th) {
       //throw $th;
-    } 
+    }
   }
 
   /**
@@ -300,6 +300,7 @@ class Inventario extends ResourceController
 
       $result = $query->getResultArray();
 
+
       /**
        * ID_PRODUCTO,
        * NOMBRE_PRODUCTO,
@@ -344,7 +345,7 @@ class Inventario extends ResourceController
     if ($this->request->getMethod() !== 'GET') {
       return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido.']);
     }
-    
+
     $db = \Config\Database::connect();
 
     try {
@@ -550,6 +551,66 @@ class Inventario extends ResourceController
           return $this->respond([
             'success' => false,
             'message' => 'No se realizaron cambios en el estado del producto.',
+          ], 200);
+        }
+      }
+    } catch (\Exception $e) {
+      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * llenarModalEditarProd()
+   * PR_34_LLENAR_MODAL_EDITAR_PRODUCTO
+   */
+  public function llenarModalEditarProd()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    try {
+      $input = $this->request->getJSON();
+
+      if ($this->request->getMethod() === 'POST') {
+        $db = \Config\Database::connect();
+
+        $query = $db->query(
+          "CALL PR_34_LLENAR_MODAL_EDITAR_PRODUCTO(?)",
+          [
+            $input->P_IDPRODUCTO
+          ]
+        );
+        $result = $query->getResultArray();
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_PRODUCTO"           => $row['ID_PRODUCTO'],
+            "NOMBRE_PRODUCTO"       => $row['NOMBRE_PRODUCTO'],
+            "DESCRIPCION_PRODUCTO"  => $row['DESCRIPCION_PRODUCTO'],
+            "UNIDAD_MEDIDA"         => $row['UNIDAD_MEDIDA'],
+            "ID_PROVEEDOR"          => $row['ID_PROVEEDOR'],
+            "FECHA_VENCIMIENTO"     => $row['FECHA_VENCIMIENTO']
+          ];
+        }
+        // Verificar si se llenó correctamente modal editar
+        if ($db->affectedRows() > 0) {
+          return $this->respond([
+            'success'  => true,
+            'message'  => 'Modal llenado correctamente.',
+            'response' => $response
+          ], 200);
+        } else {
+          // No se llenó el modal
+          return $this->respond([
+            'success' => false,
+            'message' => 'No se pudo llenar correctamente el modal de Editar Productos',
           ], 200);
         }
       }
