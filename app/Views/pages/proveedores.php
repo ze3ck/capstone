@@ -115,6 +115,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th>CONTACTO</th>
                         <th>TELEFONO CONTACTO</th>
                         <th>EMAIL CONTACTO</th>
+                        <th>CALLE</th>
+                        <th>NUMERO</th>
+                        <th>CIUDAD</th>
                         <th>ESTADO</th>
                         <th>ACCION</th>
                     </tr>
