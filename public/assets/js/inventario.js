@@ -36,18 +36,28 @@ document.addEventListener("DOMContentLoaded", function () {
       const unidadMedida = row.cells[3].textContent.trim();
       const totalCantidad = row.cells[4].textContent.trim();
       const precioVenta = row.cells[5].textContent.trim();
-      const proveedor = row.cells[6].textContent.trim();
+      const proveedorNombre = row.cells[6].textContent.trim(); // Nombre del proveedor
       const fechaCompra = row.cells[7].textContent.trim();
 
+      const proveedorDropdown = document.getElementById("proveedorEditField");
+
+      // Asigna el resto de los valores al modal
       document.getElementById("idProductoEdit").value = idProducto;
       document.getElementById("nombreProductoEdit").value = nombreProducto;
       document.getElementById("descripcionProductoEdit").value = descripcionProducto;
       document.getElementById("unidadMedidaEdit").value = unidadMedida;
       document.getElementById("totalCantidadEdit").value = totalCantidad;
       document.getElementById("precioVentaEdit").value = precioVenta;
-      document.getElementById("proveedorEditField").value = proveedor;
       document.getElementById("fechaCompraEdit").value = fechaCompra;
 
+      console.log("HTML de la celda del cantidad:", totalCantidad);
+      for (let i = 0; i < proveedorDropdown.options.length; i++) {
+        if (proveedorDropdown.options[i].text === proveedorNombre) {
+          proveedorDropdown.selectedIndex = i;  // Seleccionar la opción que coincide con el nombre del proveedor
+          break;
+        }
+      }
+      // Mostrar el modal de edición
       $("#editModal").modal("show");
     }
   });
@@ -98,7 +108,7 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
-  if(fechaVencValue == ""){
+  if (fechaVencValue == "") {
     fechaVencValue = "9999-01-01";
   }
 
@@ -241,7 +251,7 @@ async function agregarNuevoLote() {
   const productoDropdown = document.getElementById("productoDropdown");
   const idProductoValue = productoDropdown.value
 
-  if(fechaVencValue == ""){
+  if (fechaVencValue == "") {
     fechaVencValue = "9999-01-01";
   }
 
@@ -271,7 +281,7 @@ async function agregarNuevoLote() {
         // cantidadValue,
         // precioCompValue,
         // precioVentaValue
-        );
+      );
       const response = await fetch(
         `${API_BASE_URL}inventario/nuevoLote`,
         {
@@ -379,7 +389,7 @@ async function editarProducto() {
   console.log(precioCompraValue);
   console.log(precioVentaValue);
 
-  if(fechaVencimientoValue == ""){
+  if (fechaVencimientoValue == "") {
     fechaVencimientoValue = "9999-01-01";
   }
   if (!cantidadValue || cantidadValue <= 0 ||
@@ -431,13 +441,13 @@ async function editarProducto() {
           `Error al editar el producto. Estado: ${response.status}`
         );
       }
-  
+
       // Verificar si el contenido es JSON y procesarlo
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
         console.log("Producto editado con éxito:", data);
-  
+
         // Mostrar mensaje de éxito con toast
         $("body").toast({
           message: "Se ha editado el producto exitosamente",
@@ -455,7 +465,7 @@ async function editarProducto() {
         });
         // Limpiar los campos del formulario
         limpiarFormulario();
-  
+
         // Cerrar el modal
         $("#editModal").modal("hide");
       }
@@ -538,6 +548,7 @@ async function selectProveedores() {
       var opt = document.createElement("option");
       opt.value = opcion.ID_PROVEEDOR;
       opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
+      console.log("ID_PROVEEDOR:", opcion.ID_PROVEEDOR, "NOMBRE_PROVEEDOR:", opcion.NOMBRE_PROVEEDOR); // Depuración
       dropdownEdit.appendChild(opt);
     });
   } catch (error) {
@@ -881,7 +892,7 @@ $(document).ready(function () {
       } else {
         $(this).hide(); // Oculta la fila si no coincide
       }
-    }); 
+    });
   });
 
   async function llenarTablaProductos() {
@@ -934,7 +945,7 @@ $(document).ready(function () {
             <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
             <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
             <td class="center aligned">${producto.PRECIO_VENTA}</td>
-            <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+            <td class="center aligned" data-id="${producto.ID_PROVEEDOR}">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">
                 <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
@@ -946,6 +957,7 @@ $(document).ready(function () {
                 </select>
             </td>
         `;
+        console.log("ID_PROVEEDOR en la tabla:", producto.ID_PROVEEDOR);
 
         // Agregar botón de edición si el rol del usuario es "1"
         if (userRol === "1") {
