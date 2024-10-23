@@ -90,4 +90,18 @@ class Home extends BaseController
     {
         return view('pages/logut');
     }
+
+    /**
+     * Proveedores
+     */
+    public function proveedores()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+
+        return view('pages/proveedores');
+    }
 }

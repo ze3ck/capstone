@@ -41,6 +41,11 @@ $routes->get('movimientos',   'Home::movimientos');
 $routes->post('reportes', 'Home::reportes');
 $routes->get('reportes',  'Home::reportes');
 
+// proveedores
+$routes->post('proveedores', 'Home::proveedores');
+$routes->get('proveedores',  'Home::proveedores');
+
+
 // session controller modal
 $routes->get('sessioncontroller/getSessionTime', 'SessionController::getSessionTime');
 $routes->get('sessioncontroller/updateLastActivity', 'SessionController::updateLastActivity');
@@ -72,6 +77,13 @@ $routes->group(
       return response()->setStatusCode(204);
     });
     $routes->options('movimientos/(:any)', function () {
+      return response()->setStatusCode(204);
+    });
+
+    $routes->options('proveedores', function () {
+      return response()->setStatusCode(204);
+    });
+    $routes->options('proveedores/(:any)', function () {
       return response()->setStatusCode(204);
     });
 
