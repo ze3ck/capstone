@@ -66,7 +66,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <div class="default text">Proveedor</div>
                     <div class="menu">
                         <div class="item" data-value="1"></i>Prov 1</div>
-                        <div class="item" data-value="2"></i>Prov 2</div>
+
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ namespace App\Controllers\API;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Productos extends ResourceController
+class Proveedores extends ResourceController
 {
 
   /**
@@ -47,7 +47,7 @@ class Productos extends ResourceController
 
         // Verificar si hay resultados
         if (empty($result)) {
-          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron movimientos para este usuario.']);
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron proveedores para este usuario.']);
         }
 
         // Procesar los resultados

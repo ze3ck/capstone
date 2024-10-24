@@ -146,7 +146,7 @@ $routes->group(
     /**
      * RESTful API's: Controllers\API\Proveedores
      */
-    $routes->post('proveedores/selectProveedor',      'Porveedores::selectProveedor');
+    $routes->post('proveedores/selectProveedor',      'Proveedores::selectProveedor');
     $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
 
 
