@@ -162,8 +162,6 @@ function agregarProveedoresATabla(proveedores) {
   proveedores.forEach((proveedor) => {
     let fila = document.createElement("tr");
 
-    let estadoTexto = proveedor.ID_ESTADO === "1" ? "ACTIVO" : "INACTIVO";
-
     fila.innerHTML = `
             <td class="center aligned">${proveedor.ID_PROVEEDOR}</td>
             <td class="center aligned">${proveedor.NOMBRE_PROVEEDOR}</td>
