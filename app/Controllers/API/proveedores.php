@@ -4,9 +4,10 @@ namespace App\Controllers\API;
 
 use CodeIgniter\RESTful\ResourceController;
 
-class Productos extends ResourceController {
+class Productos extends ResourceController
+{
 
-/**
+  /**
    * llenadoMovimiento()
    * PR_16_SELECT_PROVEEDORES
    */
@@ -74,6 +75,11 @@ class Productos extends ResourceController {
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
 
-
-
+  /**
+   * llenadoTablaProv()
+   * PR_33_LLENADO_TABLA_PROVEEDORES
+   */
+  public function llenadoTablaProv() {
+    
+  }
 }

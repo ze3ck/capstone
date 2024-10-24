@@ -123,7 +123,7 @@ $routes->group(
     $routes->get('movimientos/obtenerRazonesMerma',               'Movimientos::obtenerRazonesMerma');
     $routes->post('movimientos/obtenerPrecioCompraLote',          'Movimientos::obtenerPrecioCompraLote');
     $routes->post('movimientos/obtenerCostoMerma',                'Movimientos::obtenerCostoMerma');
-    $routes->post('movimientos/guardarMerma',                     'Movimientos::guardarMerma');    
+    $routes->post('movimientos/guardarMerma',                     'Movimientos::guardarMerma');
     $routes->post('movimientos/GenerarSalida',                    'Movimientos::GenerarSalida');
     $routes->post('movimientos/GuardarDetalleMovimiento',         'Movimientos::GuardarDetalleMovimiento');
     $routes->post('movimientos/GenerarMovimientoCompleto',        'Movimientos::GenerarMovimientoCompleto');
@@ -141,5 +141,14 @@ $routes->group(
     $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');
     $routes->post('inventario/editarProducto',          'Inventario::editarProducto');
     $routes->post('inventario/llenarModalEditarProd',   'Inventario::llenarModalEditarProd');
+
+
+    /**
+     * RESTful API's: Controllers\API\Proveedores
+     */
+    $routes->post('proveedores/selectProveedor',      'Porveedores::selectProveedor');
+    $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
+
+
   }
 );
