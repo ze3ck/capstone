@@ -206,16 +206,13 @@ function agregarProveedoresATabla(proveedores) {
 /**
  * actualizarEstadoProveedor
  */
-
-// Controlador para cambiar el estado de un proveedor
 async function actualizarEstadoProveedor(dropdown) {
   const proveedorId = dropdown.getAttribute("data-proveedor-id");
   const nuevoEstado = dropdown.value;
 
-  // Hacemos el console.log para verificar que los datos son correctos
   console.log({
-    P_IDPROVEEDOR: proveedorId, // Cambiado para que coincida con el controlador
-    P_IDESTADO: nuevoEstado, // Cambiado para que coincida con el controlador
+    P_IDPROVEEDOR: proveedorId,
+    P_IDESTADO: nuevoEstado,
   });
 
   try {
@@ -227,31 +224,27 @@ async function actualizarEstadoProveedor(dropdown) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          P_IDPROVEEDOR: proveedorId, // Enviar ID del proveedor
-          P_IDESTADO: nuevoEstado, // Enviar el nuevo estado
+          P_IDPROVEEDOR: proveedorId,
+          P_IDESTADO: nuevoEstado,
         }),
       }
     );
 
-    // Verifica si la respuesta no fue exitosa (status >= 400)
     if (!response.ok) {
       throw new Error(
         `Error al cambiar el estado del proveedor. Estado: ${response.status}`
       );
     }
 
-    // Procesamos el cuerpo de la respuesta en formato JSON
     const data = await response.json();
     console.log("Estado del proveedor actualizado exitosamente:", data);
 
-    // Muestra un mensaje de éxito si todo salió bien
     $("body").toast({
       message: "El estado del proveedor se ha actualizado correctamente.",
       class: "success",
       displayTime: 3000,
     });
   } catch (error) {
-    // Si ocurre algún error, lo mostramos en la consola y como toast
     console.error("Error al actualizar el estado del proveedor:", error);
 
     $("body").toast({
