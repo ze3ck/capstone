@@ -1,73 +1,67 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-    $('#selectProveedor')
-        .dropdown();
-    $('#selectEstado')
-        .dropdown();
-    $('#selectContacto')
-        .dropdown();
+  $("#selectProveedor").dropdown();
+  $("#selectEstado").dropdown();
+  $("#selectContacto").dropdown();
 
-    selectProveedor();
-    selectContacto();
-    
-    // LIMPIAR FILTROS
-    $('#btnLimpiarfiltros').click(function() {
-        $('#selectProveedor').dropdown('clear');
-        $('#selectEstado').dropdown('clear');
-        $('#selectContacto').dropdown('clear');
-    });
+  selectProveedor();
+  selectContacto();
+
+  // LIMPIAR FILTROS
+  $("#btnLimpiarfiltros").click(function () {
+    $("#selectProveedor").dropdown("clear");
+    $("#selectEstado").dropdown("clear");
+    $("#selectContacto").dropdown("clear");
+  });
 
   llenadoTablaProv();
 });
 
-
-
 async function selectContacto() {
-    let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-    // console.log(id_usuario)
-    const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-            P_IDUSUARIO: id_usuario,
-        }),
-    });
-    if (!response.ok) {
-        throw new Error("Error al obtener CONTACTOS");
+  let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+  // console.log(id_usuario)
+  const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      P_IDUSUARIO: id_usuario,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error("Error al obtener CONTACTOS");
+  }
+
+  const data = await response.json();
+
+  if (data.success) {
+    // console.log(data)
+    // Obtener el menú dentro del dropdown
+    let menu = document.querySelector("#selectContacto .menu");
+    // Limpiar los items existentes
+    menu.innerHTML = "";
+
+    for (let x of data.response) {
+      // console.log(x.ID_PROVEEDOR);
+      // console.log(x.NOMBRE_PROVEEDOR);
+      // Crear un nuevo elemento div con clase 'item'
+      let item = document.createElement("div");
+      item.className = "item";
+      item.dataset.value = x.NOMBRE_CONTACTO; // Asignar el valor del data-value
+      item.textContent = x.NOMBRE_CONTACTO; // Asignar el texto que se mostrará
+      // Agregar el nuevo item al menú
+      menu.appendChild(item);
     }
 
-    const data = await response.json();
-
-    if (data.success) {
-        // console.log(data)
-        // Obtener el menú dentro del dropdown
-        let menu = document.querySelector('#selectContacto .menu');
-        // Limpiar los items existentes
-        menu.innerHTML = '';
-
-        for (let x of data.response) {
-            // console.log(x.ID_PROVEEDOR);
-            // console.log(x.NOMBRE_PROVEEDOR);
-            // Crear un nuevo elemento div con clase 'item'
-            let item = document.createElement('div');
-            item.className = 'item';
-            item.dataset.value = x.NOMBRE_CONTACTO; // Asignar el valor del data-value
-            item.textContent = x.NOMBRE_CONTACTO; // Asignar el texto que se mostrará
-            // Agregar el nuevo item al menú
-            menu.appendChild(item);
-        }
-
-        // Refrescar el dropdown para que Fomantic UI reconozca los nuevos items
-        $('#selectContacto').dropdown('refresh');
-    } else {
-        console.error("Error al obtener proveedores");
-    }
+    // Refrescar el dropdown para que Fomantic UI reconozca los nuevos items
+    $("#selectContacto").dropdown("refresh");
+  } else {
+    console.error("Error al obtener proveedores");
+  }
 }
-
 
 async function selectProveedor() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
@@ -163,13 +157,11 @@ function agregarProveedoresATabla(proveedores) {
   const tblBody = document
     .getElementById("tblProveedores")
     .querySelector("tbody");
-  tblBody.innerHTML = ""; 
+  tblBody.innerHTML = "";
 
   proveedores.forEach((proveedor) => {
     let fila = document.createElement("tr");
-
-    let estadoTexto = proveedor.ID_ESTADO === "1" ? "ACTIVO" : "INACTIVO";
-
+    let estadoTexto = proveedor.ID_ESTADO === '1' ? 'ACTIVO' : 'INACTIVO';
     fila.innerHTML = `
             <td class="center aligned">${proveedor.ID_PROVEEDOR}</td>
             <td class="center aligned">${proveedor.NOMBRE_PROVEEDOR}</td>
@@ -180,8 +172,12 @@ function agregarProveedoresATabla(proveedores) {
             <td class="center aligned">${proveedor.NUMERO}</td>
             <td class="center aligned">${proveedor.NOMBRE_CIUDAD}</td>
             <td class="center aligned">${estadoTexto}</td>
-            <td class="center aligned">
-                <button class="ui button" onclick="accionProveedor(${proveedor.ID_PROVEEDOR})">aaa</button>
+            <td class="center aligned actions-column">
+                <div class="ui icon buttons">
+                    <button class="ui icon button editarProductoBtn" onclick="accionProveedor"(${proveedor.ID_PROVEEDOR})" title="Editar">
+                        <i class="fas fa-edit" style="color: blue;"></i>
+                    </button>
+                </div>
             </td>
         `;
 

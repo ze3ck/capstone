@@ -144,7 +144,8 @@ class Proveedores extends ResourceController
       }
     }
   }
-/**
+
+  /**
    * llenadoTablaProv()
    * PR_35_SELECT_CONTACTO
    */
