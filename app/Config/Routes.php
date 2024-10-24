@@ -3,6 +3,7 @@
 use App\Controllers\API\Usuarios;
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\API\Inventario;
+use App\Controllers\API\Proveedores;
 
 /**
  * @var RouteCollection $routes
@@ -88,7 +89,6 @@ $routes->group(
     });
 
 
-
     /**
      * RESTful API's: others
      */
@@ -148,7 +148,5 @@ $routes->group(
      */
     $routes->post('proveedores/selectProveedor',      'Proveedores::selectProveedor');
     $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
-
-
   }
 );
