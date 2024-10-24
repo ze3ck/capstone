@@ -77,13 +77,13 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <div class="default text">Contacto</div>
                     <div class="menu">
                         <div class="item" data-value="af">
-                            << /i>Juan
+                            Juan
                         </div>
                         <div class="item" data-value="ax">
-                            << /i>Pedro
+                            Pedro
                         </div>
                         <div class="item" data-value="al">
-                            << /i>Elenaor
+                            Elenaor
                         </div>
                     </div>
                 </div>
@@ -133,6 +133,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 
     <!-- Fin Contenido -->
+    <span id="ID_USUARIO" style="display:none">
+    <?php echo $_SESSION['user_id'] ?></span>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script>
@@ -142,10 +144,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
-    <script>
-        $('#selectProveedor')
-            .dropdown();
-    </script>
+    <script type="module" src="/assets/js/proveedores.js"></script>
 </body>
 
 </html>

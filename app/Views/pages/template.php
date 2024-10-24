@@ -58,6 +58,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 
         <!-- Fin Contenido -->
+        <span id="ID_USUARIO" style="display:none">
+        <?php echo $_SESSION['user_id'] ?></span>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script>
