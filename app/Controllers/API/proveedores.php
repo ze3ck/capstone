@@ -9,7 +9,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectProveedor()
-   * PR_16_SELECT_PROVEEDORES
+   * PR_37_SELECT_PRODUCTOS_FILTRO
    */
   public function selectProveedor()
   {
@@ -40,7 +40,7 @@ class Proveedores extends ResourceController
         $db = \Config\Database::connect();
 
         // Ejecutar el procedimiento almacenado con el ID del usuario
-        $query = $db->query("CALL PR_16_SELECT_PROVEEDORES(?)", [$P_IDUSUARIO]);
+        $query = $db->query("CALL PR_37_SELECT_PRODUCTOS_FILTRO(?)", [$P_IDUSUARIO]);
 
         // Obtener los resultados como un array
         $result = $query->getResultArray();
@@ -209,6 +209,4 @@ class Proveedores extends ResourceController
     // Si el método no es POST, devolver error 405
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
-
-
 }
