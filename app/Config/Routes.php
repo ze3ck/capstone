@@ -148,5 +148,6 @@ $routes->group(
      */
     $routes->post('proveedores/selectProveedor',      'Proveedores::selectProveedor');
     $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
+    $routes->post('proveedores/selectContacto',     'Proveedores::selectContacto');
   }
 );
