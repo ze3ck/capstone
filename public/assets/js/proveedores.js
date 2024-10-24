@@ -161,7 +161,7 @@ function agregarProveedoresATabla(proveedores) {
 
   proveedores.forEach((proveedor) => {
     let fila = document.createElement("tr");
-
+    let estadoTexto = proveedor.ID_ESTADO === '1' ? 'ACTIVO' : 'INACTIVO';
     fila.innerHTML = `
             <td class="center aligned">${proveedor.ID_PROVEEDOR}</td>
             <td class="center aligned">${proveedor.NOMBRE_PROVEEDOR}</td>
@@ -174,7 +174,7 @@ function agregarProveedoresATabla(proveedores) {
             <td class="center aligned">${estadoTexto}</td>
             <td class="center aligned actions-column">
                 <div class="ui icon buttons">
-                    <button class="ui button" onclick="accionProveedor(${proveedor.ID_PROVEEDOR})" title="Editar">
+                    <button class="ui icon button editarProductoBtn" onclick="accionProveedor"(${proveedor.ID_PROVEEDOR})" title="Editar">
                         <i class="fas fa-edit" style="color: blue;"></i>
                     </button>
                 </div>
