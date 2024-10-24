@@ -382,8 +382,6 @@ async function editarProducto() {
   // if(fechaVencimientoValue == ""){
   //   fechaVencimientoValue = "9999-01-01";
   // }
-
-  console.log(fechaVencimientoValue)
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompraValue || precioCompraValue <= 0 ||
     !precioVentaValue || precioVentaValue <= 0) {
