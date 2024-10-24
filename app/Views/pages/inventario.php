@@ -351,8 +351,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th class="center aligned">Unidad de Medida</th>
                         <th class="center aligned">Total Cantidad</th>
                         <th class="center aligned">Precio Venta</th>
-                        <th class="center aligned">Nombre Proveedor</th>
+                        <th class="center aligned">Precio Compra</th>
                         <th class="center aligned">Fecha Compra</th>
+                        <th class="center aligned">Fecha Vencimiento</th>
+                        <th class="center aligned">Nombre Proveedor</th>
                         <th class="center aligned">Estado</th>
                         <?php if (session('rol') == 1): ?>
                             <th class="center aligned wide actions-column">Acciones</th>

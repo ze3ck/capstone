@@ -36,8 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const unidadMedida = row.cells[3].textContent.trim();
       const totalCantidad = row.cells[4].textContent.trim();
       const precioVenta = row.cells[5].textContent.trim();
-      const proveedorNombre = row.cells[6].textContent.trim(); // Nombre del proveedor
-      const fechaCompra = row.cells[7].textContent.trim();
+      const precioCompra = row.cells[6].textContent.trim();
+      const proveedorNombre = row.cells[7].textContent.trim(); // Nombre del proveedor
+      const fechaCompra = row.cells[8].textContent.trim();
+      const fechaVencimiento = row.cells[9].textContent.trim();
+      if(fechaVencimiento == undefined){
+        fechaVencimiento = "0000-00-00"
+      }
 
       const unidadDropdown = document.getElementById("unidadMedidaEdit");
       const proveedorDropdown = document.getElementById("proveedorEditField");
@@ -46,21 +51,22 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("idProductoEdit").value = idProducto;
       document.getElementById("nombreProductoEdit").value = nombreProducto;
       document.getElementById("descripcionProductoEdit").value = descripcionProducto;
-      //document.getElementById("unidadMedidaEdit").value = unidadMedida;
       document.getElementById("totalCantidadEdit").value = totalCantidad;
       document.getElementById("precioVentaEdit").value = precioVenta;
+      document.getElementById("precioCompraEdit").value = precioCompra;
       document.getElementById("fechaCompraEdit").value = fechaCompra;
+      document.getElementById("fechaVencimientoEdit").value = fechaVencimiento;
 
       for (let i = 0; i < proveedorDropdown.options.length; i++) {
         if (proveedorDropdown.options[i].text === proveedorNombre) {
-          proveedorDropdown.selectedIndex = i;  // Seleccionar la opción que coincide con el nombre del proveedor
+          proveedorDropdown.selectedIndex = i;
           break;
         }
       }
 
       for (let i = 0; i < unidadDropdown.options.length; i++) {
         if (unidadDropdown.options[i].text === unidadMedida) {
-          unidadDropdown.selectedIndex = i;  // Seleccionar la opción que coincide con el nombre del proveedor
+          unidadDropdown.selectedIndex = i;
           break;
         }
       }
@@ -115,8 +121,8 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
-  if (fechaVencValue == "") {
-    fechaVencValue = "9999-01-01";
+  if (fechaVencValue == "No Aplica") {
+    fechaVencValue = '9999-01-01';
   }
 
   if (!cantidadValue || cantidadValue <= 0 ||
@@ -949,11 +955,13 @@ $(document).ready(function () {
             <td class="center aligned">${producto.ID_PRODUCTO}</td>
             <td class="center aligned">${producto.NOMBRE_PRODUCTO}</td>
             <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
-            <td class="center aligned">${producto.DESCRIPCION_UNIDAD}</td>
+            <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
             <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
             <td class="center aligned">${producto.PRECIO_VENTA}</td>
-            <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
+            <td class="center aligned">${producto.PRECIO_COMPRA}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
+            <td class="center aligned">${producto.FECHA_VENCIMIENTO && producto.FECHA_VENCIMIENTO !== "9999-01-01" ? producto.FECHA_VENCIMIENTO : "No Aplica"}
+            <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">
                 <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
           }">
@@ -964,8 +972,6 @@ $(document).ready(function () {
                 </select>
             </td>
         `;
-        console.log("ID_PROVEEDOR en la tabla:", producto.ID_PROVEEDOR);
-
         // Agregar botón de edición si el rol del usuario es "1"
         if (userRol === "1") {
           filaHTML += `
