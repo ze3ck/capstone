@@ -144,7 +144,8 @@ class Proveedores extends ResourceController
       }
     }
   }
-/**
+
+  /**
    * llenadoTablaProv()
    * PR_35_SELECT_CONTACTO
    */
@@ -209,6 +210,4 @@ class Proveedores extends ResourceController
     // Si el método no es POST, devolver error 405
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
-
-
 }
