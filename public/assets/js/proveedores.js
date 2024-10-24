@@ -52,28 +52,76 @@ async function selectProveedor() {
   }
 }
 
+/**
+ * proveedores/llenadoTablaProv
+ * llenadoTablaProv()
+ */
 async function llenadoTablaProv() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
   console.log(id_usuario);
-  const response = await fetch(`${API_BASE_URL}proveedores/llenadoTablaProv`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      P_IDUSUARIO: id_usuario,
-    }),
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}proveedores/llenadoTablaProv`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          P_IDUSUARIO: id_usuario,
+        }),
+      }
+    );
+
+    // console.log(response);
+
+    if (!response.ok) {
+      const errorMessage = `Error: ${response.status} ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+
+    if (data.success && Array.isArray(data.response)) {
+      console.log("Datos obtenidos del servidor: ", data.response);
+      agregarProveedoresATabla(data.response);
+    } else {
+      console.error(
+        "Error al obtener proveedores o el formato no es correcto",
+        data
+      );
+    }
+  } catch (error) {
+    console.error("Ocurrió un error:", error);
+  }
+}
+
+function agregarProveedoresATabla(proveedores) {
+  const tblBody = document
+    .getElementById("tblProveedores")
+    .querySelector("tbody");
+  tblBody.innerHTML = "";
+
+  proveedores.forEach((proveedor) => {
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+            <td class="center aligned">${proveedor.ID_PROVEEDOR}</td>
+            <td class="center aligned">${proveedor.NOMBRE_PROVEEDOR}</td>
+            <td class="center aligned">${proveedor.NOMBRE_CONTACTO}</td>
+            <td class="center aligned">${proveedor.TELEFONO_CONTACTO}</td>
+            <td class="center aligned">${proveedor.EMAIL_CONTACTO}</td>
+            <td class="center aligned">${proveedor.CALLE}</td>
+            <td class="center aligned">${proveedor.NUMERO}</td>
+            <td class="center aligned">${proveedor.NOMBRE_CIUDAD}</td>
+            <td class="center aligned">${proveedor.ID_ESTADO}</td>
+            <td class="center aligned">
+                <button class="ui button" onclick="accionProveedor(${proveedor.ID_PROVEEDOR})">aaa</button>
+            </td>
+        `;
+
+    tblBody.appendChild(fila);
   });
-  if (!response.ok) {
-    throw new Error("Error al obtener proveedores");
-  }
-
-  const data = await response.json();
-
-  if (data.success) {
-    console.log("Datos obtenidos del servidor: ", data);
-  } else {
-    console.error("Error al obtener proveedores");
-  }
 }
