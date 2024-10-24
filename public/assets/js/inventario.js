@@ -37,9 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const totalCantidad = row.cells[4].textContent.trim();
       const precioVenta = row.cells[5].textContent.trim();
       const precioCompra = row.cells[6].textContent.trim();
-      const proveedorNombre = row.cells[7].textContent.trim(); // Nombre del proveedor
-      const fechaCompra = row.cells[8].textContent.trim();
-      const fechaVencimiento = row.cells[9].textContent.trim();
+      const fechaCompra = row.cells[7].textContent.trim();
+      const fechaVencimiento = row.cells[8].textContent.trim();
+      const proveedorNombre = row.cells[9].textContent.trim(); // Nombre del proveedor
       if(fechaVencimiento == undefined){
         fechaVencimiento = "0000-00-00"
       }
