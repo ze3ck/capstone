@@ -8,14 +8,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .dropdown();
     $('#selectContacto')
         .dropdown();
-
     selectProveedor();
+
 
 });
 
+
+
 async function selectProveedor() {
-    id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-    const response = await fetch(`${API_BASE_URL}usuarios/selectProveedor`, {
+    let id_usuario = document.getElementById("ID_USUARIO").innerHTML;
+    const response = await fetch(`${API_BASE_URL}proveedores/selectProveedor`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -26,7 +28,7 @@ async function selectProveedor() {
         }),
     });
     if (!response.ok) {
-        throw new Error("Error al obtener el costo de merma");
+        throw new Error("Error al obtener proveedores");
     }
 
     const data = await response.json();
@@ -35,7 +37,7 @@ async function selectProveedor() {
         console.log("Datos obtenidos del servidor: ", data);
 
     } else {
-        console.error("Error al obtener el costo de merma");
+        console.error("Error al obtener proveedores");
     }
 
 }

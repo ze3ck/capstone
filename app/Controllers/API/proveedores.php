@@ -8,7 +8,7 @@ class Productos extends ResourceController {
 
 /**
    * llenadoMovimiento()
-   * PR_10_LLENADO_MOVIMIENTOS
+   * PR_16_SELECT_PROVEEDORES
    */
   public function selectProveedor()
   {
