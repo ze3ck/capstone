@@ -105,7 +105,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
         <div class="ui grid">
-            <table class="ui striped table" style="margin: 2%;" id="tblProveedores">
+            <table class="ui striped celled table" style="margin: 2%;" id="tblProveedores">
                 <thead>
                     <tr class="center aligned">
                         <th>ID</th>
@@ -120,8 +120,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th>ACCION</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody id="tblProveedores_body">
+                <tbody id="tblProveedores_body">
+                </tbody>
             </table>
         </div>
     </div>
