@@ -210,4 +210,52 @@ class Proveedores extends ResourceController
     // Si el método no es POST, devolver error 405
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
+
+  /**
+   * actualizarEstadoProv()
+   * PR_36_ACTUALIZAR_ESTADO_PROVEEDOR
+   */
+  public function actualizarEstadoProv()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    try {
+      $input = $this->request->getJSON();
+
+      if ($this->request->getMethod() === 'POST') {
+        $db = \Config\Database::connect();
+
+        $query = $db->query(
+          "CALL PR_36_ACTUALIZAR_ESTADO_PROVEEDOR(?, ?)",
+          [
+            $input->P_IDPROVEEDOR,
+            $input->P_IDESTADO
+          ]
+        );
+
+        // Verificar si se afectó alguna fila
+        if ($db->affectedRows() > 0) {
+          return $this->respond([
+            'success' => true,
+            'message' => 'Estado del proveedor actualizado correctamente.',
+          ], 200);
+        } else {
+          // No se realizaron cambios
+          return $this->respond([
+            'success' => false,
+            'message' => 'No se realizaron cambios en el estado del proveedor.',
+          ], 200);
+        }
+      }
+    } catch (\Exception $e) {
+      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+    }
+  }
 }
