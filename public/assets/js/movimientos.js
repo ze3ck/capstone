@@ -1465,7 +1465,7 @@ document
     if (id_lote && id_producto) {
       obtenerCostoMerma(id_lote, id_producto);
     } else {
-      console.warn("ID_LOTE o ID_PRODUCTO no seleccionados");
+      console.log("error mermaLoteDropdown")
     }
   });
 
