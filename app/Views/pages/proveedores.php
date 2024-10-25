@@ -126,6 +126,46 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
+    <!-- MODAL NUEVO PROVEEDOR -->
+    <div class="ui tiny modal" id="modalNuevoProveedor">
+        <div class="header">
+            <h2>Nuevo Proveedor</h2>
+        </div>
+        <div class="content">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="sixteen wide column center aligned">
+                        <label>DATOS</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre del Proveedor">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="contacto" id="contacto" placeholder="Nombre del Contacto">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="telefono" id="telefono" placeholder="Teléfono del Contacto">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="email" name="email" id="email" placeholder="Email del Contacto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -143,6 +183,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/proveedores.js"></script>
+    <script>
+        $('#modalNuevoProveedor')
+            .modal('show');
+    </script>
 </body>
 
 </html>
