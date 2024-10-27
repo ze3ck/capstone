@@ -93,11 +93,13 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <i class="dropdown icon"></i>
                     <div class="default text">Estado</div>
                     <div class="menu">
+                        <div class="item" data-value="">Todos</div>
                         <div class="item" data-value="1">ACTIVO</div>
                         <div class="item" data-value="2">INACTIVO</div>
                     </div>
                 </div>
             </div>
+
             <div class="three wide column">
                 <button class="ui blue button" id="btnLimpiarfiltros">Limpiar Filtros</button>
             </div>
