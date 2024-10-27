@@ -13,7 +13,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OptiFlow | Perfil</title>
+    <title>OptiFlow | Proveedores</title>
     <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -22,6 +22,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
+
     <!-- sessionControllerModal.php -->
     <?= $this->include('components/sessionControllerModal') ?>
     <!-- sessionControllerModal.php -->
@@ -92,16 +93,18 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <i class="dropdown icon"></i>
                     <div class="default text">Estado</div>
                     <div class="menu">
+                        <div class="item" data-value="">Todos</div>
                         <div class="item" data-value="1">ACTIVO</div>
                         <div class="item" data-value="2">INACTIVO</div>
                     </div>
                 </div>
             </div>
+
             <div class="three wide column">
                 <button class="ui blue button" id="btnLimpiarfiltros">Limpiar Filtros</button>
             </div>
             <div class="three wide column">
-                <button class="ui green button">Nuevo Proveedor</button>
+                <button class="ui green button" id="btnNuevoProveedor">Nuevo Proveedor</button>
             </div>
         </div>
         <div class="ui grid">
@@ -126,8 +129,105 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
+    <!-- MODAL NUEVO PROVEEDOR -->
+    <div class="ui tiny modal" id="modalNuevoProveedor">
+        <div class="header">
+            Nuevo Proveedor
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <h4>Datos del Proveedor</h4>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre del Proveedor</label>
+                        <input type="text" name="nombre" id="nombreProveedor" placeholder="Nombre del Proveedor" required>
+                    </div>
+                    <div class="field">
+                        <label>Nombre del Contacto</label>
+                        <input type="text" name="contacto" id="nombreContacto" placeholder="Nombre del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Teléfono del Contacto</label>
+                        <input type="text" name="telefono" id="telefonoContacto" placeholder="Teléfono del Contacto" required>
+                    </div>
+                    <div class="field">
+                        <label>Email del Contacto</label>
+                        <input type="email" name="email" id="emailContacto" placeholder="Email del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre de la Calle</label>
+                        <input type="text" name="calle" id="nombreCalle" placeholder="Nombre de la Calle" required>
+                    </div>
+                    <div class="field">
+                        <label>Número de la Calle</label>
+                        <input type="text" name="numeroCalle" id="numeroCalle" placeholder="Número de la Calle" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Ciudad</label>
+                    <input type="text" name="ciudad" id="ciudadProveedor" placeholder="Ciudad" required>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="ui green button" id="guardarProveedor">Guardar</button>
+            <button class="ui red cancel button">Cancelar</button>
+        </div>
+    </div>
 
-
+    <!-- MODAL EDITAR PROVEEDOR -->
+    <div class="ui tiny modal" id="modalEditarProveedor">
+        <div class="header">
+            Editar Datos Proveedor
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <h4>Datos del Proveedor</h4>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre del Proveedor</label>
+                        <input type="text" name="nombre" id="nombreProveedor" placeholder="Nombre del Proveedor" required>
+                    </div>
+                    <div class="field">
+                        <label>Nombre del Contacto</label>
+                        <input type="text" name="contacto" id="nombreContacto" placeholder="Nombre del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Teléfono del Contacto</label>
+                        <input type="text" name="telefono" id="telefonoContacto" placeholder="Teléfono del Contacto" required>
+                    </div>
+                    <div class="field">
+                        <label>Email del Contacto</label>
+                        <input type="email" name="email" id="emailContacto" placeholder="Email del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre de la Calle</label>
+                        <input type="text" name="calle" id="nombreCalle" placeholder="Nombre de la Calle" required>
+                    </div>
+                    <div class="field">
+                        <label>Número de la Calle</label>
+                        <input type="text" name="numeroCalle" id="numeroCalle" placeholder="Número de la Calle" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Ciudad</label>
+                    <input type="text" name="ciudad" id="ciudadProveedor" placeholder="Ciudad" required>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="ui green button" id="guardarProveedor">Guardar</button>
+            <button class="ui red cancel button">Cancelar</button>
+        </div>
+    </div>
 
 
     <!-- Fin Contenido -->
@@ -138,11 +238,19 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script>
         $(".menu .item").tab();
         $(".ui.dropdown").dropdown();
+        $('#modalNuevoProveedor')
+            .modal('show');
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/proveedores.js"></script>
+    <script>
+        function abrirModalEditarProveedor(idProveedor) {
+
+            $('#modalEditarProveedor').modal('show');
+        }
+    </script>
 </body>
 
 </html>

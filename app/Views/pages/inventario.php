@@ -158,7 +158,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <div class="two fields">
                             <div class="field">
                                 <label>Producto</label>
-                                <select id="productoDropdown" class="ui dropdown">                                </select>
+                                <select id="productoDropdown" class="ui dropdown"> </select>
                             </div>
                             <div class="field">
                                 <label>ID Lote</label>
@@ -291,7 +291,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
@@ -363,7 +363,15 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </thead>
                 <tbody id="productTableBody"></tbody>
             </table>
+
         </div>
+
+        <!-- 
+        <div class="table-container">
+
+
+        </div> -->
+
 </body>
 
 <!-- Scripts  -->

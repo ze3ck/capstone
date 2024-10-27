@@ -16,97 +16,164 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   llenadoTablaProv();
+  // Inicializar el dropdown de proveedores global
+  $("#selectProveedor").dropdown({
+    onChange: function (value, text) {
+      filtrarTabla(); // Llama a la función de filtrado combinada
+    },
+  });
+
+  $("#selectContacto").dropdown({
+    onChange: function (value, text) {
+        filtrarTabla(); // Llama a la función de filtrado combinada
+    },
+});
 });
 
 async function selectContacto() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-  // console.log(id_usuario)
-  const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      P_IDUSUARIO: id_usuario,
-    }),
-  });
-  if (!response.ok) {
-    throw new Error("Error al obtener CONTACTOS");
-  }
+  console.log("ID Usuario:", id_usuario);
+  
+  try {
+      const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+              P_IDUSUARIO: id_usuario,
+          }),
+      });
 
-  const data = await response.json();
+      if (!response.ok) {
+          throw new Error("Error al obtener contactos");
+      }
 
-  if (data.success) {
-    // console.log(data)
-    // Obtener el menú dentro del dropdown
-    let menu = document.querySelector("#selectContacto .menu");
-    // Limpiar los items existentes
-    menu.innerHTML = "";
+      const data = await response.json();
 
-    for (let x of data.response) {
-      // console.log(x.ID_PROVEEDOR);
-      // console.log(x.NOMBRE_PROVEEDOR);
-      // Crear un nuevo elemento div con clase 'item'
-      let item = document.createElement("div");
-      item.className = "item";
-      item.dataset.value = x.NOMBRE_CONTACTO; // Asignar el valor del data-value
-      item.textContent = x.NOMBRE_CONTACTO; // Asignar el texto que se mostrará
-      // Agregar el nuevo item al menú
-      menu.appendChild(item);
-    }
+      if (data.success) {
+          let menu = document.querySelector("#selectContacto .menu");
+          menu.innerHTML = "";
 
-    // Refrescar el dropdown para que Fomantic UI reconozca los nuevos items
-    $("#selectContacto").dropdown("refresh");
-  } else {
-    console.error("Error al obtener proveedores");
+          // Agregar la opción "Todos" al inicio
+          let allItem = document.createElement("div");
+          allItem.className = "item";
+          allItem.dataset.value = ""; // Valor vacío para representar "Todos"
+          allItem.textContent = "Todos";
+          menu.appendChild(allItem);
+
+          data.response.forEach((x) => {
+              let item = document.createElement("div");
+              item.className = "item";
+              item.dataset.value = x.NOMBRE_CONTACTO.trim(); // Asegurarse de que no haya espacios
+              item.textContent = x.NOMBRE_CONTACTO.trim(); 
+              menu.appendChild(item);
+          });
+
+          // Refrescar el dropdown para que Semantic UI reconozca los nuevos items
+          $("#selectContacto").dropdown("refresh");
+      } else {
+          console.error("Error al obtener contactos:", data.message);
+      }
+  } catch (error) {
+      console.error("Error en selectContacto:", error);
   }
 }
 
 async function selectProveedor() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-  console.log(id_usuario);
-  const response = await fetch(`${API_BASE_URL}proveedores/selectProveedor`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      P_IDUSUARIO: id_usuario,
-    }),
-  });
-  if (!response.ok) {
-    throw new Error("Error al obtener proveedores");
-  }
+  console.log("ID Usuario:", id_usuario);
 
-  const data = await response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}proveedores/selectProveedor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario,
+      }),
+    });
 
-  if (data.success) {
-    // Obtener el menú dentro del dropdown
-    let menu = document.querySelector("#selectProveedor .menu");
-    // Limpiar los items existentes
-    menu.innerHTML = "";
-
-    for (let x of data.response) {
-      // console.log(x.ID_PROVEEDOR);
-      // console.log(x.NOMBRE_PROVEEDOR);
-      // Crear un nuevo elemento div con clase 'item'
-      let item = document.createElement("div");
-      item.className = "item";
-      item.dataset.value = x.ID_PROVEEDOR; // Asignar el valor del data-value
-      item.textContent = x.NOMBRE_PROVEEDOR; // Asignar el texto que se mostrará
-      // Agregar el nuevo item al menú
-      menu.appendChild(item);
+    if (!response.ok) {
+      throw new Error("Error al obtener proveedores");
     }
 
-    // Refrescar el dropdown para que Fomantic UI reconozca los nuevos items
-    $("#selectProveedor").dropdown("refresh");
-  } else {
-    console.error("Error al obtener proveedores");
+    const data = await response.json();
+
+    if (data.success) {
+      let menu = document.querySelector("#selectProveedor .menu");
+      menu.innerHTML = "";
+
+      // Agregar la opción "Todos" al inicio
+      let allItem = document.createElement("div");
+      allItem.className = "item";
+      allItem.dataset.value = ""; // Valor vacío para representar "Todos"
+      allItem.textContent = "Todos";
+      menu.appendChild(allItem);
+
+      data.response.forEach((x) => {
+        let item = document.createElement("div");
+        item.className = "item";
+        item.dataset.value = x.ID_PROVEEDOR;
+        item.textContent = x.NOMBRE_PROVEEDOR;
+        menu.appendChild(item);
+      });
+
+      // Refrescar el dropdown para que reconozca los nuevos items
+      $("#selectProveedor").dropdown("refresh");
+    } else {
+      console.error("Error al obtener proveedores:", data.message);
+    }
+  } catch (error) {
+    console.error("Error en selectProveedor:", error);
   }
 }
+function filtrarTabla() {
+  // Obtener los valores seleccionados en ambos dropdowns
+  let estadoSeleccionado = $("#selectEstado").dropdown("get value");
+  let proveedorSeleccionado = $("#selectProveedor").dropdown("get value");
 
+  console.log(
+    "Filtrando por Estado:",
+    estadoSeleccionado,
+    "Proveedor:",
+    proveedorSeleccionado
+  );
+
+  // Obtener todas las filas de la tabla de proveedores
+  var filas = document.querySelectorAll("#tblProveedores tbody tr");
+
+  filas.forEach(function (fila) {
+    // Obtener el <select> que contiene el estado del proveedor en la columna correspondiente
+    var selectEstado = fila.querySelector(".estado-dropdown");
+    // Obtener el ID del proveedor de la primera celda (asumiendo que es la columna ID_PROVEEDOR)
+    var idProveedorFila = fila.querySelector("td").textContent.trim(); // Primer <td>
+
+    // Verificar si selectEstado no es null
+    if (selectEstado) {
+      // Obtener el valor seleccionado del dropdown dentro de la fila
+      var estadoFila = selectEstado.value;
+
+      // Lógica para determinar si la fila debe mostrarse
+      var mostrarPorEstado =
+        estadoSeleccionado === "" || estadoSeleccionado === estadoFila;
+
+      var mostrarPorProveedor =
+        proveedorSeleccionado === "" ||
+        proveedorSeleccionado === idProveedorFila;
+
+      // Mostrar la fila solo si cumple ambos criterios
+      if (mostrarPorEstado && mostrarPorProveedor) {
+        fila.style.display = ""; // Mostrar la fila
+      } else {
+        fila.style.display = "none"; // Ocultar la fila
+      }
+    }
+  });
+}
 /**
  * proveedores/llenadoTablaProv
  * llenadoTablaProv()
@@ -161,6 +228,9 @@ function agregarProveedoresATabla(proveedores) {
 
   proveedores.forEach((proveedor) => {
     let fila = document.createElement("tr");
+
+    fila.dataset.idProveedor = proveedor.ID_PROVEEDOR;
+    fila.dataset.contacto = proveedor.NOMBRE_CONTACTO.trim().toLowerCase();
 
     fila.innerHTML = `
               <td class="center aligned">${proveedor.ID_PROVEEDOR}</td>
@@ -254,3 +324,9 @@ async function actualizarEstadoProveedor(dropdown) {
     });
   }
 }
+
+$(document).ready(function () {
+  $("#btnNuevoProveedor").click(function () {
+    $("#modalNuevoProveedor").modal("show");
+  });
+});

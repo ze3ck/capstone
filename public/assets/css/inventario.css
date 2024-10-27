@@ -144,3 +144,16 @@ th.actions-column, td.actions-column {
 .ui.grid .three.wide.column {
   max-width: 300px; /* Ajustar el ancho del dropdown */
 }
+
+.ui.scrolling.table {
+  max-height: 1000px; 
+  overflow-y: scroll;
+}
+
+.ui.celled.table tbody tr {
+  height: 10px; 
+}
+
+/* .table-container {
+  height: 1000px; 
+} */
