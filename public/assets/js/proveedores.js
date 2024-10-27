@@ -254,3 +254,9 @@ async function actualizarEstadoProveedor(dropdown) {
     });
   }
 }
+
+$(document).ready(function () {
+  $("#btnNuevoProveedor").click(function () {
+    $("#modalNuevoProveedor").modal("show");
+  });
+});

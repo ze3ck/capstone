@@ -13,7 +13,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OptiFlow | Perfil</title>
+    <title>OptiFlow | Proveedores</title>
     <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -22,7 +22,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 </head>
 
 <body>
-    <!-- sessionControllerModal.php -->
+
+<!-- sessionControllerModal.php -->
     <?= $this->include('components/sessionControllerModal') ?>
     <!-- sessionControllerModal.php -->
 
@@ -101,7 +102,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui blue button" id="btnLimpiarfiltros">Limpiar Filtros</button>
             </div>
             <div class="three wide column">
-                <button class="ui green button">Nuevo Proveedor</button>
+                <button class="ui green button" id="btnNuevoProveedor">Nuevo Proveedor</button>
             </div>
         </div>
         <div class="ui grid">
@@ -126,9 +127,60 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
-
-
-
+    <!-- MODAL NUEVO PROVEEDOR -->
+    <div class="ui tiny modal" id="modalNuevoProveedor">
+        <div class="header">
+            <h2>Nuevo Proveedor</h2>
+        </div>
+        <div class="content">
+            <div class="ui grid">
+                <div class="row">
+                    <div class="sixteen wide column center aligned">
+                        <label>DATOS</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre del Proveedor">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="contacto" id="contacto" placeholder="Nombre del Contacto">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="text" name="telefono" id="telefono" placeholder="Teléfono del Contacto">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="email" name="email" id="email" placeholder="Email del Contacto">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="email" name="email" id="email" placeholder="Nombre Calle">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="email" name="email" id="email" placeholder="Número Calle">
+                        </div>
+                    </div>
+                    <div class="eight wide column">
+                        <div class="ui input">
+                            <input type="email" name="email" id="email" placeholder="Ciudad">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Fin Contenido -->
     <span id="ID_USUARIO" style="display:none">
@@ -138,6 +190,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script>
         $(".menu .item").tab();
         $(".ui.dropdown").dropdown();
+        $('#modalNuevoProveedor')
+            .modal('show');
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
