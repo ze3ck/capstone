@@ -185,7 +185,7 @@ function agregarProveedoresATabla(proveedores) {
               </td>
               <td class="center aligned actions-column">
                   <div class="ui icon buttons">
-                      <button class="ui icon button editarProveedorBtn" onclick="accionProveedor(${
+                      <button class="ui icon button editarProveedorBtn" onclick="abrirModalEditarProveedor(${
                         proveedor.ID_PROVEEDOR
                       })" title="Editar">
                           <i class="fas fa-edit" style="color: blue;"></i>
@@ -195,6 +195,7 @@ function agregarProveedoresATabla(proveedores) {
           `;
 
     tblBody.appendChild(fila);
+
   });
   document.addEventListener("change", function (event) {
     if (event.target && event.target.classList.contains("estado-dropdown")) {
@@ -260,3 +261,10 @@ $(document).ready(function () {
     $("#modalNuevoProveedor").modal("show");
   });
 });
+
+$(document).ready(function () {
+  $("#btnEditarProveedor").click(function () {
+    $("#modalEditarProveedor").modal("show");
+  });
+});
+

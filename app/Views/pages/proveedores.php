@@ -177,6 +177,56 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
     </div>
 
+    <!-- MODAL EDITAR PROVEEDOR -->
+    <div class="ui tiny modal" id="modalEditarProveedor">
+        <div class="header">
+            Editar Datos Proveedor
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <h4>Datos del Proveedor</h4>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre del Proveedor</label>
+                        <input type="text" name="nombre" id="nombreProveedor" placeholder="Nombre del Proveedor" required>
+                    </div>
+                    <div class="field">
+                        <label>Nombre del Contacto</label>
+                        <input type="text" name="contacto" id="nombreContacto" placeholder="Nombre del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Teléfono del Contacto</label>
+                        <input type="text" name="telefono" id="telefonoContacto" placeholder="Teléfono del Contacto" required>
+                    </div>
+                    <div class="field">
+                        <label>Email del Contacto</label>
+                        <input type="email" name="email" id="emailContacto" placeholder="Email del Contacto" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre de la Calle</label>
+                        <input type="text" name="calle" id="nombreCalle" placeholder="Nombre de la Calle" required>
+                    </div>
+                    <div class="field">
+                        <label>Número de la Calle</label>
+                        <input type="text" name="numeroCalle" id="numeroCalle" placeholder="Número de la Calle" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Ciudad</label>
+                    <input type="text" name="ciudad" id="ciudadProveedor" placeholder="Ciudad" required>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="ui green button" id="guardarProveedor">Guardar</button>
+            <button class="ui red cancel button">Cancelar</button>
+        </div>
+    </div>
+
 
     <!-- Fin Contenido -->
     <span id="ID_USUARIO" style="display:none">
@@ -193,10 +243,12 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/proveedores.js"></script>
-    <!-- <script>
-        $('#modalNuevoProveedor')
-            .modal('show');
-    </script> -->
+    <script>
+        function abrirModalEditarProveedor(idProveedor) {
+
+            $('#modalEditarProveedor').modal('show');
+        }
+    </script>
 </body>
 
 </html>
