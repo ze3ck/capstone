@@ -197,6 +197,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/proveedores.js"></script>
+    <script>
+        $('#modalNuevoProveedor')
+            .modal('show');
+    </script>
 </body>
 
 </html>
