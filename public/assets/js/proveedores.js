@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#selectProveedor").dropdown();
   $("#selectEstado").dropdown();
   $("#selectContacto").dropdown();
-
+  $("#selectNewCiudad").dropdown();
+  $("#selectNewComuna").dropdown();
+  $("#selectNewRegion").dropdown();
+  
   selectProveedor();
   selectContacto();
 
