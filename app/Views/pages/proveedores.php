@@ -167,9 +167,52 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <input type="text" name="numeroCalle" id="numeroCalle" placeholder="Número de la Calle" required>
                     </div>
                 </div>
-                <div class="field">
-                    <label>Ciudad</label>
-                    <input type="text" name="ciudad" id="ciudadProveedor" placeholder="Ciudad" required>
+                <div class="two fields">
+                    <div class="field">
+
+                        <label>Ciudad</label>
+                        <div class="ui fluid search selection dropdown" id="selectNewCiudad">
+                            <input type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">ciudad</div>
+                            <div class="menu">
+                                <div class="item" data-value="">Todos</div>
+                                <div class="item" data-value="1">LLENAR</div>
+                                <div class="item" data-value="2">DINAMICO</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+
+                        <label>Comuna</label>
+                        <div class="ui fluid search selection dropdown" id="selectNewComuna">
+                            <input type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Comuna</div>
+                            <div class="menu">
+                                <div class="item" data-value="">Todos</div>
+                                <div class="item" data-value="1">LLENAR</div>
+                                <div class="item" data-value="2">DINAMICO</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+
+                        <label>Región</label>
+                        <div class="ui fluid search selection dropdown" id="selectNewRegion">
+                            <input type="hidden">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Región</div>
+                            <div class="menu">
+                                <div class="item" data-value="">Todos</div>
+                                <div class="item" data-value="1">LLENAR</div>
+                                <div class="item" data-value="2">DINAIMCO</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
