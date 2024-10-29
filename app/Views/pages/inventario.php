@@ -305,9 +305,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
 
-
-
-
         <!-- Tabla de productos -->
         <div style="margin-top: 3%; margin-right: 2%; margin-left: 3%;">
             <!-- Buscador -->
@@ -321,6 +318,16 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <option value="1">Activo</option>
                                 <option value="2">Inactivo</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="three wide column">
+                    <label>Filtrar por Proveedor:</label>
+                    <div class="ui fluid search selection dropdown" id="selectProveedor">
+                        <input type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Proveedor</div>
+                        <div class="menu">
                         </div>
                     </div>
                 </div>
@@ -344,7 +351,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
             </div>
 
-            <table class="ui celled short unstackable scrolling table">
+            <table class="ui celled large unstackable scrolling table">
                 <thead>
                     <tr>
                         <th id="id-producto" class="center aligned" style="cursor: pointer">ID Producto <i class="fas fa-sort" id="sortIcon" style="cursor: pointer"></i></th>
