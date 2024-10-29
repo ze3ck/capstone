@@ -150,5 +150,8 @@ $routes->group(
     $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
     $routes->post('proveedores/selectContacto',       'Proveedores::selectContacto');
     $routes->post('proveedores/actualizarEstadoProv', 'Proveedores::actualizarEstadoProv');
+    $routes->post('proveedores/selectRegion',         'Proveedores::selectRegion');
+    $routes->post('proveedores/selectComuna',         'Proveedores::selectComuna');
+    $routes->post('proveedores/selectCiudad',         'Proveedores::selectCiudad');
   }
 );

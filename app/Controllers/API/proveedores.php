@@ -258,4 +258,167 @@ class Proveedores extends ResourceController
       return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
     }
   }
+
+  /**
+   * selectRegion()
+   * PR_38_SELECT_REGION
+   */
+  public function selectRegion()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      try {
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_38_SELECT_REGION()");
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron regiones disponibles.']);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_REGION"           => $row['ID_REGION'],
+            "NOMBRE_REGION"       => $row['NOMBRE_REGION']
+
+          ];
+        }
+
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    // Si el método no es POST, devolver error 405
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
+  }
+
+  /**
+   * selectComuna()
+   * PR_39_SELECT_COMUNA
+   */
+  public function selectComuna()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDREGION) || !is_numeric($json->P_IDREGION)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID de la región o es inválido']);
+      }
+
+      $P_IDREGION = $json->P_IDREGION;
+
+      try {
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_39_SELECT_COMUNA(?)", [$P_IDREGION]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron comunas para la id seleccionada.']);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_COMUNA"           => $row['ID_COMUNA'],
+            "NOMBRE_COMUNA"       => $row['NOMBRE_COMUNA']
+
+          ];
+        }
+
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
+  }
+
+  /**
+   * selectCiudad()
+   * PR_40_SELECT_CIUDAD
+   */
+  public function selectCiudad()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDCOMUNA) || !is_numeric($json->P_IDCOMUNA)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID de la comuna o es inválido']);
+      }
+
+      $P_IDCOMUNA = $json->P_IDCOMUNA;
+
+      try {
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_40_SELECT_CIUDAD(?)", [$P_IDCOMUNA]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron ciudades con la id de la comuna.' . $P_IDCOMUNA]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_CIUDAD"           => $row['ID_CIUDAD'],
+            "NOMBRE_CIUDAD"       => $row['NOMBRE_CIUDAD']
+
+          ];
+        }
+
+        return $this->respond([
+          'success'   => true,
+          'response'  => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
+  }
 }
