@@ -520,3 +520,29 @@ async function selectCiudad(idComuna) {
 document.addEventListener("DOMContentLoaded", () => {
   selectRegion();
 });
+
+function modalNuevoProveedor() {
+  document
+    .querySelectorAll("#modalNuevoProveedor input[type='text']")
+    .forEach((input) => (input.value = ""));
+
+  document
+    .querySelectorAll("#modalNuevoProveedor input[type='email']")
+    .forEach((input) => (input.value = ""));
+
+  document
+    .querySelectorAll("#modalNuevoProveedor input[type='number']")
+    .forEach((input) => (input.value = ""));
+
+  $("#selectNewRegion").dropdown("clear");
+  $("#selectNewComuna").dropdown("clear");
+  $("#selectNewCiudad").dropdown("clear");
+
+  document
+    .querySelectorAll("#modalNuevoProveedor textarea")
+    .forEach((textarea) => (textarea.value = ""));
+}
+
+document
+  .getElementById("cancelarNuevoProveedor")
+  .addEventListener("click", modalNuevoProveedor);

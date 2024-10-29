@@ -223,7 +223,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
         <div class="actions">
             <button class="ui green button" id="guardarProveedor">Guardar</button>
-            <button class="ui red cancel button">Cancelar</button>
+            <button class="ui red cancel button" id="cancelarNuevoProveedor">Cancelar</button>
         </div>
     </div>
 
