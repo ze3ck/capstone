@@ -113,8 +113,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <thead>
                     <tr class="center aligned">
                     <tr class="center aligned">
-                        <th id="sortID" data-order="none">
-                            ID <i class="fas fa-sort" id="sortIcon"></i>
+                        <th id="sortID" data-order="none" style="cursor: pointer">
+                            ID <i class="fas fa-sort" id="sortIcon" style="cursor: pointer"></i>
                         </th>
                         <th>NOMBRE</th>
                         <th>CONTACTO</th>
