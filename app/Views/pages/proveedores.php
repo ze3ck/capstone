@@ -177,11 +177,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <div class="ui fluid search selection dropdown" id="selectNewRegion">
                         <input type="hidden">
                         <i class="dropdown icon"></i>
-                        <div class="default text">Región</div>
+                        <div class="default text">Region del Proveedor</div>
                         <div class="menu">
-                            <div class="item" data-value="">Todos</div>
-                            <div class="item" data-value="1">LLENAR</div>
-                            <div class="item" data-value="2">DINAIMCO</div>
+                            <!-- <div class="item" data-value="">Todos</div> -->
+                            <!-- <div class="item" data-value="1">LLENAR</div> -->
+                            <!-- <div class="item" data-value="2">DINAIMCO</div> -->
                         </div>
                     </div>
                 </div>
@@ -194,9 +194,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <i class="dropdown icon"></i>
                             <div class="default text">Comuna</div>
                             <div class="menu">
-                                <div class="item" data-value="">Todos</div>
+                                <!-- <div class="item" data-value="">Todos</div>
                                 <div class="item" data-value="1">LLENAR</div>
-                                <div class="item" data-value="2">DINAMICO</div>
+                                <div class="item" data-value="2">DINAMICO</div> -->
                             </div>
                         </div>
                     </div>
@@ -208,9 +208,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             <i class="dropdown icon"></i>
                             <div class="default text">Ciudad</div>
                             <div class="menu">
-                                <div class="item" data-value="">Todos</div>
+                                <!-- <div class="item" data-value="">Todos</div>
                                 <div class="item" data-value="1">LLENAR</div>
-                                <div class="item" data-value="2">DINAMICO</div>
+                                <div class="item" data-value="2">DINAMICO</div> -->
                             </div>
                         </div>
                     </div>

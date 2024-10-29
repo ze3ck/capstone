@@ -353,3 +353,170 @@ document.getElementById("sortID").addEventListener("click", function () {
   tableBody.innerHTML = "";
   rows.forEach((row) => tableBody.appendChild(row));
 });
+
+/**
+ * selectRegion()
+ * PR_38_SELECT_REGION
+ */
+async function selectRegion() {
+  try {
+    const response = await fetch(`${API_BASE_URL}proveedores/selectRegion`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener regiones");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      let menu = document.querySelector("#selectNewRegion .menu");
+      menu.innerHTML = "";
+
+      let allItem = document.createElement("div");
+      allItem.className = "item";
+      allItem.dataset.value = "";
+      // allItem.textContent = "Todos";
+      menu.appendChild(allItem);
+
+      data.response.forEach((x) => {
+        let item = document.createElement("div");
+        item.className = "item";
+        item.dataset.value = x.ID_REGION;
+        item.textContent = x.NOMBRE_REGION;
+        menu.appendChild(item);
+      });
+
+      $("#selectNewRegion").dropdown("refresh");
+
+      $("#selectNewRegion").dropdown({
+        onChange: function (value) {
+          if (value) {
+            selectComuna(value);
+          }
+        },
+      });
+    } else {
+      console.error("Error al obtener regiones:", data.message);
+    }
+  } catch (error) {
+    console.error("Error en selectRegion:", error);
+  }
+}
+
+/**
+ * selectComuna()
+ * PR_39_SELECT_COMUNA
+ */
+async function selectComuna(idRegion) {
+  try {
+    const response = await fetch(`${API_BASE_URL}proveedores/selectComuna`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDREGION: idRegion,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener comunas");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      let menu = document.querySelector("#selectNewComuna .menu");
+      menu.innerHTML = "";
+
+      let allItem = document.createElement("div");
+      allItem.className = "item";
+      allItem.dataset.value = "";
+      // allItem.textContent = "Todos";
+      menu.appendChild(allItem);
+
+      data.response.forEach((x) => {
+        let item = document.createElement("div");
+        item.className = "item";
+        item.dataset.value = x.ID_COMUNA;
+        item.textContent = x.NOMBRE_COMUNA;
+        menu.appendChild(item);
+      });
+
+      $("#selectNewComuna").dropdown("refresh");
+
+      $("#selectNewComuna").dropdown({
+        onChange: function (value) {
+          if (value) {
+            selectCiudad(value);
+          }
+        },
+      });
+    } else {
+      console.error("Error al obtener comunas:", data.message);
+    }
+  } catch (error) {
+    console.error("Error en selectComuna:", error);
+  }
+}
+
+/**
+ * selectCiudad()
+ * PR_40_SELECT_CIUDAD
+ */
+async function selectCiudad(idComuna) {
+  try {
+    const response = await fetch(`${API_BASE_URL}proveedores/selectCiudad`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDCOMUNA: idComuna,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener ciudades");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      let menu = document.querySelector("#selectNewCiudad .menu");
+      menu.innerHTML = "";
+
+      let allItem = document.createElement("div");
+      allItem.className = "item";
+      allItem.dataset.value = "";
+      // allItem.textContent = "Todos";
+      menu.appendChild(allItem);
+
+      data.response.forEach((x) => {
+        let item = document.createElement("div");
+        item.className = "item";
+        item.dataset.value = x.ID_CIUDAD;
+        item.textContent = x.NOMBRE_CIUDAD;
+        menu.appendChild(item);
+      });
+
+      $("#selectNewCiudad").dropdown("refresh");
+    } else {
+      console.error("Error al obtener ciudades:", data.message);
+    }
+  } catch (error) {
+    console.error("Error en selectCiudad:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  selectRegion();
+});
