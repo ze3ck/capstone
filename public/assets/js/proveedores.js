@@ -356,7 +356,7 @@ document.getElementById("sortID").addEventListener("click", function () {
 
 /**
  * selectRegion()
- * PR_38_SELECT_REGION
+ * PR_38_SELECT_REGION 🧉
  */
 async function selectRegion() {
   try {
@@ -411,7 +411,7 @@ async function selectRegion() {
 
 /**
  * selectComuna()
- * PR_39_SELECT_COMUNA
+ * PR_39_SELECT_COMUNA 🧉
  */
 async function selectComuna(idRegion) {
   try {
@@ -469,7 +469,7 @@ async function selectComuna(idRegion) {
 
 /**
  * selectCiudad()
- * PR_40_SELECT_CIUDAD
+ * PR_40_SELECT_CIUDAD 🧉
  */
 async function selectCiudad(idComuna) {
   console.log("idComuna: ", idComuna);
@@ -651,7 +651,7 @@ document
     }
   });
 
-
+// limpiar modal de nuevo prov 🧉
 function limpiarModalNuevoProveedor() {
   document
     .querySelectorAll("#modalNuevoProveedor input[type='text']")
