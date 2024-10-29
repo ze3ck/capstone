@@ -179,9 +179,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <i class="dropdown icon"></i>
                         <div class="default text">Region del Proveedor</div>
                         <div class="menu">
-                            <!-- <div class="item" data-value="">Todos</div> -->
-                            <!-- <div class="item" data-value="1">LLENAR</div> -->
-                            <!-- <div class="item" data-value="2">DINAIMCO</div> -->
+                            <!-- <div class="item" data-value="">Todos</div>
+                            <div class="item" data-value="1">LLENAR</div>
+                            <div class="item" data-value="2">DINAIMCO</div> -->
                         </div>
                     </div>
                 </div>

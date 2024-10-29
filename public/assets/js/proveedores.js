@@ -472,6 +472,7 @@ async function selectComuna(idRegion) {
  * PR_40_SELECT_CIUDAD
  */
 async function selectCiudad(idComuna) {
+  console.log("idComuna: ", idComuna);
   try {
     const response = await fetch(`${API_BASE_URL}proveedores/selectCiudad`, {
       method: "POST",
@@ -521,7 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
   selectRegion();
 });
 
-function modalNuevoProveedor() {
+function limpiarModalNuevoProveedor() {
   document
     .querySelectorAll("#modalNuevoProveedor input[type='text']")
     .forEach((input) => (input.value = ""));
@@ -545,4 +546,4 @@ function modalNuevoProveedor() {
 
 document
   .getElementById("cancelarNuevoProveedor")
-  .addEventListener("click", modalNuevoProveedor);
+  .addEventListener("click", limpiarModalNuevoProveedor);
