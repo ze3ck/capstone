@@ -522,6 +522,136 @@ document.addEventListener("DOMContentLoaded", () => {
   selectRegion();
 });
 
+document
+  .getElementById("formNuevoProveedor")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault(); 
+    function mostrarToast(mensaje, tipo) {
+      const validTypes = ["success", "error", "warning", "info"];
+      const toastClass = validTypes.includes(tipo) ? tipo : "error";
+    
+      $("body").toast({
+        class: toastClass,
+        message: mensaje,
+        showProgress: "bottom",
+        displayTime: 3000,
+      });
+    }
+    const form = document.getElementById("formNuevoProveedor");
+    const formData = new FormData(form);
+
+    const idUsuarioElement = document.getElementById("ID_USUARIO");
+    if (!idUsuarioElement) {
+      console.error("Elemento con ID 'ID_USUARIO' no encontrado.");
+      alert("Error interno: ID de usuario no encontrado.");
+      return;
+    }
+
+    let idUsuario;
+    if (idUsuarioElement.tagName.toLowerCase() === "input") {
+      idUsuario = idUsuarioElement.value.trim();
+    } else {
+      idUsuario = idUsuarioElement.innerHTML.trim();
+    }
+
+    const nombreProveedor = formData.get("nombre")
+      ? formData.get("nombre").trim()
+      : "";
+    const nombreContacto = formData.get("contacto")
+      ? formData.get("contacto").trim()
+      : "";
+    const telefonoContacto = formData.get("telefono")
+      ? formData.get("telefono").trim()
+      : "";
+    const emailContacto = formData.get("email")
+      ? formData.get("email").trim()
+      : "";
+    const nombreCalle = formData.get("calle")
+      ? formData.get("calle").trim()
+      : "";
+    const numeroCalle = formData.get("numeroCalle")
+      ? formData.get("numeroCalle").trim()
+      : "";
+
+    const idRegion = formData.get("region");
+    const idComuna = formData.get("comuna");
+    const idCiudad = formData.get("ciudad");
+
+    console.log("idUsuario:", idUsuario);
+    console.log("Nombre Proveedor:", nombreProveedor);
+    console.log("Nombre Contacto:", nombreContacto);
+    console.log("Teléfono Contacto:", telefonoContacto);
+    console.log("Email Contacto:", emailContacto);
+    console.log("Nombre Calle:", nombreCalle);
+    console.log("Número Calle:", numeroCalle);
+    console.log("ID Región:", idRegion);
+    console.log("ID Comuna:", idComuna);
+    console.log("ID Ciudad:", idCiudad);
+
+    if (
+      !nombreProveedor ||
+      !nombreContacto ||
+      !telefonoContacto ||
+      !emailContacto ||
+      !nombreCalle ||
+      !numeroCalle ||
+      !idRegion ||
+      !idComuna ||
+      !idCiudad
+    ) {
+      mostrarToast("Por favor, complete todos los campos antes de guardar.", "warning");
+      return;
+    }
+
+    const data = {
+      P_IDUSUARIO: idUsuario,
+      P_NOMBRE_PROVEEDOR: nombreProveedor,
+      P_NOMBRE_CONTACTO: nombreContacto,
+      P_TELEFONO: telefonoContacto,
+      P_EMAIL: emailContacto,
+      P_NOMBRE_CALLE: nombreCalle,
+      P_NUMERO_CALLE: parseInt(numeroCalle, 10),
+      P_ID_REGION: parseInt(idRegion, 10),
+      P_ID_COMUNA: parseInt(idComuna, 10),
+      P_ID_CIUDAD: parseInt(idCiudad, 10),
+    };
+
+    console.log("Datos a enviar:", data); 
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}proveedores/nuevoProveedor`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error al guardar el proveedor");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        mostrarToast("Proveedor guardado correctamente.", "success");
+        $("#modalNuevoProveedor").modal("hide");
+        limpiarModalNuevoProveedor();
+      } else {
+        console.error("Error al guardar el proveedor:", result.message);
+        // mostrarToast("Error: " + result.message, "error");
+      }
+    } catch (error) {
+      console.error("Error en guardarProveedor:", error);
+      mostrarToast("Error al guardar el proveedor. Inténtelo de nuevo.", "error");
+    }
+  });
+
+
 function limpiarModalNuevoProveedor() {
   document
     .querySelectorAll("#modalNuevoProveedor input[type='text']")
