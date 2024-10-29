@@ -339,21 +339,17 @@ document.getElementById("sortID").addEventListener("click", function () {
   const tableBody = document.getElementById("tblProveedores_body");
   const rows = Array.from(tableBody.querySelectorAll("tr"));
 
-  // Obtener el estado de orden actual
   let order = this.getAttribute("data-order");
   const isAscending = order === "asc";
 
-  // Ordenar las filas
   rows.sort((a, b) => {
     const idA = parseInt(a.cells[0].textContent);
     const idB = parseInt(b.cells[0].textContent);
     return isAscending ? idA - idB : idB - idA;
   });
 
-  // Alternar el estado de orden
   this.setAttribute("data-order", isAscending ? "desc" : "asc");
 
-  // Vaciar el cuerpo de la tabla y volver a agregar las filas ordenadas
   tableBody.innerHTML = "";
   rows.forEach((row) => tableBody.appendChild(row));
 });
