@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#selectNewCiudad").dropdown();
   $("#selectNewComuna").dropdown();
   $("#selectNewRegion").dropdown();
-  
+
   selectProveedor();
   selectContacto();
 
@@ -28,59 +28,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $("#selectContacto").dropdown({
     onChange: function (value, text) {
-        filtrarTabla(); // Llama a la función de filtrado combinada
+      filtrarTabla(); // Llama a la función de filtrado combinada
     },
-});
+  });
 });
 
 async function selectContacto() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
   console.log("ID Usuario:", id_usuario);
-  
+
   try {
-      const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-              P_IDUSUARIO: id_usuario,
-          }),
+    const response = await fetch(`${API_BASE_URL}proveedores/selectContacto`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        P_IDUSUARIO: id_usuario,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener contactos");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      let menu = document.querySelector("#selectContacto .menu");
+      menu.innerHTML = "";
+
+      // Agregar la opción "Todos" al inicio
+      let allItem = document.createElement("div");
+      allItem.className = "item";
+      allItem.dataset.value = ""; // Valor vacío para representar "Todos"
+      allItem.textContent = "Todos";
+      menu.appendChild(allItem);
+
+      data.response.forEach((x) => {
+        let item = document.createElement("div");
+        item.className = "item";
+        item.dataset.value = x.NOMBRE_CONTACTO.trim(); // Asegurarse de que no haya espacios
+        item.textContent = x.NOMBRE_CONTACTO.trim();
+        menu.appendChild(item);
       });
 
-      if (!response.ok) {
-          throw new Error("Error al obtener contactos");
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-          let menu = document.querySelector("#selectContacto .menu");
-          menu.innerHTML = "";
-
-          // Agregar la opción "Todos" al inicio
-          let allItem = document.createElement("div");
-          allItem.className = "item";
-          allItem.dataset.value = ""; // Valor vacío para representar "Todos"
-          allItem.textContent = "Todos";
-          menu.appendChild(allItem);
-
-          data.response.forEach((x) => {
-              let item = document.createElement("div");
-              item.className = "item";
-              item.dataset.value = x.NOMBRE_CONTACTO.trim(); // Asegurarse de que no haya espacios
-              item.textContent = x.NOMBRE_CONTACTO.trim(); 
-              menu.appendChild(item);
-          });
-
-          // Refrescar el dropdown para que Semantic UI reconozca los nuevos items
-          $("#selectContacto").dropdown("refresh");
-      } else {
-          console.error("Error al obtener contactos:", data.message);
-      }
+      // Refrescar el dropdown para que Semantic UI reconozca los nuevos items
+      $("#selectContacto").dropdown("refresh");
+    } else {
+      console.error("Error al obtener contactos:", data.message);
+    }
   } catch (error) {
-      console.error("Error en selectContacto:", error);
+    console.error("Error en selectContacto:", error);
   }
 }
 
@@ -269,6 +269,7 @@ function agregarProveedoresATabla(proveedores) {
 
     tblBody.appendChild(fila);
   });
+
   document.addEventListener("change", function (event) {
     if (event.target && event.target.classList.contains("estado-dropdown")) {
       actualizarEstadoProveedor(event.target);
@@ -332,4 +333,27 @@ $(document).ready(function () {
   $("#btnNuevoProveedor").click(function () {
     $("#modalNuevoProveedor").modal("show");
   });
+});
+
+document.getElementById("sortID").addEventListener("click", function () {
+  const tableBody = document.getElementById("tblProveedores_body");
+  const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+  // Obtener el estado de orden actual
+  let order = this.getAttribute("data-order");
+  const isAscending = order === "asc";
+
+  // Ordenar las filas
+  rows.sort((a, b) => {
+    const idA = parseInt(a.cells[0].textContent);
+    const idB = parseInt(b.cells[0].textContent);
+    return isAscending ? idA - idB : idB - idA;
+  });
+
+  // Alternar el estado de orden
+  this.setAttribute("data-order", isAscending ? "desc" : "asc");
+
+  // Vaciar el cuerpo de la tabla y volver a agregar las filas ordenadas
+  tableBody.innerHTML = "";
+  rows.forEach((row) => tableBody.appendChild(row));
 });

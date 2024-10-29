@@ -17,6 +17,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <link rel="shortcut icon" href="/assets/img/opti.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 
 </head>
@@ -111,7 +112,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <table class="ui striped celled table" style="margin: 2%;" id="tblProveedores">
                 <thead>
                     <tr class="center aligned">
-                        <th>ID</th>
+                    <tr class="center aligned">
+                        <th id="sortID" data-order="none">
+                            ID <i class="fas fa-sort" id="sortIcon"></i>
+                        </th>
                         <th>NOMBRE</th>
                         <th>CONTACTO</th>
                         <th>TELEFONO CONTACTO</th>
@@ -286,6 +290,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/proveedores.js"></script>
     <script>
