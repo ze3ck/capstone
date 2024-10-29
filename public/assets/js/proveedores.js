@@ -258,7 +258,7 @@ function agregarProveedoresATabla(proveedores) {
               </td>
               <td class="center aligned actions-column">
                   <div class="ui icon buttons">
-                      <button class="ui icon button editarProveedorBtn" onclick="accionProveedor(${
+                      <button class="ui icon button editarProveedorBtn" onclick="abrirModalEditarProveedor(${
                         proveedor.ID_PROVEEDOR
                       })" title="Editar">
                           <i class="fas fa-edit" style="color: blue;"></i>
