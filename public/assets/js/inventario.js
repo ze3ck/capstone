@@ -1453,3 +1453,21 @@ $(document).ready(function () {
   });
 
 });
+document.getElementById("id-producto").addEventListener("click", function () {
+  const tableBody = document.getElementById("productTableBody");
+  const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+  let order = this.getAttribute("data-order");
+  const isAscending = order === "asc";
+
+  rows.sort((a, b) => {
+    const idA = parseInt(a.cells[0].textContent);
+    const idB = parseInt(b.cells[0].textContent);
+    return isAscending ? idA - idB : idB - idA;
+  });
+
+  this.setAttribute("data-order", isAscending ? "desc" : "asc");
+
+  tableBody.innerHTML = "";
+  rows.forEach((row) => tableBody.appendChild(row));
+});
