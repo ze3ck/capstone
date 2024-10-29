@@ -153,5 +153,6 @@ $routes->group(
     $routes->post('proveedores/selectRegion',         'Proveedores::selectRegion');
     $routes->post('proveedores/selectComuna',         'Proveedores::selectComuna');
     $routes->post('proveedores/selectCiudad',         'Proveedores::selectCiudad');
+    $routes->post('proveedores/actualizarProv',         'Proveedores::actualizarProv');
   }
 );
