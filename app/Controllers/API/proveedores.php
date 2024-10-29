@@ -77,7 +77,7 @@ class Proveedores extends ResourceController
 
   /**
    * llenadoTablaProv()
-   * PR_33_LLENADO_TABLA_PROVEEDORES
+   * PR_33_LLENADO_TABLA_PROVEEDORES 🧉
    */
   public function llenadoTablaProv()
   {
@@ -147,7 +147,7 @@ class Proveedores extends ResourceController
 
   /**
    * llenadoTablaProv()
-   * PR_35_SELECT_CONTACTO
+   * PR_35_SELECT_CONTACTO 🧉
    */
   public function selectContacto()
   {
@@ -213,7 +213,7 @@ class Proveedores extends ResourceController
 
   /**
    * actualizarEstadoProv()
-   * PR_36_ACTUALIZAR_ESTADO_PROVEEDOR
+   * PR_36_ACTUALIZAR_ESTADO_PROVEEDOR 🧉
    */
   public function actualizarEstadoProv()
   {
@@ -261,7 +261,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectRegion()
-   * PR_38_SELECT_REGION
+   * PR_38_SELECT_REGION 🧉
    */
   public function selectRegion()
   {
@@ -312,7 +312,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectComuna()
-   * PR_39_SELECT_COMUNA
+   * PR_39_SELECT_COMUNA 🧉
    */
   public function selectComuna()
   {
@@ -368,7 +368,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectCiudad()
-   * PR_40_SELECT_CIUDAD
+   * PR_40_SELECT_CIUDAD 🧉
    */
   public function selectCiudad()
   {
@@ -425,7 +425,7 @@ class Proveedores extends ResourceController
 
   /**
    * nuevoProveedor()
-   * PR_41_NUEVO_PROVEEDOR
+   * PR_41_NUEVO_PROVEEDOR 🧉
    */
   public function nuevoProveedor()
   {
