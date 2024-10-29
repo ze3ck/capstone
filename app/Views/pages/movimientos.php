@@ -265,7 +265,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <table class="ui unstackable celled very small scrolling table" id="tblMovimientos">
                 <thead>
                     <tr>
-                        <th>ID Movimiento</th>
+                        <th id="sortIDMov" data-order="none" style="cursor: pointer">ID Movimiento <i class="fas fa-sort" id="sortIcon" style="cursor: pointer"></i></th>
                         <th>Tipo</th>
                         <th>Fecha</th>
                         <th>Total</th>
