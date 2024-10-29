@@ -266,8 +266,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 </select>
                             </div>
                             <div class="field">
-                                <label>ID Lote</label>
-                                <input type="number" name="P_ID_LOTE" id="idLoteEdit" placeholder="ID del Lote" required>
+                                <label>Lote</label>
+                                <select class="ui clearable dropdown" id="idLoteEdit">
+                                    <option value="">Seleccionar Lote</option>
+                                </select>
                             </div>
                         </div>
 

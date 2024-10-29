@@ -21,59 +21,134 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
   });
+  $(document).ready(function () {
+
+    const tbody = document.getElementById("productTableBody");
+
+    tbody.addEventListener("click", function (event) {
+      const editarButton = event.target.closest(".editarProductoBtn");
+
+      if (editarButton) {
+        const row = editarButton.closest("tr");
+
+        const idProducto = row.cells[0].textContent.trim();
+        const nombreProducto = row.cells[1].textContent.trim();
+        const descripcionProducto = row.cells[2].textContent.trim();
+        const unidadMedida = row.cells[3].textContent.trim();
+        const totalCantidad = row.cells[4].textContent.trim();
+        const precioVenta = row.cells[5].textContent.trim();
+        const precioCompra = row.cells[6].textContent.trim();
+        const fechaCompra = row.cells[7].textContent.trim();
+        const fechaVencimiento = row.cells[8].textContent.trim();
+        const proveedorNombre = row.cells[9].textContent.trim(); // Nombre del proveedor
+        // if(fechaVencimiento == undefined){
+        //   fechaVencimiento = "0000-00-00"
+        // }
+
+        const unidadDropdown = document.getElementById("unidadMedidaEdit");
+        const proveedorDropdown = document.getElementById("proveedorEditField");
+
+        // Asigna el resto de los valores al modal
+        document.getElementById("idProductoEdit").value = idProducto;
+        document.getElementById("nombreProductoEdit").value = nombreProducto;
+        document.getElementById("descripcionProductoEdit").value = descripcionProducto;
+        document.getElementById("totalCantidadEdit").value = totalCantidad;
+        document.getElementById("precioVentaEdit").value = precioVenta;
+        document.getElementById("precioCompraEdit").value = precioCompra;
+        document.getElementById("fechaCompraEdit").value = fechaCompra;
+        document.getElementById("fechaVencimientoEdit").value = fechaVencimiento;
+
+        for (let i = 0; i < proveedorDropdown.options.length; i++) {
+          if (proveedorDropdown.options[i].text === proveedorNombre) {
+            proveedorDropdown.selectedIndex = i;
+            break;
+          }
+        }
+
+        for (let i = 0; i < unidadDropdown.options.length; i++) {
+          if (unidadDropdown.options[i].text === unidadMedida) {
+            unidadDropdown.selectedIndex = i;
+            break;
+          }
+        }
+        // Mostrar el modal de edición
+        $("#idLoteEdit").dropdown();
+        cargarLotesPorProducto(idProducto);
+
+
+        $("#editModal").modal("show");
+      }
+      let lotesData = [];
+      let cantidadDisponibleLote = 0;
+
+
+      $(".editarProductoBtn").on("click", function (event) {
+        const editarButton = event.target.closest(".editarProductoBtn");
+        const row = editarButton.closest("tr");
+        const idProducto = row.cells[0].textContent.trim();
+        cargarLotesPorProducto(idProducto);
+      });
+
+      $("#idLoteEdit").on("change", function () {
+        const selectedLote = $(this).val();
+        // let cantidadDisponibleLote = 0;
+
+        if (selectedLote) {
+          const loteSeleccionado = lotesData.find(
+            (lote) => lote.ID_LOTE == selectedLote
+          );
+          cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
+        }
+      });
+
+      async function cargarLotesPorProducto(id_producto) {
+        let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}movimientos/salidaMermaProductos`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                P_IDUSUARIO: id_usuario,
+                P_IDPRODUCTO: id_producto,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Error al cargar los lotes");
+          }
+
+          const data = await response.json();
+
+          const loteDropdown = document.getElementById("idLoteEdit");
+          loteDropdown.innerHTML = '<option id="idLote" value="">Seleccionar Lote</option>';
+
+          if (data.success && data.response.length > 0) {
+            lotesData = data.response; // Almacena los datos en lotesData
+
+            data.response.forEach((lote) => {
+              const option = document.createElement("option");
+              option.value = lote.ID_LOTE;
+              option.textContent = `Lote ${lote.ID_LOTE} - Cantidad: ${lote.CANTIDAD}`;
+              // option.textContent = `Lote ${lote.ID_LOTE} - Expira: ${lote.FECHA_VENCIMIENTO} - Cantidad: ${lote.CANTIDAD}`;
+              loteDropdown.appendChild(option);
+            });
+          } else {
+            // mostrarToast("No se encontraron lotes para este producto", "warning");
+          }
+        } catch (error) {
+          console.error("Hubo un error:", error);
+          mostrarToast("No se encontraron lotes para este producto", "warning");
+        }
+      }
+    });
+  })
   // llenar campos modal editar productos
-  const tbody = document.getElementById("productTableBody");
-
-  tbody.addEventListener("click", function (event) {
-    const editarButton = event.target.closest(".editarProductoBtn");
-
-    if (editarButton) {
-      const row = editarButton.closest("tr");
-
-      const idProducto = row.cells[0].textContent.trim();
-      const nombreProducto = row.cells[1].textContent.trim();
-      const descripcionProducto = row.cells[2].textContent.trim();
-      const unidadMedida = row.cells[3].textContent.trim();
-      const totalCantidad = row.cells[4].textContent.trim();
-      const precioVenta = row.cells[5].textContent.trim();
-      const precioCompra = row.cells[6].textContent.trim();
-      const fechaCompra = row.cells[7].textContent.trim();
-      const fechaVencimiento = row.cells[8].textContent.trim();
-      const proveedorNombre = row.cells[9].textContent.trim(); // Nombre del proveedor
-      if(fechaVencimiento == undefined){
-        fechaVencimiento = "0000-00-00"
-      }
-
-      const unidadDropdown = document.getElementById("unidadMedidaEdit");
-      const proveedorDropdown = document.getElementById("proveedorEditField");
-
-      // Asigna el resto de los valores al modal
-      document.getElementById("idProductoEdit").value = idProducto;
-      document.getElementById("nombreProductoEdit").value = nombreProducto;
-      document.getElementById("descripcionProductoEdit").value = descripcionProducto;
-      document.getElementById("totalCantidadEdit").value = totalCantidad;
-      document.getElementById("precioVentaEdit").value = precioVenta;
-      document.getElementById("precioCompraEdit").value = precioCompra;
-      document.getElementById("fechaCompraEdit").value = fechaCompra;
-      document.getElementById("fechaVencimientoEdit").value = fechaVencimiento;
-
-      for (let i = 0; i < proveedorDropdown.options.length; i++) {
-        if (proveedorDropdown.options[i].text === proveedorNombre) {
-          proveedorDropdown.selectedIndex = i;
-          break;
-        }
-      }
-
-      for (let i = 0; i < unidadDropdown.options.length; i++) {
-        if (unidadDropdown.options[i].text === unidadMedida) {
-          unidadDropdown.selectedIndex = i;
-          break;
-        }
-      }
-      // Mostrar el modal de edición
-      $("#editModal").modal("show");
-    }
-  });
 });
 
 window.onload = function () {
@@ -121,9 +196,9 @@ async function agregarNuevoProducto() {
   const precioVentaValue = precioVentaField.value.trim();
   const idUsuarioValue = idUsuario.textContent.trim();
 
-  if (fechaVencValue == "No Aplica") {
-    fechaVencValue = '9999-01-01';
-  }
+  // if (fechaVencValue == "No Aplica") {
+  //   fechaVencValue = '9999-01-01';
+  // }
 
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompValue || precioCompValue <= 0 ||
@@ -382,7 +457,7 @@ async function editarProducto() {
   const descripcionValue = document.getElementById("descripcionProductoEdit").value.trim();
   const unidadValue = document.getElementById("unidadMedidaEdit").value.trim();
   const proveedorValue = document.getElementById("proveedorEditField").value.trim();
-  const idLoteValue = document.getElementById("idLoteEdit").value.trim(); // Campo para el ID del lote
+  const idLoteValue = document.getElementById("idLote").value.trim(); // Campo para el ID del lote
   const fechaVencimientoValue = document.getElementById("fechaVencimientoEdit").value.trim(); // Campo para la fecha de vencimiento
   const fechaCompraValue = document.getElementById("fechaCompraEdit").value.trim();
   const cantidadValue = document.getElementById("totalCantidadEdit").value.trim();
@@ -402,9 +477,28 @@ async function editarProducto() {
   console.log(precioCompraValue);
   console.log(precioVentaValue);
 
-  if (fechaVencimientoValue == "") {
-    fechaVencimientoValue = "9999-01-01";
-  }
+  const productoData = {
+    P_ID_PRODUCTO: productoId, // Incluye el ID del producto
+    P_NOMBRE_PRODUCTO: nombreValue,
+    P_DESCRIPCION_PROD1: descripcionValue,
+    P_UNIDAD_MEDIDA: unidadValue,
+    P_ID_PROVEEDOR: proveedorValue,
+    P_ID_USUARIO: idUsuarioValue,
+    P_ID_LOTE: idLoteValue, // Incluye el ID del lote
+    P_FECHA_VENCIMIENTO: fechaVencimientoValue,
+    P_CANTIDAD: cantidadValue,
+    P_PRECIO_COMPRA: precioCompraValue,
+    P_PRECIO_VENTA: precioVentaValue,
+    P_FECHA_COMPRA: fechaCompraValue,
+  };
+  
+  // Muestra el objeto completo en la consola
+  console.log("Datos del producto a enviar:", productoData);
+  
+
+  // if (fechaVencimientoValue == "") {
+  //   fechaVencimientoValue = "9999-01-01";
+  // }
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompraValue || precioCompraValue <= 0 ||
     !precioVentaValue || precioVentaValue <= 0) {
@@ -417,6 +511,13 @@ async function editarProducto() {
   } else if (cantidadValue.length > 9 || precioCompraValue.length > 9 || precioVentaValue.length > 9) {
     $('body').toast({
       message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
+      showProgress: 'top',
+      class: 'error',
+      displayTime: 8000,
+    })
+  } else if (idLoteValue.value == "") {
+    $('body').toast({
+      message: "Por favor, seleccione un Lote",
       showProgress: 'top',
       class: 'error',
       displayTime: 8000,
