@@ -277,6 +277,36 @@ function agregarProveedoresATabla(proveedores) {
   });
 }
 
+
+async function editarProveedor(){
+  const nombreProveedorEdit = document.getElementById("nombreProveedorEdit").value.trim();
+  const nombreContactoEdit = document.getElementById("nombreContactoEdit").value.trim();
+  const telefonoContactoEdit = document.getElementById("telefonoContactoEdit").value.trim();
+  const emailContactoEdit = document.getElementById("emailContactoEdit").value.trim();
+  const nombreCalleEdit = document.getElementById("nombreCalleEdit").value.trim();
+  const numeroCalleEdit = document.getElementById("nuCalleEdit").value.trim();
+  const ciudadProveedorEdit = document.getElementById("nombreCalleEdit").value.trim();
+
+  if(
+    !nombreProveedorEdit ||nombreProveedorEdit.lenght == 0 ||
+    !nombreContactoEdit ||nombreContactoEdit.lenght == 0 ||
+    !telefonoContactoEdit ||telefonoContactoEdit.lenght == 0 ||
+    !emailContactoEdit ||emailContactoEdit.lenght == 0 ||
+    !nombreCalleEdit ||nombreCalleEdit.lenght == 0 ||
+    !numeroCalleEdit ||numeroCalleEdit.lenght == 0 ||
+    !ciudadProveedorEdit ||ciudadProveedorEdit.lenght == 0
+  ){
+    $('body').toast({
+      message: "Uno o más campos están vacíos",
+      showProgress: 'top',
+      class: 'error',
+      displayTime: 8000,
+    })
+  } else {
+    
+  }
+}
+
 /**
  * actualizarEstadoProveedor
  */

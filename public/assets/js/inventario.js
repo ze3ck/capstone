@@ -1088,10 +1088,8 @@ $(document).ready(function () {
             <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
             <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
             <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-            <td class="center aligned">${producto.PRECIO_VENTA}</td>
             <td class="center aligned">${producto.PRECIO_COMPRA}</td>
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
-            <td class="center aligned">${producto.FECHA_VENCIMIENTO && producto.FECHA_VENCIMIENTO !== "9999-01-01" ? producto.FECHA_VENCIMIENTO : "No Aplica"}
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">
                 <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
