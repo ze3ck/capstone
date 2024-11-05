@@ -1,11 +1,20 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+  $("#selectProveedor").dropdown();
+
   // $("#saveProductButton").click(agregarNuevoProducto);
   $("#addProductButton").click(selectProductos);
   $("#editProductButton").click(editarProducto);
   selectProveedores();
   selectUnidadMedida();
+  // selectProveedor();
+
+  $("#selectProveedor").dropdown({
+    onChange: function (value, text) {
+      filtrarTabla(); // Llama a la función de filtrado combinada
+    },
+  });
 
   $("#datosProducto").slideUp();
   $("#datosLote").slideDown();
@@ -491,10 +500,10 @@ async function editarProducto() {
     P_PRECIO_VENTA: precioVentaValue,
     P_FECHA_COMPRA: fechaCompraValue,
   };
-  
+
   // Muestra el objeto completo en la consola
   console.log("Datos del producto a enviar:", productoData);
-  
+
 
   // if (fechaVencimientoValue == "") {
   //   fechaVencimientoValue = "9999-01-01";
@@ -665,9 +674,29 @@ async function selectProveedores() {
       console.log("ID_PROVEEDOR:", opcion.ID_PROVEEDOR, "NOMBRE_PROVEEDOR:", opcion.NOMBRE_PROVEEDOR); // Depuración
       dropdownEdit.appendChild(opt);
     });
+
+    let menu = document.querySelector("#selectProveedor .menu");
+    menu.innerHTML = "";
+
+    // Agregar la opción "Todos"
+    let allItem = document.createElement("div");
+    allItem.className = "item";
+    allItem.dataset.value = ""; // Valor vacío para "Todos"
+    allItem.textContent = "Todos";
+    menu.appendChild(allItem);
+
+    // Agregar opciones de proveedores usando el nombre como valor
+    data.response.forEach((x) => {
+      let item = document.createElement("div");
+      item.className = "item";
+      item.dataset.value = x.NOMBRE_PROVEEDOR; // Usar el nombre del proveedor
+      item.textContent = x.NOMBRE_PROVEEDOR;
+      menu.appendChild(item);
+    });
   } catch (error) {
     console.error("Error al enviar la solicitud", error);
   }
+
 }
 
 // function llenadoSelect(idSelect, codOpcion, nomOpcion) {
@@ -1008,6 +1037,7 @@ $(document).ready(function () {
       }
     });
   });
+
 
   async function llenarTablaProductos() {
     console.log("Entré a llenarTabla");
@@ -1453,6 +1483,40 @@ $(document).ready(function () {
   });
 
 });
+
+function filtrarTabla() {
+  let estadoSeleccionado = $("#estadoDropdown").dropdown("get value");
+  let proveedorSeleccionado = $("#selectProveedor").dropdown("get value");
+
+  console.log("Filtrando por Estado:", estadoSeleccionado, "Proveedor:", proveedorSeleccionado);
+
+  const filas = document.querySelectorAll("#productTableBody tr");
+
+  filas.forEach(function (fila) {
+    const selectEstado = fila.querySelector(".estado-dropdown");
+    const nombreProveedorFila = fila.querySelector("td:nth-child(10)").textContent.trim(); // Nombre del proveedor en la columna
+
+    if (selectEstado) {
+      const estadoFila = selectEstado.value;
+      console.log("Estado en fila:", estadoFila, "Proveedor en fila:", nombreProveedorFila);
+
+      const mostrarPorEstado = estadoSeleccionado === "" || estadoSeleccionado === estadoFila;
+      const mostrarPorProveedor = proveedorSeleccionado === "" || proveedorSeleccionado === nombreProveedorFila;
+
+      if (mostrarPorEstado && mostrarPorProveedor) {
+        fila.style.display = ""; // Mostrar la fila
+        console.log("Fila mostrada");
+      } else {
+        fila.style.display = "none"; // Ocultar la fila
+        console.log("Fila oculta");
+      }
+    } else {
+      console.warn("No se encontró el select de estado en esta fila.");
+    }
+  });
+}
+
+
 document.getElementById("id-producto").addEventListener("click", function () {
   const tableBody = document.getElementById("productTableBody");
   const rows = Array.from(tableBody.querySelectorAll("tr"));

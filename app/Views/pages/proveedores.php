@@ -139,7 +139,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             Nuevo Proveedor
         </div>
         <div class="content">
-            <div class="ui form">
+            <form class="ui form" id="formNuevoProveedor">
                 <h4>Datos del Proveedor</h4>
                 <div class="two fields">
                     <div class="field">
@@ -172,57 +172,44 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
                 <div class="field">
-
                     <label>Región</label>
                     <div class="ui fluid search selection dropdown" id="selectNewRegion">
-                        <input type="hidden">
+                        <input type="hidden" name="region">
                         <i class="dropdown icon"></i>
-                        <div class="default text">Region del Proveedor</div>
+                        <div class="default text">Región del Proveedor</div>
                         <div class="menu">
-                            <!-- <div class="item" data-value="">Todos</div>
-                            <div class="item" data-value="1">LLENAR</div>
-                            <div class="item" data-value="2">DINAIMCO</div> -->
+                            <!-- Items de Región -->
                         </div>
                     </div>
                 </div>
                 <div class="two fields">
                     <div class="field">
-
                         <label>Comuna</label>
                         <div class="ui fluid search selection dropdown" id="selectNewComuna">
-                            <input type="hidden">
+                            <input type="hidden" name="comuna">
                             <i class="dropdown icon"></i>
                             <div class="default text">Comuna</div>
                             <div class="menu">
-                                <!-- <div class="item" data-value="">Todos</div>
-                                <div class="item" data-value="1">LLENAR</div>
-                                <div class="item" data-value="2">DINAMICO</div> -->
+                                <!-- Items de Comuna -->
                             </div>
                         </div>
                     </div>
                     <div class="field">
-
                         <label>Ciudad</label>
                         <div class="ui fluid search selection dropdown" id="selectNewCiudad">
-                            <input type="hidden">
+                            <input type="hidden" name="ciudad">
                             <i class="dropdown icon"></i>
                             <div class="default text">Ciudad</div>
                             <div class="menu">
-                                <!-- <div class="item" data-value="">Todos</div>
-                                <div class="item" data-value="1">LLENAR</div>
-                                <div class="item" data-value="2">DINAMICO</div> -->
+                                <!-- Items de Ciudad -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="two fields">
-
-
-                </div>
-            </div>
+            </form>
         </div>
         <div class="actions">
-            <button class="ui green button" id="guardarProveedor">Guardar</button>
+            <button type="submit" form="formNuevoProveedor" class="ui green button">Guardar</button>
             <button class="ui red cancel button" id="cancelarNuevoProveedor">Cancelar</button>
         </div>
     </div>

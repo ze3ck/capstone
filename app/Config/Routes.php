@@ -10,7 +10,7 @@ use App\Controllers\API\Proveedores;
  */
 /**
  * Rutas para contorlar Views\pages
- * Requieren AuthController
+ * Requieren AuthController 🧉
  */
 
 $routes->get('/', 'Home::index');
@@ -52,7 +52,7 @@ $routes->get('sessioncontroller/getSessionTime', 'SessionController::getSessionT
 $routes->get('sessioncontroller/updateLastActivity', 'SessionController::updateLastActivity');
 
 /**
- * [RESTful API's]
+ * [RESTful API's] 🧉
  */
 $routes->group(
   'api',
@@ -90,7 +90,7 @@ $routes->group(
 
 
     /**
-     * RESTful API's: others
+     * RESTful API's: others 🧉
      */
     // $routes->get('usuarios', 'Usuarios::index');
     $routes->post('usuarios/create',        'Usuarios::create');
@@ -109,7 +109,7 @@ $routes->group(
     $routes->post('usuarios/crearNuevoUsuario',   'Usuarios::crearNuevoUsuario');
 
     /**
-     * RESTful API's: Controllers\API\Movimientos
+     * RESTful API's: Controllers\API\Movimientos 🧉
      */
     $routes->post('movimientos/llenadoMovimiento',                'Movimientos::llenadoMovimiento');
     $routes->post('movimientos/llenadoDetalleMovimiento',         'Movimientos::llenadoDetalleMovimiento');
@@ -129,7 +129,7 @@ $routes->group(
     $routes->post('movimientos/GenerarMovimientoCompleto',        'Movimientos::GenerarMovimientoCompleto');
 
     /**
-     * RESTful API's: Controllers\API\Inventario-Productos
+     * RESTful API's: Controllers\API\Inventario-Productos 🧉
      */
     $routes->post('inventario/agregarProducto',         'Inventario::agregarProducto');
     $routes->post('inventario/llenarTablaProductos',    'Inventario::llenarTablaProductos');
@@ -144,7 +144,7 @@ $routes->group(
 
 
     /**
-     * RESTful API's: Controllers\API\Proveedores
+     * RESTful API's: Controllers\API\Proveedores 🧉
      */
     $routes->post('proveedores/selectProveedor',      'Proveedores::selectProveedor');
     $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
@@ -153,6 +153,7 @@ $routes->group(
     $routes->post('proveedores/selectRegion',         'Proveedores::selectRegion');
     $routes->post('proveedores/selectComuna',         'Proveedores::selectComuna');
     $routes->post('proveedores/selectCiudad',         'Proveedores::selectCiudad');
-    $routes->post('proveedores/actualizarProv',         'Proveedores::actualizarProv');
+    $routes->post('proveedores/actualizarProv',       'Proveedores::actualizarProv');
+    $routes->post('proveedores/nuevoProveedor',       'Proveedores::nuevoProveedor');
   }
 );

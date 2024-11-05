@@ -77,7 +77,7 @@ class Proveedores extends ResourceController
 
   /**
    * llenadoTablaProv()
-   * PR_33_LLENADO_TABLA_PROVEEDORES
+   * PR_33_LLENADO_TABLA_PROVEEDORES 🧉
    */
   public function llenadoTablaProv()
   {
@@ -147,7 +147,7 @@ class Proveedores extends ResourceController
 
   /**
    * llenadoTablaProv()
-   * PR_35_SELECT_CONTACTO
+   * PR_35_SELECT_CONTACTO 🧉
    */
   public function selectContacto()
   {
@@ -213,7 +213,7 @@ class Proveedores extends ResourceController
 
   /**
    * actualizarEstadoProv()
-   * PR_36_ACTUALIZAR_ESTADO_PROVEEDOR
+   * PR_36_ACTUALIZAR_ESTADO_PROVEEDOR 🧉
    */
   public function actualizarEstadoProv()
   {
@@ -261,7 +261,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectRegion()
-   * PR_38_SELECT_REGION
+   * PR_38_SELECT_REGION 🧉
    */
   public function selectRegion()
   {
@@ -312,7 +312,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectComuna()
-   * PR_39_SELECT_COMUNA
+   * PR_39_SELECT_COMUNA 🧉
    */
   public function selectComuna()
   {
@@ -368,7 +368,7 @@ class Proveedores extends ResourceController
 
   /**
    * selectCiudad()
-   * PR_40_SELECT_CIUDAD
+   * PR_40_SELECT_CIUDAD 🧉
    */
   public function selectCiudad()
   {
@@ -422,11 +422,12 @@ class Proveedores extends ResourceController
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
 
-/**
-   * selectCiudad()
-   * PR_42_ACTUALIZAR_PROVEEDOR
+
+  /**
+   * nuevoProveedor()
+   * PR_41_NUEVO_PROVEEDOR 🧉
    */
-  public function actualizarProv()
+  public function nuevoProveedor()
   {
     $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
     $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -440,8 +441,99 @@ class Proveedores extends ResourceController
     if ($this->request->getMethod() === 'POST') {
       $json = $this->request->getJSON();
 
-      if (!isset($json->P_IDCOMUNA) || !is_numeric($json->P_IDCOMUNA)) {
-        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID de la comuna o es inválido']);
+      // Definir los parámetros requeridos y su tipo
+      $requiredFields = [
+        'P_IDUSUARIO'         => 'numeric',
+        'P_NOMBRE_PROVEEDOR'  => 'string',
+        'P_NOMBRE_CONTACTO'   => 'string',
+        'P_TELEFONO'          => 'string',
+        'P_EMAIL'             => 'string',
+        'P_NOMBRE_CALLE'      => 'string',
+        'P_NUMERO_CALLE'      => 'numeric',
+        'P_ID_REGION'         => 'numeric',
+        'P_ID_COMUNA'         => 'numeric',
+        'P_ID_CIUDAD'         => 'numeric'
+      ];
+
+      // Validar los parámetros
+      foreach ($requiredFields as $field => $type) {
+        if (!isset($json->$field)) {
+          return $this->response->setStatusCode(400)->setJSON(['error' => "Falta el $field o es inválido"]);
+        }
+
+        // Validación según tipo
+        if ($type === 'numeric' && !is_numeric($json->$field)) {
+          return $this->response->setStatusCode(400)->setJSON(['error' => "El campo $field debe ser numérico"]);
+        }
+        if ($type === 'string' && !is_string($json->$field)) {
+          return $this->response->setStatusCode(400)->setJSON(['error' => "El campo $field debe ser texto"]);
+        }
+      }
+
+      // Asignación de parámetros
+      $P_IDUSUARIO          = $json->P_IDUSUARIO;
+      $P_NOMBRE_PROVEEDOR   = $json->P_NOMBRE_PROVEEDOR;
+      $P_NOMBRE_CONTACTO    = $json->P_NOMBRE_CONTACTO;
+      $P_TELEFONO           = $json->P_TELEFONO;
+      $P_EMAIL              = $json->P_EMAIL;
+      $P_NOMBRE_CALLE       = $json->P_NOMBRE_CALLE;
+      $P_NUMERO_CALLE       = $json->P_NUMERO_CALLE;
+      $P_ID_REGION          = $json->P_ID_REGION;
+      $P_ID_COMUNA          = $json->P_ID_COMUNA;
+      $P_ID_CIUDAD          = $json->P_ID_CIUDAD;
+
+      try {
+        $db = \Config\Database::connect();
+
+        // Ejecutar el procedimiento almacenado para insertar un nuevo proveedor
+        $db->query(
+          "CALL PR_41_NUEVO_PROVEEDOR(?,?,?,?,?,?,?,?,?,?)",
+          [
+            $P_IDUSUARIO,
+            $P_NOMBRE_PROVEEDOR,
+            $P_NOMBRE_CONTACTO,
+            $P_TELEFONO,
+            $P_EMAIL,
+            $P_NOMBRE_CALLE,
+            $P_NUMERO_CALLE,
+            $P_ID_REGION,
+            $P_ID_COMUNA,
+            $P_ID_CIUDAD
+          ]
+        );
+
+        return $this->respond([
+          'success' => true,
+          'message' => 'Proveedor insertado correctamente'
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
+  }
+
+  /**
+   * actualizarProv()
+   * PR_42_ACTUALIZAR_PROVEEDOR
+   */
+  public function actualizarProv()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDPROVEEDOR) || !is_numeric($json->P_IDPROVEEDOR)) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Falta el ID del proveedor o es inválido']);
       }
 
       $P_IDPROVEEDOR = $json->P_IDPROVEEDOR;
@@ -453,30 +545,42 @@ class Proveedores extends ResourceController
       $P_NOMBRE_CALLE = $json->P_NOMBRE_CALLE;
       $P_NUMERO_CALLE = $json->P_NUMERO_CALLE;
       $P_IDCIUDAD = $json->P_IDCIUDAD;
-      $P_IDCOMUNA = $json->P_IDCOMUNA;
       $P_IDREGION = $json->P_IDREGION;
 
       try {
         $db = \Config\Database::connect();
 
-        $query = $db->query("CALL PR_42_ACTUALIZAR_PROVEEDOR(?,?,?,?,?,?,?,?,?,?,?)", [$P_IDPROVEEDOR,$P_NOMBRE_PROVEEDOR,$P_NOMBRE_CONTACTO,$P_TELEFONO,$P_IDCOMUNA,$P_EMAIL,$P_NOMBRE_CALLE,$P_NUMERO_CALLE,$P_IDCIUDAD,$P_IDCOMUNA,$P_IDREGION]);
+        // Ejecutar el procedimiento almacenado para actualizar el proveedor
+        $query = $db->query("CALL PR_42_ACTUALIZAR_PROVEEDOR(?,?,?,?,?,?,?,?,?,?,?)", [
+          $P_IDPROVEEDOR,
+          $P_NOMBRE_PROVEEDOR,
+          $P_NOMBRE_CONTACTO,
+          $P_TELEFONO,
+          $P_IDCOMUNA,
+          $P_EMAIL,
+          $P_NOMBRE_CALLE,
+          $P_NUMERO_CALLE,
+          $P_IDCIUDAD,
+          $P_IDCOMUNA,
+          $P_IDREGION
+        ]);
 
         $result = $query->getResultArray();
 
         if (empty($result)) {
-          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron ciudades con la id de la comuna.' . $P_IDCOMUNA]);
+          return $this->response->setStatusCode(404)->setJSON(['message' => 'No se encontraron datos para la actualización.']);
         }
 
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "VALIDACION"           => $row['VALIDACION']
+            "VALIDACION" => $row['VALIDACION']
           ];
         }
 
         return $this->respond([
-          'success'   => true,
-          'response'  => $response
+          'success' => true,
+          'response' => $response
         ]);
       } catch (\Exception $e) {
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()]);
@@ -485,5 +589,4 @@ class Proveedores extends ResourceController
 
     return $this->response->setStatusCode(405)->setJSON(['error' => 'Método no permitido']);
   }
-
 }
