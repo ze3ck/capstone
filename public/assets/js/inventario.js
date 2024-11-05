@@ -45,11 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const descripcionProducto = row.cells[2].textContent.trim();
         const unidadMedida = row.cells[3].textContent.trim();
         const totalCantidad = row.cells[4].textContent.trim();
-        const precioVenta = row.cells[5].textContent.trim();
-        const precioCompra = row.cells[6].textContent.trim();
-        const fechaCompra = row.cells[7].textContent.trim();
-        const fechaVencimiento = row.cells[8].textContent.trim();
-        const proveedorNombre = row.cells[9].textContent.trim(); // Nombre del proveedor
+        const precioCompra = row.cells[5].textContent.trim();
+        const fechaCompra = row.cells[6].textContent.trim();
+        const proveedorNombre = row.cells[7].textContent.trim(); // Nombre del proveedor
         // if(fechaVencimiento == undefined){
         //   fechaVencimiento = "0000-00-00"
         // }
@@ -62,10 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("nombreProductoEdit").value = nombreProducto;
         document.getElementById("descripcionProductoEdit").value = descripcionProducto;
         document.getElementById("totalCantidadEdit").value = totalCantidad;
-        document.getElementById("precioVentaEdit").value = precioVenta;
         document.getElementById("precioCompraEdit").value = precioCompra;
         document.getElementById("fechaCompraEdit").value = fechaCompra;
-        document.getElementById("fechaVencimientoEdit").value = fechaVencimiento;
 
         for (let i = 0; i < proveedorDropdown.options.length; i++) {
           if (proveedorDropdown.options[i].text === proveedorNombre) {
