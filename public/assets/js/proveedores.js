@@ -547,3 +547,6 @@ function limpiarModalNuevoProveedor() {
 document
   .getElementById("cancelarNuevoProveedor")
   .addEventListener("click", limpiarModalNuevoProveedor);
+
+
+  
