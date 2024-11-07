@@ -20,7 +20,7 @@
     </a>
     <!-- <div class="content"> -->
     <div class="menu">
-      <a class="item" style="padding-left: 50px;">Niveles (Crit, Min, Max)</a>
+      <a class="item" style="padding-left: 50px;" href="<?= site_url('reportes') ?>">Niveles (Crit, Min, Max)</a>
       <a class="item" style="padding-left: 50px;">Mermas</a>
       <a class="item" style="padding-left: 50px;">Sin Movimientos</a>
       <a class="item" style="padding-left: 50px;">Mas Vendidos</a>
