@@ -256,6 +256,41 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <label>Ciudad</label>
                     <input type="text" name="ciudad" id="ciudadProveedorEdit" placeholder="Ciudad" required>
                 </div>
+                <div class="field">
+                    <label>Región</label>
+                    <div class="ui fluid search selection dropdown" id="selectNewRegionEdit">
+                        <input type="hidden" name="region">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Región del Proveedor</div>
+                        <div class="menu">
+                            <!-- Items de Región -->
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Comuna</label>
+                        <div class="ui fluid search selection dropdown" id="selectNewComunaEdit">
+                            <input type="hidden" name="comuna">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Comuna</div>
+                            <div class="menu">
+                                <!-- Items de Comuna -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Ciudad</label>
+                        <div class="ui fluid search selection dropdown" id="selectNewCiudadEdit">
+                            <input type="hidden" name="ciudad">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Ciudad</div>
+                            <div class="menu">
+                                <!-- Items de Ciudad -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="actions">

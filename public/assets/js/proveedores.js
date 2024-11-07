@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#selectNewCiudad").dropdown();
   $("#selectNewComuna").dropdown();
   $("#selectNewRegion").dropdown();
+  $("#editarProveedorBtn").click(editarProveedor);
 
   selectProveedor();
   selectContacto();
@@ -31,6 +32,42 @@ document.addEventListener("DOMContentLoaded", function () {
       filtrarTabla(); // Llama a la función de filtrado combinada
     },
   });
+  $(document).ready(function () {
+    const tbody = document.getElementById("tblProveedores_body");
+    tbody.addEventListener("click",function(event){
+      const editarButton = event.target.closest(".editarProveedorBtn");
+
+      if(editarButton){
+        const row = editarButton.closest("tr");
+
+        // const idProveedor = row.cells[0].textContent.trim();
+        const nombreProveedor = row.cells[1].textContent.trim();
+        const contacto = row.cells[2].textContent.trim();
+        const telefonoContacto = row.cells[3].textContent.trim()
+        const emailContacto = row.cells[4].textContent.trim();
+        const calle = row.cells[5].textContent.trim();
+        const numero = row.cells[6].textContent.trim();
+        const ciudad = row.cells[7].textContent.trim();
+        const estado = row.cells[8].textContent.trim();
+
+        // const selectRegion = document.getElementById("selectNewRegionEdit");
+        // const selectComuna = document.getElementById("selectNewComunaEdit");
+        // const selectCiudad = document.getElementById("selectNewCiudadEdit");
+        document.getElementById("nombreProveedorEdit").value = nombreProveedor;
+        document.getElementById("nombreContactoEdit").value = contacto;
+        document.getElementById("telefonoContactoEdit").value = telefonoContacto;
+        document.getElementById("emailContactoEdit").value = emailContacto;
+        document.getElementById("nombreCalleEdit").value = calle;
+        document.getElementById("numeroCalleEdit").value = numero;
+        document.getElementById("ciudadProveedorEdit").value = ciudad;
+        // document.getElementById("selectNewCiudadEdit").value;
+        // document.getElementById("selectNewComunaEdit").value;
+        // document.getElementById("selectNewRegionEdit").value;
+
+      }
+    })
+
+  })
 });
 
 async function selectContacto() {
@@ -258,7 +295,7 @@ function agregarProveedoresATabla(proveedores) {
               </td>
               <td class="center aligned actions-column">
                   <div class="ui icon buttons">
-                      <button class="ui icon button editarProveedorBtn" onclick="abrirModalEditarProveedor(${
+                      <button class="ui icon button editarProveedorBtn" data-proveedor-id="${proveedor.ID_PROVEEDOR}"onclick="abrirModalEditarProveedor(${
                         proveedor.ID_PROVEEDOR
                       })" title="Editar">
                           <i class="fas fa-edit" style="color: blue;"></i>
@@ -277,6 +314,20 @@ function agregarProveedoresATabla(proveedores) {
   });
 }
 
+let proveedorId = null;
+
+const tbody = document.getElementById("tblProveedores");
+// Delegación de eventos para el clic en los botones de edición
+tbody.addEventListener("click", function (event) {
+  const editarButton = event.target.closest(".editarProveedorBtn");
+
+  if (editarButton) {
+    proveedorId = editarButton.getAttribute("data-proveedor-id");
+    $("#modalEditarProveedor").modal("show");
+    console.log("id proveedor editar: ", proveedorId);
+  }
+});
+
 
 async function editarProveedor(){
   const nombreProveedorEdit = document.getElementById("nombreProveedorEdit").value.trim();
@@ -286,7 +337,9 @@ async function editarProveedor(){
   const nombreCalleEdit = document.getElementById("nombreCalleEdit").value.trim();
   const numeroCalleEdit = document.getElementById("nuCalleEdit").value.trim();
   const ciudadProveedorEdit = document.getElementById("nombreCalleEdit").value.trim();
-
+  const selectNewCiudadEdit = document.getElementById("selectNewCiudadEdit").value.trim();
+  const selectNewComunaEdit = document.getElementById("selectNewComunaEdit").value.trim();
+  const selectNewRegionEdit = document.getElementById("selectNewRegionEdit").value.trim();
   if(
     !nombreProveedorEdit ||nombreProveedorEdit.lenght == 0 ||
     !nombreContactoEdit ||nombreContactoEdit.lenght == 0 ||
@@ -303,7 +356,64 @@ async function editarProveedor(){
       displayTime: 8000,
     })
   } else {
-    
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}proveedores/actualizarProv`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            P_IDPROVEEDOR: proveedorId, //CORREGIR
+            P_NOMBRE_PROVEEDOR: nombreProveedorEdit,
+            P_NOMBRE_CONTACTO: nombreContactoEdit,
+            P_TELEFONO: telefonoContactoEdit,
+            P_EMAIL: emailContactoEdit,
+            P_NOMBRE_CALLE: nombreCalleEdit,
+            P_NUMERO_CALLE: numeroCalleEdit,
+            P_IDCIUDAD: selectNewCiudadEdit, //CORREGIR
+            P_IDCOMUNA: selectNewComunaEdit, //CORREGIR
+            P_IDREGION: selectNewRegionEdit //CORREGIR
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error al editar el proveedor. Estado: ${response.status}`
+        );
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        console.log("Proveedor editado con éxito:", data);
+
+        // Mostrar mensaje de éxito con toast
+        $("body").toast({
+          message: "Se ha editado el proveedor exitosamente",
+          class: "success",
+          displayTime: 3000,
+        });
+      } else {
+        console.warn("El servidor no devolvió un JSON válido.");
+        // Mostrar mensaje de advertencia si no es JSON válido
+        $("body").toast({
+          message:
+            "Proveedor editado exitosamente, pero la respuesta no es válida.",
+          class: "warning",
+          displayTime: 3000,
+        });
+        // Limpiar los campos del formulario
+        limpiarFormulario();
+
+        // Cerrar el modal
+        $("#editModal").modal("hide");
+      }
+    } catch (error) {
+      
+    }
   }
 }
 

@@ -540,11 +540,11 @@ class Proveedores extends ResourceController
       $P_NOMBRE_PROVEEDOR = $json->P_NOMBRE_PROVEEDOR;
       $P_NOMBRE_CONTACTO = $json->P_NOMBRE_CONTACTO;
       $P_TELEFONO = $json->P_TELEFONO;
-      $P_IDCOMUNA = $json->P_IDCOMUNA;
       $P_EMAIL = $json->P_EMAIL;
       $P_NOMBRE_CALLE = $json->P_NOMBRE_CALLE;
       $P_NUMERO_CALLE = $json->P_NUMERO_CALLE;
       $P_IDCIUDAD = $json->P_IDCIUDAD;
+      $P_IDCOMUNA = $json->P_IDCOMUNA;
       $P_IDREGION = $json->P_IDREGION;
 
       try {
@@ -556,7 +556,6 @@ class Proveedores extends ResourceController
           $P_NOMBRE_PROVEEDOR,
           $P_NOMBRE_CONTACTO,
           $P_TELEFONO,
-          $P_IDCOMUNA,
           $P_EMAIL,
           $P_NOMBRE_CALLE,
           $P_NUMERO_CALLE,

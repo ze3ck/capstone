@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const descripcionProducto = row.cells[2].textContent.trim();
         const unidadMedida = row.cells[3].textContent.trim();
         const totalCantidad = row.cells[4].textContent.trim();
-        const precioCompra = row.cells[5].textContent.trim();
+        // const precioCompra = row.cells[5].textContent.trim();
         const fechaCompra = row.cells[6].textContent.trim();
         const proveedorNombre = row.cells[7].textContent.trim(); // Nombre del proveedor
         // if(fechaVencimiento == undefined){
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("nombreProductoEdit").value = nombreProducto;
         document.getElementById("descripcionProductoEdit").value = descripcionProducto;
         document.getElementById("totalCantidadEdit").value = totalCantidad;
-        document.getElementById("precioCompraEdit").value = precioCompra;
+        // document.getElementById("precioCompraEdit").value = precioCompra;
         document.getElementById("fechaCompraEdit").value = fechaCompra;
 
         for (let i = 0; i < proveedorDropdown.options.length; i++) {
