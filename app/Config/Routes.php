@@ -136,6 +136,7 @@ $routes->group(
     $routes->post('inventario/agregarNuevoProducto',    'Inventario::agregarNuevoProducto');
     $routes->post('inventario/selectProductos',         'Inventario::selectProductos');
     $routes->get('inventario/selectUnidadMedida',       'Inventario::selectUnidadMedida');
+    $routes->post('inventario/selectDatosLote',         'Inventario::selectDatosLote');
     $routes->post('inventario/selectProveedores',       'Inventario::selectProveedores');
     $routes->post('inventario/nuevoLote',               'Inventario::nuevoLote');
     $routes->post('inventario/actualizaEstadoProducto', 'Inventario::actualizaEstadoProducto');

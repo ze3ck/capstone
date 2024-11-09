@@ -618,4 +618,60 @@ class Inventario extends ResourceController
       return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
     }
   }
+  /**
+   * selectDatosLote()
+   * PR_43_DATOS_LOTES
+   */
+  public function selectDatosLote()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    try {
+      $input = $this->request->getJSON();
+  
+      // Validar los campos de entrada
+      if (!isset($input->P_IDPRODUCTO) || !isset($input->P_IDLOTE)) {
+          return $this->respond([
+              'success' => false,
+              'message' => 'P_IDPRODUCTO y P_IDLOTE son requeridos.'
+          ], 400);
+      }
+  
+      if ($this->request->getMethod() === 'POST') {
+          $db = \Config\Database::connect();
+  
+          $query = $db->query(
+              "CALL PR_43_DATOS_LOTES(?, ?)",
+              [
+                  $input->P_IDPRODUCTO,
+                  $input->P_IDLOTE
+              ]
+          );
+  
+          $result = $query->getResultArray();
+  
+          if (!empty($result)) {
+              return $this->respond([
+                  'success'  => true,
+                  'message'  => 'Modal llenado correctamente.',
+                  'response' => $result
+              ], 200);
+          } else {
+              return $this->respond([
+                  'success' => false,
+                  'message' => 'No se encontraron datos para el lote seleccionado.',
+              ], 200);
+          }
+      }
+  } catch (\Exception $e) {
+      return $this->failServerError('Ocurrió un error en el servidor: ' . $e->getMessage());
+  }
+  }
 }

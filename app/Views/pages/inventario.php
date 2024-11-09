@@ -229,8 +229,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <input type="text" name="P_NOMBRE_PRODUCTO" id="nombreProductoEdit" placeholder="Nombre Producto" required>
                             </div>
                             <div class="field">
-                                <label>Descripción Producto</label>
-                                <input type="text" name="P_DESCRIPCION_PRODUCTO" id="descripcionProductoEdit" placeholder="Descripción Producto" required>
+                                <label>Lote</label>
+                                <select class="ui clearable dropdown" id="idLoteEdit">
+                                    <option value="">Seleccionar Lote</option>
+                                </select>
+                                <div class="ui checked checkbox">
+                                    <input type="checkbox" checked="">
+                                    <label>Usar este Lote</label>
+                                </div>
                             </div>
                         </div>
 
@@ -265,11 +271,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                     <option value="">Seleccione Proveedor</option>
                                 </select>
                             </div>
+
                             <div class="field">
-                                <label>Lote</label>
-                                <select class="ui clearable dropdown" id="idLoteEdit">
-                                    <option value="">Seleccionar Lote</option>
-                                </select>
+                                <label>Descripción Producto</label>
+                                <input type="text" name="P_DESCRIPCION_PRODUCTO" id="descripcionProductoEdit" placeholder="Descripción Producto" required>
                             </div>
                         </div>
 
