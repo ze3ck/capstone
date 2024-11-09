@@ -159,8 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
               mostrarToast("Error al cargar los lotes del producto.", "error");
           }
       }
-      
-      // Escuchar el evento 'change' en el dropdown de lotes
       document.getElementById("idLoteEdit").addEventListener("change", async function () {
           const selectedLote = this.value; // Lote seleccionado
           const idProducto = document.getElementById("idProductoEdit").value; // ID del producto seleccionado
@@ -192,6 +190,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       document.getElementById("precioVentaEdit").value = loteData.PRECIO_VENTA || '';
                       document.getElementById("fechaVencimientoEdit").value = loteData.FECHA_VENCIMIENTO || '';
                       document.getElementById("fechaCompraEdit").value = loteData.FECHA_COMPRA || '';
+
+                      if(loteData.FECHA_VENCIMIENTO == "9999-01-01"){
+                        document.getElementById("fechaVencimientoEdit").value = "No Aplica";
+                      }
                   } else {
                       mostrarToast("No se encontraron datos para el lote seleccionado.", "warning");
                       limpiarCampos();
