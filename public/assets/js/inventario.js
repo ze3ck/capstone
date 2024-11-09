@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // $("#saveProductButton").click(agregarNuevoProducto);
   $("#addProductButton").click(selectProductos);
   $("#editProductButton").click(editarProducto);
+  $("#editProductButtonCancel").click(limpiarCampos);
   selectProveedores();
   selectUnidadMedida();
   // selectProveedor();
@@ -652,9 +653,6 @@ async function editarProducto() {
           class: "warning",
           displayTime: 3000,
         });
-        // Limpiar los campos del formulario
-        limpiarFormulario();
-
         // Cerrar el modal
         $("#editModal").modal("hide");
       }
@@ -1039,6 +1037,7 @@ $(document).ready(function () {
         updateProductTable();
         $("#editProductModal").modal("hide");
       });
+      limpiarFormularioProducto()
   });
 
   function clearForm() {
@@ -1599,3 +1598,27 @@ document.getElementById("id-producto").addEventListener("click", function () {
   tableBody.innerHTML = "";
   rows.forEach((row) => tableBody.appendChild(row));
 });
+
+function limpiarCampos() {
+  const campos = [
+      "precioCompraEdit",
+      "precioVentaEdit",
+      "fechaVencimientoEdit"
+  ];
+
+  // Limpiar campos de texto
+  campos.forEach(campo => {
+      const input = document.getElementById(campo);
+      if (input) {
+          input.value = ''; // Limpiar el valor del campo
+      }
+  });
+
+  // Restablecer el dropdown con Fomantic-UI
+  const dropdown = $("#idLoteEdit");
+  if (dropdown.length) {
+      dropdown.dropdown("clear"); // Limpia el valor seleccionado en el dropdown de Fomantic-UI
+  }
+
+  console.log("Campos limpiados correctamente.");
+}

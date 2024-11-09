@@ -306,7 +306,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <!-- Campo oculto para ID Usuario -->
                 <span id="idUsuarioEdit" style="display: none;"><?php echo session('user_id'); ?></span>
                 <button class="ui green button" id="editProductButton">Guardar</button>
-                <button class="ui red cancel button">Cancelar</button>
+                <button class="ui red cancel button" id="editProductButtonCancel">Cancelar</button>
             </div>
         </div>
 
