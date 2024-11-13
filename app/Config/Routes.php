@@ -4,6 +4,7 @@ use App\Controllers\API\Usuarios;
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\API\Inventario;
 use App\Controllers\API\Proveedores;
+use App\Controllers\API\Reportes;
 
 /**
  * @var RouteCollection $routes
@@ -87,7 +88,12 @@ $routes->group(
     $routes->options('proveedores/(:any)', function () {
       return response()->setStatusCode(204);
     });
-
+    $routes->options('reportes', function () {
+      return response()->setStatusCode(204);
+    });
+    $routes->options('reportes/(:any)', function () {
+      return response()->setStatusCode(204);
+    });
 
     /**
      * RESTful API's: others 🧉
@@ -156,5 +162,12 @@ $routes->group(
     $routes->post('proveedores/selectCiudad',         'Proveedores::selectCiudad');
     $routes->post('proveedores/actualizarProv',       'Proveedores::actualizarProv');
     $routes->post('proveedores/nuevoProveedor',       'Proveedores::nuevoProveedor');
+
+
+    /**
+     * RESTful API's: Controllers\API\Reportes 🧉
+     */
+    $routes->post('reportes/datosLotes',    'Reportes::datosLotes');
+    $routes->post('reportes/tablaNiveles',  'Reportes::tablaNiveles');
   }
 );
