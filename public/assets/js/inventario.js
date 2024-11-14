@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // $("#saveProductButton").click(agregarNuevoProducto);
   $("#addProductButton").click(selectProductos);
   $("#editProductButton").click(editarProducto);
+  $("#editProductButton").click(refreshTable);
+  $("#editProductButton").click(refreshTable);
   $("#editProductButtonCancel").click(limpiarCampos);
   selectProveedores();
   selectUnidadMedida();
@@ -31,6 +33,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
   });
+
+  function refreshTable() {
+    $.ajax({
+      url: 'http://localhost:8080/inventario',
+      method: 'GET',
+      success: function (response) {
+        // Maneja la respuesta aquí si es necesario
+        console.log("Datos cargados exitosamente.");
+        
+        // Recarga la página después de una carga exitosa
+        location.reload();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar la tabla: ", error);
+      }
+    });
+  }
   $(document).ready(function () {
 
     const tbody = document.getElementById("productTableBody");
@@ -57,12 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#idLoteEdit").on("change", function () {
           const selectedLote = $(this).val();
           const idProducto = document.getElementById("idProductoEdit").value;
-  
+
           if (selectedLote && idProducto) {
           } else {
-              limpiarCampos();
+            limpiarCampos();
           }
-      });
+        });
         const unidadDropdown = document.getElementById("unidadMedidaEdit");
         const proveedorDropdown = document.getElementById("proveedorEditField");
 
@@ -118,113 +137,100 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       async function cargarLotesPorProducto(id_producto) {
-          const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
-      
-          try {
-              const response = await fetch(`${API_BASE_URL}movimientos/salidaMermaProductos`, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                      P_IDUSUARIO: id_usuario,
-                      P_IDPRODUCTO: id_producto,
-                  }),
-              });
-      
-              if (!response.ok) {
-                  throw new Error("Error al cargar los lotes");
-              }
-      
-              const data = await response.json();
-      
-              const loteDropdown = document.getElementById("idLoteEdit");
-              loteDropdown.innerHTML = '<option value="">Seleccionar Lote</option>'; // Limpia las opciones anteriores
-      
-              if (data.success && data.response.length > 0) {
-                  lotesData = data.response; // Almacena los datos de los lotes
-      
-                  data.response.forEach((lote) => {
-                      const option = document.createElement("option");
-                      option.value = lote.ID_LOTE;
-                      option.textContent = `Lote ${lote.ID_LOTE} - Cantidad: ${lote.CANTIDAD}`;
-                      loteDropdown.appendChild(option);
-                  });
-      
-                  mostrarToast("Lotes cargados correctamente", "success");
-              } else {
-                  mostrarToast("No se encontraron lotes para este producto", "warning");
-              }
-          } catch (error) {
-              console.error("Hubo un error:", error);
-              mostrarToast("Error al cargar los lotes del producto.", "error");
+        const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
+
+        try {
+          const response = await fetch(`${API_BASE_URL}movimientos/salidaMermaProductos`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              P_IDUSUARIO: id_usuario,
+              P_IDPRODUCTO: id_producto,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Error al cargar los lotes");
           }
+
+          const data = await response.json();
+
+          const loteDropdown = document.getElementById("idLoteEdit");
+          loteDropdown.innerHTML = '<option value="">Seleccionar Lote</option>'; // Limpia las opciones anteriores
+
+          if (data.success && data.response.length > 0) {
+            lotesData = data.response; // Almacena los datos de los lotes
+
+            data.response.forEach((lote) => {
+              const option = document.createElement("option");
+              option.value = lote.ID_LOTE;
+              option.textContent = `Lote ${lote.ID_LOTE} - Cantidad: ${lote.CANTIDAD}`;
+              loteDropdown.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Hubo un error:", error);
+        }
       }
       document.getElementById("idLoteEdit").addEventListener("change", async function () {
-          const selectedLote = this.value; // Lote seleccionado
-          const idProducto = document.getElementById("idProductoEdit").value; // ID del producto seleccionado
-      
-          if (selectedLote && idProducto) {
-              try {
-                  const response = await fetch(`${API_BASE_URL}/inventario/selectDatosLote`, {
-                      method: "POST",
-                      headers: {
-                          "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                          P_IDPRODUCTO: idProducto,
-                          P_IDLOTE: selectedLote,
-                      }),
-                  });
-      
-                  if (!response.ok) {
-                      throw new Error("Error al cargar los datos del lote");
-                  }
-      
-                  const data = await response.json();
-      
-                  if (data.success) {
-                      const loteData = data.response[0]; // Suponiendo que solo se devuelve un objeto con datos del lote
-      
-                      // Rellenar los campos con los datos del lote
-                      document.getElementById("precioCompraEdit").value = loteData.PRECIO_COMPRA || '';
-                      document.getElementById("precioVentaEdit").value = loteData.PRECIO_VENTA || '';
-                      document.getElementById("fechaVencimientoEdit").value = loteData.FECHA_VENCIMIENTO || '';
-                      document.getElementById("fechaCompraEdit").value = loteData.FECHA_COMPRA || '';
+        const selectedLote = this.value; // Lote seleccionado
+        const idProducto = document.getElementById("idProductoEdit").value; // ID del producto seleccionado
 
-                      if(loteData.FECHA_VENCIMIENTO == "9999-01-01"){
-                        document.getElementById("fechaVencimientoEdit").value = "No Aplica";
-                      }
-                  } else {
-                      mostrarToast("No se encontraron datos para el lote seleccionado.", "warning");
-                      limpiarCampos();
-                  }
-              } catch (error) {
-                  console.error("Error:", error);
-                  mostrarToast("Error al cargar datos del lote.", "error");
-                  limpiarCampos();
+        if (selectedLote && idProducto) {
+          try {
+            const response = await fetch(`${API_BASE_URL}/inventario/selectDatosLote`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                P_IDPRODUCTO: idProducto,
+                P_IDLOTE: selectedLote,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Error al cargar los datos del lote");
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+              const loteData = data.response[0]; // Suponiendo que solo se devuelve un objeto con datos del lote
+
+              // Rellenar los campos con los datos del lote
+              document.getElementById("precioCompraEdit").value = loteData.PRECIO_COMPRA || '';
+              document.getElementById("precioVentaEdit").value = loteData.PRECIO_VENTA || '';
+              document.getElementById("fechaVencimientoEdit").value = loteData.FECHA_VENCIMIENTO || '';
+              document.getElementById("fechaCompraEdit").value = loteData.FECHA_COMPRA || '';
+
+              if (loteData.FECHA_VENCIMIENTO == "9999-01-01") {
+                document.getElementById("fechaVencimientoEdit").value = "";
+                document.getElementById("fechaVencimientoEdit").placeholder = "No Aplica";
               }
-          } else {
+            } else {
               limpiarCampos();
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            limpiarCampos();
           }
+        } else {
+          limpiarCampos();
+        }
       });
-      
+
       // Función para limpiar campos
       function limpiarCampos() {
-          document.getElementById("precioCompraEdit").value = '';
-          document.getElementById("precioVentaEdit").value = '';
-          document.getElementById("fechaVencimientoEdit").value = '';
-          document.getElementById("fechaCompraEdit").value = '';
+        document.getElementById("precioCompraEdit").value = '';
+        document.getElementById("precioVentaEdit").value = '';
+        document.getElementById("fechaVencimientoEdit").value = '';
+        document.getElementById("fechaCompraEdit").value = '';
       }
-      
-      function mostrarToast(mensaje, tipo) {
-        // Implementar una notificación o alert según el diseño de la aplicación
-        alert(`${tipo.toUpperCase()}: ${mensaje}`);
-      }
-
     });
   })
-  // llenar campos modal editar productos
 });
 
 window.onload = function () {
@@ -533,8 +539,8 @@ async function editarProducto() {
   const descripcionValue = document.getElementById("descripcionProductoEdit").value.trim();
   const unidadValue = document.getElementById("unidadMedidaEdit").value.trim();
   const proveedorValue = document.getElementById("proveedorEditField").value.trim();
-  const idLoteValue = document.getElementById("idLote").value.trim(); // Campo para el ID del lote
-  const fechaVencimientoValue = document.getElementById("fechaVencimientoEdit").value.trim(); // Campo para la fecha de vencimiento
+  const idLoteValue = document.getElementById("idLoteEdit").value.trim(); // Campo para el ID del lote
+  let fechaVencimientoValue = document.getElementById("fechaVencimientoEdit").value.trim(); // Campo para la fecha de vencimiento
   const fechaCompraValue = document.getElementById("fechaCompraEdit").value.trim();
   const cantidadValue = document.getElementById("totalCantidadEdit").value.trim();
   const precioCompraValue = document.getElementById("precioCompraEdit").value.trim();
@@ -572,9 +578,9 @@ async function editarProducto() {
   console.log("Datos del producto a enviar:", productoData);
 
 
-  // if (fechaVencimientoValue == "") {
-  //   fechaVencimientoValue = "9999-01-01";
-  // }
+  if (fechaVencimientoValue == "") {
+    fechaVencimientoValue = "9999-01-01";
+  }
   if (!cantidadValue || cantidadValue <= 0 ||
     !precioCompraValue || precioCompraValue <= 0 ||
     !precioVentaValue || precioVentaValue <= 0) {
@@ -602,20 +608,20 @@ async function editarProducto() {
   else {
     try {
       const response = await fetch(
-        `${API_BASE_URL}inventario/editarProducto`, // URL para editar el producto
+        `${API_BASE_URL}inventario/editarProducto`,
         {
-          method: "POST", // El método sigue siendo POST
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            P_ID_PRODUCTO: productoId, // Incluye el ID del producto
+            P_ID_PRODUCTO: productoId,
             P_NOMBRE_PRODUCTO: nombreValue,
             P_DESCRIPCION_PROD1: descripcionValue,
             P_UNIDAD_MEDIDA: unidadValue,
             P_ID_PROVEEDOR: proveedorValue,
             P_ID_USUARIO: idUsuarioValue,
-            P_ID_LOTE: idLoteValue, // Incluye el ID del lote
+            P_ID_LOTE: idLoteValue,
             P_FECHA_VENCIMIENTO: fechaVencimientoValue,
             P_CANTIDAD: cantidadValue,
             P_PRECIO_COMPRA: precioCompraValue,
@@ -1037,7 +1043,7 @@ $(document).ready(function () {
         updateProductTable();
         $("#editProductModal").modal("hide");
       });
-      limpiarFormularioProducto()
+    limpiarFormularioProducto()
   });
 
   function clearForm() {
@@ -1601,23 +1607,23 @@ document.getElementById("id-producto").addEventListener("click", function () {
 
 function limpiarCampos() {
   const campos = [
-      "precioCompraEdit",
-      "precioVentaEdit",
-      "fechaVencimientoEdit"
+    "precioCompraEdit",
+    "precioVentaEdit",
+    "fechaVencimientoEdit"
   ];
 
   // Limpiar campos de texto
   campos.forEach(campo => {
-      const input = document.getElementById(campo);
-      if (input) {
-          input.value = ''; // Limpiar el valor del campo
-      }
+    const input = document.getElementById(campo);
+    if (input) {
+      input.value = ''; // Limpiar el valor del campo
+    }
   });
 
   // Restablecer el dropdown con Fomantic-UI
   const dropdown = $("#idLoteEdit");
   if (dropdown.length) {
-      dropdown.dropdown("clear"); // Limpia el valor seleccionado en el dropdown de Fomantic-UI
+    dropdown.dropdown("clear"); // Limpia el valor seleccionado en el dropdown de Fomantic-UI
   }
 
   console.log("Campos limpiados correctamente.");
