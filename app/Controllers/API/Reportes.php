@@ -50,11 +50,11 @@ class Reportes extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "CANTIDAD"         => $row['CANTIDAD'],
-            "PRECIO_COMPRA"    => $row['PRECIO_COMPRA'],
-            "PRECIO_VENTA"     => $row['PRECIO_VENTA'],
+            "CANTIDAD"          => $row['CANTIDAD'],
+            "PRECIO_COMPRA"     => $row['PRECIO_COMPRA'],
+            "PRECIO_VENTA"      => $row['PRECIO_VENTA'],
             "FECHA_VENCIMIENTO" => $row['FECHA_VENCIMIENTO'],
-            "FECHA_COMPRA"     => $row['FECHA_COMPRA']
+            "FECHA_COMPRA"      => $row['FECHA_COMPRA']
           ];
         }
 
@@ -117,11 +117,11 @@ class Reportes extends ResourceController
         $response = [];
         foreach ($result as $row) {
           $response[] = [
-            "ID_PRODUCTO"    => $row['ID_PRODUCTO'],
+            "ID_PRODUCTO"     => $row['ID_PRODUCTO'],
             "NOMBRE_PRODUCTO" => $row['NOMBRE_PRODUCTO'],
-            "CANTIDAD"       => $row['CANTIDAD'],
-            "ESTADO"         => $row['ESTADO'],
-            "IDEAL"          => $row['IDEAL']
+            "CANTIDAD"        => $row['CANTIDAD'],
+            "ESTADO"          => $row['ESTADO'],
+            "IDEAL"           => $row['IDEAL']
           ];
         }
 
