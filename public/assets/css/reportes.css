@@ -124,3 +124,7 @@ h1 {
 .ui.segment {
   padding: 3px ;
 }
+
+.hidden-row {
+  display: none;
+}

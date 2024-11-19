@@ -9,6 +9,10 @@ use Config\Database;
 class Reportes extends ResourceController
 {
 
+  /**
+   * datosLotes()
+   * PR_43_DATOS_LOTES
+   */
   public function datosLotes()
   {
     // Configurar las cabeceras CORS
