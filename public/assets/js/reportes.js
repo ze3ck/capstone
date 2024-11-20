@@ -2,6 +2,8 @@
 
 import { API_BASE_URL } from "./apiConfig.js";
 
+let chart; // Variable global para almacenar la instancia del gráfico
+
 document.addEventListener("DOMContentLoaded", () => {
   const userIdElement = document.getElementById("ID_USUARIO");
   const userId = userIdElement ? userIdElement.textContent.trim() : null;
@@ -66,6 +68,13 @@ async function cargarTablas(userId) {
         "ESTADO",
       ]);
 
+      // Procesar datos para el gráfico
+      const { labels, porcentajes } = procesarDatosParaGrafico(productos);
+      console.log("Datos para el gráfico:", { labels, porcentajes });
+
+      // Actualizar o inicializar el gráfico
+      actualizarGrafico(labels, porcentajes);
+
       // Inicializar DataTables
       inicializarDataTables();
     } else {
@@ -93,6 +102,122 @@ function llenarTabla(idTabla, datos, campos) {
     tablaBody.appendChild(fila);
   });
   console.log(`Tabla ${idTabla} llenada.`);
+}
+
+function procesarDatosParaGrafico(productos) {
+  // Inicializar un objeto para almacenar las sumas por estado
+  const sumasPorEstado = {
+    "Sobre Stock": 0,
+    Bien: 0,
+    Mínimo: 0,
+    Crítico: 0,
+  };
+
+  // Recorrer los productos y sumar las cantidades según el estado
+  productos.forEach((producto) => {
+    const estado = producto.ESTADO;
+    const cantidad = parseFloat(producto.CANTIDAD) || 0;
+
+    switch (estado) {
+      case "SOBRE_STOCK":
+        sumasPorEstado["Sobre Stock"] += cantidad;
+        break;
+      case "BIEN":
+        sumasPorEstado["Bien"] += cantidad;
+        break;
+      case "MINIMO":
+        sumasPorEstado["Mínimo"] += cantidad;
+        break;
+      case "CRITICO":
+      case "BAJO_CRITICO":
+        sumasPorEstado["Crítico"] += cantidad;
+        break;
+      default:
+        // Manejar estados desconocidos si es necesario
+        break;
+    }
+  });
+
+  // Calcular el total para determinar los porcentajes
+  const total = Object.values(sumasPorEstado).reduce(
+    (acc, val) => acc + val,
+    0
+  );
+
+  // Calcular los porcentajes como números
+  const porcentajes = Object.keys(sumasPorEstado).map((estado) => {
+    return total > 0
+      ? parseFloat(((sumasPorEstado[estado] / total) * 100).toFixed(2))
+      : 0;
+  });
+
+  // Obtener los labels en el orden deseado
+  const labels = Object.keys(sumasPorEstado);
+
+  return { labels, porcentajes };
+}
+
+function inicializarGrafico(labels, porcentajes) {
+  const options = {
+    series: porcentajes,
+    chart: {
+      width: 500,
+      type: "pie",
+      background: "#2e2e2e",
+    },
+    labels: labels,
+    colors: ["#3498db", "#2ecc71", "#f39c12", "#e74c3c"],
+    legend: {
+      position: "bottom",
+      labels: {
+        colors: "#FFFFFF",
+      },
+    },
+    tooltip: {
+      theme: "dark",
+      y: {
+        formatter: function (val) {
+          return val + "%";
+        },
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
+  };
+
+  chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+  console.log("Gráfico inicializado.");
+}
+
+function actualizarGrafico(labels, porcentajes) {
+  console.log(
+    "Actualizando el gráfico con labels:",
+    labels,
+    "y porcentajes:",
+    porcentajes
+  );
+  if (chart) {
+    chart.updateOptions({
+      series: porcentajes,
+      labels: labels,
+    });
+    console.log("Gráfico actualizado correctamente.");
+  } else {
+    console.log("Inicializando el gráfico.");
+    inicializarGrafico(labels, porcentajes);
+  }
 }
 
 function inicializarDataTables() {
@@ -143,10 +268,10 @@ function inicializarDataTables() {
       className: "ui celled table",
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
-      },
-      paginate: {
-        previous: "<i class='left chevron icon'></i>",
-        next: "<i class='right chevron icon'></i>",
+        paginate: {
+          previous: "<i class='left chevron icon'></i>",
+          next: "<i class='right chevron icon'></i>",
+        },
       },
     });
   }

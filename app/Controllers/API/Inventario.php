@@ -72,7 +72,7 @@ class Inventario extends ResourceController
             "DESCRIPCION_PRODUCTO"  => $row['DESCRIPCION_PRODUCTO'],
             "UNIDAD_MEDIDA"         => $row['UNIDAD_MEDIDA'],
             "TOTAL_CANTIDAD"        => $row['TOTAL_CANTIDAD'],
-            "PRECIO_COMPRA"         => $row['PRECIO_COMPRA'],
+            // "PRECIO_COMPRA"         => $row['PRECIO_COMPRA'],
             "FECHA_COMPRA"          => $row['FECHA_COMPRA'],
             "NOMBRE_PROVEEDOR"      => $row['NOMBRE_PROVEEDOR'],
             "ID_ESTADO"             => $row['ID_ESTADO']

@@ -160,29 +160,13 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.fomanticui.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
 
     <script src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/perfilUsuario.js"></script>
     <script type="module" src="/assets/js/reportes.js"></script>
 
-    <script>
-      var options = {
-        series: [25, 25, 25, 25],
-        chart: {
-          width: '100%',
-          type: 'pie',
-          background: '#2e2e2e'
-        },
-        labels: ['Sobre Stock', 'Bien', 'Mínimo', 'Crítico'],
-        colors: ['#3498db', '#2ecc71', '#f39c12', '#e74c3c'],
-        legend: {
-          position: 'bottom'
-        }
-      };
 
-      var chart = new ApexCharts(document.querySelector("#chart"), options);
-      chart.render();
-    </script>
 </body>
 
 </html>
