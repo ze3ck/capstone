@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // $("#saveProductButton").click(agregarNuevoProducto);
   $("#addProductButton").click(selectProductos);
   $("#editProductButton").click(editarProducto);
-  $("#editProductButton").click(refreshTable);
-  $("#editProductButton").click(refreshTable);
   $("#editProductButtonCancel").click(limpiarCampos);
   selectProveedores();
   selectUnidadMedida();
@@ -41,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       success: function (response) {
         // Maneja la respuesta aquí si es necesario
         console.log("Datos cargados exitosamente.");
-        
+
         // Recarga la página después de una carga exitosa
         location.reload();
       },
@@ -662,6 +660,8 @@ async function editarProducto() {
         // Cerrar el modal
         $("#editModal").modal("hide");
       }
+
+      refreshTable()
     } catch (error) {
       // Manejo de errores: mostrar mensaje con toast
       console.error("Error al enviar la solicitud:", error);
@@ -673,6 +673,7 @@ async function editarProducto() {
       });
     }
   }
+
 
   // Obtener los campos del formulario de edición
 }
@@ -1627,4 +1628,21 @@ function limpiarCampos() {
   }
 
   console.log("Campos limpiados correctamente.");
+}
+
+function refreshTable() {
+  $.ajax({
+    url: 'http://localhost:8080/inventario',
+    method: 'GET',
+    success: function (response) {
+      // Maneja la respuesta aquí si es necesario
+      console.log("Datos cargados exitosamente.");
+
+      // Recarga la página después de una carga exitosa
+      location.reload();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al cargar la tabla: ", error);
+    }
+  });
 }
