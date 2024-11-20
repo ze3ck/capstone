@@ -128,3 +128,23 @@ h1 {
 .hidden-row {
   display: none;
 }
+
+/* Alinear los controles de DataTables correctamente */
+.ui.stackable.grid .row {
+  margin-bottom: 1em;
+}
+
+/* Estilizar los íconos de paginación */
+.dataTables_wrapper .paginate_button {
+  padding: 0.5em 1em;
+}
+
+.dataTables_wrapper .paginate_button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dataTables_wrapper .paginate_button a i {
+  font-size: 1em;
+}
