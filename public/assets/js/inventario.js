@@ -1160,7 +1160,7 @@ $(document).ready(function () {
             <td class="center aligned">${producto.DESCRIPCION_PRODUCTO}</td>
             <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
             <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
-            <td class="center aligned">${producto.PRECIO_COMPRA}</td>
+            
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">
