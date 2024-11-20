@@ -37,7 +37,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <div class="ui text loader">Loading</div>
     </div>
     <div class="pusher">
-        <div class="ui stackable menu">
+        <div class="ui unstackable menu">
             <!-- Botón para togglear el sidebar -->
             <a class="item" id="menu-toggle">
                 <i class="sidebar icon"></i>

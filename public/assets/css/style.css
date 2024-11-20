@@ -10,7 +10,10 @@ span {
   font-family: "Montserrat", sans-serif !important;
 }
 
-h1, h3, h4, p {
+h1,
+h3,
+h4,
+p {
   color: #ffffff;
 }
 
@@ -25,7 +28,7 @@ body {
 }
 
 nav {
-  background-color: #007BFF;
+  background-color: #007bff;
   padding: 1em;
 }
 
@@ -107,7 +110,7 @@ footer {
   text-align: center;
 }
 
-.ui.stackable.menu {
+.ui.unstackable.menu {
   background-color: #1b1c1d !important;
   position: fixed;
   top: 0;
@@ -116,11 +119,11 @@ footer {
   z-index: 1000; /* Asegura que la barra esté por encima del contenido */
 }
 
-.ui.stackable.menu {
+.ui.unstackable.menu {
   background-color: #ffffff00;
 }
 
-.ui.stackable.menu .item {
+.ui.unstackable.menu .item {
   color: #fff;
 }
 
@@ -166,12 +169,18 @@ footer {
 }
 
 /* Styling for charts container */
-#radialBarBottom, #line-adwords, #barchart, #areachart {
+#radialBarBottom,
+#line-adwords,
+#barchart,
+#areachart {
   height: 250px;
 }
 
 /* Styling for radial bar and chart containers */
-#radialBarBottom, #line-adwords, #barchart, #areachart {
+#radialBarBottom,
+#line-adwords,
+#barchart,
+#areachart {
   background-color: #0000;
   border-radius: 10px;
   padding: 20px;
@@ -215,7 +224,7 @@ table.ui.celled.table tfoot {
   background-color: white !important;
 }
 
-#container-perfilUsuario{
+#container-perfilUsuario {
   margin-top: 4%;
 }
 #tituloPerfilUsuario {
@@ -224,7 +233,6 @@ table.ui.celled.table tfoot {
   font-size: 2rem;
 }
 
-#graficos-container{
+#graficos-container {
   background-color: #1b1c1d;
 }
-

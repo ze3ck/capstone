@@ -1,11 +1,12 @@
 .ui.button:hover {
-  background-color: #218838; 
+  background-color: #218838;
 }
 
 .ui.button:active {
   background-color: #1e7e34;
 }
-.main-container, .ui.category.search {
+.main-container,
+.ui.category.search {
   margin: 0 20rem;
 }
 
@@ -19,17 +20,19 @@
   justify-content: space-between;
 } */
 
-#editIcon:hover, #deleteIcon:hover{
+#editIcon:hover,
+#deleteIcon:hover {
   transform: scale(1.3);
   transition: transform 0.2s;
 }
 
-#editIcon, #deleteIcon{
+#editIcon,
+#deleteIcon {
   margin: 0 10px;
 }
 
 /* SideBar  */
-.ui.stackable.menu {
+.ui.unstackable.menu {
   background-color: #1b1c1d !important;
   position: fixed;
   top: 0;
@@ -38,11 +41,11 @@
   z-index: 1000; /* Asegura que la barra esté por encima del contenido */
 }
 
-.ui.stackable.menu {
+.ui.unstackable.menu {
   background-color: #1b1c1d;
 }
 
-.ui.stackable.menu .item {
+.ui.unstackable.menu .item {
   color: #fff;
 }
 
@@ -75,11 +78,13 @@
 }
 
 @media (max-width: 768px) {
-  .main-container, .ui.category.search, .button-container {
+  .main-container,
+  .ui.category.search,
+  .button-container {
     margin: 0 2rem; /* Reduce el margen en pantallas pequeñas */
   }
 
-  .ui.stackable.menu .item {
+  .ui.unstackable.menu .item {
     font-size: 0.9rem; /* Reduce el tamaño de la fuente para pantallas pequeñas */
   }
 
@@ -91,19 +96,20 @@ td.center.aligned {
   vertical-align: middle;
 }
 
-.titulo-gestion-prod{
+.titulo-gestion-prod {
   color: black !important;
 }
 
 table.ui.celled.table th.center.aligned,
 table.ui.celled.table td.center.aligned {
-    text-align: center;
-    vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* Ancho fijo para la columna de acciones */
-th.actions-column, td.actions-column {
-    width: 100px; /* Puedes ajustar este valor */
+th.actions-column,
+td.actions-column {
+  width: 100px; /* Puedes ajustar este valor */
 }
 
 /* .toast {
@@ -117,7 +123,6 @@ th.actions-column, td.actions-column {
   opacity: 0.9;
   max-width: 300px;
 } */
-
 
 .ui.dropdown.estado-dropdown {
   max-width: 100%;
@@ -146,12 +151,12 @@ th.actions-column, td.actions-column {
 }
 
 .ui.scrolling.table {
-  max-height: 1000px; 
+  max-height: 1000px;
   overflow-y: scroll;
 }
 
 .ui.celled.table tbody tr {
-  height: 10px; 
+  height: 10px;
 }
 
 /* .table-container {

@@ -30,7 +30,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 </head>
 
-<body>
+<body style="min-width: 1200px; min-height: 800px">
     <!-- sessionControllerModal.php -->
     <?= $this->include('components/sessionControllerModal') ?>
     <!-- sessionControllerModal.php -->
@@ -40,7 +40,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
     <!-- Pusher debe ser hijo directo del body donde este siendo usado -->
     <div class="pusher">
-        <div class="ui stackable menu">
+        <div class="ui unstackable menu">
             <!-- Botón para togglear el sidebar -->
             <a class="item" id="menu-toggle">
                 <i class="sidebar icon"></i>
