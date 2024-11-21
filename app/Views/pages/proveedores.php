@@ -70,7 +70,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
             </div>
-            <div class="three wide column">
+            <div class="three wide column" style="display:none">
                 <div class="ui fluid search selection dropdown" id="selectContacto">
                     <input type="hidden">
                     <i class="dropdown icon"></i>
@@ -88,7 +88,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
             </div>
-            <div class="three wide column">
+            <div class="three wide column" style="display:none">
                 <div class="ui fluid search selection dropdown" id="selectEstado">
                     <input type="hidden">
                     <i class="dropdown icon"></i>
