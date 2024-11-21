@@ -22,7 +22,7 @@
     <div class="menu">
       <a class="item" style="padding-left: 50px;" href="<?= site_url('reportes') ?>">Niveles (Crit, Min, Max)</a>
       <a class="item" style="padding-left: 50px;">Mermas</a>
-      <a class="item" style="padding-left: 50px;">Sin Movimientos</a>
+      <a class="item" style="padding-left: 50px;" href="<?= site_url('reporteMovimientos') ?>">Sin Movimientos</a>
       <a class="item" style="padding-left: 50px;" href="<?= site_url('totalesVentas') ?>">Totales Ventas</a>
       <a class="item" style="padding-left: 50px;">Productos Por Vencer</a>
     </div>

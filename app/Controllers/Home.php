@@ -119,4 +119,18 @@ class Home extends BaseController
 
         return view('pages/totalesVentas');
     }
+
+        /**
+     * reporteMovimientos
+     */
+    public function reporteMovimientos()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+
+        return view('pages/reporteMovimientos');
+    }
 }

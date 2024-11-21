@@ -43,6 +43,10 @@ $routes->get('movimientos',   'Home::movimientos');
 $routes->post('totalesVentas', 'Home::totalesVentas');
 $routes->get('totalesVentas',  'Home::totalesVentas');
 
+// reporte movimiento
+$routes->post('reporteMovimientos', 'Home::reporteMovimientos');
+$routes->get('reporteMovimientos',  'Home::reporteMovimientos');
+
 // reportes
 $routes->post('reportes', 'Home::reportes');
 $routes->get('reportes',  'Home::reportes');
