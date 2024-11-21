@@ -451,6 +451,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           {
             style: "currency",
             currency: "USD",
+            minimumFractionDigits: 0, 
+            maximumFractionDigits: 0,
           }
         );
         document.getElementById("ventas-totales").textContent = ventasTotales;
@@ -485,6 +487,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           .toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
+            minimumFractionDigits: 0, 
+            maximumFractionDigits: 0,
           });
         document.getElementById("ganancias-totales").textContent =
           totalGanancia;
