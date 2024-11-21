@@ -336,7 +336,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                     </div>
                 </div>
-                <!-- <div class="three wide column">
+                <div class="three wide column">
                     <label>Filtrar por producto:</label>
                     <div class="ui fluid search selection dropdown" id="selectProducto">
                         <input type="hidden">
@@ -345,7 +345,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <div class="menu">
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
             <!-- Botón para abrir el modal de generar producto -->
             <div class="ui grid" style="margin-bottom: 20px;">

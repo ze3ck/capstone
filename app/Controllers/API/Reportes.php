@@ -144,4 +144,320 @@ class Reportes extends ResourceController
       'error' => 'Método no permitido. Usa POST.'
     ]);
   }
+
+  /**
+   * reporteMovimientos()
+   * PR_45_REPORTE_MOVIMIENTOS
+   * */
+  public function reporteMovimientos()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_45_REPORTE_MOVIMIENTOS(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron movimientos para los productos del usuario especificado.'
+          ]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_PRODUCTO"     => $row['ID_PRODUCTO'],
+            "NOMBRE_PRODUCTO" => $row['NOMBRE_PRODUCTO'],
+            "NUM_MOVIMIENTOS" => $row['NUM_MOVIMIENTOS'],
+            "ESTADO"          => $row['ESTADO']
+          ];
+        }
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        // Manejo de errores
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
+
+  /**
+   * topGanancias()
+   * PR_46_TOP_GANANCIAS
+   * */
+  public function topGanancias()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_46_TOP_GANANCIAS(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron productos con ganancias para el usuario especificado.'
+          ]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "NOMBRE_PRODUCTO" => $row['NOMBRE_PRODUCTO'],
+            "GANANCIA"        => $row['GANANCIA']
+          ];
+        }
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
+
+
+  /**
+   * topVentas()
+   * PR_47_TOP_VENTAS
+   * */
+  public function topVentas()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_47_TOP_VENTAS(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron productos con ventas para el usuario especificado.'
+          ]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "NOMBRE_PRODUCTO" => $row['NOMBRE_PRODUCTO'],
+            "CANTIDAD"        => $row['CANTIDAD']
+          ];
+        }
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
+
+  /**
+   * gananciasTotales()
+   * PR_48_GANANCIAS_TOTALES
+   * */
+  public function gananciasTotales()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_48_GANANCIAS_TOTALES(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron ganancias totales para el usuario especificado.'
+          ]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "GANANCIA" => $row['GANANCIA']
+          ];
+        }
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
+
+
+
+  /**
+   * totalVentas()
+   * PR_49_TOTAL_VENTAS
+   * */
+  public function totalVentas()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_49_TOTAL_VENTAS(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getRowArray();
+
+        if (empty($result) || $result['VENTA'] === null) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron ventas totales para el usuario especificado.'
+          ]);
+        }
+
+        $response = [
+          "VENTA" => $result['VENTA']
+        ];
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
 }

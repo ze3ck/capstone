@@ -167,7 +167,12 @@ $routes->group(
     /**
      * RESTful API's: Controllers\API\Reportes 🧉
      */
-    $routes->post('reportes/datosLotes',    'Reportes::datosLotes');
-    $routes->post('reportes/tablaNiveles',  'Reportes::tablaNiveles');
+    $routes->post('reportes/datosLotes',          'Reportes::datosLotes');
+    $routes->post('reportes/tablaNiveles',        'Reportes::tablaNiveles');
+    $routes->post('reportes/reporteMovimientos',  'Reportes::reporteMovimientos');
+    $routes->post('reportes/topGanancias',        'Reportes::topGanancias');
+    $routes->post('reportes/topVentas',           'Reportes::topVentas');
+    $routes->post('reportes/gananciasTotales',    'Reportes::gananciasTotales');
+    $routes->post('reportes/totalVentas',         'Reportes::totalVentas');
   }
 );
