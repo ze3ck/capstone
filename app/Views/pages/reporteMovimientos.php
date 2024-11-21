@@ -70,8 +70,13 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <div class="eight wide column">
                 <div class="ui segment">
                     <h3>Total de Movimientos por Producto</h3>
-                    <div id="topProductosMovimientoChart">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" id="toggleSwitch" name="public">
+                        <label style="color:white">Mostrar los 10 productos con menos movimientos</label>
                     </div>
+
+                    <div id="topProductosMovimientoChart"></div>
+
                 </div>
             </div>
 
