@@ -72,7 +72,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
         <!-- Main Content -->
         <div class="resumen-titulo" style="margin-top: 3%;">
-            <h1>Resumen</h1>
+            <h1 style="color:black;">Resumen</h1>
         </div>
         <div class="ui container" style="width: 100%; margin-top: 2%" id="graficos-container">
             <!-- Contenedor de los gráficos -->
@@ -148,15 +148,17 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
             <!-- Scripts -->
 
-
+            <span id="ID_USUARIO" style="display:none">
+                <?php echo $_SESSION['user_id'] ?></span>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="/assets/js/dashboard.js"></script>
-        <script src="/assets/js/reportes.js"></script>
-        <script src="/assets/js/charts.js"></script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/assets/js/dashboard.js"></script>
+    <script type="module" src="/assets/js/reportes.js"></script>
+    <script src="/assets/js/charts.js"></script>
 
 </body>
 

@@ -702,9 +702,9 @@ function filterTable() {
   for (let i = 0; i < rows.length; i++) {
     let tdTipo = rows[i].getElementsByTagName("td")[1]; // This is where "ENTRADA" or "SALIDA" is located in the table
     let tdFecha = rows[i].getElementsByTagName("td")[2];
-    let tdCategoria = rows[i].getElementsByTagName("td")[5];
-    let tdResponsable = rows[i].getElementsByTagName("td")[6];
-    let tdMetodoPago = rows[i].getElementsByTagName("td")[7];
+    let tdCategoria = rows[i].getElementsByTagName("td")[4];
+    let tdResponsable = rows[i].getElementsByTagName("td")[5];
+    let tdMetodoPago = rows[i].getElementsByTagName("td")[6];
 
     let show = true;
 

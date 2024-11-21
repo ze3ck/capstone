@@ -524,4 +524,72 @@ class Reportes extends ResourceController
       'error' => 'Método no permitido. Usa POST.'
     ]);
   }
+
+  /**
+   * reporteMermas()
+   * PR_51_REPORTE_MERMAS
+   */
+  public function reporteMermas()
+  {
+    $this->response->setHeader('Access-Control-Allow-Origin', 'http://localhost');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if ($this->request->getMethod() === 'options') {
+      return $this->response->setStatusCode(200);
+    }
+
+    if ($this->request->getMethod() === 'POST') {
+      $json = $this->request->getJSON();
+
+      if (!isset($json->P_IDUSUARIO)) {
+        return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'El parámetro P_IDUSUARIO es requerido.'
+        ]);
+      }
+
+      try {
+        $P_IDUSUARIO = $json->P_IDUSUARIO;
+
+        $db = \Config\Database::connect();
+
+        $query = $db->query("CALL PR_51_REPORTE_MERMAS(?)", [$P_IDUSUARIO]);
+
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+          return $this->response->setStatusCode(404)->setJSON([
+            'message' => 'No se encontraron mermas para el usuario especificado.'
+          ]);
+        }
+
+        $response = [];
+        foreach ($result as $row) {
+          $response[] = [
+            "ID_PRODUCTO"       => $row['ID_PRODUCTO'],
+            "ID_LOTE"           => $row['ID_LOTE'],
+            "NOMBRE_PRODUCTO"   => $row['NOMBRE_PRODUCTO'],
+            "CANTIDAD_MERMA"    => $row['CANTIDAD_VENCIDA'] ?? $row['CANTIDAD'], // Cantidad puede venir de productos_vencidos o productos_merma
+            "FECHA_VENCIMIENTO" => $row['FECHA_VENCIMIENTO'],
+            "COSTO_MERMA"       => $row['COSTO_MERMA'],
+            "RAZON_MERMA"       => $row['RAZON_MERMA'] ?? $row['DESCRIPCION_RAZON'] // Razon puede venir de diferentes tablas
+          ];
+        }
+
+        return $this->respond([
+          'success'  => true,
+          'response' => $response
+        ]);
+      } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON([
+          'error' => 'Ocurrió un error al procesar la solicitud: ' . $e->getMessage()
+        ]);
+      }
+    }
+
+    return $this->response->setStatusCode(405)->setJSON([
+      'error' => 'Método no permitido. Usa POST.'
+    ]);
+  }
 }

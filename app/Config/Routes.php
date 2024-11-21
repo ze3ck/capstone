@@ -186,5 +186,6 @@ $routes->group(
     $routes->post('reportes/gananciasTotales',    'Reportes::gananciasTotales');
     $routes->post('reportes/totalVentas',         'Reportes::totalVentas');
     $routes->post('reportes/ventasPorUsuario',    'Reportes::ventasPorUsuario');
+    $routes->post('reportes/reporteMermas',       'Reportes::reporteMermas');
   }
 );

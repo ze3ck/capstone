@@ -15,6 +15,9 @@
     </a>
     <!-- Primer grupo de items del accordion -->
     <!-- <div class="item"> -->
+    <span id="ID_USUARIO" style="display:none">
+    <?php echo $_SESSION['user_id'] ?></span>
+
     <a class="item" style="width:10" href="<?= site_url('reportes') ?>">
       Reportes
     </a>

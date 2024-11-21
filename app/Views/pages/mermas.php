@@ -59,9 +59,37 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 
 
-    <h1>Mermas y Caducados</h1>
+    <h1 class="ui header" style="text-align: center; margin-top: 4%;">Mermas y Caducados</h1>
 
+    <div class="ui container" style="margin-top: 30px;">
+      <table class="ui celled striped table" id="tabla-mermas">
+        <thead>
+          <tr>
+            <th>ID Producto</th>
+            <th>ID Lote</th>
+            <th>Nombre Producto</th>
+            <th>Cantidad Merma</th>
+            <th>Fecha Vencimiento</th>
+            <th>Costo Merma</th>
+            <th>Razón Merma</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenarán las filas dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+    <div class="ui container" style="margin-top: 20px;">
+      <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
+        <h2 class="ui header" style="color: white;">Costo Total de Mermas</h2>
+        <div id="costo-total-mermas" style="font-size: 2rem; margin-top: 1rem;">$0</div>
+      </div>
+    </div>
 
+    <div class="ui container" style="margin-top: 40px;">
+      <h2 class="ui header" style="text-align: center;">Costo de Merma por Producto</h2>
+      <div id="grafico-mermas" style="background-color: #222; border-radius: 10px; padding: 20px;"></div>
+    </div>
 
 
 

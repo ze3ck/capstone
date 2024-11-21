@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           {
             style: "currency",
             currency: "USD",
-            minimumFractionDigits: 0, 
+            minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }
         );
@@ -490,7 +490,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           .toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
-            minimumFractionDigits: 0, 
+            minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           });
         document.getElementById("ganancias-totales").textContent =
@@ -518,17 +518,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Función para obtener los datos del endpoint
   async function obtenerVentasPorUsuario() {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}reportes/ventasPorUsuario`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}reportes/ventasPorUsuario`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
 
       if (!response.ok)
         throw new Error(`Error en la solicitud: ${response.statusText}`);
@@ -619,3 +616,160 @@ function hideLoader() {
   const loader = document.getElementById("loader-xd");
   loader.style.display = "none";
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+  // Función para obtener las mermas
+  async function obtenerMermas() {
+    try {
+      const tbody = document.querySelector("#tabla-mermas tbody");
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7">
+            <div class="ui active inline loader"></div> Cargando datos...
+          </td>
+        </tr>
+      `;
+
+      const response = await fetch(
+        "http://localhost:8080/api/reportes/reporteMermas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+        }
+      );
+
+      if (!response.ok)
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
+
+      const data = await response.json();
+
+      if (data.success && data.response.length > 0) {
+        llenarTablaMermas(data.response);
+        calcularCostoTotal(data.response);
+        generarGraficoMermas(data.response); // Generar gráfico con la data
+      } else {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center;">No se encontraron datos de mermas.</td>
+          </tr>
+        `;
+        document.getElementById("costo-total-mermas").textContent = "$0";
+        document.getElementById("grafico-mermas").innerHTML =
+          "<p style='color: white; text-align: center;'>No hay datos para generar el gráfico.</p>";
+      }
+    } catch (error) {
+      console.error("Error al obtener las mermas:", error);
+      const tbody = document.querySelector("#tabla-mermas tbody");
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; color: red;">Error al cargar los datos.</td>
+        </tr>
+      `;
+      document.getElementById("costo-total-mermas").textContent = "Error";
+      document.getElementById("grafico-mermas").innerHTML =
+        "<p style='color: red; text-align: center;'>Error al cargar el gráfico.</p>";
+    }
+  }
+
+  // Función para llenar la tabla
+  function llenarTablaMermas(mermas) {
+    const tbody = document.querySelector("#tabla-mermas tbody");
+    tbody.innerHTML = ""; // Limpiar contenido previo
+
+    mermas.forEach((merma) => {
+      const fechaVencimiento =
+        merma.FECHA_VENCIMIENTO === "9999-01-01"
+          ? "N/A"
+          : merma.FECHA_VENCIMIENTO;
+
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${merma.ID_PRODUCTO}</td>
+        <td>${merma.ID_LOTE}</td>
+        <td>${merma.NOMBRE_PRODUCTO}</td>
+        <td>${merma.CANTIDAD_MERMA}</td>
+        <td>${fechaVencimiento}</td>
+        <td>$${parseFloat(merma.COSTO_MERMA).toLocaleString("en-US", {
+          minimumFractionDigits: 0,
+        })}</td>
+        <td>${merma.RAZON_MERMA}</td>
+      `;
+      tbody.appendChild(fila);
+    });
+  }
+
+  // Función para calcular el costo total de las mermas
+  function calcularCostoTotal(mermas) {
+    const costoTotal = mermas.reduce(
+      (sum, merma) => sum + parseFloat(merma.COSTO_MERMA),
+      0
+    );
+    document.getElementById(
+      "costo-total-mermas"
+    ).textContent = `$${costoTotal.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+    })}`;
+  }
+
+  // Función para generar el gráfico de barras
+  function generarGraficoMermas(mermas) {
+    const nombresProductos = mermas.map((merma) => merma.NOMBRE_PRODUCTO);
+    const costosMermas = mermas.map((merma) => parseFloat(merma.COSTO_MERMA));
+
+    const options = {
+      chart: {
+        type: "bar",
+        height: 350,
+        background: "#222",
+        foreColor: "#fff",
+      },
+      series: [
+        {
+          name: "Costo Merma",
+          data: costosMermas,
+        },
+      ],
+      xaxis: {
+        categories: nombresProductos,
+        title: {
+          text: "Productos",
+          style: {
+            color: "#fff",
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Costo Merma ($)",
+          style: {
+            color: "#fff",
+          },
+        },
+      },
+      title: {
+        text: "Costo de Merma por Producto",
+        align: "center",
+        style: {
+          color: "#fff",
+        },
+      },
+      tooltip: {
+        theme: "dark",
+      },
+    };
+
+    const chart = new ApexCharts(
+      document.querySelector("#grafico-mermas"),
+      options
+    );
+    chart.render();
+  }
+
+  // Llamar a la función para obtener las mermas al cargar la página
+  await obtenerMermas();
+});
