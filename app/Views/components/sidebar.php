@@ -20,8 +20,8 @@
     </a>
     <!-- <div class="content"> -->
     <div class="menu">
-      <a class="item" style="padding-left: 50px;" href="<?= site_url('reportes') ?>">Niveles (Crit, Min, Max)</a>
-      <a class="item" style="padding-left: 50px;">Mermas</a>
+      <a class="item" style="padding-left: 50px;" href="<?= site_url('reportes') ?>">Niveles (Max, Min, Crit)</a>
+      <a class="item" style="padding-left: 50px;" href="<?= site_url('mermas') ?>">Mermas y Caducados</a>
       <a class="item" style="padding-left: 50px;" href="<?= site_url('reporteMovimientos') ?>">Reporte de Movimientos</a>
       <a class="item" style="padding-left: 50px;" href="<?= site_url('totalesVentas') ?>">Totales Ventas</a>
       <!-- <a class="item" style="padding-left: 50px;">Productos Por Vencer</a> -->

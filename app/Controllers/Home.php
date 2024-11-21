@@ -105,7 +105,7 @@ class Home extends BaseController
         return view('pages/proveedores');
     }
 
-    
+
     /**
      * totalesVentas
      */
@@ -120,7 +120,7 @@ class Home extends BaseController
         return view('pages/totalesVentas');
     }
 
-        /**
+    /**
      * reporteMovimientos
      */
     public function reporteMovimientos()
@@ -132,5 +132,19 @@ class Home extends BaseController
         }
 
         return view('pages/reporteMovimientos');
+    }
+
+    /**
+     * mermas
+     */
+    public function mermas()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+
+        return view('pages/mermas');
     }
 }
