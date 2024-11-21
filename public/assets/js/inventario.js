@@ -26,20 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#datosProducto").slideUp();
   $("#datosLote").slideDown();
   $("#saveProductButton").off("click").on("click", agregarNuevoLote);
-  console.log("lote");
+  console.log("lote")
   $("#newProductCheckbox").on("change", function () {
+
     if ($(this).find("input").is(":checked")) {
       $("#datosProducto").slideDown();
       $("#datosLote").slideUp();
       $("#datosLote input, #datosLote select").attr("disabled", true);
       $("#saveProductButton").off("click").on("click", agregarNuevoProducto);
     }
+
   });
 
   function refreshTable() {
     $.ajax({
-      url: "http://localhost:8080/inventario",
-      method: "GET",
+      url: 'http://localhost:8080/inventario',
+      method: 'GET',
       success: function (response) {
         // Maneja la respuesta aquí si es necesario
         console.log("Datos cargados exitosamente.");
@@ -49,10 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar la tabla: ", error);
-      },
+      }
     });
   }
   $(document).ready(function () {
+
     const tbody = document.getElementById("productTableBody");
 
     tbody.addEventListener("click", function (event) {
@@ -73,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //   fechaVencimiento = "0000-00-00"
         // }
 
+
         $("#idLoteEdit").on("change", function () {
           const selectedLote = $(this).val();
           const idProducto = document.getElementById("idProductoEdit").value;
@@ -88,8 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Asigna el resto de los valores al modal
         document.getElementById("idProductoEdit").value = idProducto;
         document.getElementById("nombreProductoEdit").value = nombreProducto;
-        document.getElementById("descripcionProductoEdit").value =
-          descripcionProducto;
+        document.getElementById("descripcionProductoEdit").value = descripcionProducto;
         document.getElementById("totalCantidadEdit").value = totalCantidad;
         // document.getElementById("precioCompraEdit").value = precioCompra;
         document.getElementById("fechaCompraEdit").value = fechaCompra;
@@ -111,10 +114,12 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#idLoteEdit").dropdown();
         cargarLotesPorProducto(idProducto);
 
+
         $("#editModal").modal("show");
       }
       let lotesData = [];
       let cantidadDisponibleLote = 0;
+
 
       $(".editarProductoBtn").on("click", function (event) {
         const editarButton = event.target.closest(".editarProductoBtn");
@@ -131,31 +136,24 @@ document.addEventListener("DOMContentLoaded", function () {
           const loteSeleccionado = lotesData.find(
             (lote) => lote.ID_LOTE == selectedLote
           );
-          cantidadDisponibleLote = loteSeleccionado
-            ? loteSeleccionado.CANTIDAD
-            : 0;
+          cantidadDisponibleLote = loteSeleccionado ? loteSeleccionado.CANTIDAD : 0;
         }
       });
 
       async function cargarLotesPorProducto(id_producto) {
-        const id_usuario = document
-          .getElementById("ID_USUARIO")
-          .innerHTML.trim();
+        const id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
         try {
-          const response = await fetch(
-            `${API_BASE_URL}movimientos/salidaMermaProductos`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                P_IDUSUARIO: id_usuario,
-                P_IDPRODUCTO: id_producto,
-              }),
-            }
-          );
+          const response = await fetch(`${API_BASE_URL}movimientos/salidaMermaProductos`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              P_IDUSUARIO: id_usuario,
+              P_IDPRODUCTO: id_producto,
+            }),
+          });
 
           if (!response.ok) {
             throw new Error("Error al cargar los lotes");
@@ -180,73 +178,63 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Hubo un error:", error);
         }
       }
-      document
-        .getElementById("idLoteEdit")
-        .addEventListener("change", async function () {
-          const selectedLote = this.value; // Lote seleccionado
-          const idProducto = document.getElementById("idProductoEdit").value; // ID del producto seleccionado
+      document.getElementById("idLoteEdit").addEventListener("change", async function () {
+        const selectedLote = this.value; // Lote seleccionado
+        const idProducto = document.getElementById("idProductoEdit").value; // ID del producto seleccionado
 
-          if (selectedLote && idProducto) {
-            try {
-              const response = await fetch(
-                `${API_BASE_URL}/inventario/selectDatosLote`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    P_IDPRODUCTO: idProducto,
-                    P_IDLOTE: selectedLote,
-                  }),
-                }
-              );
+        if (selectedLote && idProducto) {
+          try {
+            const response = await fetch(`${API_BASE_URL}/inventario/selectDatosLote`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                P_IDPRODUCTO: idProducto,
+                P_IDLOTE: selectedLote,
+              }),
+            });
 
-              if (!response.ok) {
-                throw new Error("Error al cargar los datos del lote");
+            if (!response.ok) {
+              throw new Error("Error al cargar los datos del lote");
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+              const loteData = data.response[0]; // Suponiendo que solo se devuelve un objeto con datos del lote
+
+              // Rellenar los campos con los datos del lote
+              document.getElementById("precioCompraEdit").value = loteData.PRECIO_COMPRA || '';
+              document.getElementById("precioVentaEdit").value = loteData.PRECIO_VENTA || '';
+              document.getElementById("fechaVencimientoEdit").value = loteData.FECHA_VENCIMIENTO || '';
+              document.getElementById("fechaCompraEdit").value = loteData.FECHA_COMPRA || '';
+
+              if (loteData.FECHA_VENCIMIENTO == "9999-01-01") {
+                document.getElementById("fechaVencimientoEdit").value = "";
+                document.getElementById("fechaVencimientoEdit").placeholder = "No Aplica";
               }
-
-              const data = await response.json();
-
-              if (data.success) {
-                const loteData = data.response[0]; // Suponiendo que solo se devuelve un objeto con datos del lote
-
-                // Rellenar los campos con los datos del lote
-                document.getElementById("precioCompraEdit").value =
-                  loteData.PRECIO_COMPRA || "";
-                document.getElementById("precioVentaEdit").value =
-                  loteData.PRECIO_VENTA || "";
-                document.getElementById("fechaVencimientoEdit").value =
-                  loteData.FECHA_VENCIMIENTO || "";
-                document.getElementById("fechaCompraEdit").value =
-                  loteData.FECHA_COMPRA || "";
-
-                if (loteData.FECHA_VENCIMIENTO == "9999-01-01") {
-                  document.getElementById("fechaVencimientoEdit").value = "";
-                  document.getElementById("fechaVencimientoEdit").placeholder =
-                    "No Aplica";
-                }
-              } else {
-                limpiarCampos();
-              }
-            } catch (error) {
-              console.error("Error:", error);
+            } else {
               limpiarCampos();
             }
-          } else {
+          } catch (error) {
+            console.error("Error:", error);
             limpiarCampos();
           }
-        });
+        } else {
+          limpiarCampos();
+        }
+      });
 
       // Función para limpiar campos
       function limpiarCampos() {
-        document.getElementById("precioCompraEdit").value = "";
-        document.getElementById("precioVentaEdit").value = "";
-        document.getElementById("fechaVencimientoEdit").value = "";
-        document.getElementById("fechaCompraEdit").value = "";
+        document.getElementById("precioCompraEdit").value = '';
+        document.getElementById("precioVentaEdit").value = '';
+        document.getElementById("fechaVencimientoEdit").value = '';
+        document.getElementById("fechaCompraEdit").value = '';
       }
     });
-  });
+  })
 });
 
 window.onload = function () {
@@ -298,33 +286,25 @@ async function agregarNuevoProducto() {
   //   fechaVencValue = '9999-01-01';
   // }
 
-  if (
-    !cantidadValue ||
-    cantidadValue <= 0 ||
-    !precioCompValue ||
-    precioCompValue <= 0 ||
-    !precioVentaValue ||
-    precioCompValue <= 0
-  ) {
-    $("body").toast({
+  if (!cantidadValue || cantidadValue <= 0 ||
+    !precioCompValue || precioCompValue <= 0 ||
+    !precioVentaValue || precioCompValue <= 0) {
+    $('body').toast({
       message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0",
-      showProgress: "top",
-      class: "error",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else if (
-    cantidadValue.length > 9 ||
-    precioCompValue.length > 9 ||
-    precioVentaValue.length > 9
-  ) {
-    $("body").toast({
-      message:
-        "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
-      showProgress: "top",
-      class: "error",
+    })
+  } else if (cantidadValue.length > 9 || precioCompValue.length > 9 || precioVentaValue.length > 9) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else {
+    })
+  }
+  else {
+
     // console.log([
     //   nombreValue,
     //   descripcionValue,
@@ -428,7 +408,7 @@ async function agregarNuevoProducto() {
 }
 
 async function agregarNuevoLote() {
-  const idLoteField = document.getElementById("idLote");
+  const idLoteField = document.getElementById("idLote")
   const cantidadField = document.getElementById("cantidadLote");
   const precioCompField = document.getElementById("precioCompLote");
   const fechaVencField = document.getElementById("calendarioVencLote");
@@ -445,43 +425,32 @@ async function agregarNuevoLote() {
   const idUsuarioValue = idUsuario.textContent.trim();
 
   const productoDropdown = document.getElementById("productoDropdown");
-  const idProductoValue = productoDropdown.value;
+  const idProductoValue = productoDropdown.value
 
   if (fechaVencValue == "") {
     fechaVencValue = "9999-01-01";
   }
 
-  if (
-    !cantidadValue ||
-    cantidadValue <= 0 ||
-    !precioCompValue ||
-    precioCompValue <= 0 ||
-    !precioVentaValue ||
-    precioCompValue <= 0
-  ) {
-    $("body").toast({
-      message:
-        "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0 sdfgsdfgsdfg",
-      showProgress: "top",
-      class: "error",
+  if (!cantidadValue || cantidadValue <= 0 ||
+    !precioCompValue || precioCompValue <= 0 ||
+    !precioVentaValue || precioCompValue <= 0) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0 sdfgsdfgsdfg",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else if (
-    cantidadValue.length > 9 ||
-    precioCompValue.length > 9 ||
-    precioVentaValue.length > 9
-  ) {
-    $("body").toast({
-      message:
-        "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
-      showProgress: "top",
-      class: "error",
+    })
+  } else if (cantidadValue.length > 9 || precioCompValue.length > 9 || precioVentaValue.length > 9) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else {
+    })
+  }
+  else {
     try {
-      console.log(
-        fechaCompValue
+      console.log(fechaCompValue
         // idLoteValue,
         // fechaVencValue,
         // ,
@@ -489,22 +458,25 @@ async function agregarNuevoLote() {
         // precioCompValue,
         // precioVentaValue
       );
-      const response = await fetch(`${API_BASE_URL}inventario/nuevoLote`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          P_NROLOTE: idLoteValue,
-          P_IDPRODUCTO: idProductoValue,
-          P_IDUSUARIO: idUsuarioValue,
-          P_FECHA_VENCIMIENTO: fechaVencValue,
-          P_CANTIDAD: cantidadValue,
-          P_PRECIO_COMPRA: precioCompValue,
-          P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompValue,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}inventario/nuevoLote`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_NROLOTE: idLoteValue,
+            P_IDPRODUCTO: idProductoValue,
+            P_IDUSUARIO: idUsuarioValue,
+            P_FECHA_VENCIMIENTO: fechaVencValue,
+            P_CANTIDAD: cantidadValue,
+            P_PRECIO_COMPRA: precioCompValue,
+            P_PRECIO_VENTA: precioVentaValue,
+            P_FECHA_COMPRA: fechaCompValue,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error(
           `Error al agregar el producto. Estado: ${response.status}`
@@ -569,35 +541,17 @@ tbody.addEventListener("click", function (event) {
  * editarProducto()
  */
 async function editarProducto() {
-  const nombreValue = document
-    .getElementById("nombreProductoEdit")
-    .value.trim();
-  const descripcionValue = document
-    .getElementById("descripcionProductoEdit")
-    .value.trim();
+  const nombreValue = document.getElementById("nombreProductoEdit").value.trim();
+  const descripcionValue = document.getElementById("descripcionProductoEdit").value.trim();
   const unidadValue = document.getElementById("unidadMedidaEdit").value.trim();
-  const proveedorValue = document
-    .getElementById("proveedorEditField")
-    .value.trim();
+  const proveedorValue = document.getElementById("proveedorEditField").value.trim();
   const idLoteValue = document.getElementById("idLoteEdit").value.trim(); // Campo para el ID del lote
-  let fechaVencimientoValue = document
-    .getElementById("fechaVencimientoEdit")
-    .value.trim(); // Campo para la fecha de vencimiento
-  const fechaCompraValue = document
-    .getElementById("fechaCompraEdit")
-    .value.trim();
-  const cantidadValue = document
-    .getElementById("totalCantidadEdit")
-    .value.trim();
-  const precioCompraValue = document
-    .getElementById("precioCompraEdit")
-    .value.trim();
-  const precioVentaValue = document
-    .getElementById("precioVentaEdit")
-    .value.trim();
-  const idUsuarioValue = document
-    .getElementById("idUsuarioEdit")
-    .textContent.trim();
+  let fechaVencimientoValue = document.getElementById("fechaVencimientoEdit").value.trim(); // Campo para la fecha de vencimiento
+  const fechaCompraValue = document.getElementById("fechaCompraEdit").value.trim();
+  const cantidadValue = document.getElementById("totalCantidadEdit").value.trim();
+  const precioCompraValue = document.getElementById("precioCompraEdit").value.trim();
+  const precioVentaValue = document.getElementById("precioVentaEdit").value.trim();
+  const idUsuarioValue = document.getElementById("idUsuarioEdit").textContent.trim();
 
   console.log(nombreValue);
   console.log(descripcionValue);
@@ -629,64 +583,59 @@ async function editarProducto() {
   // Muestra el objeto completo en la consola
   console.log("Datos del producto a enviar:", productoData);
 
+
   if (fechaVencimientoValue == "") {
     fechaVencimientoValue = "9999-01-01";
   }
-  if (
-    !cantidadValue ||
-    cantidadValue <= 0 ||
-    !precioCompraValue ||
-    precioCompraValue <= 0 ||
-    !precioVentaValue ||
-    precioVentaValue <= 0
-  ) {
-    $("body").toast({
+  if (!cantidadValue || cantidadValue <= 0 ||
+    !precioCompraValue || precioCompraValue <= 0 ||
+    !precioVentaValue || precioVentaValue <= 0) {
+    $('body').toast({
       message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA deben ser mayor a 0",
-      showProgress: "top",
-      class: "error",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else if (
-    cantidadValue.length > 9 ||
-    precioCompraValue.length > 9 ||
-    precioVentaValue.length > 9
-  ) {
-    $("body").toast({
-      message:
-        "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
-      showProgress: "top",
-      class: "error",
+    })
+  } else if (cantidadValue.length > 9 || precioCompraValue.length > 9 || precioVentaValue.length > 9) {
+    $('body').toast({
+      message: "CANTIDAD, PRECIO COMPRA y PRECIO VENTA exceden el largo permitido (9)",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
+    })
   } else if (idLoteValue.value == "") {
-    $("body").toast({
+    $('body').toast({
       message: "Por favor, seleccione un Lote",
-      showProgress: "top",
-      class: "error",
+      showProgress: 'top',
+      class: 'error',
       displayTime: 8000,
-    });
-  } else {
+    })
+  }
+  else {
     try {
-      const response = await fetch(`${API_BASE_URL}inventario/editarProducto`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          P_ID_PRODUCTO: productoId,
-          P_NOMBRE_PRODUCTO: nombreValue,
-          P_DESCRIPCION_PROD1: descripcionValue,
-          P_UNIDAD_MEDIDA: unidadValue,
-          P_ID_PROVEEDOR: proveedorValue,
-          P_ID_USUARIO: idUsuarioValue,
-          P_ID_LOTE: idLoteValue,
-          P_FECHA_VENCIMIENTO: fechaVencimientoValue,
-          P_CANTIDAD: cantidadValue,
-          P_PRECIO_COMPRA: precioCompraValue,
-          P_PRECIO_VENTA: precioVentaValue,
-          P_FECHA_COMPRA: fechaCompraValue,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}inventario/editarProducto`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            P_ID_PRODUCTO: productoId,
+            P_NOMBRE_PRODUCTO: nombreValue,
+            P_DESCRIPCION_PROD1: descripcionValue,
+            P_UNIDAD_MEDIDA: unidadValue,
+            P_ID_PROVEEDOR: proveedorValue,
+            P_ID_USUARIO: idUsuarioValue,
+            P_ID_LOTE: idLoteValue,
+            P_FECHA_VENCIMIENTO: fechaVencimientoValue,
+            P_CANTIDAD: cantidadValue,
+            P_PRECIO_COMPRA: precioCompraValue,
+            P_PRECIO_VENTA: precioVentaValue,
+            P_FECHA_COMPRA: fechaCompraValue,
+          }),
+        }
+      );
       console.log(response);
       // Verificar si la respuesta es exitosa
       if (!response.ok) {
@@ -720,7 +669,7 @@ async function editarProducto() {
         $("#editModal").modal("hide");
       }
 
-      refreshTable();
+      refreshTable()
     } catch (error) {
       // Manejo de errores: mostrar mensaje con toast
       console.error("Error al enviar la solicitud:", error);
@@ -732,6 +681,7 @@ async function editarProducto() {
       });
     }
   }
+
 
   // Obtener los campos del formulario de edición
 }
@@ -756,9 +706,7 @@ function limpiarFormularioProducto() {
       input.value = "";
     });
 
-  const newProductCheckbox = document
-    .getElementById("newProductCheckbox")
-    .querySelector("input");
+  const newProductCheckbox = document.getElementById("newProductCheckbox").querySelector("input");
   if (newProductCheckbox.checked) {
     newProductCheckbox.checked = false;
     // Asegúrate de ocultar los campos de "Datos Producto"
@@ -802,12 +750,7 @@ async function selectProveedores() {
       var opt = document.createElement("option");
       opt.value = opcion.ID_PROVEEDOR;
       opt.innerHTML = opcion.NOMBRE_PROVEEDOR;
-      console.log(
-        "ID_PROVEEDOR:",
-        opcion.ID_PROVEEDOR,
-        "NOMBRE_PROVEEDOR:",
-        opcion.NOMBRE_PROVEEDOR
-      ); // Depuración
+      console.log("ID_PROVEEDOR:", opcion.ID_PROVEEDOR, "NOMBRE_PROVEEDOR:", opcion.NOMBRE_PROVEEDOR); // Depuración
       dropdownEdit.appendChild(opt);
     });
 
@@ -832,6 +775,7 @@ async function selectProveedores() {
   } catch (error) {
     console.error("Error al enviar la solicitud", error);
   }
+
 }
 
 // function llenadoSelect(idSelect, codOpcion, nomOpcion) {
@@ -868,11 +812,13 @@ async function selectProductos() {
     return;
   }
 
+
   for (let x of data.response) {
     const opt = document.createElement("option");
     opt.value = x.ID_PRODUCTO;
     opt.textContent = x.DESCRIPCION_PRODUCTO;
     select.appendChild(opt);
+
   }
 
   // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
@@ -1106,7 +1052,7 @@ $(document).ready(function () {
         updateProductTable();
         $("#editProductModal").modal("hide");
       });
-    limpiarFormularioProducto();
+    limpiarFormularioProducto()
   });
 
   function clearForm() {
@@ -1145,7 +1091,8 @@ $(document).ready(function () {
       $("#datosLote").slideUp();
       $("#datosLote input, #datosLote select").attr("disabled", true);
       $("#saveProductButton").off("click").on("click", agregarNuevoProducto);
-    } else {
+    }
+    else {
       $("#datosProducto").slideUp();
       $("#datosLote").slideDown();
       $("#datosLote input, #datosLote select").attr("disabled", false);
@@ -1170,6 +1117,7 @@ $(document).ready(function () {
       }
     });
   });
+
 
   async function llenarTablaProductos() {
     console.log("Entré a llenarTabla");
@@ -1224,15 +1172,12 @@ $(document).ready(function () {
             <td class="center aligned">${producto.FECHA_COMPRA}</td>
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">
-                <select class="estado-dropdown" data-producto-id="${
-                  producto.ID_PRODUCTO
-                }">
-                    <option value="1" ${
-                      producto.ID_ESTADO == 1 ? "selected" : ""
-                    }>Activo</option>
-                    <option value="2" ${
-                      producto.ID_ESTADO == 2 ? "selected" : ""
-                    }>Inactivo</option>
+                <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
+          }">
+                    <option value="1" ${producto.ID_ESTADO == 1 ? "selected" : ""
+          }>Activo</option>
+                    <option value="2" ${producto.ID_ESTADO == 2 ? "selected" : ""
+          }>Inactivo</option>
                 </select>
             </td>
         `;
@@ -1371,10 +1316,10 @@ $(document).ready(function () {
   //calendarizacion editar producto
   $(document).ready(function () {
     function showToast(message) {
-      $("body").toast({
+      $('body').toast({
         message: message,
-        showProgress: "top",
-        class: "warning",
+        showProgress: 'top',
+        class: 'warning',
         displayTime: 8000,
       });
     }
@@ -1385,34 +1330,8 @@ $(document).ready(function () {
       minDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1440,11 +1359,9 @@ $(document).ready(function () {
         oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
 
         if (today >= oneWeekBefore && today <= date) {
-          showToast(
-            "¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana"
-          );
+          showToast("¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana");
         }
-      },
+      }
     });
 
     $("#calendarioCompraEdit").calendar({
@@ -1452,34 +1369,8 @@ $(document).ready(function () {
       maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1506,10 +1397,10 @@ $(document).ready(function () {
   // calendarizacion nuevo lote
   $(document).ready(function () {
     function showToast(message) {
-      $("body").toast({
+      $('body').toast({
         message: message,
-        showProgress: "top",
-        class: "warning",
+        showProgress: 'top',
+        class: 'warning',
         displayTime: 8000,
       });
     }
@@ -1520,34 +1411,8 @@ $(document).ready(function () {
       minDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1575,11 +1440,9 @@ $(document).ready(function () {
         oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
 
         if (today >= oneWeekBefore && today <= date) {
-          showToast(
-            "¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana"
-          );
+          showToast("¡Atención! Tenga en cuenta que su lote vencerá dentro de una semana");
         }
-      },
+      }
     });
 
     $("#calendarioCompraLote").calendar({
@@ -1587,34 +1450,8 @@ $(document).ready(function () {
       maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1641,10 +1478,10 @@ $(document).ready(function () {
   // lógica calendario nuevo producto
   $(document).ready(function () {
     function showToast(message) {
-      $("body").toast({
+      $('body').toast({
         message: message,
-        showProgress: "top",
-        class: "warning",
+        showProgress: 'top',
+        class: 'warning',
         displayTime: 8000,
       });
     }
@@ -1656,34 +1493,8 @@ $(document).ready(function () {
       minDate: today, // Establecer la fecha mínima a hoy
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1711,12 +1522,12 @@ $(document).ready(function () {
         oneWeekBefore.setDate(oneWeekBefore.getDate() - 7); // Restar 7 días para calcular 1 semana antes
 
         if (today >= oneWeekBefore && today <= date) {
-          showToast(
-            "¡Atención! Tenga en cuenta que su producto vencerá dentro de una semana"
-          );
+          showToast("¡Atención! Tenga en cuenta que su producto vencerá dentro de una semana");
         }
-      },
+      }
     });
+
+
 
     // Inicializar calendario "Fecha Hasta"
     $("#calendarioCompra").calendar({
@@ -1724,34 +1535,8 @@ $(document).ready(function () {
       maxDate: today,
       text: {
         days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-        months: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        monthsShort: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Abr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ago",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic",
-        ],
+        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",],
+        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",],
         today: "Hoy",
         now: "Ahora",
         am: "AM",
@@ -1774,39 +1559,27 @@ $(document).ready(function () {
       },
     });
   });
+
 });
 
 function filtrarTablaProveedor() {
   let estadoSeleccionado = $("#estadoDropdown").dropdown("get value");
   let proveedorSeleccionado = $("#selectProveedor").dropdown("get value");
 
-  console.log(
-    "Filtrando por Estado:",
-    estadoSeleccionado,
-    "Proveedor:",
-    proveedorSeleccionado
-  );
+  console.log("Filtrando por Estado:", estadoSeleccionado, "Proveedor:", proveedorSeleccionado);
 
   const filas = document.querySelectorAll("#productTableBody tr");
 
   filas.forEach(function (fila) {
     const selectEstado = fila.querySelector(".estado-dropdown");
-    const nombreProveedorFila = fila.querySelector("td:nth-child(10)").textContent.trim(); // Nombre del proveedor en la columna
+    const nombreProveedorFila = fila.querySelector("td:nth-child(7)").textContent.trim(); // Nombre del proveedor en la columna
 
     if (selectEstado) {
       const estadoFila = selectEstado.value;
-      console.log(
-        "Estado en fila:",
-        estadoFila,
-        "Proveedor en fila:",
-        nombreProveedorFila
-      );
+      console.log("Estado en fila:", estadoFila, "Proveedor en fila:", nombreProveedorFila);
 
-      const mostrarPorEstado =
-        estadoSeleccionado === "" || estadoSeleccionado === estadoFila;
-      const mostrarPorProveedor =
-        proveedorSeleccionado === "" ||
-        proveedorSeleccionado === nombreProveedorFila;
+      const mostrarPorEstado = estadoSeleccionado === "" || estadoSeleccionado === estadoFila;
+      const mostrarPorProveedor = proveedorSeleccionado === "" || proveedorSeleccionado === nombreProveedorFila;
 
       if (mostrarPorEstado && mostrarPorProveedor) {
         fila.style.display = ""; // Mostrar la fila
@@ -1843,31 +1616,6 @@ function filtrarTablaProducto() {
 }
 
 
-function filtrarTablaProducto() {
-  const productoSeleccionado = $("#selectProducto").dropdown("get value");
-
-  console.log("Filtrando por Producto:", productoSeleccionado);
-
-  const filas = document.querySelectorAll("#productTableBody tr");
-
-  filas.forEach(function (fila) {
-    const nombreProductoFila = fila
-      .querySelector("td:nth-child(2)")
-      .textContent.trim(); // Columna "Nombre Producto"
-
-    // Si no hay producto seleccionado o coincide con la fila, se muestra
-    if (
-      productoSeleccionado === "" ||
-      productoSeleccionado === nombreProductoFila
-    ) {
-      fila.style.display = ""; // Mostrar la fila
-      console.log("Fila mostrada:", nombreProductoFila);
-    } else {
-      fila.style.display = "none"; // Ocultar la fila
-      console.log("Fila oculta:", nombreProductoFila);
-    }
-  });
-}
 
 document.getElementById("id-producto").addEventListener("click", function () {
   const tableBody = document.getElementById("productTableBody");
@@ -1892,14 +1640,14 @@ function limpiarCampos() {
   const campos = [
     "precioCompraEdit",
     "precioVentaEdit",
-    "fechaVencimientoEdit",
+    "fechaVencimientoEdit"
   ];
 
   // Limpiar campos de texto
-  campos.forEach((campo) => {
+  campos.forEach(campo => {
     const input = document.getElementById(campo);
     if (input) {
-      input.value = ""; // Limpiar el valor del campo
+      input.value = ''; // Limpiar el valor del campo
     }
   });
 
@@ -1914,8 +1662,8 @@ function limpiarCampos() {
 
 function refreshTable() {
   $.ajax({
-    url: "http://localhost:8080/inventario",
-    method: "GET",
+    url: 'http://localhost:8080/inventario',
+    method: 'GET',
     success: function (response) {
       // Maneja la respuesta aquí si es necesario
       console.log("Datos cargados exitosamente.");
@@ -1925,6 +1673,6 @@ function refreshTable() {
     },
     error: function (xhr, status, error) {
       console.error("Error al cargar la tabla: ", error);
-    },
+    }
   });
 }
