@@ -91,7 +91,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
         <!-- Tablas de Productos Estrella -->
         <div class="column">
-          <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black; margin-top: 0%;">Productos Estrella</h1>
+          <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black;">Productos Estrella</h1>
           <div class="ui stackable two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem;">
 
             <!-- Tabla de Mayores Ganancias -->
