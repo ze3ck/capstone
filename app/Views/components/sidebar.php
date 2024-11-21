@@ -24,7 +24,7 @@
       <a class="item" style="padding-left: 50px;">Mermas</a>
       <a class="item" style="padding-left: 50px;" href="<?= site_url('reporteMovimientos') ?>">Sin Movimientos</a>
       <a class="item" style="padding-left: 50px;" href="<?= site_url('totalesVentas') ?>">Totales Ventas</a>
-      <a class="item" style="padding-left: 50px;">Productos Por Vencer</a>
+      <!-- <a class="item" style="padding-left: 50px;">Productos Por Vencer</a> -->
     </div>
     <!-- </div> -->
     <!-- </div> -->
