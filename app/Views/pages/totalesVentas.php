@@ -50,19 +50,19 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
       </div>
     </div>
-    <!-- <div id="loader" class="ui active dimmer">
-            <div class="ui text loader">Loading</div>
-        </div> -->
+    <div id="loader-xd" class="ui active dimmer">
+      <div class="ui text loader">Loading</div>
+    </div>
 
     <!-- Aqui va el contenido **no meter todo en un container sino el contenido se centra y se pierden lso costados de la pagina-->
     <!-- <h1 class="titulo-mas-vendidos" style="text-align: center; margin-top: 4%; color:black;">Totales Ventas</h1> -->
 
 
 
-    <div class="ui container" style="margin-top: 2%; padding: 2rem;">
+    <div class="ui container fluid" style="margin-top: 2%; padding: 2rem;">
 
-      <div class="ui two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem; color: white;">
-
+      <!-- Banners de Ventas Totales y Ganancias Totales -->
+      <div class="ui stackable two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem; color: white;">
         <!-- Recuadro de Ventas Totales -->
         <div class="column">
           <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
@@ -80,64 +80,68 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
       </div>
 
-      <div class="ui two column grid" style="margin-top: 4%;">
-        <!-- Aquí irán las tablas Mayores Ganancias y Más Vendidos -->
+      <!-- Sección de Gráfico de Barras y Tablas -->
+      <div class="ui stackable two column grid" style="margin-top: 4%;">
+
+        <!-- Gráfico de Ventas por Usuario -->
+        <div class="column">
+          <h2 class="ui header" style="color: black; text-align: center;">Ventas por Usuario</h2>
+          <div id="grafico-ventas-usuarios" style="background-color: #222; border-radius: 10px; padding: 2rem;"></div>
+        </div>
+
+        <!-- Tablas de Productos Estrella -->
+        <div class="column">
+          <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black; margin-top: 0%;">Productos Estrella</h1>
+          <div class="ui stackable two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem;">
+
+            <!-- Tabla de Mayores Ganancias -->
+            <div class="column">
+              <h2 class="ui header" style="color: white;">Mayores Ganancias</h2>
+              <table class="ui celled table" id="tabla-mayores-ganancias" style="color: white;">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Ventas Totales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Tabla de Más Vendidos -->
+            <div class="column">
+              <h2 class="ui header" style="color: white;">Más Vendidos</h2>
+              <table class="ui celled table" id="tabla-mas-vendidos" style="color: white;">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black; margin-top: 1%;">Productos Estrella</h1>
-    <div class="ui two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem; color: white;">
-
-      <!-- Tabla de Mayores Ganancias -->
-      <div class="column">
-        <h2 class="ui header" style="color: white;">Mayores Ganancias</h2>
-        <table class="ui celled table" id="tabla-mayores-ganancias" style="color: white;">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Ventas Totales</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tabla de Más Vendidos -->
-      <div class="column">
-        <h2 class="ui header" style="color: white;">Más Vendidos</h2>
-        <table class="ui celled table" id="tabla-mas-vendidos" style="color: white;">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
 
 
 
 
 
-
-
-
-
-
-  <!-- Fin Contenido -->
-  <span id="ID_USUARIO" style="display:none">
-    <?php echo $_SESSION['user_id'] ?></span>
+    <!-- Fin Contenido -->
+    <span id="ID_USUARIO" style="display:none">
+      <?php echo $_SESSION['user_id'] ?></span>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
 
 
 
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>

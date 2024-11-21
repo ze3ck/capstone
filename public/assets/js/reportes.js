@@ -361,16 +361,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function obtenerDatosMasVendidos() {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}reportes/topVentas`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}reportes/topVentas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
 
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.statusText}`);
@@ -391,7 +388,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function llenarTablaMasVendidos(data) {
     const tbody = document.querySelector("#tabla-mas-vendidos tbody");
-    tbody.innerHTML = ""; 
+    tbody.innerHTML = "";
 
     data.forEach((item) => {
       const fila = document.createElement("tr");
@@ -430,7 +427,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   await obtenerDatosMasVendidos();
 });
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
 
@@ -445,14 +441,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
       });
 
-      if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`);
+      if (!response.ok)
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
 
       const data = await response.json();
       if (data.success && data.response.VENTA !== null) {
-        const ventasTotales = parseFloat(data.response.VENTA).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
+        const ventasTotales = parseFloat(data.response.VENTA).toLocaleString(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+          }
+        );
         document.getElementById("ventas-totales").textContent = ventasTotales;
       } else {
         document.getElementById("ventas-totales").textContent = "No disponible";
@@ -465,6 +465,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Función para obtener Ganancias Totales
   async function obtenerGananciasTotales() {
+    showLoader();
     try {
       const response = await fetch(`${API_BASE_URL}reportes/gananciasTotales`, {
         method: "POST",
@@ -474,21 +475,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
       });
 
-      if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`);
+      if (!response.ok)
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
 
       const data = await response.json();
       if (data.success && data.response.length > 0) {
-        const totalGanancia = data.response.reduce((acc, item) => acc + parseFloat(item.GANANCIA), 0).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
-        document.getElementById("ganancias-totales").textContent = totalGanancia;
+        const totalGanancia = data.response
+          .reduce((acc, item) => acc + parseFloat(item.GANANCIA), 0)
+          .toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          });
+        document.getElementById("ganancias-totales").textContent =
+          totalGanancia;
       } else {
-        document.getElementById("ganancias-totales").textContent = "No disponible";
+        document.getElementById("ganancias-totales").textContent =
+          "No disponible";
       }
     } catch (error) {
       console.error("Error al obtener las ganancias totales:", error);
       document.getElementById("ganancias-totales").textContent = "Error";
+    } finally {
+      hideLoader();
     }
   }
 
@@ -496,3 +504,110 @@ document.addEventListener("DOMContentLoaded", async () => {
   await obtenerVentasTotales();
   await obtenerGananciasTotales();
 });
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+  // Función para obtener los datos del endpoint
+  async function obtenerVentasPorUsuario() {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}reportes/ventasPorUsuario`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+        }
+      );
+
+      if (!response.ok)
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
+
+      const data = await response.json();
+
+      if (data.success && data.response.length > 0) {
+        generarGrafico(data.response);
+      } else {
+        mostrarMensajeError(
+          "No se encontraron datos para mostrar en el gráfico."
+        );
+      }
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+      mostrarMensajeError("Error al cargar los datos del gráfico.");
+    }
+  }
+
+  // Función para generar el gráfico
+  function generarGrafico(data) {
+    const nombres = data.map((item) => `${item.NOMBRE} ${item.APELLIDO}`);
+    const ventas = data.map((item) => parseFloat(item.VENTA));
+
+    const options = {
+      chart: {
+        type: "bar",
+        height: 350,
+        background: "#333",
+        foreColor: "#fff",
+      },
+      series: [
+        {
+          name: "Ventas Totales",
+          data: ventas,
+        },
+      ],
+      xaxis: {
+        categories: nombres,
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => `$${value.toLocaleString("en-US")}`,
+        },
+      },
+      title: {
+        text: "Ventas Totales por Usuario",
+        align: "center",
+        style: {
+          color: "#fff",
+          fontSize: "18px",
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: (value) => `$${value.toLocaleString("en-US")}`,
+        },
+      },
+      colors: ["#00E396"],
+    };
+
+    const chart = new ApexCharts(
+      document.querySelector("#grafico-ventas-usuarios"),
+      options
+    );
+    chart.render();
+  }
+
+  // Función para mostrar mensajes de error
+  function mostrarMensajeError(mensaje) {
+    const contenedor = document.querySelector("#grafico-ventas-usuarios");
+    contenedor.innerHTML = `<div style="color: red; text-align: center; font-size: 18px;">${mensaje}</div>`;
+  }
+
+  // Llamar a la función para obtener y mostrar los datos
+  await obtenerVentasPorUsuario();
+});
+
+/**
+ * loader
+ */
+function showLoader() {
+  const loader = document.getElementById("loader-xd");
+  loader.style.display = "block";
+}
+
+function hideLoader() {
+  const loader = document.getElementById("loader-xd");
+  loader.style.display = "none";
+}
