@@ -66,7 +66,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- Recuadro de Ventas Totales -->
         <div class="column">
           <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
-            <h3 class="ui header" style="color: white;">Ventas Totales</h3>
+            <h2 class="ui header" style="color: white;">Ventas Totales</h2>
             <div id="ventas-totales" style="font-size: 2rem; margin-top: 1rem;">Cargando...</div>
           </div>
         </div>
@@ -74,7 +74,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- Recuadro de Ganancias Totales -->
         <div class="column">
           <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
-            <h3 class="ui header" style="color: white;">Ganancias Totales</h3>
+            <h2 class="ui header" style="color: white;">Ganancias Totales</h2>
             <div id="ganancias-totales" style="font-size: 2rem; margin-top: 1rem;">Cargando...</div>
           </div>
         </div>
@@ -90,8 +90,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
 
         <!-- Tablas de Productos Estrella -->
-        <div class="column">
-          <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black;">Productos Estrella</h1>
+        <div class="column" style="margin-top: 1rem;">
+          <h2 style="color: black; text-align: center;">Productos Estrella</h2>
           <div class="ui stackable two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem;">
 
             <!-- Tabla de Mayores Ganancias -->
