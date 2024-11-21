@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#crearUsuarioModal").modal("show");
   });
 
-  // Lógica para crear usuario con botón del modal
-  $("#crearUsuarioButton").on("click", async function () {
-    // Cambiado a async function
+  // Lógica para crear usuario
+  async function crearUsuario() {
+    // Obtener valores de los campos del formulario
     const nombreUsuario = $("#nombreUsuario").val();
     const emailUsuario = $("#emailUsuario").val();
     const contraseniaUsuario = $("#contraseniaUsuario").val();
@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const empresaUsuario = $("#empresaUsuario").val();
     const rolUsuario = $("#rolUsuario").val();
 
+    // Validar que los campos requeridos no estén vacíos
     if (nombreUsuario && emailUsuario && contraseniaUsuario) {
       try {
         // Enviar los datos usando fetch con await
@@ -87,22 +88,46 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (data.success) {
-          // alert("Usuario creado exitosamente");
+          // Mostrar mensaje de éxito
           mostrarToast("Usuario creado exitosamente", "success");
+
+          // Ocultar el modal después de crear el usuario
           $("#crearUsuarioModal").modal("hide");
+
+          // Opcional: Limpia los campos del formulario
+          limpiarCamposUsuario();
         } else {
-          alert("Error: " + data.error);
+          // Mostrar mensaje de error
+          mostrarToast(`Error: ${data.error}`, "error");
         }
       } catch (error) {
         console.error("Error al crear usuario:", error);
-        // alert("Ocurrió un error al crear el usuario");
-        mostrarToast("Error al intentar crear el usuario", "error");
+
+        // Mostrar mensaje de error en caso de excepción
+        mostrarToast("Ocurrió un error al intentar crear el usuario", "error");
       }
     } else {
-      // alert("Todos los campos son obligatorios");
+      // Mostrar mensaje si faltan campos requeridos
       mostrarToast("Todos los campos son obligatorios", "warning");
     }
-  });
+  }
+
+  // Función para limpiar los campos del formulario
+  function limpiarCamposUsuario() {
+    $("#nombreUsuario").val("");
+    $("#emailUsuario").val("");
+    $("#contraseniaUsuario").val("");
+    $("#nombre_nuevo_usuario").val("");
+    $("#apellidoPaterno").val("");
+    $("#apellidoMaterno").val("");
+    $("#telefonoUsuario").val("");
+    $("#estadoUsuario").val("");
+    $("#empresaUsuario").val("");
+    $("#rolUsuario").val("");
+  }
+
+  // Asociar el botón del modal a la función crearUsuario
+  $("#crearUsuarioButton").on("click", crearUsuario);
 });
 
 async function cargarPerfil() {
