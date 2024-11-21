@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function obtenerDatosMasVendidos() {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/reportes/topVentas",
+        `${API_BASE_URL}reportes/topVentas`,
         {
           method: "POST",
           headers: {
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Función para obtener Ventas Totales
   async function obtenerVentasTotales() {
     try {
-      const response = await fetch("http://localhost:8080/api/reportes/totalVentas", {
+      const response = await fetch(`${API_BASE_URL}reportes/totalVentas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Función para obtener Ganancias Totales
   async function obtenerGananciasTotales() {
     try {
-      const response = await fetch("http://localhost:8080/api/reportes/gananciasTotales", {
+      const response = await fetch(`${API_BASE_URL}reportes/gananciasTotales`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

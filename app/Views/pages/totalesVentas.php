@@ -55,11 +55,11 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div> -->
 
     <!-- Aqui va el contenido **no meter todo en un container sino el contenido se centra y se pierden lso costados de la pagina-->
-    <h1 class="titulo-mas-vendidos" style="text-align: center; margin-top: 4%; color:black;">Totales Ventas</h1>
+    <!-- <h1 class="titulo-mas-vendidos" style="text-align: center; margin-top: 4%; color:black;">Totales Ventas</h1> -->
 
 
-    <div class="ui container" style="margin-top: 4%; padding: 2rem;">
-      <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: white;">Productos Estrella</h1>
+
+    <div class="ui container" style="margin-top: 2%; padding: 2rem;">
 
       <div class="ui two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem; color: white;">
 
@@ -85,6 +85,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       </div>
     </div>
 
+    <h1 style="text-align: center; font-family: 'Arial', sans-serif; color: black; margin-top: 1%;">Productos Estrella</h1>
     <div class="ui two column grid" style="background-color: #222; border-radius: 10px; padding: 2rem; color: white;">
 
       <!-- Tabla de Mayores Ganancias -->
