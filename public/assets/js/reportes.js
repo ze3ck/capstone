@@ -363,6 +363,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const response = await fetch(`${API_BASE_URL}reportes/topVentas`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -435,6 +436,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const response = await fetch(`${API_BASE_URL}reportes/totalVentas`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -471,6 +473,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const response = await fetch(`${API_BASE_URL}reportes/gananciasTotales`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -519,6 +522,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         `${API_BASE_URL}reportes/ventasPorUsuario`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
