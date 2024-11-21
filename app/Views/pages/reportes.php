@@ -66,7 +66,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>Críticos Y Bajo Críticos</h3>
-          <table class="ui celled table" id="tabla-criticos">
+          <table class="ui celled unstackable table" id="tabla-criticos">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -83,7 +83,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>Sobre Stock</h3>
-          <table class="ui celled table" id="tabla-sobre-stock">
+          <table class="ui celled unstackable table" id="tabla-sobre-stock">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -101,7 +101,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>General</h3>
-          <table class="ui celled table" id="tabla-productos">
+          <table class="ui celled unstackable table" id="tabla-productos">
             <thead>
               <tr>
                 <th>ID</th>

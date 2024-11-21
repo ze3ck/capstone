@@ -230,7 +230,7 @@ function inicializarDataTables() {
       pageLength: 5,
       lengthMenu: [5, 10, 15, 20, 25, 30],
       responsive: true,
-      // dom: '<"ui stackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
+      // dom: '<"ui unstackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
       className: "ui celled table",
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
@@ -247,7 +247,7 @@ function inicializarDataTables() {
       pageLength: 5,
       lengthMenu: [5, 10, 15, 20, 25, 30],
       responsive: true,
-      // dom: '<"ui stackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
+      // dom: '<"ui unstackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
       className: "ui celled table",
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
@@ -264,7 +264,7 @@ function inicializarDataTables() {
       pageLength: 5,
       lengthMenu: [5, 10, 15, 20, 25, 30],
       responsive: true,
-      // dom: '<"ui stackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
+      // dom: '<"ui unstackable grid"<"row"<"eight wide column"l><"eight wide column"f>>>t<"row"<"eight wide column"i><"eight wide column"p>>>',
       className: "ui celled table",
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",

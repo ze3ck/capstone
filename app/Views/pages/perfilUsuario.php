@@ -58,7 +58,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
         <div class="ui container" id="container-perfilUsuario">
             <h4 id="tituloPerfilUsuario" class="ui dividing header">Perfil de Usuario</h4>
-            <div class="ui stackable grid">
+            <div class="ui unstackable grid">
                 <div class="four wide column">
                     <!--Menu lateral, si quieren lo eliminan o lo agregan al sidebar-->
                     <div class="ui vertical fluid tabular menu">
@@ -108,7 +108,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                     <!-- Sección de gestionar usuarios -->
                     <div class="ui tab segment" data-tab="user-management">
-                        <table id="t_gestion_usuarios" class="ui celled table stackable">
+                        <table id="t_gestion_usuarios" class="ui celled table unstackable">
                             <thead>
                                 <tr>
                                     <th>ID Usuario</th>

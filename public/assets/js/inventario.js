@@ -13,7 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $("#selectProveedor").dropdown({
     onChange: function (value, text) {
-      filtrarTabla(); // Llama a la función de filtrado combinada
+      filtrarTablaProveedor(); // Llama a la función de filtrado combinada
+    },
+  });
+
+  $("#selectProducto").dropdown({
+    onChange: function (value, text) {
+      filtrarTablaProducto();
     },
   });
 
@@ -385,6 +391,7 @@ async function agregarNuevoProducto() {
       cantidadField.value = "";
       precioCompField.value = "";
       precioVentaField.value = "";
+      refreshTable();
     } catch (error) {
       console.error("Error al enviar la solicitud:", error);
 
@@ -397,6 +404,7 @@ async function agregarNuevoProducto() {
       });
     }
   }
+
 }
 
 async function agregarNuevoLote() {
@@ -1270,7 +1278,7 @@ $(document).ready(function () {
     .getElementById("exportExcelButton")
     .addEventListener("click", function () {
       var table = document.querySelector(
-        "table.ui.celled.long.scrolling.table"
+        "table.ui.celled.large.unstackable.scrolling.table"
       );
       var rows = table.querySelectorAll("tr");
       var accionesColumnIndex = -1;
@@ -1554,7 +1562,7 @@ $(document).ready(function () {
 
 });
 
-function filtrarTabla() {
+function filtrarTablaProveedor() {
   let estadoSeleccionado = $("#estadoDropdown").dropdown("get value");
   let proveedorSeleccionado = $("#selectProveedor").dropdown("get value");
 
@@ -1564,7 +1572,7 @@ function filtrarTabla() {
 
   filas.forEach(function (fila) {
     const selectEstado = fila.querySelector(".estado-dropdown");
-    const nombreProveedorFila = fila.querySelector("td:nth-child(10)").textContent.trim(); // Nombre del proveedor en la columna
+    const nombreProveedorFila = fila.querySelector("td:nth-child(7)").textContent.trim(); // Nombre del proveedor en la columna
 
     if (selectEstado) {
       const estadoFila = selectEstado.value;
@@ -1585,6 +1593,28 @@ function filtrarTabla() {
     }
   });
 }
+
+function filtrarTablaProducto() {
+  const productoSeleccionado = $("#selectProducto").dropdown("get value");
+
+  console.log("Filtrando por Producto:", productoSeleccionado);
+
+  const filas = document.querySelectorAll("#productTableBody tr");
+
+  filas.forEach(function (fila) {
+    const nombreProductoFila = fila.querySelector("td:nth-child(2)").textContent.trim(); // Columna "Nombre Producto"
+
+    // Si no hay producto seleccionado o coincide con la fila, se muestra
+    if (productoSeleccionado === "" || productoSeleccionado === nombreProductoFila) {
+      fila.style.display = ""; // Mostrar la fila
+      console.log("Fila mostrada:", nombreProductoFila);
+    } else {
+      fila.style.display = "none"; // Ocultar la fila
+      console.log("Fila oculta:", nombreProductoFila);
+    }
+  });
+}
+
 
 
 document.getElementById("id-producto").addEventListener("click", function () {

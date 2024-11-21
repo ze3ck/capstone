@@ -205,20 +205,20 @@ function cargarFilasMovimientos(
   var col2 = document.createElement("td");
   var col3 = document.createElement("td");
   var col4 = document.createElement("td");
+  // var col5 = document.createElement("td");
   var col5 = document.createElement("td");
   var col6 = document.createElement("td");
   var col7 = document.createElement("td");
   var col8 = document.createElement("td");
-  var col9 = document.createElement("td");
 
   col1.innerHTML = ID_MOVIMIENTO;
   col2.innerHTML = DESCRIPCION_MOVIMIENTO;
   col3.innerHTML = FECHA_MOVIMIENTO;
   col4.innerHTML = TOTAL_MOVIMIENTO;
-  col5.innerHTML = NOTA;
-  col6.innerHTML = DESCRIPCION;
-  col7.innerHTML = RESPONSABLE;
-  col8.innerHTML = DESCRIPCION_PAGO;
+  // col5.innerHTML = NOTA;
+  col5.innerHTML = DESCRIPCION;
+  col6.innerHTML = RESPONSABLE;
+  col7.innerHTML = DESCRIPCION_PAGO;
 
   // creacion de Boton dinamico de ver Detalle
   var button = document.createElement("button");
@@ -226,7 +226,7 @@ function cargarFilasMovimientos(
   button.type = "button";
   button.className = "ui blue button";
   button.innerHTML = "Ver Detalle";
-  col9.appendChild(button);
+  col8.appendChild(button);
 
   // Agregar evento de clic al botón para mostrar el modal
   button.addEventListener("click", function () {
@@ -245,11 +245,11 @@ function cargarFilasMovimientos(
   tr.appendChild(col2);
   tr.appendChild(col3);
   tr.appendChild(col4);
+  // tr.appendChild(col5);
   tr.appendChild(col5);
   tr.appendChild(col6);
   tr.appendChild(col7);
   tr.appendChild(col8);
-  tr.appendChild(col9);
 
   // Finalmente, agregar la fila a la tabla
   tablaVisor.appendChild(tr);
@@ -538,7 +538,8 @@ $(document).ready(function () {
           // Si las validaciones pasan, proceder a generar la salida
           // Puedes llamar a GenerarSalida aquí, pero recuerda que es una función asíncrona
           GenerarSalida();
-
+          // location.reload();
+          llenarTablaMovimientos();
           // Permitir que el modal se cierre
           return true;
         },

@@ -269,7 +269,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <th>Tipo</th>
                         <th>Fecha</th>
                         <th>Total</th>
-                        <th>Descripción</th>
+                        <!-- <th>Descripción</th> -->
                         <th>Categoría</th>
                         <th>Responsable</th>
                         <th>Metodo de Pago</th>

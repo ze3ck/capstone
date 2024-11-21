@@ -336,6 +336,16 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                     </div>
                 </div>
+                <!-- <div class="three wide column">
+                    <label>Filtrar por producto:</label>
+                    <div class="ui fluid search selection dropdown" id="selectProducto">
+                        <input type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Producto</div>
+                        <div class="menu">
+                        </div>
+                    </div>
+                </div> -->
             </div>
             <!-- Botón para abrir el modal de generar producto -->
             <div class="ui grid" style="margin-bottom: 20px;">
@@ -345,7 +355,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         <button class="ui green basic button" id="exportExcelButton">
                             <i class="file excel icon"></i> Exportar a Excel
                         </button>
-                        <label for="excelFile" class="ui green basic button">
+                        <label style="display:none" for="excelFile" class="ui green basic button">
                             <i class="file excel icon"></i> Importar Excel
                         </label>
                     </div>

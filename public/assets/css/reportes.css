@@ -42,7 +42,7 @@ h1 {
   text-align: center;
 }
 .title-container h3 {
-  justify-self: center; 
+  justify-self: center;
   margin: 0;
   padding: 5px 0;
 }
@@ -59,11 +59,11 @@ h1 {
   grid-template-columns: 1fr auto;
   align-items: center;
   text-align: center;
-  margin-bottom: 1px ;
+  margin-bottom: 1px;
 }
 
 .legend-table {
-  justify-self: end; 
+  justify-self: end;
   display: flex;
   align-items: center;
 }
@@ -118,11 +118,11 @@ h1 {
 }
 
 .ui.table thead th {
-  padding: 8px ;
+  padding: 8px;
 }
 
 .ui.segment {
-  padding: 3px ;
+  padding: 3px;
 }
 
 .hidden-row {
@@ -130,7 +130,7 @@ h1 {
 }
 
 /* Alinear los controles de DataTables correctamente */
-.ui.stackable.grid .row {
+.ui.unstackable.grid .row {
   margin-bottom: 1em;
 }
 

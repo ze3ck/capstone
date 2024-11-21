@@ -109,7 +109,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
         </div>
         <div class="ui grid">
-            <table class="ui striped celled table" style="margin: 2%;" id="tblProveedores">
+            <table class="ui striped celled unstackable table" style="margin: 2%;" id="tblProveedores">
                 <thead>
                     <tr class="center aligned">
                     <tr class="center aligned">
