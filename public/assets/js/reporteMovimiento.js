@@ -83,6 +83,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 chart: {
                     type: "bar",
                     height: 400,
+                    toolbar: {
+                        show: true,
+                        style: {
+                            colors: "#000000"
+                        } // Desactiva el menú
+                    },
                 },
                 series: [
                     {
@@ -92,6 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 ],
                 xaxis: {
                     categories: labelsProductos, // Nombres de los productos
+                    labels: {
+                        style: {
+                            colors: "#FFFFFF", // Cambia las letras del eje X a blanco
+                            fontSize: "12px", // Opcional: tamaño de fuente
+                            fontFamily: "Arial, sans-serif", // Opcional: familia de fuente
+                        },
+                    },
                 },
                 colors: ['#1E90FF', '#FFD700', '#FF6347', '#32CD32', '#FF69B4', '#FFA07A', '#20B2AA', '#9370DB', '#FF4500', '#2E8B57'], // Colores personalizados para cada barra
                 plotOptions: {

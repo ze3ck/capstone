@@ -76,6 +76,26 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             </div>
 
             <!-- Fin Contenido -->
+
+            <style>
+                .apexcharts-menu {
+                    background-color: #ffffff !important;
+                    /* Fondo blanco */
+                    color: #000000 !important;
+                    /* Texto negro */
+                    border: 1px solid #dcdcdc;
+                    /* Opcional: borde gris claro */
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    /* Opcional: sombra */
+                }
+
+                .apexcharts-menu-item:hover {
+                    background-color: #f0f0f0 !important;
+                    /* Fondo gris claro al hacer hover */
+                    color: #000000 !important;
+                    /* Texto negro al hacer hover */
+                }
+            </style>
         </div>
 
         <!-- Scripts al final del body -->
