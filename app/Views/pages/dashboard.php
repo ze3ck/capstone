@@ -71,163 +71,93 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <!-- Pusher -->
 
         <!-- Main Content -->
-        <div class="resumen-titulo">
+        <div class="resumen-titulo" style="margin-top: 3%;">
             <h1>Resumen</h1>
         </div>
-        <div class="ui container" style="width: 100%;" id="graficos-container">
+        <div class="ui container" style="width: 100%; margin-top: 2%" id="graficos-container">
             <!-- Contenedor de los gráficos -->
-            <!-- <div id="wrapper"> -->
-            <!-- <div class="content-area"> -->
-            <!-- <div class="container-fluid"> -->
-            <div class="main">
-                <div id="box-boxes" class="row sparkboxes mt-4">
-                    <div class="col-md-3">
-                        <div class="box box1">
-                            <div class="details">
-                                <h3>1213</h3>
-                                <h4>CLICKS</h4>
-                            </div>
-                            <div id="spark1"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="box box2">
-                            <div class="details">
-                                <h3>422</h3>
-                                <h4>VIEWS</h4>
-                            </div>
-                            <div id="spark2"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="box box3">
-                            <div class="details">
-                                <h3>311</h3>
-                                <h4>LEADS</h4>
-                            </div>
-                            <div id="spark3"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="box box4">
-                            <div class="details">
-                                <h3>22</h3>
-                                <h4>SALES</h4>
-                            </div>
-                            <div id="spark4"></div>
-                        </div>
-                    </div>
+            <div class="ui grid">
+                <br>
+                <!-- Tabla Críticos -->
+                <div class="eight wide column">
+
+                    <h2 class="ui header" style="color: white;">Críticos Y Bajo Críticos</h2>
+                    <table class="ui celled unstackable table" id="tabla-criticos">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Existencias</th>
+                                <th>Ideal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
                 </div>
 
-                <div class="row mt-4">
-                    <div class="col-md-5">
-                        <div class="box shadow mt-4">
-                            <div id="radialBarBottom"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="box shadow mt-4">
-                            <div id="line-adwords" class=""></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-5">
-                        <div class="box shadow mt-4">
-                            <div id="barchart"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="box shadow mt-4">
-                            <div id="areachart"></div>
-                        </div>
-                    </div>
+                <div class="eight wide column">
+                    <!-- <div class="ui segment"> -->
+                    <h2 class="ui header" style="color: white;">Sobre Stock</h2>
+                    <table class="ui celled unstackable table" id="tabla-sobre-stock">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Existencias</th>
+                                <th>Ideal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!-- </div> -->
                 </div>
             </div>
-            <!-- </div> -->
-            <!-- </div> -->
-            <!-- </div> -->
+            <div class="ui grid">
+                <div class="eight wide column">
+                    <h2 class="ui header" style="color: white;">Más Vendidos</h2>
+                    <table class="ui celled unstackable table" id="tabla-mas-vendidos" style="color: white;">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Tabla de Mayores Ganancias -->
+                <div class="eight wide column">
+                    <h2 class="ui header" style="color: white;">Mayores Ganancias</h2>
+                    <table class="ui celled unstackable table" id="tabla-mayores-ganancias" style="color: white;">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Ventas Totales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Main Content -->
+            <!-- Scripts -->
 
-            <!-- Aquí puedes agregar tu contenido principal -->
-            <table class="ui celled padded table">
-                <thead>
-                    <tr>
-                        <th class="single line">Evidence Rating</th>
-                        <th>Effect</th>
-                        <th>Efficacy</th>
-                        <th>Consensus</th>
-                        <th>Comments</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h2 class="ui center aligned header">A</h2>
-                        </td>
-                        <td class="single line">
-                            Power Output
-                        </td>
-                        <td>
-                            <div class="ui yellow rating" data-rating="3" data-max-rating="3"></div>
-                        </td>
-                        <td class="right aligned">
-                            80% <br>
-                            <a href="#">18 studies</a>
-                        </td>
-                        <td>Creatine supplementation is the reference compound for increasing muscular creatine levels; hay variability in this increase, however, with some nonresponders.</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h2 class="ui center aligned header">A</h2>
-                        </td>
-                        <td class="single line">
-                            Weight
-                        </td>
-                        <td>
-                            <div class="ui yellow rating" data-rating="3" data-max-rating="3"></div>
-                        </td>
-                        <td class="right aligned">
-                            100% <br>
-                            <a href="#">65 studies</a>
-                        </td>
-                        <td>Creatine is the reference compound for power improvement, with numbers from one meta-analysis to assess potency</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="5">
-                            <div class="ui right floated pagination menu">
-                                <a class="icon item">
-                                    <i class="left chevron icon"></i>
-                                </a>
-                                <a class="item">1</a>
-                                <a class="item">2</a>
-                                <a class="item">3</a>
-                                <a class="item">4</a>
-                                <a class="icon item">
-                                    <i class="right chevron icon"></i>
-                                </a>
-                            </div>
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
+
+            <!-- Scripts -->
+
+
         </div>
-        <!-- Main Content -->
-        <!-- Scripts -->
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="/assets/js/dashboard.js"></script>
+        <script src="/assets/js/reportes.js"></script>
         <script src="/assets/js/charts.js"></script>
 
-        <!-- Scripts -->
-
-
-    </div>
 </body>
 
 </html>
