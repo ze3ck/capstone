@@ -72,9 +72,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     <h3>Total de Movimientos por Producto</h3>
                     <div class="ui toggle checkbox">
                         <input type="checkbox" id="toggleSwitch" name="public">
-                        <label style="color:white">Mostrar los 10 productos con menos movimientos</label>
+                        <label style="color:white"></label>
                     </div>
-
+                        <label for="" style="color:white">Mostrar los 10 productos con menos movimiento</label>
                     <div id="topProductosMovimientoChart"></div>
 
                 </div>
@@ -82,25 +82,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
             <!-- Fin Contenido -->
 
-            <style>
-                .apexcharts-menu {
-                    background-color: #ffffff !important;
-                    /* Fondo blanco */
-                    color: #000000 !important;
-                    /* Texto negro */
-                    border: 1px solid #dcdcdc;
-                    /* Opcional: borde gris claro */
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                    /* Opcional: sombra */
-                }
 
-                .apexcharts-menu-item:hover {
-                    background-color: #f0f0f0 !important;
-                    /* Fondo gris claro al hacer hover */
-                    color: #000000 !important;
-                    /* Texto negro al hacer hover */
-                }
-            </style>
         </div>
 
         <!-- Scripts al final del body -->
@@ -115,5 +97,24 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
 
 </body>
+<style>
+    .apexcharts-menu {
+        background-color: #ffffff !important;
+        /* Fondo blanco */
+        color: #000000 !important;
+        /* Texto negro */
+        border: 1px solid #dcdcdc;
+        /* Opcional: borde gris claro */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        /* Opcional: sombra */
+    }
+
+    .apexcharts-menu-item:hover {
+        background-color: #f0f0f0 !important;
+        /* Fondo gris claro al hacer hover */
+        color: #000000 !important;
+        /* Texto negro al hacer hover */
+    }
+</style>
 
 </html>
