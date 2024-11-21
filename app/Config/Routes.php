@@ -164,15 +164,15 @@ $routes->group(
     /**
      * RESTful API's: Controllers\API\Proveedores 🧉
      */
-    $routes->post('proveedores/selectProveedor',      'Proveedores::selectProveedor');
-    $routes->post('proveedores/llenadoTablaProv',     'Proveedores::llenadoTablaProv');
-    $routes->post('proveedores/selectContacto',       'Proveedores::selectContacto');
-    $routes->post('proveedores/actualizarEstadoProv', 'Proveedores::actualizarEstadoProv');
-    $routes->post('proveedores/selectRegion',         'Proveedores::selectRegion');
-    $routes->post('proveedores/selectComuna',         'Proveedores::selectComuna');
-    $routes->post('proveedores/selectCiudad',         'Proveedores::selectCiudad');
-    $routes->post('proveedores/actualizarProv',       'Proveedores::actualizarProv');
-    $routes->post('proveedores/nuevoProveedor',       'Proveedores::nuevoProveedor');
+    $routes->post('proveedores/selectProveedor',      'proveedores::selectProveedor');
+    $routes->post('proveedores/llenadoTablaProv',     'proveedores::llenadoTablaProv');
+    $routes->post('proveedores/selectContacto',       'proveedores::selectContacto');
+    $routes->post('proveedores/actualizarEstadoProv', 'proveedores::actualizarEstadoProv');
+    $routes->post('proveedores/selectRegion',         'proveedores::selectRegion');
+    $routes->post('proveedores/selectComuna',         'proveedores::selectComuna');
+    $routes->post('proveedores/selectCiudad',         'proveedores::selectCiudad');
+    $routes->post('proveedores/actualizarProv',       'proveedores::actualizarProv');
+    $routes->post('proveedores/nuevoProveedor',       'proveedores::nuevoProveedor');
 
 
     /**
