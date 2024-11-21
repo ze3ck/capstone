@@ -39,6 +39,10 @@ $routes->post('enviarSoporte', 'SoporteController::enviarSoporte');
 $routes->post('movimientos',  'Home::movimientos');
 $routes->get('movimientos',   'Home::movimientos');
 
+// mas vendidos
+$routes->post('totalesVentas', 'Home::totalesVentas');
+$routes->get('totalesVentas',  'Home::totalesVentas');
+
 // reportes
 $routes->post('reportes', 'Home::reportes');
 $routes->get('reportes',  'Home::reportes');

@@ -104,4 +104,19 @@ class Home extends BaseController
 
         return view('pages/proveedores');
     }
+
+    
+    /**
+     * totalesVentas
+     */
+    public function totalesVentas()
+    {
+        $session = session();
+
+        if (!$session->has('loggedin') || !$session->get('loggedin')) {
+            return redirect()->to('/login');
+        }
+
+        return view('pages/totalesVentas');
+    }
 }

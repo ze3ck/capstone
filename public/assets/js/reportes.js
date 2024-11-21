@@ -276,3 +276,223 @@ function inicializarDataTables() {
     });
   }
 }
+
+/**
+ *
+ */
+document.addEventListener("DOMContentLoaded", async () => {
+  const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+  async function obtenerDatosGanancias() {
+    try {
+      const response = await fetch(`${API_BASE_URL}reportes/topGanancias`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.response.length > 0) {
+        llenarTabla(data.response);
+      } else {
+        mostrarMensajeSinDatos();
+      }
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+      mostrarMensajeError();
+    }
+  }
+
+  function llenarTabla(data) {
+    const tbody = document.querySelector("#tabla-mayores-ganancias tbody");
+    tbody.innerHTML = "";
+
+    data.forEach((item) => {
+      const fila = document.createElement("tr");
+
+      // Celda Nombre Producto
+      const celdaNombre = document.createElement("td");
+      celdaNombre.textContent = item.NOMBRE_PRODUCTO;
+      fila.appendChild(celdaNombre);
+
+      // Celda Ganancia
+      const celdaGanancia = document.createElement("td");
+      const ganancia = parseFloat(item.GANANCIA) || 0;
+      celdaGanancia.textContent = `$${ganancia.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+      })}`;
+      fila.appendChild(celdaGanancia);
+
+      tbody.appendChild(fila);
+    });
+  }
+
+  function mostrarMensajeSinDatos() {
+    const tbody = document.querySelector("#tabla-mayores-ganancias tbody");
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="2" style="text-align: center;">No se encontraron datos.</td>
+      </tr>
+    `;
+  }
+
+  function mostrarMensajeError() {
+    const tbody = document.querySelector("#tabla-mayores-ganancias tbody");
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="2" style="text-align: center; color: red;">Error al cargar los datos.</td>
+      </tr>
+    `;
+  }
+
+  await obtenerDatosGanancias();
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+  async function obtenerDatosMasVendidos() {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/reportes/topVentas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.response.length > 0) {
+        llenarTablaMasVendidos(data.response);
+      } else {
+        mostrarMensajeSinDatos("tabla-mas-vendidos");
+      }
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+      mostrarMensajeError("tabla-mas-vendidos");
+    }
+  }
+
+  function llenarTablaMasVendidos(data) {
+    const tbody = document.querySelector("#tabla-mas-vendidos tbody");
+    tbody.innerHTML = ""; 
+
+    data.forEach((item) => {
+      const fila = document.createElement("tr");
+
+      const celdaProducto = document.createElement("td");
+      celdaProducto.textContent = item.NOMBRE_PRODUCTO;
+      fila.appendChild(celdaProducto);
+
+      const celdaCantidad = document.createElement("td");
+      const cantidad = parseInt(item.CANTIDAD, 10) || 0;
+      celdaCantidad.textContent = cantidad.toLocaleString("en-US");
+      fila.appendChild(celdaCantidad);
+
+      tbody.appendChild(fila);
+    });
+  }
+
+  function mostrarMensajeSinDatos(idTabla) {
+    const tbody = document.querySelector(`#${idTabla} tbody`);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="2" style="text-align: center;">No se encontraron datos.</td>
+      </tr>
+    `;
+  }
+
+  function mostrarMensajeError(idTabla) {
+    const tbody = document.querySelector(`#${idTabla} tbody`);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="2" style="text-align: center; color: red;">Error al cargar los datos.</td>
+      </tr>
+    `;
+  }
+
+  await obtenerDatosMasVendidos();
+});
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const idUsuario = document.getElementById("ID_USUARIO").textContent.trim();
+
+  // Función para obtener Ventas Totales
+  async function obtenerVentasTotales() {
+    try {
+      const response = await fetch("http://localhost:8080/api/reportes/totalVentas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
+
+      if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`);
+
+      const data = await response.json();
+      if (data.success && data.response.VENTA !== null) {
+        const ventasTotales = parseFloat(data.response.VENTA).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        });
+        document.getElementById("ventas-totales").textContent = ventasTotales;
+      } else {
+        document.getElementById("ventas-totales").textContent = "No disponible";
+      }
+    } catch (error) {
+      console.error("Error al obtener las ventas totales:", error);
+      document.getElementById("ventas-totales").textContent = "Error";
+    }
+  }
+
+  // Función para obtener Ganancias Totales
+  async function obtenerGananciasTotales() {
+    try {
+      const response = await fetch("http://localhost:8080/api/reportes/gananciasTotales", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
+
+      if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`);
+
+      const data = await response.json();
+      if (data.success && data.response.length > 0) {
+        const totalGanancia = data.response.reduce((acc, item) => acc + parseFloat(item.GANANCIA), 0).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        });
+        document.getElementById("ganancias-totales").textContent = totalGanancia;
+      } else {
+        document.getElementById("ganancias-totales").textContent = "No disponible";
+      }
+    } catch (error) {
+      console.error("Error al obtener las ganancias totales:", error);
+      document.getElementById("ganancias-totales").textContent = "Error";
+    }
+  }
+
+  // Llamar a las funciones para obtener y mostrar los datos
+  await obtenerVentasTotales();
+  await obtenerGananciasTotales();
+});
