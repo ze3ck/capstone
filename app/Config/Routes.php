@@ -55,6 +55,9 @@ $routes->get('reportes',  'Home::reportes');
 $routes->post('proveedores', 'Home::proveedores');
 $routes->get('proveedores',  'Home::proveedores');
 
+// mermas
+$routes->post('mermas', 'Home::mermas');
+$routes->get('mermas',  'Home::mermas');
 
 // session controller modal
 $routes->get('sessioncontroller/getSessionTime', 'SessionController::getSessionTime');
