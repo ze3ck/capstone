@@ -292,17 +292,16 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
             </div>
+            <div class="actions">
+                <button class="ui green button" id="guardarProveedor">Guardar</button>
+                <button class="ui red cancel button">Cancelar</button>
+            </div>
         </div>
-        <div class="actions">
-            <button class="ui green button" id="guardarProveedor">Guardar</button>
-            <button class="ui red cancel button">Cancelar</button>
-        </div>
-    </div>
 
 
-    <!-- Fin Contenido -->
-    <span id="ID_USUARIO" style="display:none">
-        <?php echo $_SESSION['user_id'] ?></span>
+        <!-- Fin Contenido -->
+        <span id="ID_USUARIO" style="display:none">
+            <?php echo $_SESSION['user_id'] ?></span>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script>

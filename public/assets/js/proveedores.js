@@ -329,91 +329,86 @@ tbody.addEventListener("click", function (event) {
 });
 
 
-async function editarProveedor(){
+async function editarProveedor() {
   const nombreProveedorEdit = document.getElementById("nombreProveedorEdit").value.trim();
   const nombreContactoEdit = document.getElementById("nombreContactoEdit").value.trim();
   const telefonoContactoEdit = document.getElementById("telefonoContactoEdit").value.trim();
   const emailContactoEdit = document.getElementById("emailContactoEdit").value.trim();
   const nombreCalleEdit = document.getElementById("nombreCalleEdit").value.trim();
-  const numeroCalleEdit = document.getElementById("nuCalleEdit").value.trim();
-  const ciudadProveedorEdit = document.getElementById("nombreCalleEdit").value.trim();
-  const selectNewCiudadEdit = document.getElementById("selectNewCiudadEdit").value.trim();
-  const selectNewComunaEdit = document.getElementById("selectNewComunaEdit").value.trim();
-  const selectNewRegionEdit = document.getElementById("selectNewRegionEdit").value.trim();
-  if(
-    !nombreProveedorEdit ||nombreProveedorEdit.lenght == 0 ||
-    !nombreContactoEdit ||nombreContactoEdit.lenght == 0 ||
-    !telefonoContactoEdit ||telefonoContactoEdit.lenght == 0 ||
-    !emailContactoEdit ||emailContactoEdit.lenght == 0 ||
-    !nombreCalleEdit ||nombreCalleEdit.lenght == 0 ||
-    !numeroCalleEdit ||numeroCalleEdit.lenght == 0 ||
-    !ciudadProveedorEdit ||ciudadProveedorEdit.lenght == 0
-  ){
-    $('body').toast({
+  const numeroCalleEdit = document.getElementById("numeroCalleEdit").value.trim();
+
+  // Obtener valores de dropdowns con Semantic UI
+  const selectNewCiudadEdit = $("#selectNewCiudadEdit").dropdown("get value");
+  const selectNewComunaEdit = $("#selectNewComunaEdit").dropdown("get value");
+  const selectNewRegionEdit = $("#selectNewRegionEdit").dropdown("get value");
+
+  if (
+    !nombreProveedorEdit ||
+    !nombreContactoEdit ||
+    !telefonoContactoEdit ||
+    !emailContactoEdit ||
+    !nombreCalleEdit ||
+    !numeroCalleEdit ||
+    !selectNewCiudadEdit ||
+    !selectNewComunaEdit ||
+    !selectNewRegionEdit
+  ) {
+    $("body").toast({
       message: "Uno o más campos están vacíos",
-      showProgress: 'top',
-      class: 'error',
+      showProgress: "top",
+      class: "error",
       displayTime: 8000,
-    })
-  } else {
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}proveedores/actualizarProv`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            P_IDPROVEEDOR: proveedorId, //CORREGIR
-            P_NOMBRE_PROVEEDOR: nombreProveedorEdit,
-            P_NOMBRE_CONTACTO: nombreContactoEdit,
-            P_TELEFONO: telefonoContactoEdit,
-            P_EMAIL: emailContactoEdit,
-            P_NOMBRE_CALLE: nombreCalleEdit,
-            P_NUMERO_CALLE: numeroCalleEdit,
-            P_IDCIUDAD: selectNewCiudadEdit, //CORREGIR
-            P_IDCOMUNA: selectNewComunaEdit, //CORREGIR
-            P_IDREGION: selectNewRegionEdit //CORREGIR
-          }),
-        }
-      );
+    });
+    return; // Detener la ejecución si hay campos vacíos
+  }
 
-      if (!response.ok) {
-        throw new Error(
-          `Error al editar el proveedor. Estado: ${response.status}`
-        );
-      }
+  try {
+    const response = await fetch(`${API_BASE_URL}proveedores/actualizarProv`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        P_IDPROVEEDOR: proveedorId, // Define `proveedorId` previamente
+        P_NOMBRE_PROVEEDOR: nombreProveedorEdit,
+        P_NOMBRE_CONTACTO: nombreContactoEdit,
+        P_TELEFONO: telefonoContactoEdit,
+        P_EMAIL: emailContactoEdit,
+        P_NOMBRE_CALLE: nombreCalleEdit,
+        P_NUMERO_CALLE: numeroCalleEdit,
+        P_IDCIUDAD: selectNewCiudadEdit,
+        P_IDCOMUNA: selectNewComunaEdit,
+        P_IDREGION: selectNewRegionEdit,
+      }),
+    });
 
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const data = await response.json();
-        console.log("Proveedor editado con éxito:", data);
-
-        // Mostrar mensaje de éxito con toast
-        $("body").toast({
-          message: "Se ha editado el proveedor exitosamente",
-          class: "success",
-          displayTime: 3000,
-        });
-      } else {
-        console.warn("El servidor no devolvió un JSON válido.");
-        // Mostrar mensaje de advertencia si no es JSON válido
-        $("body").toast({
-          message:
-            "Proveedor editado exitosamente, pero la respuesta no es válida.",
-          class: "warning",
-          displayTime: 3000,
-        });
-        // Limpiar los campos del formulario
-        limpiarFormulario();
-
-        // Cerrar el modal
-        $("#editModal").modal("hide");
-      }
-    } catch (error) {
-      
+    if (!response.ok) {
+      throw new Error(`Error al editar el proveedor. Estado: ${response.status}`);
     }
+
+    const data = await response.json();
+
+    // Mostrar mensaje de éxito con toast
+    $("body").toast({
+      message: "Se ha editado el proveedor exitosamente",
+      class: "success",
+      displayTime: 3000,
+    });
+
+    // Cerrar el modal
+    $("#modalEditarProveedor").modal("hide");
+
+    // Opcional: recargar lista de proveedores o actualizar la UI
+    cargarProveedores();
+
+  } catch (error) {
+    console.error("Error al editar el proveedor:", error);
+
+    $("body").toast({
+      message: "Error al editar el proveedor. Intenta nuevamente.",
+      class: "error",
+      displayTime: 8000,
+    });
   }
 }
 

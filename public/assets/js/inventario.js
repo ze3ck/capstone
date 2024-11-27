@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+
   $("#selectProveedor").dropdown();
 
   // $("#saveProductButton").click(agregarNuevoProducto);
@@ -8,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#editProductButton").click(editarProducto);
   $("#editProductButtonCancel").click(limpiarCampos);
   selectProveedores();
+  selectProductos();
   selectUnidadMedida();
-  // selectProveedor();
 
   $("#selectProveedor").dropdown({
     onChange: function (value, text) {
@@ -778,17 +779,11 @@ async function selectProveedores() {
 
 }
 
-// function llenadoSelect(idSelect, codOpcion, nomOpcion) {
-//   select = document.getElementById(idSelect);
-//   var opt = document.createElement('option');
-//   opt.value = codOpcion;
-//   opt.innerHTML =nomOpcion;
-//   select.appendChild(opt);
-// }
+
 async function selectProductos() {
   let id_usuario = document.getElementById("ID_USUARIO").innerHTML.trim();
 
-  const response = await fetch(`${API_BASE_URL}movimientos/selectProductos`, {
+  const response = await fetch(`${API_BASE_URL}inventario/selectProductos`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -820,6 +815,27 @@ async function selectProductos() {
     select.appendChild(opt);
 
   }
+  let menuFiltro = document.querySelector("#selectProducto .menu");
+  menuFiltro.innerHTML = ""; // Limpiar opciones previas
+
+  // Agregar opción "Todos"
+  let allItem = document.createElement("div");
+  allItem.className = "item";
+  allItem.dataset.value = ""; // Valor vacío para "Todos"
+  allItem.textContent = "Todos";
+  menuFiltro.appendChild(allItem);
+
+  // Agregar las opciones de productos
+  data.response.forEach((producto) => {
+    let item = document.createElement("div");
+    item.className = "item";
+    item.dataset.value = producto.NOMBRE_PRODUCTO; // Usar descripción como valor
+    item.textContent = producto.NOMBRE_PRODUCTO; // Mostrar la descripción
+    menuFiltro.appendChild(item);
+  });
+
+  // Refrescar el dropdown para que Semantic UI reconozca las nuevas opciones
+  $("#selectProducto").dropdown("refresh");
 
   // FUNCION QUE TRAE LA CANTIDAD TOTAL DEL PRODUCTO SLECCIONADO, EL ERRROR QUE SALE ES COMO TOMO EL VALOR DEL RESPONSE, YA ESTA LISTO TODO EL PROCE :D
   // async function cant_total() {
@@ -846,6 +862,7 @@ async function selectProductos() {
   //   .getElementById("productoDropdown")
   //   .addEventListener("change", /*cant_total*/);
 }
+
 async function selectUnidadMedida() {
   try {
     const response = await fetch(
@@ -1595,22 +1612,34 @@ function filtrarTablaProveedor() {
 }
 
 function filtrarTablaProducto() {
-  const productoSeleccionado = $("#selectProducto").dropdown("get value");
+  let estadoSeleccionado = $("#estadoDropdown").dropdown("get value");
+  let productoSeleccionado = $("#selectProducto").dropdown("get value");
 
-  console.log("Filtrando por Producto:", productoSeleccionado);
+  console.log("Filtrando por Estado:", estadoSeleccionado, "Producto:", productoSeleccionado);
 
   const filas = document.querySelectorAll("#productTableBody tr");
 
   filas.forEach(function (fila) {
-    const nombreProductoFila = fila.querySelector("td:nth-child(2)").textContent.trim(); // Columna "Nombre Producto"
+    const selectEstado = fila.querySelector(".estado-dropdown");
+    const nombreProductoFila = fila.querySelector("td:nth-child(2)").textContent.trim(); // Nombre del producto en la columna
 
-    // Si no hay producto seleccionado o coincide con la fila, se muestra
-    if (productoSeleccionado === "" || productoSeleccionado === nombreProductoFila) {
-      fila.style.display = ""; // Mostrar la fila
-      console.log("Fila mostrada:", nombreProductoFila);
+    if (selectEstado) {
+      const estadoFila = selectEstado.value;
+      console.log("Estado en fila:", estadoFila, "Producto en fila:", nombreProductoFila);
+
+      // Normalizamos los valores para evitar problemas de comparación
+      const mostrarPorEstado = estadoSeleccionado === "" || estadoSeleccionado === estadoFila;
+      const mostrarPorProducto = productoSeleccionado === "" || productoSeleccionado.toLowerCase().trim() === nombreProductoFila.toLowerCase().trim();
+
+      if (mostrarPorEstado && mostrarPorProducto) {
+        fila.style.display = ""; // Mostrar la fila
+        console.log("Fila mostrada");
+      } else {
+        fila.style.display = "none"; // Ocultar la fila
+        console.log("Fila oculta");
+      }
     } else {
-      fila.style.display = "none"; // Ocultar la fila
-      console.log("Fila oculta:", nombreProductoFila);
+      console.warn("No se encontró el select de estado en esta fila.");
     }
   });
 }
