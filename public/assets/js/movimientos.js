@@ -196,6 +196,21 @@ function cargarFilasMovimientos(
   DESCRIPCION,
   DESCRIPCION_PAGO
 ) {
+
+  // FORMATEA FECHA A DD-MM-YYY
+  const [fecha, hora] = FECHA_MOVIMIENTO.split(" ");
+  const [año, mes, día] = fecha.split("-");
+  const fechaFormateada = `${día}-${mes}-${año} ${hora}`;
+
+  // Formatear como CLP
+  const formatoCLP = new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    minimumFractionDigits: 0 // Pesos chilenos usualmente no usan decimales
+  });
+  const montoFormateado = formatoCLP.format(TOTAL_MOVIMIENTO);
+
+
   var tablaVisor = document.getElementById("tblMovimientos_body");
 
   var tr = document.createElement("tr");
@@ -213,8 +228,8 @@ function cargarFilasMovimientos(
 
   col1.innerHTML = ID_MOVIMIENTO;
   col2.innerHTML = DESCRIPCION_MOVIMIENTO;
-  col3.innerHTML = FECHA_MOVIMIENTO;
-  col4.innerHTML = TOTAL_MOVIMIENTO;
+  col3.innerHTML = fechaFormateada;
+  col4.innerHTML = montoFormateado;
   // col5.innerHTML = NOTA;
   col5.innerHTML = DESCRIPCION;
   col6.innerHTML = RESPONSABLE;

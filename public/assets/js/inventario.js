@@ -1177,6 +1177,11 @@ $(document).ready(function () {
       tbody.innerHTML = "";
 
       data.response.forEach((producto) => {
+
+        // FORMATEA FECHA A DD-MM-YYY
+        const [año, mes, día] = producto.FECHA_COMPRA.split("-");
+        const FECHA_COMPRA = `${día}-${mes}-${año}`;
+
         const fila = document.createElement("tr");
 
         let filaHTML = `
@@ -1186,7 +1191,7 @@ $(document).ready(function () {
             <td class="center aligned">${producto.UNIDAD_MEDIDA}</td>
             <td class="center aligned">${producto.TOTAL_CANTIDAD}</td>
             
-            <td class="center aligned">${producto.FECHA_COMPRA}</td>
+            <td class="center aligned">${FECHA_COMPRA}</td>
             <td class="center aligned">${producto.NOMBRE_PROVEEDOR}</td>
             <td class="center aligned">
                 <select class="estado-dropdown" data-producto-id="${producto.ID_PRODUCTO
