@@ -12,13 +12,14 @@ document.addEventListener("DOMContentLoaded", function () {
   selectProveedor();
   selectContacto();
 
-  // LIMPIAR FILTROS
+  // ANCHOR LIMPIAR FILTROS
   $("#btnLimpiarfiltros").click(function () {
     $("#selectProveedor").dropdown("clear");
     $("#selectEstado").dropdown("clear");
     $("#selectContacto").dropdown("clear");
   });
 
+  // ANCHOR llenadoTablaProv 
   llenadoTablaProv();
   // Inicializar el dropdown de proveedores global
   $("#selectProveedor").dropdown({
@@ -171,6 +172,7 @@ async function selectProveedor() {
     console.error("Error en selectProveedor:", error);
   }
 }
+// ANCHOR filtrarTabla 
 function filtrarTabla() {
   // Obtener los valores seleccionados en ambos dropdowns
   let estadoSeleccionado = $("#selectEstado").dropdown("get value");

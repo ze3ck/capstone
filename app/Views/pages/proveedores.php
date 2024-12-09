@@ -32,19 +32,19 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <?php include __DIR__ . '/../components/sidebar.php'; ?>
     <div class="pusher">
         <div class="ui unstackable menu">
-            <!-- Botón para togglear el sidebar -->
+            <!-- ANCHOR Botón para togglear el sidebar -->
             <a class="item" id="menu-toggle">
                 <i class="sidebar icon"></i>
             </a>
             <div class="header item">
                 Optiflow
             </div>
-            <!-- Mensaje de bienvenida -->
+            <!-- ANCHOR Mensaje de bienvenida -->
             <div class="item">
                 <p><?php echo $saludo . ', ' .  $_SESSION['nombre'] . ' ' . $_SESSION['apaterno'] ?></p>
 
             </div>
-            <!-- Cerrar sesión a la derecha -->
+            <!-- ANCHOR Cerrar sesión a la derecha -->
             <div class="right menu">
                 <div class="item cerrar-sesion">
                     <i class="fas fa-sign-out-alt"></i>
@@ -184,22 +184,22 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="two fields">
                     <div class="field">
-                        <label>Comuna</label>
+                        <label>Ciudad</label>
                         <div class="ui fluid search selection dropdown" id="selectNewComuna">
                             <input type="hidden" name="comuna">
                             <i class="dropdown icon"></i>
-                            <div class="default text">Comuna</div>
+                            <div class="default text">Ciudad</div>
                             <div class="menu">
                                 <!-- Items de Comuna -->
                             </div>
                         </div>
                     </div>
                     <div class="field">
-                        <label>Ciudad</label>
+                        <label>Comuna</label>
                         <div class="ui fluid search selection dropdown" id="selectNewCiudad">
                             <input type="hidden" name="ciudad">
                             <i class="dropdown icon"></i>
-                            <div class="default text">Ciudad</div>
+                            <div class="default text">Comuna</div>
                             <div class="menu">
                                 <!-- Items de Ciudad -->
                             </div>
@@ -253,7 +253,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
                 <div class="field">
-                    <label>Ciudad</label>
+                    <label>Comuna</label>
                     <input type="text" name="ciudad" id="ciudadProveedorEdit" placeholder="Ciudad" required>
                 </div>
                 <div class="field">
@@ -269,16 +269,18 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="two fields">
                     <div class="field">
-                        <label>Comuna</label>
+                        <label>Ciudad</label>
                         <div class="ui fluid search selection dropdown" id="selectNewComunaEdit">
                             <input type="hidden" name="comuna">
                             <i class="dropdown icon"></i>
-                            <div class="default text">Comuna</div>
+                            <div class="default text">Ciudad</div>
                             <div class="menu">
                                 <!-- Items de Comuna -->
                             </div>
                         </div>
                     </div>
+
+                    <!-- Y esta wea de donde salio -->
                     <div class="field">
                         <label>Ciudad</label>
                         <div class="ui fluid search selection dropdown" id="selectNewCiudadEdit">
@@ -290,6 +292,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                             </div>
                         </div>
                     </div>
+                
+                
                 </div>
             </div>
             <div class="actions">
@@ -303,6 +307,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <span id="ID_USUARIO" style="display:none">
             <?php echo $_SESSION['user_id'] ?></span>
     </div>
+    <!-- ANCHOR CDN's -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
     <script>
         $(".menu .item").tab();
