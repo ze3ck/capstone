@@ -339,7 +339,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 </div>
                 <div class="field">
                     <label>Precio ($)</label>
-                    <input type="number" name="precio" placeholder="1000" min="0" step="1" id="precio">
+                    <input type="number" name="precio" placeholder="1000" min="0" step="1" id="precio" readonly>
                 </div>
                 <div class="field">
                     <label>Descuento ($)</label>
