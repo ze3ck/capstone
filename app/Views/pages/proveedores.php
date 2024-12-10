@@ -253,10 +253,6 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                     </div>
                 </div>
                 <div class="field">
-                    <label>Comuna</label>
-                    <input type="text" name="ciudad" id="ciudadProveedorEdit" placeholder="Ciudad" required>
-                </div>
-                <div class="field">
                     <label>Región</label>
                     <div class="ui fluid search selection dropdown" id="selectNewRegionEdit">
                         <input type="hidden" name="region">
@@ -280,9 +276,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                         </div>
                     </div>
 
-                    <!-- Y esta wea de donde salio -->
                     <div class="field">
-                        <label>Ciudad</label>
+                        <label>Comuna</label>
                         <div class="ui fluid search selection dropdown" id="selectNewCiudadEdit">
                             <input type="hidden" name="ciudad">
                             <i class="dropdown icon"></i>

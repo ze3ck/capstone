@@ -596,6 +596,36 @@ async function selectComuna(idRegion) {
           }
         },
       });
+
+
+      let menuu = document.querySelector("#selectNewComunaEdit .menuu");
+      menuu.innerHTML = "";
+
+      let allItems = document.createElement("div");
+      allItems.className = "Item";
+      allItems.dataset.value = "";
+      // allItems.textContent = "Todos";
+      menuu.appendChild(allItems);
+
+      data.response.forEach((x) => {
+        let Item = document.createElement("div");
+        Item.className = "Item";
+        Item.dataset.value = x.ID_COMUNA;
+        Item.textContent = x.NOMBRE_COMUNA;
+        menuu.appendChild(Item);
+      });
+
+      $("#selectNewComunaEdit").dropdown("refresh");
+
+      $("#selectNewComunaEdit").dropdown({
+        onChange: function (value) {
+          if (value) {
+            selectCiudad(value);
+          }
+        },
+      });
+
+      
     } else {
       console.error("Error al obtener comunas:", data.message);
     }
@@ -603,6 +633,9 @@ async function selectComuna(idRegion) {
     console.error("Error en selectComuna:", error);
   }
 }
+
+
+
 
 /**
  * selectCiudad()
@@ -816,4 +849,9 @@ document
   .addEventListener("click", limpiarModalNuevoProveedor);
 
 
-  
+
+
+
+
+
+   
