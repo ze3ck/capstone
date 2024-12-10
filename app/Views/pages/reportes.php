@@ -65,7 +65,24 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <!-- Tabla Críticos -->
       <div class="eight wide column">
         <div class="ui segment">
+
           <h3>Críticos Y Bajo Críticos</h3>
+          <div class="ui form">
+            <div class="fields">
+              <div class="field">
+                <label>Desde</label>
+                <input type="date" id="fecha-desde" placeholder="Fecha Desde">
+              </div>
+              <div class="field">
+                <label>Hasta</label>
+                <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
+              </div>
+              <div class="field" style="margin-top: 24px;">
+                <button class="ui primary button" id="btn-filtrar">Filtrar</button>
+                <button class="ui button" id="btn-limpiar">Limpiar</button>
+              </div>
+            </div>
+          </div>
           <table class="ui celled unstackable table" id="tabla-criticos">
             <thead>
               <tr>
@@ -83,6 +100,22 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>Sobre Stock</h3>
+          <div class="ui form">
+            <div class="fields">
+              <div class="field">
+                <label>Desde</label>
+                <input type="date" id="fecha-desde" placeholder="Fecha Desde">
+              </div>
+              <div class="field">
+                <label>Hasta</label>
+                <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
+              </div>
+              <div class="field" style="margin-top: 24px;">
+                <button class="ui primary button" id="btn-filtrar">Filtrar</button>
+                <button class="ui button" id="btn-limpiar">Limpiar</button>
+              </div>
+            </div>
+          </div>
           <table class="ui celled unstackable table" id="tabla-sobre-stock">
             <thead>
               <tr>
@@ -101,6 +134,22 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>General</h3>
+          <div class="ui form">
+            <div class="fields">
+              <div class="field">
+                <label>Desde</label>
+                <input type="date" id="fecha-desde" placeholder="Fecha Desde">
+              </div>
+              <div class="field">
+                <label>Hasta</label>
+                <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
+              </div>
+              <div class="field" style="margin-top: 24px;">
+                <button class="ui primary button" id="btn-filtrar">Filtrar</button>
+                <button class="ui button" id="btn-limpiar">Limpiar</button>
+              </div>
+            </div>
+          </div>  
           <table class="ui celled unstackable table" id="tabla-productos">
             <thead>
               <tr>

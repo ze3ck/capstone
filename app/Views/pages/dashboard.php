@@ -80,8 +80,8 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <br>
                 <!-- Tabla Críticos -->
                 <div class="eight wide column">
-
                     <h2 class="ui header" style="color: white;">Críticos Y Bajo Críticos</h2>
+
                     <table class="ui celled unstackable table" id="tabla-criticos">
                         <thead>
                             <tr>
@@ -116,6 +116,22 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <div class="ui grid">
                 <div class="eight wide column">
                     <h2 class="ui header" style="color: white;">Más Vendidos</h2>
+                    <div class="ui form">
+                        <div class="fields">
+                            <div class="field">
+                                <label>Desde</label>
+                                <input type="date" id="fecha-desde" placeholder="Fecha Desde">
+                            </div>
+                            <div class="field">
+                                <label>Hasta</label>
+                                <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
+                            </div>
+                            <div class="field" style="margin-top: 24px;">
+                                <button class="ui primary button" id="btn-filtrar">Filtrar</button>
+                                <button class="ui button" id="btn-limpiar">Limpiar</button>
+                            </div>
+                        </div>
+                    </div>
                     <table class="ui celled unstackable table" id="tabla-mas-vendidos" style="color: white;">
                         <thead>
                             <tr>
