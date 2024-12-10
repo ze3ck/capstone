@@ -62,6 +62,25 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
     <h1 class="ui header" style="text-align: center; margin-top: 4%;">Mermas y Caducados</h1>
 
     <div class="ui container" style="margin-top: 30px;">
+      <!-- Sección de filtros -->
+      <div class="ui form">
+        <div class="fields">
+          <div class="field">
+            <label>Desde</label>
+            <input type="date" id="fecha-desde" placeholder="Fecha Desde">
+          </div>
+          <div class="field">
+            <label>Hasta</label>
+            <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
+          </div>
+          <div class="field" style="margin-top: 24px;">
+            <button class="ui primary button" id="btn-filtrar">Filtrar</button>
+            <button class="ui button" id="btn-limpiar">Limpiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla existente -->
       <table class="ui celled striped table" id="tabla-mermas">
         <thead>
           <tr>
@@ -72,6 +91,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <th>Fecha Vencimiento</th>
             <th>Costo Merma</th>
             <th>Razón Merma</th>
+            <th>Fecha Registro</th>
           </tr>
         </thead>
         <tbody>

@@ -570,10 +570,11 @@ class Reportes extends ResourceController
             "ID_PRODUCTO"       => $row['ID_PRODUCTO'],
             "ID_LOTE"           => $row['ID_LOTE'],
             "NOMBRE_PRODUCTO"   => $row['NOMBRE_PRODUCTO'],
-            "CANTIDAD_MERMA"    => $row['CANTIDAD_VENCIDA'] ?? $row['CANTIDAD'], // Cantidad puede venir de productos_vencidos o productos_merma
+            "CANTIDAD_MERMA"    => $row['CANTIDAD_VENCIDA'] ?? $row['CANTIDAD'], 
             "FECHA_VENCIMIENTO" => $row['FECHA_VENCIMIENTO'],
             "COSTO_MERMA"       => $row['COSTO_MERMA'],
-            "RAZON_MERMA"       => $row['RAZON_MERMA'] ?? $row['DESCRIPCION_RAZON'] // Razon puede venir de diferentes tablas
+            "RAZON_MERMA"       => $row['RAZON_MERMA'] ?? $row['DESCRIPCION_RAZON'],
+            "FECHA_REGISTRO"    => $row['FECHA_REGISTRO']
           ];
         }
 

@@ -698,6 +698,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           minimumFractionDigits: 0,
         })}</td>
         <td>${merma.RAZON_MERMA}</td>
+        <td>${merma.FECHA_REGISTRO}</td>
       `;
       tbody.appendChild(fila);
     });
@@ -772,4 +773,64 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Llamar a la función para obtener las mermas al cargar la página
   await obtenerMermas();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const fechaDesdeInput = document.getElementById("fecha-desde");
+  const fechaHastaInput = document.getElementById("fecha-hasta");
+  const btnFiltrar = document.getElementById("btn-filtrar");
+  const btnLimpiar = document.getElementById("btn-limpiar");
+  const tabla = document
+    .getElementById("tabla-mermas")
+    .getElementsByTagName("tbody")[0];
+  const filas = tabla.getElementsByTagName("tr");
+
+  // Función para filtrar las filas
+  function filtrarTabla() {
+    const fechaDesde = fechaDesdeInput.value
+      ? new Date(fechaDesdeInput.value)
+      : null;
+    const fechaHasta = fechaHastaInput.value
+      ? new Date(fechaHastaInput.value)
+      : null;
+
+    for (let i = 0; i < filas.length; i++) {
+      const celdaFecha = filas[i].getElementsByTagName("td")[7]; 
+      if (celdaFecha) {
+        const fechaTexto = celdaFecha.textContent || celdaFecha.innerText;
+        const fechaFila = new Date(fechaTexto);
+
+        let mostrar = true;
+
+        if (fechaDesde && fechaFila < fechaDesde) {
+          mostrar = false;
+        }
+
+        if (fechaHasta && fechaFila > fechaHasta) {
+          mostrar = false;
+        }
+
+        filas[i].style.display = mostrar ? "" : "none";
+      }
+    }
+  }
+
+  // Función para limpiar los filtros
+  function limpiarFiltros() {
+    fechaDesdeInput.value = "";
+    fechaHastaInput.value = "";
+    for (let i = 0; i < filas.length; i++) {
+      filas[i].style.display = "";
+    }
+  }
+
+  // Agregar eventos a los botones
+  btnFiltrar.addEventListener("click", filtrarTabla);
+  btnLimpiar.addEventListener("click", limpiarFiltros);
+
+  // Opcional: Filtrar en tiempo real al cambiar las fechas
+  /*
+  fechaDesdeInput.addEventListener('change', filtrarTabla);
+  fechaHastaInput.addEventListener('change', filtrarTabla);
+  */
 });
