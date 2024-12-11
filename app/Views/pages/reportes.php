@@ -67,7 +67,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <div class="ui segment">
 
           <h3>Críticos Y Bajo Críticos</h3>
-          <div class="ui form">
+          <!-- <div class="ui form">
             <div class="fields">
               <div class="field">
                 <label>Desde</label>
@@ -82,7 +82,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui button" id="btn-limpiar">Limpiar</button>
               </div>
             </div>
-          </div>
+          </div> -->
           <table class="ui celled unstackable table" id="tabla-criticos">
             <thead>
               <tr>
@@ -100,7 +100,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       <div class="eight wide column">
         <div class="ui segment">
           <h3>Sobre Stock</h3>
-          <div class="ui form">
+          <!-- <div class="ui form">
             <div class="fields">
               <div class="field">
                 <label>Desde</label>
@@ -115,7 +115,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui button" id="btn-limpiar">Limpiar</button>
               </div>
             </div>
-          </div>
+          </div> -->
           <table class="ui celled unstackable table" id="tabla-sobre-stock">
             <thead>
               <tr>
@@ -131,10 +131,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       </div>
 
       <!-- Tabla General -->
-      <div class="eight wide column">
+      <div class="sixteen wide column">
         <div class="ui segment">
           <h3>General</h3>
-          <div class="ui form">
+          <!-- <div class="ui form">
             <div class="fields">
               <div class="field">
                 <label>Desde</label>
@@ -149,7 +149,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                 <button class="ui button" id="btn-limpiar">Limpiar</button>
               </div>
             </div>
-          </div>  
+          </div>   -->
           <table class="ui celled unstackable table" id="tabla-productos">
             <thead>
               <tr>
@@ -167,7 +167,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </div>
       </div>
 
-      <div class="eight wide column">
+      <!-- <div class="eight wide column">
         <div class="ui segment">
           <h3>Distribución</h3>
           <div id="chart"></div>
@@ -197,7 +197,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         <div class="actions">
           <div class="ui button">Cerrar</div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Fin Contenido -->
       <span id="ID_USUARIO" style="display:none">

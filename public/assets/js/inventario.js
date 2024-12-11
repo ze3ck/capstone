@@ -1694,6 +1694,7 @@ function limpiarCampos() {
   console.log("Campos limpiados correctamente.");
 }
 
+// cambiar base url de refreshTable
 function refreshTable() {
   $.ajax({
     url: 'http://localhost:8080/inventario',

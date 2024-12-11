@@ -233,10 +233,10 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <select class="ui clearable dropdown" id="idLoteEdit">
                                     <option value="">Seleccionar Lote</option>
                                 </select>
-                                <div class="ui checked checkbox">
+                                <!-- <div class="ui checked checkbox">
                                     <input type="checkbox" checked="">
                                     <label>Usar este Lote</label>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 

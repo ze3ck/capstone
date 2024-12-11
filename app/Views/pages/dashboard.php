@@ -116,14 +116,14 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
             <div class="ui grid">
                 <div class="eight wide column">
                     <h2 class="ui header" style="color: white;">Más Vendidos</h2>
-                    <div class="ui form">
+                    <!-- <div class="ui form">
                         <div class="fields">
                             <div class="field">
-                                <label>Desde</label>
+                                <label style="color: white;">Desde</label>
                                 <input type="date" id="fecha-desde" placeholder="Fecha Desde">
                             </div>
                             <div class="field">
-                                <label>Hasta</label>
+                                <label style="color: white;">Hasta</label>
                                 <input type="date" id="fecha-hasta" placeholder="Fecha Hasta">
                             </div>
                             <div class="field" style="margin-top: 24px;">
@@ -131,7 +131,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
                                 <button class="ui button" id="btn-limpiar">Limpiar</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <table class="ui celled unstackable table" id="tabla-mas-vendidos" style="color: white;">
                         <thead>
                             <tr>

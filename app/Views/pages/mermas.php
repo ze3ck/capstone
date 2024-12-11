@@ -61,6 +61,18 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
 
     <h1 class="ui header" style="text-align: center; margin-top: 4%;">Mermas y Caducados</h1>
 
+    <div class="ui container" style="margin-top: 40px;">
+      <h2 class="ui header" style="text-align: center;">Costo de Merma por Producto</h2>
+      <div id="grafico-mermas" style="background-color: #222; border-radius: 10px; padding: 20px;"></div>
+    </div>
+
+    <div class="ui container" style="margin-top: 20px;">
+      <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
+        <h2 class="ui header" style="color: white;">Costo Total de Mermas</h2>
+        <div id="costo-total-mermas" style="font-size: 2rem; margin-top: 1rem;">$0</div>
+      </div>
+    </div>
+
     <div class="ui container" style="margin-top: 30px;">
       <!-- Sección de filtros -->
       <div class="ui form">
@@ -81,7 +93,7 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
       </div>
 
       <!-- Tabla existente -->
-      <table class="ui celled striped table" id="tabla-mermas">
+      <table class="ui celled striped table" id="tabla-mermas" style="margin-bottom: 5%;">
         <thead>
           <tr>
             <th>ID Producto</th>
@@ -99,17 +111,9 @@ $saludo = include APPPATH . 'includes/zona_horaria.php';
         </tbody>
       </table>
     </div>
-    <div class="ui container" style="margin-top: 20px;">
-      <div class="ui raised segment" style="background-color: #333; text-align: center; color: white; border-radius: 10px; padding: 1.5rem;">
-        <h2 class="ui header" style="color: white;">Costo Total de Mermas</h2>
-        <div id="costo-total-mermas" style="font-size: 2rem; margin-top: 1rem;">$0</div>
-      </div>
-    </div>
 
-    <div class="ui container" style="margin-top: 40px;">
-      <h2 class="ui header" style="text-align: center;">Costo de Merma por Producto</h2>
-      <div id="grafico-mermas" style="background-color: #222; border-radius: 10px; padding: 20px;"></div>
-    </div>
+
+
 
 
 
