@@ -632,16 +632,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         </tr>
       `;
 
-      const response = await fetch(
-        "http://localhost:8080/api/reportes/reporteMermas",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}reportes/reporteMermas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ P_IDUSUARIO: idUsuario }),
+      });
 
       if (!response.ok)
         throw new Error(`Error en la solicitud: ${response.statusText}`);
@@ -795,7 +792,7 @@ document.addEventListener("DOMContentLoaded", function () {
       : null;
 
     for (let i = 0; i < filas.length; i++) {
-      const celdaFecha = filas[i].getElementsByTagName("td")[7]; 
+      const celdaFecha = filas[i].getElementsByTagName("td")[7];
       if (celdaFecha) {
         const fechaTexto = celdaFecha.textContent || celdaFecha.innerText;
         const fechaFila = new Date(fechaTexto);

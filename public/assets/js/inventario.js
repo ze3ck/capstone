@@ -39,22 +39,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
-  function refreshTable() {
-    $.ajax({
-      url: 'http://localhost:8080/inventario',
-      method: 'GET',
-      success: function (response) {
-        // Maneja la respuesta aquí si es necesario
-        console.log("Datos cargados exitosamente.");
+  // function refreshTable() {
+  //   $.ajax({
+  //     url: 'http://localhost:8080/inventario',
+  //     method: 'GET',
+  //     success: function (response) {
+  //       // Maneja la respuesta aquí si es necesario
+  //       console.log("Datos cargados exitosamente.");
 
-        // Recarga la página después de una carga exitosa
-        location.reload();
-      },
-      error: function (xhr, status, error) {
-        console.error("Error al cargar la tabla: ", error);
-      }
-    });
-  }
+  //       // Recarga la página después de una carga exitosa
+  //       location.reload();
+  //     },
+  //     error: function (xhr, status, error) {
+  //       console.error("Error al cargar la tabla: ", error);
+  //     }
+  //   });
+  // }
   $(document).ready(function () {
 
     const tbody = document.getElementById("productTableBody");
@@ -1697,7 +1697,7 @@ function limpiarCampos() {
 // cambiar base url de refreshTable
 function refreshTable() {
   $.ajax({
-    url: 'http://localhost:8080/inventario',
+    url: 'https://optiflow.cl/inventario',
     method: 'GET',
     success: function (response) {
       // Maneja la respuesta aquí si es necesario
